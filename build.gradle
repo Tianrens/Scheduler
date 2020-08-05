@@ -15,4 +15,12 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'group8/Main'
+        )
+    }
+}
+
 mainClassName = 'group8.Main'
