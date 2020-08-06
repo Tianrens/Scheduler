@@ -7,9 +7,10 @@ public class CLIConfig {
     private int _numProcessors;
     private int _numCores;
     private boolean _visualise;
+    private File _outputFile;
 
-    protected void setFile(String file) {
-        _inputFile = new File(file);
+    protected void setInputFile(File file) {
+        _inputFile = file;
     }
 
     protected void setNumProcessors(int numProcessors) {
@@ -22,5 +23,29 @@ public class CLIConfig {
 
     protected void setVisualise(boolean visualise) {
         _visualise = visualise;
+    }
+
+    protected void setOutputFile(File file) {
+        _outputFile = file;
+    }
+
+    public File get_inputFile() {
+        return _inputFile;
+    }
+
+    public int get_numProcessors() {
+        return _numProcessors;
+    }
+
+    public int get_numCores() {
+        return _numCores;
+    }
+
+    public boolean is_visualise() {
+        return _visualise;
+    }
+
+    public File get_outputFile() {
+        return _outputFile;
     }
 }
