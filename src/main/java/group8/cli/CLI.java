@@ -39,7 +39,7 @@ public class CLI {
 
         Options options = new Options();
         options.addOption("p", true, "use N cores for execution in parallel (default is sequential)");
-        options.addOption("v", true, "visualise the search");
+        options.addOption("v", false, "visualise the search");
         options.addOption("o", true, "output file is name OUTPUT (default is INPUT-output.dot)");
 
         CommandLineParser parser = new DefaultParser();
@@ -50,10 +50,9 @@ public class CLI {
             e.printStackTrace();
         }
         if (cmd.hasOption("p")) {
-            System.out.println(cmd.getOptionValue("p"));
             numCores = Integer.parseInt(cmd.getOptionValue("p"));
         }
-        if (cmd.hasOption("v") && cmd.getOptionValue("v").equals("t")) {
+        if (cmd.hasOption("v")) {
             useVisualisation = true;
         }
         if (cmd.hasOption("o")) {
