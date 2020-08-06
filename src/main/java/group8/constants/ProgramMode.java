@@ -1,9 +1,9 @@
 package group8.constants;
 
 public enum ProgramMode {
-    Visualise("v"),
-    Parallelise("p"),
-    Output("o");
+    VISUALISE("v"),
+    PARALLELISE("p"),
+    OUTPUT("o");
 
 
     private final String _code;
