@@ -24,7 +24,7 @@ public class CLI {
     }
 
     private void format() {
-        
+
     }
 
 }
