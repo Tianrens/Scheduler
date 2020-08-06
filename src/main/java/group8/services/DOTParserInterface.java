@@ -2,7 +2,7 @@ package group8.services;
 
 import java.util.List;
 
-public interface IOServiceInterface {
+public interface DOTParserInterface {
 
 
 

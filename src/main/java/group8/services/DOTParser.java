@@ -2,7 +2,7 @@ package group8.services;
 
 import java.util.List;
 
-public class IOService implements IOServiceInterface {
+public class DOTParser implements DOTParserInterface {
 
 
     @Override
