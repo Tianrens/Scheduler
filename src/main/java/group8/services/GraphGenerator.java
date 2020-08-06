@@ -9,12 +9,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class GraphGenerator {
-
-    // Some regex expressions for checking validity of input -- not used atm. These are based on GraphViz DOT syntax.
-    private final String IDACCEPTEDLANG = "/([a-zA-Z])+/g";
-    private final String GRAPHTYPE = "/(?i)\\b(digraph)\\b/g";
-    private final String GRAPHNAMEACCEPTEDLANG = "//g"; //not finished yet.
-    private final String ATTRACCEPTEDLANG = "/(?i)\\b(Weight)\\b/g";
     /**
      * Constructor
      */
