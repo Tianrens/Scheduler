@@ -4,11 +4,9 @@ import java.util.List;
 
 public interface DOTParserInterface {
 
-
-
     /**
      *
-     * @param path path to .dot file location
+     * @param line path to .dot file location
      * @return List<String[]> contains each line of the .dot file
      *         If it is a node (i.e. "a     |Weight=2|;"), String[].size = 2.
      *                          [0] contains the node id
@@ -21,6 +19,6 @@ public interface DOTParserInterface {
      *
      *
      */
-    public List<String[]> getFileAsStringArray(String path);
+    List<String> parseStringLine(String line);
 
 }

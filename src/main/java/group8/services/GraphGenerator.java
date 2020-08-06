@@ -23,29 +23,23 @@ public class GraphGenerator {
      */
     public Graph getGraph(String inputFilePath) {
 
-        DOTParserInterface ioService = null;//WAITING ON IMPLEMENTATION
+        DOTParserInterface dotParser = new DOTParser();
         Graph graph = new Graph();
 
-        String line = null;
         try (BufferedReader br = new BufferedReader(new FileReader(inputFilePath))) {
-            line = br.readLine();
+            String line = br.readLine();
 
+            List<String> graphData = dotParser.parseStringLine(line);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            if (graphData.size() == 1) {
+                /** Graph name */
 
-        List<String[]> graphInput = ioService.getFileAsStringArray(inputFilePath);
-        for (String[] graphData : graphInput) {
-
-            if (graphData.length == 2) {
+            } else if (graphData.size() == 2) {
                 /**WAITING ON IMPLEMENTATION
                  *  graph.addNode(new Node(graphData[0], graphData[1]))
                  */
 
-            } else if (graphData.length == 3) {
+            } else if (graphData.size() == 3) {
                 // The .dot file input can be assumed to be sequential. Therefore all nodes
                 // will have been previously initialised before they are referenced as an edge
 
@@ -56,6 +50,10 @@ public class GraphGenerator {
                  *  dst.addParent(src)
                  */
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return graph;

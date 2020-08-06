@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DOTParser {
+public class DOTParser implements  DOTParserInterface{
     // Some regex expressions for checking validity of input -- not used atm. These are based on GraphViz DOT syntax.
     private final String IDACCEPTEDLANG = "/(\\w)+/g";
     private final String GRAPHTYPE = "/(?i)\\b(digraph)\\b/g";
@@ -12,7 +12,7 @@ public class DOTParser {
     private final String ATTRACCEPTEDLANG = "/(?i)\\b(Weight)\\b/g";
 
 
-    public List<String> parseString(String line) {
+    public List<String> parseStringLine(String line) {
         ArrayList<String> graphInfo = new ArrayList<>();
 
         String[] stringElements = line.split(" ");
