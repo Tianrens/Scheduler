@@ -3,6 +3,7 @@ package group8.cli;
 public class CLI {
 
     private static CLI _cliConfig;
+    private static CLIConfig _config;
     private static String[] _args;
 
     private CLI(String[] args) {
@@ -23,6 +24,11 @@ public class CLI {
         }
     }
 
+    private CLIConfig generateConfig() {
+        _config = new CLIConfig();
+        
+        return _config;
+    }
     private void format() {
 
     }
