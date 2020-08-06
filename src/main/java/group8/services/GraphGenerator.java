@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.util.List;
 
 public class GraphGenerator {
+    private final DOTParserInterface _dotParser;
+
     /**
      * Constructor
      */
-    GraphGenerator(){
-
+    public GraphGenerator(DOTParserInterface dotParser){
+        _dotParser = dotParser;
     }
 
     /**
@@ -23,13 +25,12 @@ public class GraphGenerator {
      */
     public Graph getGraph(String inputFilePath) {
 
-        DOTParserInterface dotParser = new DOTParser();
         Graph graph = new Graph();
 
         try (BufferedReader br = new BufferedReader(new FileReader(inputFilePath))) {
             String line = br.readLine();
 
-            List<String> graphData = dotParser.parseStringLine(line);
+            List<String> graphData = _dotParser.parseStringLine(line);
 
             if (graphData.size() == 1) {
                 /** Graph name */
