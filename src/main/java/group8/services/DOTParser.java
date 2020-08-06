@@ -26,12 +26,12 @@ public class DOTParser implements  DOTParserInterface{
         String[] stringElements = line.split(" ");
 
         if (line.contains(_startOfStatements)) {
-            graphData.add(stringElements[1]); //Add graph name.
+            graphData.add(stringElements[1].trim()); //Add graph name.
         } else if (line.contains(_endOfStatements)){
             return null;
         } else {
-            graphData.addAll(parseNodes(stringElements[0]));
-            graphData.add(parseAttr(stringElements[1]));
+            graphData.addAll(parseNodes(stringElements[0].trim()));
+            graphData.add(parseAttr(stringElements[1].trim()));
         }
 
         return graphData;
