@@ -27,8 +27,6 @@ public class DOTParser implements  DOTParserInterface{
 
         if (line.contains(_startOfStatements)) {
             graphData.add(stringElements[1].trim()); //Add graph name.
-        } else if (line.contains(_endOfStatements)){
-            return null;
         } else {
             graphData.addAll(parseNodes(stringElements[0].trim()));
             graphData.add(parseAttr(stringElements[1].trim()));
@@ -57,7 +55,7 @@ public class DOTParser implements  DOTParserInterface{
     }
 
     /**
-     * Helper method to parse the attribute value out of a string
+     * Helper method to parse the attribute value out of a string, in between [Weight= and ]
      * @param processingString
      * @return Attribute value (not the key)
      */
@@ -65,6 +63,8 @@ public class DOTParser implements  DOTParserInterface{
         int posEquals = processingString.indexOf("=");
         int posClosingBrace = processingString.indexOf("]");
 
-        return processingString.substring(posEquals, posClosingBrace);
+        int start = posEquals + 1;
+        int end = posClosingBrace;
+        return processingString.substring(start, end);
     }
 }
