@@ -11,5 +11,10 @@ public class CLITests {
         CLIConfig config = cli.generateConfig();
 
         assertEquals("inputFileTest.dot", config.get_inputFile().toString());
+        assertEquals(4, config.get_numProcessors());
+        assertEquals(8, config.get_numCores());
+        assertEquals(true, config.is_visualise());
+        assertEquals("someOUTputDOTFile", config.get_outputFile().toString());
+
     }
 }
