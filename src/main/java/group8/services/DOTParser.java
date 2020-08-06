@@ -10,14 +10,18 @@ public class DOTParser implements  DOTParserInterface{
     private final String GRAPHTYPE = "/(?i)\\b(digraph)\\b/g";
     private final String GRAPHNAMEACCEPTEDLANG = "/\"(\\w)+\"/g";
     private final String ATTRACCEPTEDLANG = "/(?i)\\b(Weight)\\b/g";
+    private final String _startOfStatements = "{";
+    private final String _endOfStatements = "}";
 
 
     public List<String> parseStringLine(String line) {
         ArrayList<String> graphInfo = new ArrayList<>();
 
         String[] stringElements = line.split(" ");
-        if (line.contains(GRAPHTYPE)) {
+        if (line.contains(_startOfStatements)) {
             graphInfo.add(stringElements[1]);
+        } else if (line.contains(_endOfStatements)){
+            return null;
         } else {
             graphInfo.addAll(parseNodes(stringElements[0]));
             graphInfo.add(parseAttr(stringElements[1]));
