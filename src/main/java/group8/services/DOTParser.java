@@ -48,7 +48,9 @@ public class DOTParser implements  DOTParserInterface{
         if (processingString.contains("->")) {
             nodes = processingString.split("->");
         } else {
-            nodes = new String[] { processingString };
+            nodes = new String[] {
+                    processingString
+            };
         }
 
         return Arrays.asList(nodes);
