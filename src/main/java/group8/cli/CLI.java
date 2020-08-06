@@ -26,7 +26,7 @@ public class CLI {
 
     private CLIConfig generateConfig() {
         _config = new CLIConfig();
-        
+
         return _config;
     }
     private void format() {
