@@ -26,10 +26,10 @@ public class DOTParser implements  DOTParserInterface{
         String[] stringElements = line.split(" ");
 
         if (line.contains(_startOfStatements)) {
-            graphData.add(stringElements[1].trim()); //Add graph name.
+            graphData.add(stringElements[1].trim()); // [1] is the name
         } else {
-            graphData.addAll(parseNodes(stringElements[0].trim()));
-            graphData.add(parseAttr(stringElements[1].trim()));
+            graphData.addAll(parseNodes(stringElements[0].trim())); // [0] are the nodes
+            graphData.add(parseAttr(stringElements[1].trim())); // [1] is the weight attribute (key + value)
         }
 
         return graphData;
