@@ -2,12 +2,24 @@ package group8.cli;
 
 import java.io.File;
 
-public class CLIConfig {
+public class AppConfig {
+
+    private static AppConfig _appConfig;
+
     private File _inputFile;
     private int _numProcessors;
     private int _numCores;
     private boolean _visualise;
     private File _outputFile;
+
+    private AppConfig() {}
+
+    public static AppConfig getInstance() {
+        if (_appConfig == null) {
+            _appConfig = new AppConfig();
+        }
+        return _appConfig;
+    }
 
     protected void setInputFile(File file) {
         _inputFile = file;
