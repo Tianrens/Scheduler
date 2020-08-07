@@ -47,6 +47,7 @@ public class Node {
         _parentNodeList.add(parentNode);
     }
 
+    //below are generic getters and setters
     public String getId() {
         return _id;
     }
@@ -69,5 +70,9 @@ public class Node {
 
     public void setEdgeList(HashMap<Node, Integer> edgeList) {
         _edgeList = edgeList;
+    }
+
+    public int getCost() {
+        return _cost;
     }
 }
