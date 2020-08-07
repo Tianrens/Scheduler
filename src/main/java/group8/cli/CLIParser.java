@@ -83,7 +83,7 @@ public class CLIParser {
     }
 
     private File getOutputFile(CommandLine cmd) {
-        File file = new File(_args[0].substring(0,_args[0].length() - 3) + "-output.dot");
+        File file = new File(_args[0].substring(0,_args[0].length() - 4) + "-output.dot");
         if (cmd.hasOption("o")) {
             file = new File(cmd.getOptionValue("o"));
         }

@@ -28,7 +28,7 @@ public class CLITests {
         assertEquals(4, config.get_numProcessors());
         assertEquals(1, config.get_numCores());
         assertEquals(false, config.is_visualise());
-        //assertEquals("inputFileTest.dot-.dot", config.get_outputFile().toString());
+        assertEquals("inputFileTest-output.dot", config.get_outputFile().toString());
 
     }
 }
