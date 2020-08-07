@@ -1,10 +1,10 @@
 package group8;
 
-import group8.cli.CLIParser;
+import group8.cli.AppConfigBuilder;
 
 public class Main {
     public static void main(String[] args) {
-        CLIParser cli = new CLIParser(args);
-        cli.generateConfig();
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        cli.build();
     }
 }

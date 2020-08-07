@@ -7,8 +7,8 @@ public class CLITests {
     @Test
     public void SimpleCommandLineArguments() {
         String[] args = new String[] {"inputFileTest.dot", "4", "-p", "8", "-v", "-o", "someOUTputDOTFile"};
-        CLIParser cli = new CLIParser(args);
-        AppConfig config = cli.generateConfig();
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        AppConfig config = cli.build();
 
         assertEquals("inputFileTest.dot", config.get_inputFile().toString());
         assertEquals(4, config.get_numProcessors());
@@ -21,8 +21,8 @@ public class CLITests {
     @Test
     public void DefaultCommandLineArguments() {
         String[] args = new String[] {"inputFileTest.dot", "4"};
-        CLIParser cli = new CLIParser(args);
-        AppConfig config = cli.generateConfig();
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        AppConfig config = cli.build();
 
         assertEquals("inputFileTest.dot" ,config.get_inputFile().toString());
         assertEquals(4, config.get_numProcessors());

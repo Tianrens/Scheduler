@@ -4,12 +4,12 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 
-public class CLIParser {
+public class AppConfigBuilder {
 
     private static String[] _args;
     private static AppConfig _config;
 
-    public CLIParser(String[] args) {
+    public AppConfigBuilder(String[] args) {
         _args = args;
     }
 
@@ -19,7 +19,7 @@ public class CLIParser {
         }
     }
 
-    public AppConfig generateConfig() {
+    public AppConfig build() {
         _config = AppConfig.getInstance();
 
         Options options = getOptions();
