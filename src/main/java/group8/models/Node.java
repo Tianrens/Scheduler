@@ -47,6 +47,14 @@ public class Node {
         _parentNodeList.add(parentNode);
     }
 
+    /**
+     * This method returns the list of all of this node's parents
+     * @return List of parent nodes
+     */
+    public List<Node> getParentNodes(){
+        return _parentNodeList;
+    }
+
     public String getId() {
         return _id;
     }
