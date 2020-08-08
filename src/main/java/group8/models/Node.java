@@ -12,7 +12,7 @@ public class Node {
     private HashMap<Node, Integer> _edgeList;
     private List<Node> _parentNodeList;
     private int _cost;
-//    private String _id;
+    private String _id;
 
     /**
      * Constructs a new node with empty _edgeList and
@@ -25,7 +25,7 @@ public class Node {
         _edgeList = new HashMap<Node, Integer>();
         _parentNodeList = new ArrayList<Node>();
         _cost = cost;
-//        _id = id;
+        _id = id;
     }
 
     /**
@@ -47,11 +47,11 @@ public class Node {
         _parentNodeList.add(parentNode);
     }
 
-//    public String getId() {
-//        return _id;
-//    }
-//
-//    public void setId(String id) {
-//        _id = id;
-//    }
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String id) {
+        _id = id;
+    }
 }

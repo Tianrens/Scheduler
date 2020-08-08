@@ -8,6 +8,7 @@ import java.util.List;
 public class TopologyFinder {
 
     public List<Task> generateTopology(Graph graph){
+
         return null;
     }
 
