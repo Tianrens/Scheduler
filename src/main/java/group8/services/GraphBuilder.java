@@ -1,12 +1,10 @@
 package group8.services;
 
+import group8.cli.AppConfig;
 import group8.models.Graph;
 import group8.models.Node;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class GraphBuilder {
@@ -20,15 +18,18 @@ public class GraphBuilder {
     }
 
     /**
-     *
-     * @param inputFilePath path to .dot file location
      * @return Graph generated from .dot file
      */
-    public Graph build(String inputFilePath) {
+    public Graph build() throws FileNotFoundException {
+        File inputFile = AppConfig.getInstance().get_inputFile();
+
+        if (inputFile == null) {
+            throw new FileNotFoundException();
+        }
 
         Graph graph = new Graph();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(inputFilePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String line;
 
             while ((line = br.readLine()) != null) {
