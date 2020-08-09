@@ -4,6 +4,11 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 
+import static group8.cli.Constants.*;
+
+/**
+ * Builds a AppConfig class
+ */
 public class AppConfigBuilder {
 
     private static String[] _args;
@@ -13,13 +18,20 @@ public class AppConfigBuilder {
         _args = args;
     }
 
+    /**
+     * Debugging purposes
+     */
     public void printArgs() {
         for (String arg : _args) {
             System.out.println(arg);
         }
     }
 
-    public AppConfig build() {
+    /**
+     * Builds an AppConfig instance with the given command prompt arguments.
+     * @return the created AppConfig instance.
+     */
+    public AppConfig build() throws CLIException {
         _config = AppConfig.getInstance();
 
         Options options = getOptions();
@@ -31,7 +43,9 @@ public class AppConfigBuilder {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        if (cmd == null) {
 
+        }
         File inputDOTFile = getInputFile(_args[0]);
         int numProcessors = getNumProcessors(_args[1]);
         int numCores = getNumCores(cmd);
@@ -46,46 +60,116 @@ public class AppConfigBuilder {
         return _config;
     }
 
-    private int getNumProcessors(String arg) {
-        int numProcessors = Integer.parseInt(_args[1]);
-        return numProcessors;
-    }
+    /**
+     *  Gets the input file.
+     * @param filePath path to the file.
+     * @return File object of the file.
+     */
+    private File getInputFile(String filePath) throws CLIException {
+        File file = new File(filePath);
+        if (!isDOTExtension(file)) {
+            throw new CLIException("Invalid file format, file must be a '.dot' file.");
 
-    private Options getOptions() {
-        Options options = new Options();
-        options.addOption("p", true, "use N cores for execution in parallel (default is sequential)");
-        options.addOption("v", false, "visualise the search");
-        options.addOption("o", true, "output file is name OUTPUT (default is INPUT-output.dot)");
-
-        return options;
-    }
-
-    private File getInputFile(String fileLoc) {
-        File file = new File(fileLoc);
+        }
+        if (!file.exists()) {
+            throw new CLIException("File not found. Please check the path specified.");
+        }
 
         return file;
     }
 
-    private int getNumCores(CommandLine cmd) {
-        int numCores = 1;
-        if (cmd.hasOption("p")) {
-            numCores = Integer.parseInt(cmd.getOptionValue("p"));
+    /**
+     * Set options.
+     * @return Options variable
+     */
+    private Options getOptions() {
+        Options options = new Options();
+        options.addOption(PARALLEL_FLAG, true, PARALLEL_DESC);
+        options.addOption(VISUALISE_FLAG, false, VISUALISE_DESC);
+        options.addOption(OUTPUT_FLAG, true, OUTPUT_DESC);
+
+        return options;
+    }
+    /**
+     * Checks if the file extention is '.dot'
+     * @param file
+     * @return true if it is else otherwise
+     */
+    private boolean isDOTExtension(File file) {
+        if (!file.getName().endsWith(".dot")) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Get the number of processors from command line argument.
+     * @param arg the second argument passed in
+     * @return number of processors.
+     */
+    private int getNumProcessors(String arg) throws CLIException {
+        int numProcessors;
+        try {
+            numProcessors = Integer.parseInt(_args[1]);
+        } catch (NumberFormatException e) {
+            throw new CLIException("Invalid number of processors argument.");
+        }
+        if (numProcessors < 0) {
+            throw new CLIException("Number of processors cannot be less than 0.");
+        }
+
+        return numProcessors;
+    }
+
+    /**
+     * Get number of cores.
+     * @param cmd
+     * @return
+     * @throws CLIException
+     */
+    private int getNumCores(CommandLine cmd) throws CLIException {
+        int numCores = DEFAULT_CORES;
+        if (cmd.hasOption(PARALLEL_FLAG)) {
+            try {
+                numCores = Integer.parseInt(cmd.getOptionValue(PARALLEL_FLAG));
+            } catch (NumberFormatException e) {
+                throw new CLIException("Invalid number of cores argument.");
+            }
+        }
+        if (numCores < 1) {
+            throw new CLIException("Number of cores cannot be less than 1");
         }
         return numCores;
     }
 
+    /**
+     * Check if visualisation flag is set
+     * @param cmd
+     * @return
+     */
     private boolean getUseVisualisation(CommandLine cmd) {
-        boolean useVisualisation = false;
-        if (cmd.hasOption("v")) {
+        boolean useVisualisation = DEFAULT_VISUALISE;
+        if (cmd.hasOption(VISUALISE_FLAG)) {
             useVisualisation = true;
         }
         return useVisualisation;
     }
 
-    private File getOutputFile(CommandLine cmd) {
-        File file = new File(_args[0].substring(0,_args[0].length() - 4) + "-output.dot");
-        if (cmd.hasOption("o")) {
-            file = new File(cmd.getOptionValue("o"));
+    /**
+     * Get output file
+     * @param cmd
+     * @return
+     */
+    private File getOutputFile(CommandLine cmd) throws CLIException {
+        File file = new File(_args[0].substring(0,_args[0].length() - 4) + DEFAULT_OUTPUT_SUFFIX);
+        if (cmd.hasOption(OUTPUT_FLAG)) {
+            file = new File(cmd.getOptionValue(OUTPUT_FLAG));
+        }
+        if (!file.getName().endsWith(".dot")) {
+            throw new CLIException("Invalid output file format. Must end with '.dot'");
+        }
+        if (file.exists()) {
+            System.out.println("File already exists. The old file will be overwritten.");
         }
         return file;
     }
