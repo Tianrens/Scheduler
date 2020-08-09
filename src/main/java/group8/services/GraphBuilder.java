@@ -1,6 +1,7 @@
 package group8.services;
 
 import group8.cli.AppConfig;
+import group8.cli.AppConfigException;
 import group8.models.Graph;
 import group8.models.Node;
 
@@ -20,11 +21,11 @@ public class GraphBuilder {
     /**
      * @return Graph generated from .dot file
      */
-    public Graph build() throws FileNotFoundException {
+    public Graph build() throws AppConfigException {
         File inputFile = AppConfig.getInstance().get_inputFile();
 
         if (inputFile == null) {
-            throw new FileNotFoundException();
+            throw new AppConfigException();
         }
 
         Graph graph = new Graph();
