@@ -27,7 +27,7 @@ public class TopologyFinder {
 
             List<Node> removeList = new ArrayList<>();
             for (Node node: _nodeList) {
-                List<Node> parentNodes = node.getParentNodes();
+                List<Node> parentNodes = node.getParentNodeList();
 
                 //Check if node already has no parents
                 if(parentNodes == null){

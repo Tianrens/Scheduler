@@ -51,7 +51,7 @@ public class Node {
      * This method returns the list of all of this node's parents
      * @return List of parent nodes
      */
-    public List<Node> getParentNodes(){
+    public List<Node> getParentNodeList(){
         return _parentNodeList;
     }
 
