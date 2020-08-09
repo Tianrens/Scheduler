@@ -8,20 +8,20 @@ import group8.models.Node;
 import java.io.*;
 import java.util.List;
 
-public class GraphBuilder {
+public class GraphGenerator {
     private final IDOTDataParser _dotParser;
 
     /**
      * Dependency inject a DOT data parser in
      */
-    public GraphBuilder(IDOTDataParser dotDataParser){
+    public GraphGenerator(IDOTDataParser dotDataParser){
         _dotParser = dotDataParser;
     }
 
     /**
      * @return Graph generated from .dot file
      */
-    public Graph build() throws AppConfigException {
+    public Graph generate() throws AppConfigException {
         File inputFile = AppConfig.getInstance().get_inputFile();
 
         if (inputFile == null) {
