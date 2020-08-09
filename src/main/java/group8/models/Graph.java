@@ -8,7 +8,7 @@ public class Graph {
 
 
     /**
-     * Method used by GraphGenerator to add a new node into the Graph
+     * Method used by GraphBuilder to add a new node into the Graph
      * @param newNode node to add to the graph
      */
 

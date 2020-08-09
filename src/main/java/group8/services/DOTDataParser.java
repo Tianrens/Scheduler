@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DOTDataConverter implements IDOTDataConverter {
+public class DOTDataParser implements IDOTDataParser {
 
     // Some regex expressions for checking validity of input.
     private final String _idAcceptLang = "/(\\w)+/g";

@@ -9,14 +9,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-public class GraphGenerator {
-    private final IDOTDataConverter _dotParser;
+public class GraphBuilder {
+    private final IDOTDataParser _dotParser;
 
     /**
-     * Constructor
+     * Dependency inject a DOT data parser in
      */
-    public GraphGenerator(IDOTDataConverter dotParser){
-        _dotParser = dotParser;
+    public GraphBuilder(IDOTDataParser dotDataParser){
+        _dotParser = dotDataParser;
     }
 
     /**
@@ -24,7 +24,7 @@ public class GraphGenerator {
      * @param inputFilePath path to .dot file location
      * @return Graph generated from .dot file
      */
-    public Graph getGraph(String inputFilePath) {
+    public Graph build(String inputFilePath) {
 
         Graph graph = new Graph();
 
