@@ -47,14 +47,8 @@ public class Node {
         _parentNodeList.add(parentNode);
     }
 
-    /**
-     * This method returns the list of all of this node's parents
-     * @return List of parent nodes
-     */
-    public List<Node> getParentNodeList(){
-        return _parentNodeList;
-    }
 
+    //below are generic getters and setters
     public String getId() {
         return _id;
     }
@@ -62,4 +56,25 @@ public class Node {
     public void setId(String id) {
         _id = id;
     }
+
+    public List<Node> getParentNodeList() {
+        return _parentNodeList;
+    }
+
+    public void setParentNodeList(List<Node> parentNodeList) {
+        _parentNodeList = parentNodeList;
+    }
+
+    public HashMap<Node, Integer> getEdgeList() {
+        return _edgeList;
+    }
+
+    public void setEdgeList(HashMap<Node, Integer> edgeList) {
+        _edgeList = edgeList;
+    }
+
+    public int getCost() {
+        return _cost;
+    }
+
 }
