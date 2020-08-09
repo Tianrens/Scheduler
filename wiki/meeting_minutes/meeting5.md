@@ -10,7 +10,7 @@
 - Assign tasks
 - Issues and projects?
 - Further code conventions
-- Architecture
+    - Architecture
 
 *We decided on Gradle for our project*
 
