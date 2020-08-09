@@ -47,6 +47,7 @@ public class Node {
         _parentNodeList.add(parentNode);
     }
 
+
     //below are generic getters and setters
     public String getId() {
         return _id;
@@ -75,4 +76,5 @@ public class Node {
     public int getCost() {
         return _cost;
     }
+
 }
