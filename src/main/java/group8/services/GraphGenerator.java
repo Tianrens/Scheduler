@@ -1,6 +1,7 @@
 package group8.services;
 
 import group8.models.Graph;
+import group8.models.Node;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -37,20 +38,20 @@ public class GraphGenerator {
                     /** Graph name */
 
                 } else if (graphData.size() == 2) {
-                    /**WAITING ON IMPLEMENTATION
-                     *  graph.addNode(new Node(graphData[0], graphData[1]))
-                     */
+
+                      graph.addNode(new Node(Integer.parseInt(graphData.get(0)), graphData.get(1)));
+
 
                 } else if (graphData.size() == 3) {
                     // The .dot file input can be assumed to be sequential. Therefore all nodes
                     // will have been previously initialised before they are referenced as an edge
 
-                    /**WAITING ON IMPLEMENTATION
-                     *  Node src = graph.getNode(graphData[0]);
-                     *  Node dst = graph.getNode(graphData[1]);
-                     *  src.addDestination(dst, graphData[2])
-                     *  dst.addParent(src)
-                     */
+
+                     Node src = graph.getNode(graphData.get(0));
+                     Node dst = graph.getNode(graphData.get(1));
+                     src.addDestination(dst, Integer.parseInt(graphData.get(2)));
+                     dst.addParentNode(src);
+
                 }
             }
         } catch (FileNotFoundException e) {
