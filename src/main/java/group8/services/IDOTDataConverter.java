@@ -2,7 +2,7 @@ package group8.services;
 
 import java.util.List;
 
-public interface DOTParserInterface {
+public interface IDOTDataConverter {
 
     /**
      * Parses an input String, of any .dot file, to retrieve necessary graph data.

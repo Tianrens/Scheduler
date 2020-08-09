@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class GraphGenerator {
-    private final DOTParserInterface _dotParser;
+    private final IDOTDataConverter _dotParser;
 
     /**
      * Constructor
      */
-    public GraphGenerator(DOTParserInterface dotParser){
+    public GraphGenerator(IDOTDataConverter dotParser){
         _dotParser = dotParser;
     }
 
