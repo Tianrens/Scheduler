@@ -17,8 +17,8 @@ public class Main {
         try {
             return cli.build();
         } catch (CLIException e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
+            System.out.println(e.getMessage());
             System.exit(-1);
             return null;
         }
