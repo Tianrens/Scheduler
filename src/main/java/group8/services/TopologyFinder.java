@@ -6,7 +6,7 @@ import group8.models.TaskNode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopologyFinder {
+public class TopologyFinder implements  ITopologyFinder {
 
     //A list of all unassigned nodes in the graph
     private List<TaskNode> _nodeList;
