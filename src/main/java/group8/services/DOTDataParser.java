@@ -1,8 +1,15 @@
 package group8.services;
 
+import group8.models.Schedule;
+import group8.models.TaskNode;
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class DOTDataParser implements IDOTDataParser {
 
@@ -20,6 +27,7 @@ public class DOTDataParser implements IDOTDataParser {
      * @param line String to parse
      * @return List of extracted graph data.
      */
+    @Override
     public List<String> parseStringLine(String line) {
         ArrayList<String> graphData = new ArrayList<>();
 
@@ -33,6 +41,44 @@ public class DOTDataParser implements IDOTDataParser {
         }
 
         return graphData;
+    }
+
+    /**
+     * This function is responsible for parsing the valid schedule as a dot file output
+     * This function prints out all Nodes first, then edges are printed out to the dot file
+     * @param filePath This is either specified by the user or the default value is output.dot
+     * @param schedule More about the schedule sobject can be found in the documentation of the class
+     */
+    @Override
+    public void parseOutput(String filePath, Schedule schedule) {
+        try(BufferedWriter out=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("g.dot")))){
+            out.write("digraph {");
+            out.newLine();
+            List<TaskNode> taskNodeList  = schedule.getTaskNodeList();
+
+            //This string is written out last because all nodes must be declared before edges
+            String edgeList = "";
+
+            // The for loop cycles through all takesNodes and prints them out + their edges
+            for(TaskNode task : taskNodeList){
+
+                //This prints out all nodesm their weights, processor and start time
+                out.write(task.getId() + " " + "[ Weight=" + task.getCost() + ", Start=" + task.getTimeScheduled()
+                        + ", Processor=" + task.getProcessor().getId());
+                out.newLine();
+
+                //This concats all edges a node has and adds then to print later
+                for(Map.Entry edge : task.getEdgeList().entrySet()){
+                    edgeList+= task.getId() + " -> " + edge.getKey() + "[ Weight=" + edge.getKey() + " ]\n";
+                }
+            }
+
+            //all edges are written out to the dot file
+            out.write(edgeList);
+            out.write("}");
+        }catch(Exception e){
+
+    }
     }
 
     /**

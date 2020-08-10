@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Graph {
 
-    private HashMap<String, Node> _nodes = new HashMap<>();
+    private HashMap<String, TaskNode> _nodes = new HashMap<>();
 
 
     /**
@@ -13,7 +13,7 @@ public class Graph {
      */
 
 
-    public void addNode(Node newNode){
+    public void addNode(TaskNode newNode){
         String nodeID = newNode.getId();
         _nodes.put(nodeID, newNode);
     }
@@ -25,7 +25,7 @@ public class Graph {
      * @return the node whose ID was given
      */
 
-    public Node getNode(String nodeID){
+    public TaskNode getNode(String nodeID){
         return _nodes.get(nodeID);
     }
 
@@ -33,7 +33,7 @@ public class Graph {
      * Method returns all of the graph's nodes
      * @return Hashmap of all nodes
      */
-    public HashMap<String, Node> getAllNodes(){
+    public HashMap<String, TaskNode> getAllNodes(){
         return _nodes;
     }
 
