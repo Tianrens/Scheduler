@@ -10,7 +10,7 @@ import java.util.List;
 public class Schedule implements ISchedule {
 
     private List<Processor> _processorList;
-    private List<TaskNode> _taskList;
+    private List<TaskNode> _taskNodeList;
     private List<TaskNode> _unassignedTaskList;
     private List<TaskNode> _assignedTaskList;
 
@@ -39,6 +39,11 @@ public class Schedule implements ISchedule {
 
     }
 
+
+    public List<TaskNode> getTaskNodeList(){
+        return _taskNodeList;
+    }
+
     /**
      * Method is to initialise the whole set of unassigned tasks.
      * Call this method once at the beginning of schedule.
@@ -46,7 +51,7 @@ public class Schedule implements ISchedule {
      */
     public void setUnassignedTaskList(List<TaskNode> taskList) {
         _unassignedTaskList = taskList;
-        _taskList = taskList;
+        _taskNodeList = taskList;
     }
 
     /**

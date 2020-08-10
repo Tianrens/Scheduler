@@ -1,7 +1,9 @@
 package group8.services;
 
 import group8.models.Schedule;
+import group8.models.TaskNode;
 
+import javax.lang.model.type.ArrayType;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -51,6 +53,12 @@ public class DOTDataParser implements IDOTDataParser {
         try(BufferedWriter out=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("g.dot")))){
             out.write("digraph {");
             out.newLine();
+            List<TaskNode> taskNodeList  = schedule.getTaskNodeList();
+            List<String[]> edgeList = new ArrayList<String[]>();
+            for(TaskNode task : taskNodeList){
+                out.write(task.getId() + " " + "[ Weight=" + task.getCost() + ", Start=" + task.getTimeScheduled()
+                        + ", Processor=" + task.getProcessor().getId());
+            }
    
             out.write("}");
         }catch(Exception e){
