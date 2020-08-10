@@ -30,10 +30,12 @@ public class OneProcessorScheduler implements IScheduler {
         Schedule schedule = new Schedule(numProcessors);
         schedule.setUnassignedTaskList(topology);
 
-        return scheduleTopology(schedule, topology);
+        scheduleTopology(schedule, topology);
+
+        return schedule;
     }
 
-    private Schedule scheduleTopology(Schedule schedule, List<TaskNode> topology) {
+    private void scheduleTopology(Schedule schedule, List<TaskNode> topology) {
         Processor processor = schedule.getProcessors().get(ONE_PROCESSOR_SCHEDULER_DEFAULT); // Get default processor for this scheduler
 
         int startTime;
@@ -42,7 +44,5 @@ public class OneProcessorScheduler implements IScheduler {
             schedule.scheduleTask(processor, taskNode, startTime);
             processor.setFirstAvailableTime(startTime + taskNode.getCost());
         }
-
-        return schedule;
     }
 }
