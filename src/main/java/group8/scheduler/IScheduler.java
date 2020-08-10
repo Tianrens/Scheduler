@@ -1,4 +1,4 @@
-package group8.services;
+package group8.scheduler;
 
 import group8.cli.AppConfigException;
 import group8.models.Graph;

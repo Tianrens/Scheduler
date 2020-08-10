@@ -4,7 +4,7 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 
-import static group8.cli.Constants.*;
+import static group8.cli.CLIConstants.*;
 
 /**
  * Builds a AppConfig class
