@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TopologyFinder {
+
+    //A list of all unassigned nodes in the graph
     private List<Node> _nodeList;
+
+    //A List of all nodes in a topological order
     private List<Node> _topology;
 
     /**
@@ -44,7 +48,9 @@ public class TopologyFinder {
             //move any nodes that have been checked to be removable
             moveList(removeList);
         }
+
         return _topology;
+
     }
 
     /**
@@ -64,17 +70,17 @@ public class TopologyFinder {
      * @return true if all parents already added, false if at least one parent is not already n the topology
      */
     private boolean checkParents(List<Node> parentList){
-        int addedParents = 0;
+        boolean allParentsAdded = true;
 
         //Check parents one by one
         for (Node pNode: parentList) {
-            if(_topology.contains(pNode)){
-                addedParents++;
+            if(_nodeList.contains(pNode)){
+                allParentsAdded = false;
             }
         }
 
         //check if all parents have been added
-        return addedParents == parentList.size();
+        return allParentsAdded;
     }
 
 }
