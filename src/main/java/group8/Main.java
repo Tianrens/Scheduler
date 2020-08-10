@@ -10,6 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
        _appConfig = buildAppConfig(args);
+        System.out.println(_appConfig.toString());
     }
 
     private static AppConfig buildAppConfig(String[] args) {
