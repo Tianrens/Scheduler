@@ -33,6 +33,10 @@ public class Schedule {
         return _taskNodeList;
     }
 
+    public List<Processor> getProcessors() {
+        return _processorList;
+    }
+
     /**
      * Method is to initialise the whole set of unassigned tasks.
      * Call this method once at the beginning of schedule.
