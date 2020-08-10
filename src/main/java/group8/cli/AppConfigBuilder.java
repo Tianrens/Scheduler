@@ -32,6 +32,7 @@ public class AppConfigBuilder {
      * @return the created AppConfig instance.
      */
     public AppConfig build() throws CLIException {
+        AppConfig.clearConfig();
         _config = AppConfig.getInstance();
 
         Options options = getOptions();
@@ -41,10 +42,10 @@ public class AppConfigBuilder {
         try {
             cmd = parser.parse(options, _args);
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new CLIException("Invalid Syntax.");
         }
         if (cmd == null) {
-            throw new CLIException("CMD is null");
+            throw new CLIException("CMD is null.");
         }
 
         File inputDOTFile = getInputFile(_args[0]);
@@ -85,9 +86,14 @@ public class AppConfigBuilder {
      */
     private Options getOptions() {
         Options options = new Options();
-        options.addOption(PARALLEL_FLAG, true, PARALLEL_DESC);
-        options.addOption(VISUALISE_FLAG, false, VISUALISE_DESC);
-        options.addOption(OUTPUT_FLAG, true, OUTPUT_DESC);
+        Option pOption = new Option(PARALLEL_FLAG, true, PARALLEL_DESC);
+        pOption.setArgs(1);
+        Option vOption = new Option(VISUALISE_FLAG, false, VISUALISE_DESC);
+        Option oOption = new Option(OUTPUT_FLAG, true, OUTPUT_DESC);
+        oOption.setArgs(1);
+        options.addOption(pOption);
+        options.addOption(vOption);
+        options.addOption(oOption);
 
         return options;
     }
@@ -174,4 +180,5 @@ public class AppConfigBuilder {
         }
         return file;
     }
+
 }

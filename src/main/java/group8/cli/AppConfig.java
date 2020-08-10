@@ -21,6 +21,20 @@ public class AppConfig {
         return _appConfig;
     }
 
+    public static void clearConfig() {
+        _appConfig = null;
+    }
+
+    @Override
+    public String toString() {
+        String output = "Input File: " + _inputFile + System.lineSeparator()
+                + "Number of Processors: " + _numProcessors + System.lineSeparator()
+                + "Number of Cores: " + _numCores + System.lineSeparator()
+                + "Use Visualisation: " + _visualise + System.lineSeparator()
+                + "Output File: " + _outputFile + System.lineSeparator();
+        return output;
+    }
+
     protected void setInputFile(File file) {
         _inputFile = file;
     }
