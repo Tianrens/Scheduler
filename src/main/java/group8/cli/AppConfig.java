@@ -21,6 +21,10 @@ public class AppConfig {
         return _appConfig;
     }
 
+    public static void clearConfig() {
+        _appConfig = null;
+    }
+
     @Override
     public String toString() {
         String output = "Input File: " + _inputFile + System.lineSeparator()

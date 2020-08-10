@@ -32,6 +32,7 @@ public class AppConfigBuilder {
      * @return the created AppConfig instance.
      */
     public AppConfig build() throws CLIException {
+        AppConfig.clearConfig();
         _config = AppConfig.getInstance();
 
         Options options = getOptions();
