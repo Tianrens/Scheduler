@@ -32,13 +32,12 @@ public class TopologyFinder {
                 //Check if node already has no parents
                 if(parentNodes == null){
                     removeList.add(node);
-                    break;
+                    continue;
                 }
-
                 //If node has parent, check if they're already added
                 if(checkParents(parentNodes)){
                     removeList.add(node);
-                    break;
+                    continue;
                 }
             }
 
