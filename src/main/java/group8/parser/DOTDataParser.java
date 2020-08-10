@@ -1,4 +1,4 @@
-package group8.services;
+package group8.parser;
 
 import group8.models.Schedule;
 import group8.models.TaskNode;

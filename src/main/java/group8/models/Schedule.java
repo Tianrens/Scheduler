@@ -7,7 +7,7 @@ import java.util.List;
  * This class contains the methods and fields to mimic
  * a real world schedule
  */
-public class Schedule implements ISchedule {
+public class Schedule {
 
     private List<Processor> _processorList;
     private List<TaskNode> _taskNodeList;
@@ -25,23 +25,16 @@ public class Schedule implements ISchedule {
             Processor processor = new Processor(i);
             _processorList.add(processor);
         }
-        _unassignedTaskList = new ArrayList<TaskNode>();
-        _assignedTaskList = new ArrayList<TaskNode>();
+        _unassignedTaskList = new ArrayList<>();
+        _assignedTaskList = new ArrayList<>();
     }
-
-    @Override
-    public void setNumberOfProcessors(int num) {
-
-    }
-
-    @Override
-    public void setGraph(Graph graph) {
-
-    }
-
 
     public List<TaskNode> getTaskNodeList(){
         return _taskNodeList;
+    }
+
+    public List<Processor> getProcessors() {
+        return _processorList;
     }
 
     /**

@@ -1,4 +1,4 @@
-package group8.services;
+package group8.parser;
 
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;

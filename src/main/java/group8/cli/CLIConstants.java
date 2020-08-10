@@ -1,6 +1,6 @@
 package group8.cli;
 
-public class Constants {
+public class CLIConstants {
     protected static final String PARALLEL_FLAG = "p";
     protected static final String VISUALISE_FLAG = "v";
     protected static final String OUTPUT_FLAG = "o";
