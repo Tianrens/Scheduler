@@ -1,5 +1,10 @@
 package group8.services;
 
+import group8.models.Schedule;
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +25,7 @@ public class DOTDataParser implements IDOTDataParser {
      * @param line String to parse
      * @return List of extracted graph data.
      */
+    @Override
     public List<String> parseStringLine(String line) {
         ArrayList<String> graphData = new ArrayList<>();
 
@@ -33,6 +39,23 @@ public class DOTDataParser implements IDOTDataParser {
         }
 
         return graphData;
+    }
+
+    /**
+     *
+     * @param filePath This is either specified by the user or the default value is output.dot
+     * @param schedule More about the schedule sobject can be found in the documentation of the class
+     */
+    @Override
+    public void parseOutput(String filePath, Schedule schedule) {
+        try(BufferedWriter out=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("g.dot")))){
+            out.write("digraph {");
+            out.newLine();
+   
+            out.write("}");
+        }catch(Exception e){
+
+    }
     }
 
     /**
