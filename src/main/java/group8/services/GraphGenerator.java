@@ -1,34 +1,36 @@
 package group8.services;
 
+import group8.cli.AppConfig;
+import group8.cli.AppConfigException;
 import group8.models.Graph;
-import group8.models.Node;
+import group8.models.TaskNode;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class GraphGenerator {
-    private final DOTParserInterface _dotParser;
+    private final IDOTDataParser _dotParser;
 
     /**
-     * Constructor
+     * Dependency inject a DOT data parser in
      */
-    public GraphGenerator(DOTParserInterface dotParser){
-        _dotParser = dotParser;
+    public GraphGenerator(IDOTDataParser dotDataParser){
+        _dotParser = dotDataParser;
     }
 
     /**
-     *
-     * @param inputFilePath path to .dot file location
      * @return Graph generated from .dot file
      */
-    public Graph getGraph(String inputFilePath) {
+    public Graph generate() throws AppConfigException {
+        File inputFile = AppConfig.getInstance().get_inputFile();
+
+        if (inputFile == null) {
+            throw new AppConfigException();
+        }
 
         Graph graph = new Graph();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(inputFilePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -39,7 +41,7 @@ public class GraphGenerator {
 
                 } else if (graphData.size() == 2) {
 
-                      graph.addNode(new Node(Integer.parseInt(graphData.get(0)), graphData.get(1)));
+                      graph.addNode(new TaskNode(Integer.parseInt(graphData.get(0)), graphData.get(1)));
 
 
                 } else if (graphData.size() == 3) {
@@ -47,8 +49,8 @@ public class GraphGenerator {
                     // will have been previously initialised before they are referenced as an edge
 
 
-                     Node src = graph.getNode(graphData.get(0));
-                     Node dst = graph.getNode(graphData.get(1));
+                     TaskNode src = graph.getNode(graphData.get(0));
+                     TaskNode dst = graph.getNode(graphData.get(1));
                      src.addDestination(dst, Integer.parseInt(graphData.get(2)));
                      dst.addParentNode(src);
 

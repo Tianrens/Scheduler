@@ -8,13 +8,15 @@ import java.util.List;
  */
 public class Processor {
 
-    private List<Task> _taskList; //the list of queued tasks
+    private List<TaskNode> _taskList; //the list of queued tasks
     //the time this processor will be available after completing its entire task list
     private int _firstAvailableTime;
+    private int _id;
 
-    public Processor() {
-        _taskList = new ArrayList<Task>();
+    public Processor(int id) {
+        _taskList = new ArrayList<TaskNode>();
         _firstAvailableTime = 0;
+        _id=id;
     }
 
     /**
@@ -23,7 +25,7 @@ public class Processor {
      * @param task
      * @param timeScheduled
      */
-    public void addTask(Task task, int timeScheduled) {
+    public void addTask(TaskNode task, int timeScheduled) {
         _taskList.add(task);
         _firstAvailableTime += timeScheduled + task.getCost();
     }
@@ -35,5 +37,9 @@ public class Processor {
 
     public void setFirstAvailableTime(int firstAvailableTime) {
         _firstAvailableTime = firstAvailableTime;
+    }
+
+    public int getId(){
+        return _id;
     }
 }

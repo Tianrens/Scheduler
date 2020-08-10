@@ -10,9 +10,9 @@ import java.util.List;
 public class Schedule implements ISchedule {
 
     private List<Processor> _processorList;
-    private List<Task> _taskList;
-    private List<Task> _unassignedTaskList;
-    private List<Task> _assignedTaskList;
+    private List<TaskNode> _taskNodeList;
+    private List<TaskNode> _unassignedTaskList;
+    private List<TaskNode> _assignedTaskList;
 
     /**
      * The constructor takes in number of processors that
@@ -22,11 +22,11 @@ public class Schedule implements ISchedule {
     public Schedule(int numProcessors) {
 
         for (int i = 0; i < numProcessors; i++) {
-            Processor processor = new Processor();
+            Processor processor = new Processor(i);
             _processorList.add(processor);
         }
-        _unassignedTaskList = new ArrayList<Task>();
-        _assignedTaskList = new ArrayList<Task>();
+        _unassignedTaskList = new ArrayList<TaskNode>();
+        _assignedTaskList = new ArrayList<TaskNode>();
     }
 
     @Override
@@ -39,14 +39,19 @@ public class Schedule implements ISchedule {
 
     }
 
+
+    public List<TaskNode> getTaskNodeList(){
+        return _taskNodeList;
+    }
+
     /**
      * Method is to initialise the whole set of unassigned tasks.
      * Call this method once at the beginning of schedule.
      * @param taskList
      */
-    public void setUnassignedTaskList(List<Task> taskList) {
+    public void setUnassignedTaskList(List<TaskNode> taskList) {
         _unassignedTaskList = taskList;
-        _taskList = taskList;
+        _taskNodeList = taskList;
     }
 
     /**
@@ -57,7 +62,7 @@ public class Schedule implements ISchedule {
      * @param task
      * @param timeScheduled
      */
-    public void scheduleTask(Processor processor, Task task, int timeScheduled) {
+    public void scheduleTask(Processor processor, TaskNode task, int timeScheduled) {
         task.setProcessor(processor);
         task.setTimeScheduled(timeScheduled);
 
