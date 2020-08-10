@@ -44,8 +44,9 @@ public class AppConfigBuilder {
             e.printStackTrace();
         }
         if (cmd == null) {
-
+            throw new CLIException("CMD is null");
         }
+
         File inputDOTFile = getInputFile(_args[0]);
         int numProcessors = getNumProcessors(_args[1]);
         int numCores = getNumCores(cmd);
