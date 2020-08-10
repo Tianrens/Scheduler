@@ -22,7 +22,7 @@ public class Schedule implements ISchedule {
     public Schedule(int numProcessors) {
 
         for (int i = 0; i < numProcessors; i++) {
-            Processor processor = new Processor();
+            Processor processor = new Processor(i);
             _processorList.add(processor);
         }
         _unassignedTaskList = new ArrayList<TaskNode>();
