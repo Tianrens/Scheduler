@@ -25,18 +25,9 @@ public class Schedule {
             Processor processor = new Processor(i);
             _processorList.add(processor);
         }
-        _unassignedTaskList = new ArrayList<TaskNode>();
-        _assignedTaskList = new ArrayList<TaskNode>();
+        _unassignedTaskList = new ArrayList<>();
+        _assignedTaskList = new ArrayList<>();
     }
-
-    public void setNumberOfProcessors(int num) {
-
-    }
-
-    public void setGraph(Graph graph) {
-
-    }
-
 
     public List<TaskNode> getTaskNodeList(){
         return _taskNodeList;
