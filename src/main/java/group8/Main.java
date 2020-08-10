@@ -19,7 +19,14 @@ public class Main {
             return cli.build();
         } catch (CLIException e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
+            String getHelp = "java -jar scheduler.jar INPUT.jar P [OPTION]" + System.lineSeparator()
+                    + "INPUT.dot    a task graph with integer weights in dot format" + System.lineSeparator()
+                    + "P            number of processors to schedule the INPUT graph on" + System.lineSeparator()
+                    + "Optional:" + System.lineSeparator()
+                    + "-p N         use N cores for execution in parallel(default is sequential)" + System.lineSeparator()
+                    + "-v           visualise the search" + System.lineSeparator()
+                    + "-o OUTPUT    output file is named OUTPUT(default is INPUT-output.dot)";
+            System.out.println(e.getMessage() + System.lineSeparator() + getHelp);
             System.exit(-1);
             return null;
         }
