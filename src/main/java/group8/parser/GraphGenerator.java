@@ -21,6 +21,7 @@ public class GraphGenerator implements IGraphGenerator {
     /**
      * @return Graph generated from .dot file
      */
+    @Override
     public Graph generate() throws AppConfigException {
         File inputFile = AppConfig.getInstance().getInputFile();
 
