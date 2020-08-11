@@ -5,6 +5,7 @@ import com.paypal.digraph.parser.GraphNode;
 import group8.models.Graph;
 import group8.models.TaskNode;
 import java.util.Map;
+import static group8.parser.DOTFileConstants.*;
 
 public class GraphExternalParserGenerator implements IGraphGenerator {
     DOTExternalParser _parser;
@@ -19,27 +20,32 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         Map<String, GraphNode> nodes = _parser.getNodes();
         Map<String, GraphEdge> edges = _parser.getEdges();
 
+        addNodesToGraph(graph, nodes);
+        addEdgesToGraph(graph, edges);
+
+        return graph;
+    }
+
+    private void addNodesToGraph(Graph graph, Map<String, GraphNode> nodes) {
         for (String nodeId : nodes.keySet()) {
             GraphNode node = nodes.get(nodeId);
 
-            Integer weight = (Integer) node.getAttribute(DOTFileConstants.WEIGHTATTR);
+            Integer weight = (Integer) node.getAttribute(WEIGHTATTR);
 
             graph.addNode(new TaskNode(weight, nodeId));
         }
+    }
 
-        // The .dot file input can be assumed to be sequential. Therefore all nodes
-        // will have been previously initialised before they are referenced as an edge
+    private void addEdgesToGraph(Graph graph, Map<String, GraphEdge> edges) {
         for (String edgeId : edges.keySet()) {
             GraphEdge edge = edges.get(edgeId);
 
             TaskNode src = graph.getNode(edge.getNode1().getId());
             TaskNode dst = graph.getNode(edge.getNode1().getId());
-            Integer weight = (Integer) edge.getAttribute(DOTFileConstants.WEIGHTATTR);
+            Integer weight = (Integer) edge.getAttribute(WEIGHTATTR);
 
             src.addDestination(dst, weight);
             dst.addParentNode(src);
         }
-
-        return graph;
     }
 }
