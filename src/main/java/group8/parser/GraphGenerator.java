@@ -10,6 +10,7 @@ import java.util.List;
 
 public class GraphGenerator implements IGraphGenerator {
     private final IDOTDataParser _dotParser;
+    private Graph _graph = new Graph();
 
     /**
      * Dependency inject a DOT data parser in
@@ -29,33 +30,12 @@ public class GraphGenerator implements IGraphGenerator {
             throw new AppConfigException();
         }
 
-        Graph graph = new Graph();
-
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String line;
 
             while ((line = br.readLine()) != null) {
                 List<String> graphData = _dotParser.parseStringLine(line);
-
-                if (graphData.size() == 1) {
-                    /** Graph name */
-
-                } else if (graphData.size() == 2) {
-
-                      graph.addNode(new TaskNode(Integer.parseInt(graphData.get(0)), graphData.get(1)));
-
-
-                } else if (graphData.size() == 3) {
-                    // The .dot file input can be assumed to be sequential. Therefore all nodes
-                    // will have been previously initialised before they are referenced as an edge
-
-
-                     TaskNode src = graph.getNode(graphData.get(0));
-                     TaskNode dst = graph.getNode(graphData.get(1));
-                     src.addDestination(dst, Integer.parseInt(graphData.get(2)));
-                     dst.addParentNode(src);
-
-                }
+                addData(graphData);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -63,6 +43,41 @@ public class GraphGenerator implements IGraphGenerator {
             e.printStackTrace();
         }
 
-        return graph;
+        return _graph;
     }
+
+    /**
+     * This seperates logic and helps with testing, makes the GraphGenerator class more flexible
+     * @param graphData
+     */
+    public void addData(List<String> graphData){
+        if (graphData.size() == 1) {
+            /** Graph name */
+        } else if (graphData.size() == 2) {
+            _graph.addNode(new TaskNode(Integer.parseInt(graphData.get(0)), graphData.get(1)));
+        } else if (graphData.size() == 3) {
+            // The .dot file input can be assumed to be sequential. Therefore all nodes
+            // will have been previously initialised before they are referenced as an edge
+            TaskNode src = _graph.getNode(graphData.get(0));
+            TaskNode dst = _graph.getNode(graphData.get(1));
+            src.addDestination(dst, Integer.parseInt(graphData.get(2)));
+            dst.addParentNode(src);
+
+        }
+    }
+
+    /**
+     * @return returns the last generated graph object
+     */
+    public Graph getGraph(){
+        return _graph;
+    }
+
+    /**
+     * resets the existing graph object, user can build a new graph from scratch
+     */
+    public void newGraph(){
+        _graph=new Graph();
+    }
+
 }
