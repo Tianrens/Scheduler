@@ -8,7 +8,7 @@ import group8.models.TaskNode;
 import java.io.*;
 import java.util.List;
 
-public class GraphGenerator {
+public class GraphGenerator implements IGraphGenerator {
     private final IDOTDataParser _dotParser;
 
     /**
