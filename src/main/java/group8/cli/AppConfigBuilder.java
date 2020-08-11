@@ -4,7 +4,7 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 
-import static group8.cli.Constants.*;
+import static group8.cli.CLIConstants.*;
 
 /**
  * Builds a AppConfig class
@@ -44,8 +44,13 @@ public class AppConfigBuilder {
         } catch (ParseException e) {
             throw new CLIException("Invalid Syntax.");
         }
+
         if (cmd == null) {
             throw new CLIException("CMD is null.");
+        }
+
+        if (cmd.getArgList().size() < 2) {
+            throw new CLIException("You must specify a path to the .dot file and the number of processors to use.");
         }
 
         File inputDOTFile = getInputFile(_args[0]);
@@ -71,7 +76,6 @@ public class AppConfigBuilder {
         File file = new File(filePath);
         if (!isDOTExtension(file)) {
             throw new CLIException("Invalid file format, file must be a '.dot' file.");
-
         }
         if (!file.exists()) {
             throw new CLIException("File not found. Please check the path specified.");

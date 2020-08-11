@@ -50,4 +50,193 @@ public class CLITests {
         assertEquals("inputFileTest-output.dot", config.get_outputFile().toString());
 
     }
+
+    //---------------- Exception Throw Tests -----------------------------------------------
+    /**
+     * Basic test to see if correct exception is thrown when given a null input
+     */
+    @Test
+    public void nullInputTest() {
+        AppConfigBuilder cli = new AppConfigBuilder(null);
+        try {
+            AppConfig config = cli.build();
+            fail("Exception should be thrown due to null input");
+        } catch (CLIException e) {
+            assertEquals("CMD is null",e.getMessage());
+        }
+    }
+
+    /**
+     * Basic test to see if correct exception is thrown when given a no inputs
+     */
+    @Test
+    public void emptyInputTest() {
+        String[] args = new String[] {};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Exception should be thrown due to no inputs");
+        } catch (CLIException e) {
+            assertEquals("You must specify a path to the .dot file and the number of processors to use.",e.getMessage());
+        }
+    }
+
+    /**
+     * Basic test for checking if correct exception thrown when a non-existent file is inputted
+     */
+    @Test
+    public void nonExistentFileInput(){
+        String[] args = new String[] {"wrongFiletest.dot", "4"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("File not found Exception should be thrown due to no file having the name wrongFileTest.dot");
+        } catch (CLIException e) {
+            assertEquals("File not found. Please check the path specified.",e.getMessage());
+        }
+    }
+
+    /**
+     * Tests if correct exception is thrown when a non .dot file is inputted
+     * @throws IOException
+     */
+    @Test
+    public void inValidFileInput() throws IOException {
+        File testFile = new File("inputFileTest.txt");
+        testFile.createNewFile();
+
+        String[] args = new String[] {"inputfiletest.txt", "5", "-p", "7", "-v", "-o", "someOUTputDOTFile.dot"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Invalid file Exception should be thrown due as only dot files are accepted");
+        } catch (CLIException e) {
+            assertEquals("Invalid file format, file must be a '.dot' file.",e.getMessage());
+        }
+
+        new File("inputFileTest.txt").delete();
+    }
+
+    /**
+     * Test to check if cases matter in input file name
+     */
+    @Test
+    public void lowerCaseFileInput(){
+        String[] args = new String[] {"inputfiletest.dot", "4"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("File not found Exception should be thrown due to lower casing of inputfiletest.dot");
+        } catch (CLIException e) {
+            assertEquals("File not found. Please check the path specified.",e.getMessage());
+        }
+    }
+
+    /**
+     * Test to check non-number process number argument
+     */
+    @Test
+    public void invalidProcessesInput(){
+        String[] args = new String[] {"inputfiletest.dot", "one"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Invalid input for number of processes, exception should be thrown");
+        } catch (CLIException e) {
+            assertEquals("Invalid number of processors argument.",e.getMessage());
+        }
+    }
+
+    /**
+     * Test to check 0 process argument
+     */
+    @Test
+    public void ZeroProcessesInput(){
+        String[] args = new String[] {"inputfiletest.dot", "0"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Can't have no processes, exception should be thrown");
+        } catch (CLIException e) {
+            assertEquals("Invalid number of processors argument.",e.getMessage());
+        }
+    }
+
+    /**
+     * Test to check negative process arguments
+     */
+    @Test
+    public void negativeProcessesInput(){
+        String[] args = new String[] {"inputfiletest.dot", "-2"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Can't have negative number of processes, exception should be thrown");
+        } catch (CLIException e) {
+            assertEquals("Number of processors cannot be less than 0.",e.getMessage());
+        }
+    }
+
+    /**
+     * Test to check a double type process argument
+     */
+    @Test
+    public void doubleArgProcessesInput(){
+        String[] args = new String[] {"inputfiletest.dot", "2.0"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Can't non-int arguments for processes, exception should be thrown");
+        } catch (CLIException e) {
+            assertEquals("Invalid number of processors argument.",e.getMessage());
+        }
+    }
+
+    /**
+     * Test to check an invalid (non-int) core argument
+     */
+    @Test
+    public void invalidCoreInput(){
+        String[] args = new String[] {"inputfiletest.dot", "2", "-p", "p"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Can't non-int arguments for number of cores, exception should be thrown");
+        } catch (CLIException e) {
+            assertEquals("Invalid number of cores argument.",e.getMessage());
+        }
+    }
+
+    /**
+     * Test to check an invalid (non-int) core argument
+     */
+    @Test
+    public void zeroCoreInput(){
+        String[] args = new String[] {"inputfiletest.dot", "2", "-p", "0"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Can't have less than one number of cores, exception should be thrown");
+        } catch (CLIException e) {
+            assertEquals("Number of cores cannot be less than 1",e.getMessage());
+        }
+    }
+
+    /**
+     * Test to check an invalid (non-int) core argument
+     */
+    @Test
+    public void negativeCoreInput(){
+        String[] args = new String[] {"inputfiletest.dot", "2", "-p", "-1"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Can't have less than one number of cores, exception should be thrown");
+        } catch (CLIException e) {
+            assertEquals("Number of cores cannot be less than 1",e.getMessage());
+        }
+    }
+
+
+
 }
