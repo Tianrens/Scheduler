@@ -30,7 +30,7 @@ public class DOTDataParser implements IDOTDataParser {
     @Override
     public List<String> parseStringLine(String line) {
         ArrayList<String> graphData = new ArrayList<>();
-g
+
         String[] stringElements = line.split(" ");
 
         if (line.contains(_startOfStatements)) {
