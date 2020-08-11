@@ -62,7 +62,7 @@ public class DOTDataParser implements IDOTDataParser {
             // The for loop cycles through all takesNodes and prints them out + their edges
             for(TaskNode task : taskNodeList){
 
-                //This prints out all nodesm their weights, processor and start time
+                //This prints out all nodes their weights, processor and start time
                 out.write(task.getId() + " " + "[ Weight=" + task.getCost() + ", Start=" + task.getTimeScheduled()
                         + ", Processor=" + task.getProcessor().getId());
                 out.newLine();

@@ -21,11 +21,11 @@ public abstract class DOTExternalParser<T, U> {
             throw new AppConfigException();
         }
 
-        FileInputStream inputStream = null;
+        FileInputStream inputStream;
         try {
             inputStream = new FileInputStream(inputFile);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new AppConfigException(); // File should exist if AppConfig had been built correctly
         }
 
         return inputStream;
