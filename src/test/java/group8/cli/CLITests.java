@@ -51,7 +51,9 @@ public class CLITests {
 
     }
 
-    //---------------- Exception Throw Tests -----------------------------------------------
+    //========================= Exception Throw Tests =========================================
+
+    //----------------------- General Input exception tests --------------------------------
     /**
      * Basic test to see if correct exception is thrown when given a null input
      */
@@ -80,6 +82,54 @@ public class CLITests {
             assertEquals("You must specify a path to the .dot file and the number of processors to use.",e.getMessage());
         }
     }
+
+    /**
+     * Test to see if correct exception is thrown when non-existent options are inputted
+     */
+    @Test
+    public void nonExistentOptionsTest() {
+        String[] args = new String[] {"inputFileTest.dot", "4", "-r", "8", "-s", "-o", "someOUTputDOTFile.dot"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Exception should be thrown due to invalid options");
+        } catch (CLIException e) {
+            assertEquals("Invalid Syntax.",e.getMessage());
+        }
+    }
+
+    /**
+     * Test to see if AppConfig is successfully built despite different options ordering
+     */
+    @Test
+    public void disorderedOptionsTest() throws CLIException {
+        String[] args = new String[] {"inputFileTest.dot", "7", "-v", "-o", "someOUTputDOTFile.dot", "-p", "5"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        AppConfig config = cli.build();
+
+        assertEquals("inputFileTest.dot", config.get_inputFile().toString());
+        assertEquals(7, config.get_numProcessors());
+        assertEquals(5, config.get_numCores());
+        assertEquals(true, config.is_visualise());
+        assertEquals("someOUTputDOTFile.dot", config.get_outputFile().toString());
+    }
+
+    /**
+     * Test to see if correct exception is thrown when non-existent options are inputted
+     */
+    @Test
+    public void capitalLetteredOptionsTest() {
+        String[] args = new String[] {"inputFileTest.dot", "4", "-P", "8", "-v", "-O", "someOUTputDOTFile.dot"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Exception should be thrown due to invalid options due to their capitalisation");
+        } catch (CLIException e) {
+            assertEquals("Invalid Syntax.",e.getMessage());
+        }
+    }
+
+    //------------------- File input exception tests ----------------------------------------------
 
     /**
      * Basic test for checking if correct exception thrown when a non-existent file is inputted
@@ -132,6 +182,7 @@ public class CLITests {
         }
     }
 
+    //------------------- processor argument exception checks -----------------------------------
     /**
      * Test to check non-number process number argument
      */
@@ -192,6 +243,7 @@ public class CLITests {
         }
     }
 
+    //----------------------- Core/Parallelization argument exception checks -----------------
     /**
      * Test to check an invalid (non-int) core argument
      */
@@ -237,6 +289,7 @@ public class CLITests {
         }
     }
 
+    //-------------------- Output file name exception tests ---------------------------
     /**
      * Test for existing output file
      */
@@ -265,6 +318,6 @@ public class CLITests {
             assertEquals("Invalid output file format. Must end with '.dot'",e.getMessage());
         }
     }
-    
+
 
 }
