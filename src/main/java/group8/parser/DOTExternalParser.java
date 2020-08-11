@@ -15,7 +15,7 @@ public abstract class DOTExternalParser<T, U> {
     abstract Map<String, U> getEdges();
 
     protected FileInputStream getFileInputStream() throws AppConfigException {
-        File inputFile = AppConfig.getInstance().get_inputFile();
+        File inputFile = AppConfig.getInstance().getInputFile();
 
         FileInputStream inputStream;
         try {

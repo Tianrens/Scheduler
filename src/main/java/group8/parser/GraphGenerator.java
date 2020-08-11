@@ -22,7 +22,7 @@ public class GraphGenerator implements IGraphGenerator {
      * @return Graph generated from .dot file
      */
     public Graph generate() throws AppConfigException {
-        File inputFile = AppConfig.getInstance().get_inputFile();
+        File inputFile = AppConfig.getInstance().getInputFile();
 
         if (inputFile == null) {
             throw new AppConfigException();

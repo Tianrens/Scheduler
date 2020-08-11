@@ -1,7 +1,6 @@
 package group8.scheduler;
 
 import group8.cli.AppConfig;
-import group8.cli.AppConfigException;
 import group8.models.Graph;
 import group8.models.Processor;
 import group8.models.Schedule;
@@ -21,7 +20,7 @@ public class OneProcessorScheduler implements IScheduler {
     @Override
     public Schedule generateValidSchedule(Graph graph) {
         List<TaskNode> topology = _topologyFinder.generateTopology(graph);
-        int numProcessors = AppConfig.getInstance().get_numProcessors();
+        int numProcessors = AppConfig.getInstance().getNumProcessors();
 
         if (numProcessors == 0) {
             return null;
