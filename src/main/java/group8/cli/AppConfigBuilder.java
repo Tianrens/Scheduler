@@ -44,8 +44,13 @@ public class AppConfigBuilder {
         } catch (ParseException e) {
             throw new CLIException("Invalid Syntax.");
         }
+
         if (cmd == null) {
             throw new CLIException("CMD is null.");
+        }
+
+        if (cmd.getArgList().size() < 2) {
+            throw new CLIException("You must specify a path to the .dot file and the number of processors to use.");
         }
 
         File inputDOTFile = getInputFile(_args[0]);
