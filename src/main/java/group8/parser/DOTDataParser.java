@@ -1,11 +1,10 @@
 package group8.parser;
 
+import group8.cli.AppConfig;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +50,8 @@ public class DOTDataParser implements IDOTDataParser {
      */
     @Override
     public void parseOutput(String filePath, Schedule schedule) {
-        try(BufferedWriter out=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("g.dot")))){
+        File outputFile = AppConfig.getInstance().getOutputFile();
+        try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
             out.write("digraph {");
             out.newLine();
             List<TaskNode> taskNodeList  = schedule.getTaskNodeList();
@@ -76,9 +76,9 @@ public class DOTDataParser implements IDOTDataParser {
             //all edges are written out to the dot file
             out.write(edgeList);
             out.write("}");
-        }catch(Exception e){
-
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
