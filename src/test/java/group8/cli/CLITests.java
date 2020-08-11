@@ -105,7 +105,7 @@ public class CLITests {
         File testFile = new File("inputFileTest.txt");
         testFile.createNewFile();
 
-        String[] args = new String[] {"inputfiletest.txt", "5", "-p", "7", "-v", "-o", "someOUTputDOTFile.dot"};
+        String[] args = new String[] {"inputFileTest.txt", "5", "-p", "7", "-v", "-o", "someOUTputDOTFile.dot"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
             AppConfig config = cli.build();
@@ -137,7 +137,7 @@ public class CLITests {
      */
     @Test
     public void invalidProcessesInput(){
-        String[] args = new String[] {"inputfiletest.dot", "one"};
+        String[] args = new String[] {"inputFileTest.dot", "one"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
             AppConfig config = cli.build();
@@ -152,7 +152,7 @@ public class CLITests {
      */
     @Test
     public void ZeroProcessesInput(){
-        String[] args = new String[] {"inputfiletest.dot", "0"};
+        String[] args = new String[] {"inputFileTest.dot", "0"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
             AppConfig config = cli.build();
@@ -167,7 +167,7 @@ public class CLITests {
      */
     @Test
     public void negativeProcessesInput(){
-        String[] args = new String[] {"inputfiletest.dot", "-2"};
+        String[] args = new String[] {"inputFileTest.dot", "-2"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
             AppConfig config = cli.build();
@@ -182,7 +182,7 @@ public class CLITests {
      */
     @Test
     public void doubleArgProcessesInput(){
-        String[] args = new String[] {"inputfiletest.dot", "2.0"};
+        String[] args = new String[] {"inputFileTest.dot", "2.0"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
             AppConfig config = cli.build();
@@ -197,7 +197,7 @@ public class CLITests {
      */
     @Test
     public void invalidCoreInput(){
-        String[] args = new String[] {"inputfiletest.dot", "2", "-p", "p"};
+        String[] args = new String[] {"inputFileTest.dot", "2", "-p", "p"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
             AppConfig config = cli.build();
@@ -212,7 +212,7 @@ public class CLITests {
      */
     @Test
     public void zeroCoreInput(){
-        String[] args = new String[] {"inputfiletest.dot", "2", "-p", "0"};
+        String[] args = new String[] {"inputFileTest.dot", "2", "-p", "0"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
             AppConfig config = cli.build();
@@ -227,7 +227,7 @@ public class CLITests {
      */
     @Test
     public void negativeCoreInput(){
-        String[] args = new String[] {"inputfiletest.dot", "2", "-p", "-1"};
+        String[] args = new String[] {"inputFileTest.dot", "2", "-p", "-1"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
             AppConfig config = cli.build();
@@ -237,6 +237,34 @@ public class CLITests {
         }
     }
 
+    /**
+     * Test for existing output file
+     */
+    @Test
+    public void existingOutputFile() throws IOException, CLIException {
+        File testFile = new File("outputTest.dot");
+        testFile.createNewFile();
+        String[] args = new String[] {"inputfiletest.dot", "2", "-o", "outputTest.dot"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        AppConfig config = cli.build();
 
+        testFile.delete();
+    }
+
+    /**
+     * Test to check an invalid output file name argument
+     */
+    @Test
+    public void invalidOutputName(){
+        String[] args = new String[] {"inputFileTest.dot", "2", "-o", "outputTest.txt"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        try {
+            AppConfig config = cli.build();
+            fail("Can't non-dot file output files, exception should be thrown");
+        } catch (CLIException e) {
+            assertEquals("Invalid output file format. Must end with '.dot'",e.getMessage());
+        }
+    }
+    
 
 }
