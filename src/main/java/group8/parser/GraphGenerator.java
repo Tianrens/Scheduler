@@ -8,7 +8,7 @@ import group8.models.TaskNode;
 import java.io.*;
 import java.util.List;
 
-public class GraphGenerator {
+public class GraphGenerator implements IGraphGenerator {
     private final IDOTDataParser _dotParser;
 
     /**
@@ -21,8 +21,9 @@ public class GraphGenerator {
     /**
      * @return Graph generated from .dot file
      */
+    @Override
     public Graph generate() throws AppConfigException {
-        File inputFile = AppConfig.getInstance().get_inputFile();
+        File inputFile = AppConfig.getInstance().getInputFile();
 
         if (inputFile == null) {
             throw new AppConfigException();

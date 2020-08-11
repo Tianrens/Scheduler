@@ -55,23 +55,23 @@ public class AppConfig {
         _outputFile = file;
     }
 
-    public File get_inputFile() {
+    public File getInputFile() {
         return _inputFile;
     }
 
-    public int get_numProcessors() {
+    public int getNumProcessors() {
         return _numProcessors;
     }
 
-    public int get_numCores() {
+    public int getNumCores() {
         return _numCores;
     }
 
-    public boolean is_visualise() {
+    public boolean isVisualise() {
         return _visualise;
     }
 
-    public File get_outputFile() {
+    public File getOutputFile() {
         return _outputFile;
     }
 }

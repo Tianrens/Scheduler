@@ -2,15 +2,23 @@ package group8;
 
 import group8.cli.AppConfig;
 import group8.cli.AppConfigBuilder;
+import group8.cli.AppConfigException;
 import group8.cli.CLIException;
+import group8.parser.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Main {
 
     private static AppConfig _appConfig;
 
-    public static void main(String[] args) {
-       _appConfig = buildAppConfig(args);
-        System.out.println(_appConfig.toString());
+    public static void main(String[] args) throws AppConfigException {
+        _appConfig = buildAppConfig(args);
+
+        IGraphGenerator graphGenerator = new GraphGenerator(new DOTDataParser());
+        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
     }
 
     private static AppConfig buildAppConfig(String[] args) {

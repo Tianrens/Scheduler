@@ -1,15 +1,16 @@
 package group8.parser;
 
+import group8.cli.AppConfig;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static group8.parser.DOTFileConstants.*;
 
 public class DOTDataParser implements IDOTDataParser {
 
@@ -51,8 +52,9 @@ public class DOTDataParser implements IDOTDataParser {
      */
     @Override
     public void parseOutput(String filePath, Schedule schedule) {
-        try(BufferedWriter out=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("g.dot")))){
-            out.write("digraph {");
+        File outputFile = AppConfig.getInstance().getOutputFile();
+        try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
+            out.write("digraph G {");
             out.newLine();
             List<TaskNode> taskNodeList  = schedule.getTaskNodeList();
 
@@ -62,23 +64,20 @@ public class DOTDataParser implements IDOTDataParser {
             // The for loop cycles through all takesNodes and prints them out + their edges
             for(TaskNode task : taskNodeList){
 
-                //This prints out all nodesm their weights, processor and start time
-                out.write(task.getId() + " " + "[ Weight=" + task.getCost() + ", Start=" + task.getTimeScheduled()
-                        + ", Processor=" + task.getProcessor().getId());
+                out.write(createNodeString(task)); // This prints out all nodes their weights, processor and start time
                 out.newLine();
 
-                //This concats all edges a node has and adds then to print later
-                for(Map.Entry edge : task.getEdgeList().entrySet()){
-                    edgeList+= task.getId() + " -> " + edge.getKey() + "[ Weight=" + edge.getKey() + " ]\n";
+                for (Map.Entry edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+                    edgeList += createEdgeString(task, edge);
                 }
             }
 
             //all edges are written out to the dot file
             out.write(edgeList);
             out.write("}");
-        }catch(Exception e){
-
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -112,5 +111,38 @@ public class DOTDataParser implements IDOTDataParser {
         int start = posEquals + 1;
         int end = posClosingBrace;
         return processingString.substring(start, end);
+    }
+
+    private String createNodeString(TaskNode task) {
+        StringBuffer sb = new StringBuffer(task.getId());
+        sb.append(" [");
+        sb.append(WEIGHTATTR);
+        sb.append("=");
+        sb.append(task.getCost());
+        sb.append(", ");
+        sb.append(STARTATTR);
+        sb.append("=");
+        sb.append(task.getTimeScheduled());
+        sb.append(", ");
+        sb.append(PROCESSORATTR);
+        sb.append("=");
+        sb.append(task.getProcessor().getId());
+        sb.append("]");
+
+        return sb.toString();
+    }
+
+    private String createEdgeString(TaskNode task, Map.Entry edge) {
+        StringBuffer sb = new StringBuffer(task.getId());
+        sb.append(" -> ");
+        sb.append(edge.getKey());
+        sb.append("[");
+        sb.append(WEIGHTATTR);
+        sb.append("=");
+        sb.append(edge.getKey());
+        sb.append("]");
+        sb.append(System.lineSeparator());
+
+        return sb.toString();
     }
 }
