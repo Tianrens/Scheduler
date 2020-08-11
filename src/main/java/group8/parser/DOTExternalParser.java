@@ -17,14 +17,10 @@ public abstract class DOTExternalParser<T, U> {
     protected FileInputStream getFileInputStream() throws AppConfigException {
         File inputFile = AppConfig.getInstance().get_inputFile();
 
-        if (inputFile == null) {
-            throw new AppConfigException();
-        }
-
         FileInputStream inputStream;
         try {
             inputStream = new FileInputStream(inputFile);
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NullPointerException e) {
             throw new AppConfigException(); // File should exist if AppConfig had been built correctly
         }
 
