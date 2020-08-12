@@ -21,13 +21,13 @@ public interface IDOTDataParser {
      * @param line String to parse
      * @return List of graph data extracted from the input line
      */
-    public List<String> parseStringLine(String line);
+    List<String> parseStringLine(String line);
 
     /**
      * Writes out first param to a specified outfile location.
      * @param filePath This is either specified by the user or the default value is output.dot
      * @param schedule More about the schedule object can be found in the documentation of the class
      */
-    public void parseOutput(String filePath, Schedule schedule);
+    void parseOutput(String filePath, Schedule schedule);
 
 }

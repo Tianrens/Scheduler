@@ -13,18 +13,8 @@ import java.util.Map;
 import static group8.parser.DOTFileConstants.*;
 
 public class DOTDataParser implements IDOTDataParser {
-
-    // Some regex expressions for checking validity of input.
-    private final String _idAcceptLang = "/(\\w)+/g";
-    private final String _graphType = "/(?i)\\b(digraph)\\b/g";
-    private final String _graphNameAcceptLang = "/\"(\\w)+\"/g";
-    private final String _attrAcceptLang = "/(?i)\\b(Weight)\\b/g";
-    private final String _startOfStatements = "{";
-    private final String _endOfStatements = "}";
-
     /**
-     * Accesses against DOT syntax loosely based on GraphViz DOT syntax. This method ASSUMES elements of .dot file to
-     * be separated by ONE whitespace character.
+     * This method ASSUMES elements of .dot file to be separated by ONE whitespace character.
      * @param line String to parse
      * @return List of extracted graph data.
      */
@@ -34,7 +24,7 @@ public class DOTDataParser implements IDOTDataParser {
 
         String[] stringElements = line.split(" ");
 
-        if (line.contains(_startOfStatements)) {
+        if (line.contains("{")) {
             graphData.add(stringElements[1].trim()); // [1] is the name
         } else {
             graphData.addAll(parseNodes(stringElements[0].trim())); // [0] are the nodes
@@ -54,7 +44,7 @@ public class DOTDataParser implements IDOTDataParser {
     public void parseOutput(String filePath, Schedule schedule) {
         File outputFile = AppConfig.getInstance().getOutputFile();
         try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
-            out.write("digraph G {");
+            out.write("digraph output_graph {");
             out.newLine();
             List<TaskNode> taskNodeList  = schedule.getTaskNodeList();
 
