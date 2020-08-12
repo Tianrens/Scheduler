@@ -20,33 +20,9 @@ import static org.junit.Assert.*;
 public class ScheduleTests {
 
 
-
-    private AppConfig _config;
     private String[] _cliInput = {"INPUT.dot", "P", "3"};
     private Graph _graph;
 
-
-    //builds AppConfig, required for oneProcessorScheduler,
-    // however, NOTHING INITIATED HERE SHOULD EFFECT THE TESTS
-    @Before
-    public void buildConfig(){
-        AppConfigBuilder cli = new AppConfigBuilder(_cliInput);
-        try {
-             _config = cli.build();
-        } catch (CLIException e) {
-            e.printStackTrace();
-            String getHelp = "java -jar scheduler.jar INPUT.jar P [OPTION]" + System.lineSeparator()
-                    + "INPUT.dot    a task graph with integer weights in dot format" + System.lineSeparator()
-                    + "P            number of processors to schedule the INPUT graph on" + System.lineSeparator()
-                    + "Optional:" + System.lineSeparator()
-                    + "-p N         use N cores for execution in parallel(default is sequential)" + System.lineSeparator()
-                    + "-v           visualise the search" + System.lineSeparator()
-                    + "-o OUTPUT    output file is named OUTPUT(default is INPUT-output.dot)";
-            System.out.println(e.getMessage() + System.lineSeparator() + getHelp);
-            System.exit(-1);
-            fail();
-        }
-    }
 
     @Before
     public void buildGraph(){
@@ -132,6 +108,8 @@ public class ScheduleTests {
     public void timeScheduledTest(){
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
+
+
     }
 
 }

@@ -54,7 +54,7 @@ public class GraphGenerator implements IGraphGenerator {
         if (graphData.size() == 1) {
             /** Graph name */
         } else if (graphData.size() == 2) {
-            _graph.addNode(new TaskNode(Integer.parseInt(graphData.get(0)), graphData.get(1)));
+            _graph.addNode(new TaskNode(Integer.parseInt(graphData.get(1)), graphData.get(0)));
         } else if (graphData.size() == 3) {
             // The .dot file input can be assumed to be sequential. Therefore all nodes
             // will have been previously initialised before they are referenced as an edge
