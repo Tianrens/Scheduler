@@ -23,6 +23,10 @@ public class CLITests {
         new File("inputFileTest.dot").delete();
     }
 
+    /**
+     * Basic test provided by Tianren to check if all options work
+     * @throws CLIException
+     */
     @Test
     public void SimpleCommandLineArguments() throws CLIException {
         String[] args = new String[] {"inputFileTest.dot", "4", "-p", "8", "-v", "-o", "someOUTputDOTFile.dot"};
@@ -37,6 +41,10 @@ public class CLITests {
 
     }
 
+    /**
+     * Basic test provided by Tianren to check if default command call works
+     * @throws CLIException
+     */
     @Test
     public void DefaultCommandLineArguments() throws CLIException {
         String[] args = new String[] {"inputFileTest.dot", "4"};
@@ -48,6 +56,23 @@ public class CLITests {
         assertEquals(1, config.get_numCores());
         assertEquals(false, config.is_visualise());
         assertEquals("inputFileTest-output.dot", config.get_outputFile().toString());
+
+    }
+
+    /**
+     * Test if only first of two numbers is selected
+     * @throws CLIException
+     */
+    @Test
+    public void doubleInputtedArguments() throws CLIException {
+        String[] args = new String[] {"inputFileTest.dot", "4", "-p", "8", "9", "-o", "someOUTputDOTFile.dot", "testOut.dot"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        AppConfig config = cli.build();
+
+        assertEquals("inputFileTest.dot", config.get_inputFile().toString());
+        assertEquals(4, config.get_numProcessors());
+        assertEquals(8, config.get_numCores());
+        assertEquals("someOUTputDOTFile.dot", config.get_outputFile().toString());
 
     }
 
