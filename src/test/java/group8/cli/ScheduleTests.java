@@ -99,7 +99,7 @@ public class ScheduleTests {
 
         List<TaskNode> taskNodeList = schedule.getTaskNodeList();
         for (TaskNode tn : taskNodeList){
-            assertEquals("0",tn.getProcessor().getId());
+            assertEquals(0,tn.getProcessor().getId());
         }
 
     }
