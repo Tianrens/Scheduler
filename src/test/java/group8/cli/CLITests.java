@@ -33,11 +33,11 @@ public class CLITests {
         AppConfigBuilder cli = new AppConfigBuilder(args);
         AppConfig config = cli.build();
 
-        assertEquals("inputFileTest.dot", config.get_inputFile().toString());
-        assertEquals(4, config.get_numProcessors());
-        assertEquals(8, config.get_numCores());
-        assertEquals(true, config.is_visualise());
-        assertEquals("someOUTputDOTFile.dot", config.get_outputFile().toString());
+        assertEquals("inputFileTest.dot", config.getInputFile().toString());
+        assertEquals(4, config.getNumProcessors());
+        assertEquals(8, config.getNumCores());
+        assertEquals(true, config.isVisualise());
+        assertEquals("someOUTputDOTFile.dot", config.getOutputFile().toString());
 
     }
 
@@ -51,11 +51,11 @@ public class CLITests {
         AppConfigBuilder cli = new AppConfigBuilder(args);
         AppConfig config = cli.build();
 
-        assertEquals("inputFileTest.dot" ,config.get_inputFile().toString());
-        assertEquals(4, config.get_numProcessors());
-        assertEquals(1, config.get_numCores());
-        assertEquals(false, config.is_visualise());
-        assertEquals("inputFileTest-output.dot", config.get_outputFile().toString());
+        assertEquals("inputFileTest.dot" ,config.getInputFile().toString());
+        assertEquals(4, config.getNumProcessors());
+        assertEquals(1, config.getNumCores());
+        assertEquals(false, config.isVisualise());
+        assertEquals("inputFileTest-output.dot", config.getOutputFile().toString());
 
     }
 
@@ -69,10 +69,10 @@ public class CLITests {
         AppConfigBuilder cli = new AppConfigBuilder(args);
         AppConfig config = cli.build();
 
-        assertEquals("inputFileTest.dot", config.get_inputFile().toString());
-        assertEquals(4, config.get_numProcessors());
-        assertEquals(8, config.get_numCores());
-        assertEquals("someOUTputDOTFile.dot", config.get_outputFile().toString());
+        assertEquals("inputFileTest.dot", config.getInputFile().toString());
+        assertEquals(4, config.getNumProcessors());
+        assertEquals(8, config.getNumCores());
+        assertEquals("someOUTputDOTFile.dot", config.getOutputFile().toString());
 
     }
 
@@ -85,11 +85,11 @@ public class CLITests {
         AppConfigBuilder cli = new AppConfigBuilder(args);
         AppConfig config = cli.build();
 
-        assertEquals("inputFileTest.dot", config.get_inputFile().toString());
-        assertEquals(7, config.get_numProcessors());
-        assertEquals(5, config.get_numCores());
-        assertEquals(true, config.is_visualise());
-        assertEquals("someOUTputDOTFile.dot", config.get_outputFile().toString());
+        assertEquals("inputFileTest.dot", config.getInputFile().toString());
+        assertEquals(7, config.getNumProcessors());
+        assertEquals(5, config.getNumCores());
+        assertEquals(true, config.isVisualise());
+        assertEquals("someOUTputDOTFile.dot", config.getOutputFile().toString());
     }
 
     /**
@@ -101,11 +101,11 @@ public class CLITests {
         AppConfigBuilder cli = new AppConfigBuilder(args);
         AppConfig config = cli.build();
 
-        assertEquals("inputFileTest.dot" ,config.get_inputFile().toString());
-        assertEquals(4, config.get_numProcessors());
-        assertEquals(8, config.get_numCores());
-        assertEquals(true, config.is_visualise());
-        assertEquals("inputFileTest-output.dot", config.get_outputFile().toString());
+        assertEquals("inputFileTest.dot" ,config.getInputFile().toString());
+        assertEquals(4, config.getNumProcessors());
+        assertEquals(8, config.getNumCores());
+        assertEquals(true, config.isVisualise());
+        assertEquals("inputFileTest-output.dot", config.getOutputFile().toString());
     }
 
 
