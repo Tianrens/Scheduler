@@ -12,6 +12,9 @@ import java.util.Map;
 
 import static group8.parser.DOTFileConstants.*;
 
+/**
+ * Parses string inputs via DOT lang to retrieve data via our own implementation, and also generate back an output file.
+ */
 public class DOTDataParser implements IDOTDataParser {
     /**
      * This method ASSUMES elements of .dot file to be separated by ONE whitespace character.
@@ -62,8 +65,7 @@ public class DOTDataParser implements IDOTDataParser {
                 }
             }
 
-            //all edges are written out to the dot file
-            out.write(edgeList);
+            out.write(edgeList); // All edges are written out to the dot file
             out.write("}");
         } catch (Exception e) {
             e.printStackTrace();

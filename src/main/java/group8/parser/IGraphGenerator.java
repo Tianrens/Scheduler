@@ -5,5 +5,9 @@ import group8.models.Graph;
 
 public interface IGraphGenerator {
 
+    /**
+     * @return Graph object
+     * @throws AppConfigException
+     */
     Graph generate() throws AppConfigException;
 }

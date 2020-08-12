@@ -7,6 +7,9 @@ import group8.models.TaskNode;
 import java.util.Map;
 import static group8.parser.DOTFileConstants.*;
 
+/**
+ * This generates a graph using an {@link DOTExternalParser}.
+ */
 public class GraphExternalParserGenerator implements IGraphGenerator {
     DOTExternalParser _parser;
 

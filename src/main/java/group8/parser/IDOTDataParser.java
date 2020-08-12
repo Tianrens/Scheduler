@@ -4,6 +4,9 @@ import group8.models.Schedule;
 
 import java.util.List;
 
+/**
+ * Generate classes of our own implementation on parsing the input file / vise versa to generate the output file.
+ */
 public interface IDOTDataParser {
 
     /**
