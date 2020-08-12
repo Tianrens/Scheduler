@@ -123,7 +123,7 @@ public class CLITests {
             AppConfig config = cli.build();
             fail("Exception should be thrown due to null input");
         } catch (CLIException e) {
-            assertEquals("CMD is null",e.getMessage());
+            assertEquals("You must specify a path to the .dot file and the number of processors to use.",e.getMessage());
         }
     }
 
@@ -254,7 +254,7 @@ public class CLITests {
             AppConfig config = cli.build();
             fail("Can't have no processes, exception should be thrown");
         } catch (CLIException e) {
-            assertEquals("Invalid number of processors argument.",e.getMessage());
+            assertEquals("Number of processors cannot be less than 1.",e.getMessage());
         }
     }
 
@@ -269,7 +269,7 @@ public class CLITests {
             AppConfig config = cli.build();
             fail("Can't have negative number of processes, exception should be thrown");
         } catch (CLIException e) {
-            assertEquals("Number of processors cannot be less than 0.",e.getMessage());
+            assertEquals("Number of processors cannot be less than 1.",e.getMessage());
         }
     }
 
