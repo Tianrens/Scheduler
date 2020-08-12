@@ -92,6 +92,9 @@ public class ScheduleTests {
 
     }
 
+    /**
+     * tests that all processors are on the single process
+     */
     @Test
     public void OneProcessorTest(){
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
@@ -104,11 +107,22 @@ public class ScheduleTests {
 
     }
 
+    /**
+     * test the correct start times are calculated
+     */
     @Test
     public void timeScheduledTest(){
-        //IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
-        //Schedule schedule = scheduler.generateValidSchedule(_graph);
+        IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
+        Schedule schedule = scheduler.generateValidSchedule(_graph);
 
+        List<TaskNode> list = schedule.getTaskNodeList();
+        int cost = 0;
+        char node = 'a';
+
+        for(int i = 0 ; i < list.size() ; i++){
+            assertEquals(cost,list.get(i).getTimeScheduled());
+            cost+= list.get(i).getCost();
+        }
 
     }
 
