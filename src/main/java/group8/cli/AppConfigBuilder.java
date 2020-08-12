@@ -3,6 +3,7 @@ package group8.cli;
 import org.apache.commons.cli.*;
 
 import java.io.File;
+import java.util.Arrays;
 
 import static group8.cli.CLIConstants.*;
 
@@ -76,7 +77,6 @@ public class AppConfigBuilder {
         File file = new File(filePath);
         if (!isDOTExtension(file)) {
             throw new CLIException("Invalid file format, file must be a '.dot' file.");
-
         }
         if (!file.exists()) {
             throw new CLIException("File not found. Please check the path specified.");
@@ -126,8 +126,8 @@ public class AppConfigBuilder {
         } catch (NumberFormatException e) {
             throw new CLIException("Invalid number of processors argument.");
         }
-        if (numProcessors < 0) {
-            throw new CLIException("Number of processors cannot be less than 0.");
+        if (numProcessors < 1) {
+            throw new CLIException("Number of processors cannot be less than 1.");
         }
 
         return numProcessors;
