@@ -11,7 +11,10 @@ public class Schedule {
 
     private List<Processor> _processorList = new ArrayList<Processor>();
     private List<TaskNode> _taskNodeList;
-    private List<TaskNode> _unassignedTaskList;
+    /**
+     * _unassignedTaskList is problematic because we cannot loop through an array and edit at the same time, hard to loop and schedule tasks
+     */
+    //private List<TaskNode> _unassignedTaskList;
     private List<TaskNode> _assignedTaskList;
 
     /**
@@ -25,7 +28,7 @@ public class Schedule {
             Processor processor = new Processor(i);
             _processorList.add(processor);
         }
-        _unassignedTaskList = new ArrayList<>();
+        //_unassignedTaskList = new ArrayList<>();
         _assignedTaskList = new ArrayList<>();
     }
 
@@ -43,7 +46,7 @@ public class Schedule {
      * @param taskList
      */
     public void setUnassignedTaskList(List<TaskNode> taskList) {
-        _unassignedTaskList = taskList;
+        //_unassignedTaskList = taskList;
         _taskNodeList = taskList;
     }
 
@@ -61,7 +64,7 @@ public class Schedule {
 
         processor.addTask(task, timeScheduled);
 
-        _unassignedTaskList.remove(task);
+        //_unassignedTaskList.remove(task);
         _assignedTaskList.add(task);
     }
 }

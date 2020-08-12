@@ -106,8 +106,8 @@ public class ScheduleTests {
 
     @Test
     public void timeScheduledTest(){
-        IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
-        Schedule schedule = scheduler.generateValidSchedule(_graph);
+        //IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
+        //Schedule schedule = scheduler.generateValidSchedule(_graph);
 
 
     }
