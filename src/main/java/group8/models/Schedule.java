@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Schedule {
 
-    private List<Processor> _processorList;
+    private List<Processor> _processorList = new ArrayList<Processor>();
     private List<TaskNode> _taskNodeList;
     private List<TaskNode> _unassignedTaskList;
     private List<TaskNode> _assignedTaskList;
