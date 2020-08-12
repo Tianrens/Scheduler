@@ -135,7 +135,7 @@ gradle-app.setting
 **/build/
 
 ### Ignore test graph inputs ###
-*.gv
-*.dot
+.gv
+.dot
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij+all
