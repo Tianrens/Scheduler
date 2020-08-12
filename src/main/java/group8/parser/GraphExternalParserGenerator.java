@@ -30,9 +30,10 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         for (String nodeId : nodes.keySet()) {
             GraphNode node = nodes.get(nodeId);
 
-            Integer weight = (Integer) node.getAttribute(WEIGHTATTR);
+            Integer weight = Integer.parseInt((String) node.getAttribute(WEIGHTATTR));
 
-            graph.addNode(new TaskNode(weight, nodeId));
+            TaskNode newNode = new TaskNode(weight, nodeId);
+            graph.addNode(newNode);
         }
     }
 
@@ -41,8 +42,8 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
             GraphEdge edge = edges.get(edgeId);
 
             TaskNode src = graph.getNode(edge.getNode1().getId());
-            TaskNode dst = graph.getNode(edge.getNode1().getId());
-            Integer weight = (Integer) edge.getAttribute(WEIGHTATTR);
+            TaskNode dst = graph.getNode(edge.getNode2().getId());
+            Integer weight = Integer.parseInt((String) edge.getAttribute(WEIGHTATTR));
 
             src.addDestination(dst, weight);
             dst.addParentNode(src);

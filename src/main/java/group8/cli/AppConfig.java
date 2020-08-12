@@ -35,23 +35,23 @@ public class AppConfig {
         return output;
     }
 
-    protected void setInputFile(File file) {
+    public void setInputFile(File file) {
         _inputFile = file;
     }
 
-    protected void setNumProcessors(int numProcessors) {
+    public void setNumProcessors(int numProcessors) {
         _numProcessors = numProcessors;
     }
 
-    protected void setNumCores(int numCores) {
+    public void setNumCores(int numCores) {
         _numCores = numCores;
     }
 
-    protected void setVisualise(boolean visualise) {
+    public void setVisualise(boolean visualise) {
         _visualise = visualise;
     }
 
-    protected void setOutputFile(File file) {
+    public void setOutputFile(File file) {
         _outputFile = file;
     }
 
