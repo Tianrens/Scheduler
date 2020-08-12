@@ -20,13 +20,8 @@ public class OneProcessorScheduler implements IScheduler {
     @Override
     public Schedule generateValidSchedule(Graph graph) {
         List<TaskNode> topology = _topologyFinder.generateTopology(graph);
-        int numProcessors = AppConfig.getInstance().getNumProcessors();
 
-        if (numProcessors == 0) {
-            return null;
-        }
-
-        Schedule schedule = new Schedule(numProcessors);
+        Schedule schedule = new Schedule(1);
         schedule.setUnassignedTaskList(topology);
 
         scheduleTopology(schedule, topology);
