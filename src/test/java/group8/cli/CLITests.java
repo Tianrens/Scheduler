@@ -76,6 +76,40 @@ public class CLITests {
 
     }
 
+    /**
+     * Test to see if AppConfig is successfully built despite different options ordering
+     */
+    @Test
+    public void disorderedOptionsTest() throws CLIException {
+        String[] args = new String[] {"inputFileTest.dot", "7", "-v", "-o", "someOUTputDOTFile.dot", "-p", "5"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        AppConfig config = cli.build();
+
+        assertEquals("inputFileTest.dot", config.get_inputFile().toString());
+        assertEquals(7, config.get_numProcessors());
+        assertEquals(5, config.get_numCores());
+        assertEquals(true, config.is_visualise());
+        assertEquals("someOUTputDOTFile.dot", config.get_outputFile().toString());
+    }
+
+    /**
+     * Test to see if command line only takes first instance of options
+     */
+    @Test
+    public void repeatedOptionsTest() throws CLIException {
+        String[] args = new String[] {"inputFileTest.dot", "4", "-p", "8", "-v", "-p", "5", "-v"};
+        AppConfigBuilder cli = new AppConfigBuilder(args);
+        AppConfig config = cli.build();
+
+        assertEquals("inputFileTest.dot" ,config.get_inputFile().toString());
+        assertEquals(4, config.get_numProcessors());
+        assertEquals(8, config.get_numCores());
+        assertEquals(true, config.is_visualise());
+        assertEquals("inputFileTest-output.dot", config.get_outputFile().toString());
+    }
+
+
+
     //========================= Exception Throw Tests =========================================
 
     //----------------------- General Input exception tests --------------------------------
@@ -123,21 +157,6 @@ public class CLITests {
         }
     }
 
-    /**
-     * Test to see if AppConfig is successfully built despite different options ordering
-     */
-    @Test
-    public void disorderedOptionsTest() throws CLIException {
-        String[] args = new String[] {"inputFileTest.dot", "7", "-v", "-o", "someOUTputDOTFile.dot", "-p", "5"};
-        AppConfigBuilder cli = new AppConfigBuilder(args);
-        AppConfig config = cli.build();
-
-        assertEquals("inputFileTest.dot", config.get_inputFile().toString());
-        assertEquals(7, config.get_numProcessors());
-        assertEquals(5, config.get_numCores());
-        assertEquals(true, config.is_visualise());
-        assertEquals("someOUTputDOTFile.dot", config.get_outputFile().toString());
-    }
 
     /**
      * Test to see if correct exception is thrown when non-existent options are inputted
@@ -153,6 +172,7 @@ public class CLITests {
             assertEquals("Invalid Syntax.",e.getMessage());
         }
     }
+
 
     //------------------- File input exception tests ----------------------------------------------
 
