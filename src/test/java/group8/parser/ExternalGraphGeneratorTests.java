@@ -31,6 +31,12 @@ public class ExternalGraphGeneratorTests {
         GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
         Graph inputGraph = graphGenerator.generate();
         List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+        for (TaskNode node : arr) {
+            System.out.println(node.getId()+node.getCost());
 
+            for (TaskNode edges : node.getEdgeList().keySet()) {
+                System.out.println(edges.getId());
+            }
+        }
     }
 }

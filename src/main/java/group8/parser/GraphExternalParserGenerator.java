@@ -42,7 +42,7 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
             GraphEdge edge = edges.get(edgeId);
 
             TaskNode src = graph.getNode(edge.getNode1().getId());
-            TaskNode dst = graph.getNode(edge.getNode1().getId());
+            TaskNode dst = graph.getNode(edge.getNode2().getId());
             Integer weight = Integer.parseInt((String) edge.getAttribute(WEIGHTATTR));
 
             src.addDestination(dst, weight);
