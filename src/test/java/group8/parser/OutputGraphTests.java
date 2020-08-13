@@ -1,6 +1,10 @@
 package group8.parser;
 
-import group8.models.Graph;
+import group8.models.Processor;
+import group8.models.Schedule;
+import group8.models.TaskNode;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -8,26 +12,51 @@ import static org.junit.Assert.fail;
 
 public class OutputGraphTests {
     IDOTDataParser _dataParser;
-    Graph graph;
-    Graph noEdgesGraph;
-    Graph emptyGraph;
+    GraphGenerator _graphGenerator;
+    Schedule _schedule;
+    Schedule _noEdgesSchedule;
+    Schedule _emptySchedule;
 
     @Before
     public void setUpParser() {
         _dataParser = new DOTDataParser();
-        emptyGraph = new Graph();
-        noEdgesGraph = new Graph();
-        graph = new Graph();
+        _graphGenerator = new GraphGenerator(_dataParser);
+
+        _emptySchedule = new Schedule(0);
     }
 
     @Before
-    public void generateGraph() {
+    public void generateSchedule() {
+        _schedule = new Schedule(2);
 
+        TaskNode a = new TaskNode(2, "a");
+        TaskNode b = new TaskNode(3, "b");
+        TaskNode c = new TaskNode(2, "c");
+        TaskNode d = new TaskNode(1, "d");
+        TaskNode e = new TaskNode(10, "e");
+
+        a.addDestination(b, 4);
+        a.addDestination(c, 5);
+        c.addDestination(e, 1);
+        b.addDestination(d, 6);
+        d.addDestination(e, 1);
+
+        List<Processor> processors = _schedule.getProcessors();
+
+        _schedule.scheduleTask(processors.get(0), a, 0);
+        _schedule.scheduleTask(processors.get(0), b, 2);
+        _schedule.scheduleTask(processors.get(0), c, 4);
+        _schedule.scheduleTask(processors.get(0), d, 7);
+        _schedule.scheduleTask(processors.get(1), e, 9);
     }
 
     @Before
-    public void generateNoEdgesGraph() {
+    public void generateNoEdgesSchedule() {
+        _noEdgesSchedule = new Schedule(1);
+        TaskNode a = new TaskNode(2, "a");
 
+        List<Processor> processors = _noEdgesSchedule.getProcessors();
+        _noEdgesSchedule.scheduleTask(processors.get(0), a, 0);
     }
 
     @Test
