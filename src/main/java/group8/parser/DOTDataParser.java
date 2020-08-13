@@ -40,10 +40,11 @@ public class DOTDataParser implements IDOTDataParser {
     /**
      * This function is responsible for parsing the valid schedule as a dot file output
      * This function prints out all Nodes first, then edges are printed out to the dot file
+     * @param filePath This is either specified by the user or the default value is output.dot
      * @param schedule More about the schedule sobject can be found in the documentation of the class
      */
     @Override
-    public void parseOutput(Schedule schedule) {
+    public void parseOutput(String filePath, Schedule schedule) {
         File outputFile = AppConfig.getInstance().getOutputFile();
         try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
             out.write("digraph output_graph {");

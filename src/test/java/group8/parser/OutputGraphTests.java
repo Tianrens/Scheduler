@@ -124,5 +124,6 @@ public class OutputGraphTests {
 
     @Test
     public void EmptyScheduleTest() {
+        _dataParser.parseOutput(_emptySchedule);
     }
 }
