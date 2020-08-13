@@ -269,7 +269,7 @@ public class CLITests {
             AppConfig config = cli.build();
             fail("Can't have negative number of processes, exception should be thrown");
         } catch (CLIException e) {
-            assertEquals("Number of processors cannot be less than 1.",e.getMessage());
+            assertEquals("Invalid Syntax.",e.getMessage());
         }
     }
 
@@ -342,7 +342,7 @@ public class CLITests {
     public void existingOutputFile() throws IOException, CLIException {
         File testFile = new File("outputTest.dot");
         testFile.createNewFile();
-        String[] args = new String[] {"inputfiletest.dot", "2", "-o", "outputTest.dot"};
+        String[] args = new String[] {"inputFileTest.dot", "2", "-o", "outputTest.dot"};
         AppConfigBuilder cli = new AppConfigBuilder(args);
         AppConfig config = cli.build();
 
