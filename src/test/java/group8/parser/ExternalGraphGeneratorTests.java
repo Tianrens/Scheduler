@@ -188,4 +188,38 @@ public class ExternalGraphGeneratorTests {
 
         assertEquals(expectedOutput, output);
     }
+
+    @Test
+    public void EdgeBeforeNodeGraph() {
+        Set<String> expectedOutput = new HashSet<>(Arrays.asList(
+                "node a 2",
+                "node b 3",
+                "edge a b 1"
+        ));
+        File inputFile = new File(this.getClass().getResource("EdgeBeforeNodeGraph.dot").getPath());
+        AppConfig config = AppConfig.getInstance();
+        config.setInputFile(inputFile);
+
+        DOTPaypalParser parser = null;
+        try {
+            parser = new DOTPaypalParser();
+            parser.getFileInputStream();
+        } catch (AppConfigException e) {
+            fail();
+        }
+        GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
+        Graph inputGraph = graphGenerator.generate();
+        List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+
+        Set<String> output = new HashSet<>();
+        for (TaskNode node : arr) {
+            output.add("node " + node.getId() + " " + node.getCost());
+
+            for (TaskNode edge : node.getEdgeList().keySet()) {
+                output.add("edge " + node.getId() + " " + edge.getId() + " " + node.getEdgeList().get(edge));
+            }
+        }
+
+        assertEquals(expectedOutput, output);
+    }
 }
