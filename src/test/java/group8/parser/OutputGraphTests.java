@@ -88,16 +88,16 @@ public class OutputGraphTests {
     public void setUpExpectedSchedules() {
         _expectedSchedule = new ArrayList<>() {{
             add("digraph output_graph {");
-            add("\ta [Weight=2, Start=0, Processor=0];");
-            add("\tc [Weight=2, Start=2, Processor=0];");
-            add("\tb [Weight=3, Start=4, Processor=0];");
-            add("\td [Weight=1, Start=7, Processor=0];");
-            add("\te [Weight=10], Start=9, Processor=1];");
-            add("\ta->b [Weight=4];");
-            add("\ta->c [Weight=5];");
-            add("\tc->e [Weight=1];");
-            add("\tb->d [Weight=6];");
-            add("\td->e [Weight=1];");
+            add("a [Weight=2, Start=0, Processor=0];");
+            add("c [Weight=2, Start=2, Processor=0];");
+            add("b [Weight=3, Start=4, Processor=0];");
+            add("d [Weight=1, Start=7, Processor=0];");
+            add("e [Weight=10], Start=9, Processor=1];");
+            add("a->b [Weight=4];");
+            add("a->c [Weight=5];");
+            add("c->e [Weight=1];");
+            add("b->d [Weight=6];");
+            add("d->e [Weight=1];");
             add("}");
         }};
 
