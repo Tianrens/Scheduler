@@ -10,7 +10,7 @@ import java.util.List;
 public class Schedule {
 
     private List<Processor> _processorList = new ArrayList<Processor>();
-    private List<TaskNode> _taskNodeList;
+    private List<TaskNode> _taskNodeList = new ArrayList<>();
     /**
      * _unassignedTaskList is problematic because we cannot loop through an array and edit at the same time, hard to loop and schedule tasks
      */

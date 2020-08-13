@@ -12,19 +12,12 @@ import java.util.Map;
 
 import static group8.parser.DOTFileConstants.*;
 
+/**
+ * Parses string inputs via DOT lang to retrieve data via our own implementation, and also generate back an output file.
+ */
 public class DOTDataParser implements IDOTDataParser {
-
-    // Some regex expressions for checking validity of input.
-    private final String _idAcceptLang = "/(\\w)+/g";
-    private final String _graphType = "/(?i)\\b(digraph)\\b/g";
-    private final String _graphNameAcceptLang = "/\"(\\w)+\"/g";
-    private final String _attrAcceptLang = "/(?i)\\b(Weight)\\b/g";
-    private final String _startOfStatements = "{";
-    private final String _endOfStatements = "}";
-
     /**
-     * Accesses against DOT syntax loosely based on GraphViz DOT syntax. This method ASSUMES elements of .dot file to
-     * be separated by ONE whitespace character.
+     * This method ASSUMES elements of .dot file to be separated by ONE whitespace character.
      * @param line String to parse
      * @return List of extracted graph data.
      */
@@ -34,7 +27,7 @@ public class DOTDataParser implements IDOTDataParser {
 
         String[] stringElements = line.split(" ");
 
-        if (line.contains(_startOfStatements)) {
+        if (line.contains("{")) {
             graphData.add(stringElements[1].trim()); // [1] is the name
         } else {
             graphData.addAll(parseNodes(stringElements[0].trim())); // [0] are the nodes
@@ -52,9 +45,14 @@ public class DOTDataParser implements IDOTDataParser {
      */
     @Override
     public void parseOutput(String filePath, Schedule schedule) {
-        File outputFile = AppConfig.getInstance().getOutputFile();
+        File outputFile;
+        if (filePath.isEmpty()) {
+            outputFile = AppConfig.getInstance().getOutputFile();
+        } else {
+            outputFile = new File(filePath);
+        }
         try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
-            out.write("digraph G {");
+            out.write("digraph output_graph {");
             out.newLine();
             List<TaskNode> taskNodeList  = schedule.getTaskNodeList();
 
@@ -67,13 +65,12 @@ public class DOTDataParser implements IDOTDataParser {
                 out.write(createNodeString(task)); // This prints out all nodes their weights, processor and start time
                 out.newLine();
 
-                for (Map.Entry edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+                for (Map.Entry<TaskNode, Integer> edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
                     edgeList += createEdgeString(task, edge);
                 }
             }
 
-            //all edges are written out to the dot file
-            out.write(edgeList);
+            out.write(edgeList); // All edges are written out to the dot file
             out.write("}");
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,20 +124,20 @@ public class DOTDataParser implements IDOTDataParser {
         sb.append(PROCESSORATTR);
         sb.append("=");
         sb.append(task.getProcessor().getId());
-        sb.append("]");
+        sb.append("];");
 
         return sb.toString();
     }
 
-    private String createEdgeString(TaskNode task, Map.Entry edge) {
+    private String createEdgeString(TaskNode task, Map.Entry<TaskNode, Integer> edge) {
         StringBuffer sb = new StringBuffer(task.getId());
-        sb.append(" -> ");
-        sb.append(edge.getKey());
-        sb.append("[");
+        sb.append("->");
+        sb.append(edge.getKey().getId());
+        sb.append(" [");
         sb.append(WEIGHTATTR);
         sb.append("=");
-        sb.append(edge.getKey());
-        sb.append("]");
+        sb.append(edge.getValue().toString());
+        sb.append("];");
         sb.append(System.lineSeparator());
 
         return sb.toString();

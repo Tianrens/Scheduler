@@ -8,6 +8,10 @@ import group8.models.TaskNode;
 import java.io.*;
 import java.util.List;
 
+/**
+ * GraphGenerator has other methods that are mostly used for testing. It generates a graph via
+ * our own implementation of a parser {@link IDOTDataParser}.
+ */
 public class GraphGenerator implements IGraphGenerator {
     private final IDOTDataParser _dotParser;
     private Graph _graph = new Graph();

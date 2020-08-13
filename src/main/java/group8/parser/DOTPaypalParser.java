@@ -8,6 +8,11 @@ import group8.cli.AppConfigException;
 import java.io.FileInputStream;
 import java.util.Map;
 
+/**
+ * An intermediary between the external Paypay DOT parser and our code base. On construction, takes in an inputstream
+ * provided by the parent class {@link DOTExternalParser}. This external parser does not have any methods for generating
+ * a DOT file back.
+ */
 public class DOTPaypalParser extends DOTExternalParser<GraphNode, GraphEdge> {
     GraphParser _parser;
 
