@@ -26,6 +26,8 @@ public class OneProcessorScheduler implements IScheduler {
 
         scheduleTopology(schedule, topology);
 
+        System.out.println("Schedule generated");
+
         return schedule;
     }
 
