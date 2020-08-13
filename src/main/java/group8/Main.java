@@ -28,6 +28,8 @@ public class Main {
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         DOTDataParser outputBuilder = new DOTDataParser();
         outputBuilder.parseOutput("",schedule);
+
+
     }
 
     private static AppConfig buildAppConfig(String[] args) {
@@ -35,7 +37,7 @@ public class Main {
         try {
             return cli.build();
         } catch (CLIException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             String getHelp = "java -jar scheduler.jar INPUT.jar P [OPTION]" + System.lineSeparator()
                     + "INPUT.dot    a task graph with integer weights in dot format" + System.lineSeparator()
                     + "P            number of processors to schedule the INPUT graph on" + System.lineSeparator()
