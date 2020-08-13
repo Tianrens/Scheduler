@@ -3,6 +3,8 @@ package group8.parser;
 import group8.models.Processor;
 import group8.models.Schedule;
 import group8.models.TaskNode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -41,6 +43,14 @@ public class OutputGraphTests {
         b.addDestination(d, 6);
         d.addDestination(e, 1);
 
+        List<TaskNode> topology = new ArrayList<>();
+        topology.add(a);
+        topology.add(c);
+        topology.add(b);
+        topology.add(d);
+        topology.add(e);
+        _schedule.setUnassignedTaskList(topology);
+
         List<Processor> processors = _schedule.getProcessors();
 
         _schedule.scheduleTask(processors.get(0), a, 0);
@@ -54,6 +64,10 @@ public class OutputGraphTests {
     public void generateNoEdgesSchedule() {
         _noEdgesSchedule = new Schedule(1);
         TaskNode a = new TaskNode(2, "a");
+
+        List<TaskNode> topology = new ArrayList<>();
+        topology.add(a);
+        _noEdgesSchedule.setUnassignedTaskList(topology);
 
         List<Processor> processors = _noEdgesSchedule.getProcessors();
         _noEdgesSchedule.scheduleTask(processors.get(0), a, 0);
