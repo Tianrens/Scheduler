@@ -5,7 +5,6 @@ import group8.models.Schedule;
 import group8.models.TaskNode;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class OutputGraphTests {
@@ -114,15 +112,12 @@ public class OutputGraphTests {
     }
 
     @Test
-    public void ValidOutputDOTSyntaxTest() {
+    public void NormalScheduleTest() {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         _dataParser.parseOutput(pathOfOutputTestSchedule, _schedule);
-    }
 
-    @Test
-    public void OutputDOTFileMatchScheduleTest() {
-        String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
-        _dataParser.parseOutput(pathOfOutputTestSchedule, _schedule);
+        checkExpectedVsActual(_expectedSchedule);
+
     }
 
     @Test
@@ -130,15 +125,7 @@ public class OutputGraphTests {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         _dataParser.parseOutput(pathOfOutputTestSchedule, _noEdgesSchedule);
 
-        List<String> actual = readActualOutputSchedule();
-
-        for (String expected : _expectedNoEdgesSchedule) {
-            if (actual.contains(expected)) {
-                continue;
-            } else {
-                fail();
-            }
-        }
+        checkExpectedVsActual(_expectedNoEdgesSchedule);
     }
 
     @Test
@@ -146,18 +133,27 @@ public class OutputGraphTests {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         _dataParser.parseOutput(pathOfOutputTestSchedule, _emptySchedule);
 
+        checkExpectedVsActual(_expectedEmptySchedule);
+    }
+
+    private void checkExpectedVsActual(List<String> expectedList) {
         List<String> actual = readActualOutputSchedule();
 
-        for (String expected : _expectedEmptySchedule) {
+        for (String expected : expectedList) {
             if (actual.contains(expected)) {
+                actual.remove(expected);
                 continue;
             } else {
                 fail();
             }
         }
+
+        if (! actual.isEmpty()) { // Fail if there are extra components that are NOT expected.
+            fail();
+        }
     }
 
-    public List<String> readActualOutputSchedule() {
+    private List<String> readActualOutputSchedule() {
         List<String> output = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(this.getClass().getResource(_actualOutputSchedule).getFile()))) {
