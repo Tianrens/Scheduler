@@ -84,7 +84,7 @@ public class OutputGraphTests {
 
     @Before
     public void setUpExpectedSchedules() {
-        _expectedSchedule = new ArrayList<>() {{
+        _expectedSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
             add("a [Weight=2, Start=0, Processor=0];");
             add("c [Weight=2, Start=2, Processor=0];");
@@ -99,13 +99,13 @@ public class OutputGraphTests {
             add("}");
         }};
 
-        _expectedNoEdgesSchedule = new ArrayList<>() {{
+        _expectedNoEdgesSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
             add("a [Weight=2, Start=0, Processor=0];");
             add("}");
         }};
 
-        _expectedEmptySchedule = new ArrayList<>() {{
+        _expectedEmptySchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
             add("}");
         }};
