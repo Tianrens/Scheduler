@@ -63,8 +63,8 @@ public class OutputGraphTests {
         List<Processor> processors = _schedule.getProcessors();
 
         _schedule.scheduleTask(processors.get(0), a, 0);
-        _schedule.scheduleTask(processors.get(0), b, 2);
-        _schedule.scheduleTask(processors.get(0), c, 4);
+        _schedule.scheduleTask(processors.get(0), c, 2);
+        _schedule.scheduleTask(processors.get(0), b, 4);
         _schedule.scheduleTask(processors.get(0), d, 7);
         _schedule.scheduleTask(processors.get(1), e, 9);
     }
@@ -90,7 +90,7 @@ public class OutputGraphTests {
             add("c [Weight=2, Start=2, Processor=0];");
             add("b [Weight=3, Start=4, Processor=0];");
             add("d [Weight=1, Start=7, Processor=0];");
-            add("e [Weight=10], Start=9, Processor=1];");
+            add("e [Weight=10, Start=9, Processor=1];");
             add("a->b [Weight=4];");
             add("a->c [Weight=5];");
             add("c->e [Weight=1];");

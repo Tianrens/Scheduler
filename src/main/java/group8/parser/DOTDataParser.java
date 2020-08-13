@@ -65,7 +65,7 @@ public class DOTDataParser implements IDOTDataParser {
                 out.write(createNodeString(task)); // This prints out all nodes their weights, processor and start time
                 out.newLine();
 
-                for (Map.Entry edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+                for (Map.Entry<TaskNode, Integer> edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
                     edgeList += createEdgeString(task, edge);
                 }
             }
@@ -129,14 +129,14 @@ public class DOTDataParser implements IDOTDataParser {
         return sb.toString();
     }
 
-    private String createEdgeString(TaskNode task, Map.Entry edge) {
+    private String createEdgeString(TaskNode task, Map.Entry<TaskNode, Integer> edge) {
         StringBuffer sb = new StringBuffer(task.getId());
-        sb.append(" -> ");
-        sb.append(edge.getKey());
-        sb.append("[");
+        sb.append("->");
+        sb.append(edge.getKey().getId());
+        sb.append(" [");
         sb.append(WEIGHTATTR);
         sb.append("=");
-        sb.append(edge.getKey());
+        sb.append(edge.getValue().toString());
         sb.append("];");
         sb.append(System.lineSeparator());
 
