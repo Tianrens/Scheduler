@@ -103,7 +103,7 @@ public class OutputGraphTests {
 
         _expectedNoEdgesSchedule = new ArrayList<>() {{
             add("digraph output_graph {");
-            add("\ta [Weight=2, Start=0, Processor=0];");
+            add("a [Weight=2, Start=0, Processor=0];");
             add("}");
         }};
 

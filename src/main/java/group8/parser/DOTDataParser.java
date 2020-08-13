@@ -124,7 +124,7 @@ public class DOTDataParser implements IDOTDataParser {
         sb.append(PROCESSORATTR);
         sb.append("=");
         sb.append(task.getProcessor().getId());
-        sb.append("]");
+        sb.append("];");
 
         return sb.toString();
     }
@@ -137,7 +137,7 @@ public class DOTDataParser implements IDOTDataParser {
         sb.append(WEIGHTATTR);
         sb.append("=");
         sb.append(edge.getKey());
-        sb.append("]");
+        sb.append("];");
         sb.append(System.lineSeparator());
 
         return sb.toString();
