@@ -45,7 +45,12 @@ public class DOTDataParser implements IDOTDataParser {
      */
     @Override
     public void parseOutput(String filePath, Schedule schedule) {
-        File outputFile = AppConfig.getInstance().getOutputFile();
+        File outputFile;
+        if (filePath.isEmpty()) {
+            outputFile = AppConfig.getInstance().getOutputFile();
+        } else {
+            outputFile = new File(filePath);
+        }
         try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
             out.write("digraph output_graph {");
             out.newLine();
