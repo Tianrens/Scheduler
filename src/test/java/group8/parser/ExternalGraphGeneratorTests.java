@@ -157,4 +157,35 @@ public class ExternalGraphGeneratorTests {
 
         assertEquals(expectedOutput, output);
     }
+
+    @Test
+    public void EmptyGraph() {
+        Set<String> expectedOutput = new HashSet<>(Arrays.asList(
+        ));
+        File inputFile = new File(this.getClass().getResource("EmptyGraph.dot").getPath());
+        AppConfig config = AppConfig.getInstance();
+        config.setInputFile(inputFile);
+
+        DOTPaypalParser parser = null;
+        try {
+            parser = new DOTPaypalParser();
+            parser.getFileInputStream();
+        } catch (AppConfigException e) {
+            fail();
+        }
+        GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
+        Graph inputGraph = graphGenerator.generate();
+        List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+
+        Set<String> output = new HashSet<>();
+        for (TaskNode node : arr) {
+            output.add("node " + node.getId() + " " + node.getCost());
+
+            for (TaskNode edge : node.getEdgeList().keySet()) {
+                output.add("edge " + node.getId() + " " + edge.getId() + " " + node.getEdgeList().get(edge));
+            }
+        }
+
+        assertEquals(expectedOutput, output);
+    }
 }
