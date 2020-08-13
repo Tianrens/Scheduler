@@ -4,6 +4,10 @@ import group8.models.Processor;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +27,8 @@ public class OutputGraphTests {
     List<String> _expectedSchedule;
     List<String> _expectedNoEdgesSchedule;
     List<String> _expectedEmptySchedule;
+
+    private final String _actualOutputSchedule = "actualOutputSchedule.dot";
 
     @Before
     public void setUpParser() {
@@ -109,26 +115,60 @@ public class OutputGraphTests {
 
     @Test
     public void ValidOutputDOTSyntaxTest() {
-        String pathOfOutputTestSchedule = this.getClass().getResource("actualOutputSchedule.dot").getPath();
+        String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         _dataParser.parseOutput(pathOfOutputTestSchedule, _schedule);
     }
 
     @Test
     public void OutputDOTFileMatchScheduleTest() {
-        String pathOfOutputTestSchedule = this.getClass().getResource("actualOutputSchedule.dot").getPath();
+        String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         _dataParser.parseOutput(pathOfOutputTestSchedule, _schedule);
     }
 
     @Test
     public void NoEdgesTest() {
-        String pathOfOutputTestSchedule = this.getClass().getResource("actualOutputSchedule.dot").getPath();
+        String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         _dataParser.parseOutput(pathOfOutputTestSchedule, _noEdgesSchedule);
+
+        List<String> actual = readActualOutputSchedule();
+
+        for (String expected : _expectedNoEdgesSchedule) {
+            if (actual.contains(expected)) {
+                continue;
+            } else {
+                fail();
+            }
+        }
     }
 
     @Test
     public void EmptyScheduleTest() {
-        String pathOfOutputTestSchedule = this.getClass().getResource("actualOutputSchedule.dot").getPath();
+        String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         _dataParser.parseOutput(pathOfOutputTestSchedule, _emptySchedule);
 
+        List<String> actual = readActualOutputSchedule();
+
+        for (String expected : _expectedEmptySchedule) {
+            if (actual.contains(expected)) {
+                continue;
+            } else {
+                fail();
+            }
+        }
+    }
+
+    public List<String> readActualOutputSchedule() {
+        List<String> output = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(this.getClass().getResource(_actualOutputSchedule).getFile()))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                output.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return output;
     }
 }
