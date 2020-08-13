@@ -111,6 +111,9 @@ public class OutputGraphTests {
         }};
     }
 
+    /**
+     * Test a normal schedule with nodes and edges, scheduled on TWO processors.
+     */
     @Test
     public void NormalScheduleTest() {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
@@ -120,6 +123,9 @@ public class OutputGraphTests {
 
     }
 
+    /**
+     * Test a schedule with no edges, just a singular node.
+     */
     @Test
     public void NoEdgesTest() {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
@@ -128,6 +134,9 @@ public class OutputGraphTests {
         checkExpectedVsActual(_expectedNoEdgesSchedule);
     }
 
+    /**
+     * Test a schedule that has no edges nor nodes.
+     */
     @Test
     public void EmptyScheduleTest() {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
@@ -141,14 +150,14 @@ public class OutputGraphTests {
 
         for (String expected : expectedList) {
             if (actual.contains(expected)) {
-                actual.remove(expected);
+                actual.remove(expected); // Remove from the list so that the string that got matched up does not get compared again.
                 continue;
             } else {
                 fail();
             }
         }
 
-        if (! actual.isEmpty()) { // Fail if there are extra components that are NOT expected.
+        if (! actual.isEmpty()) { // Fail if there are extra components in the actual output that are NOT expected.
             fail();
         }
     }
