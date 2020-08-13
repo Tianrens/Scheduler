@@ -109,21 +109,26 @@ public class OutputGraphTests {
 
     @Test
     public void ValidOutputDOTSyntaxTest() {
-
+        String pathOfOutputTestSchedule = this.getClass().getResource("actualOutputSchedule.dot").getPath();
+        _dataParser.parseOutput(pathOfOutputTestSchedule, _schedule);
     }
 
     @Test
     public void OutputDOTFileMatchScheduleTest() {
-
+        String pathOfOutputTestSchedule = this.getClass().getResource("actualOutputSchedule.dot").getPath();
+        _dataParser.parseOutput(pathOfOutputTestSchedule, _schedule);
     }
 
     @Test
     public void NoEdgesTest() {
-
+        String pathOfOutputTestSchedule = this.getClass().getResource("actualOutputSchedule.dot").getPath();
+        _dataParser.parseOutput(pathOfOutputTestSchedule, _noEdgesSchedule);
     }
 
     @Test
     public void EmptyScheduleTest() {
-        _dataParser.parseOutput(_emptySchedule);
+        String pathOfOutputTestSchedule = this.getClass().getResource("actualOutputSchedule.dot").getPath();
+        _dataParser.parseOutput(pathOfOutputTestSchedule, _emptySchedule);
+
     }
 }
