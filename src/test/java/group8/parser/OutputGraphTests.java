@@ -113,7 +113,7 @@ public class OutputGraphTests {
     }
 
     @Test
-    public void OutputDOTFileMatchGraphTest() {
+    public void OutputDOTFileMatchScheduleTest() {
 
     }
 
@@ -123,7 +123,6 @@ public class OutputGraphTests {
     }
 
     @Test
-    public void EmptyGraphTest() {
-
+    public void EmptyScheduleTest() {
     }
 }
