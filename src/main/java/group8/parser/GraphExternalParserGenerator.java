@@ -11,7 +11,7 @@ import static group8.parser.DOTFileConstants.*;
  * This generates a graph using an {@link DOTExternalParser}.
  */
 public class GraphExternalParserGenerator implements IGraphGenerator {
-    DOTExternalParser _parser;
+    private DOTExternalParser _parser;
 
     public GraphExternalParserGenerator(DOTExternalParser externalParser) {
         _parser = externalParser;
