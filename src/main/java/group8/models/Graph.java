@@ -47,6 +47,10 @@ public class Graph {
         return graph;
     }
 
+    /**
+     * This method is used to bypass having to create a TaskNode and adding it to graph manually
+     * @param graphData
+     */
     public void addData(List<String> graphData) {
         if (graphData.size() == 1) {
             /** Graph name */

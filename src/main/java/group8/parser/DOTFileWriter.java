@@ -13,10 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 import static group8.parser.DOTFileConstants.*;
-import static group8.parser.DOTFileConstants.WEIGHTATTR;
 
+/**
+ * This class deals with output parsing
+ */
 public class DOTFileWriter implements IDOTFileWriter{
 
+    /**
+     * This method handles the writing of the schedule to a file
+     * @param schedule
+     * @throws AppConfigException
+     */
     @Override
     public void writeOutput(Schedule schedule) throws AppConfigException {
         File outputFile = AppConfig.getInstance().getOutputFile();
@@ -50,6 +57,11 @@ public class DOTFileWriter implements IDOTFileWriter{
         }
     }
 
+    /**
+     * Helper method to create a well defined string format for nodes of the graph
+     * @param task
+     * @return
+     */
     private String createNodeString(TaskNode task) {
         StringBuffer sb = new StringBuffer(task.getId());
         sb.append(" [");
@@ -69,6 +81,12 @@ public class DOTFileWriter implements IDOTFileWriter{
         return sb.toString();
     }
 
+    /**
+     * Helper method to create a well defined string format for edges of the graph
+     * @param task
+     * @param edge
+     * @return
+     */
     private String createEdgeString(TaskNode task, Map.Entry<TaskNode, Integer> edge) {
         StringBuffer sb = new StringBuffer(task.getId());
         sb.append("->");
