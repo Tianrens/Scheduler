@@ -1,6 +1,6 @@
 # project-1-8-gr8-b8-m8
 
-This project utilises AI and parallel processing power to find an optimal schedule from a given a directed task graph.
+This project utilises AI and parallel processing power to find an optimal schedule from a given directed task graph.
 
 ## Team 8 - GR8 B8 M8
 |Name           |GitHub Username                                            |UPI    |ID     |
