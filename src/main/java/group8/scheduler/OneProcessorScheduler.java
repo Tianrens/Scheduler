@@ -1,10 +1,7 @@
 package group8.scheduler;
 
 import group8.cli.AppConfig;
-import group8.models.Graph;
-import group8.models.Processor;
-import group8.models.Schedule;
-import group8.models.TaskNode;
+import group8.models.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class OneProcessorScheduler implements IScheduler {
     }
 
     @Override
-    public Schedule generateValidSchedule(Graph graph) {
+    public Schedule generateValidSchedule(Graph graph) throws ProcessorException {
         List<TaskNode> topology = _topologyFinder.generateTopology(graph);
 
         Schedule schedule = new Schedule(1);

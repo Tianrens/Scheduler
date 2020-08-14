@@ -22,7 +22,7 @@ public class Schedule {
      * the schedule can utilise and instantiates those
      * @param numProcessors
      */
-    public Schedule(int numProcessors) {
+    public Schedule(int numProcessors) throws ProcessorException {
 
         for (int i = 1; i <= numProcessors; i++) {
             Processor processor = new Processor(i);

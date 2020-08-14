@@ -1,6 +1,7 @@
 package group8.cli;
 
 import group8.models.Graph;
+import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 import group8.parser.DOTDataParser;
@@ -96,7 +97,7 @@ public class ScheduleTests {
      * tests that all processors are on the single process
      */
     @Test
-    public void OneProcessorTest(){
+    public void OneProcessorTest() throws ProcessorException {
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
 
@@ -111,7 +112,7 @@ public class ScheduleTests {
      * test the correct start times are calculated
      */
     @Test
-    public void timeScheduledTest(){
+    public void timeScheduledTest() throws ProcessorException {
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
 

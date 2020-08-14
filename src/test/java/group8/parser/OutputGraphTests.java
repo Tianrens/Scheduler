@@ -1,6 +1,7 @@
 package group8.parser;
 
 import group8.models.Processor;
+import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 
@@ -29,7 +30,7 @@ public class OutputGraphTests {
     private final String _actualOutputSchedule = "actualOutputSchedule.dot";
 
     @Before
-    public void setUpParser() {
+    public void setUpParser() throws ProcessorException {
         _dataParser = new DOTDataParser();
         _graphGenerator = new GraphGenerator(_dataParser);
 
@@ -37,7 +38,7 @@ public class OutputGraphTests {
     }
 
     @Before
-    public void generateSchedule() {
+    public void generateSchedule() throws ProcessorException {
         _schedule = new Schedule(2);
 
         TaskNode a = new TaskNode(2, "a");
@@ -70,7 +71,7 @@ public class OutputGraphTests {
     }
 
     @Before
-    public void generateNoEdgesSchedule() {
+    public void generateNoEdgesSchedule() throws ProcessorException {
         _noEdgesSchedule = new Schedule(1);
         TaskNode a = new TaskNode(2, "a");
 
