@@ -23,8 +23,7 @@ public class OneProcessorScheduler implements IScheduler {
             throw new AppConfigException();
         }
 
-        Schedule schedule = new Schedule(numProcessors);
-        schedule.setUnassignedTaskList(topology);
+        Schedule schedule = new Schedule(numProcessors, topology);
 
         scheduleTopology(schedule, topology);
 

@@ -37,12 +37,11 @@ public class OutputGraphTests {
         _dataParser = new DOTDataParser();
         _graphGenerator = new GraphGenerator(_dataParser);
 
-        _emptySchedule = new Schedule(1);
+        _emptySchedule = new Schedule(1, null);
     }
 
     @Before
     public void generateSchedule() throws ProcessorException {
-        _schedule = new Schedule(2);
 
         TaskNode a = new TaskNode(2, "a");
         TaskNode b = new TaskNode(3, "b");
@@ -62,7 +61,7 @@ public class OutputGraphTests {
         topology.add(b);
         topology.add(d);
         topology.add(e);
-        _schedule.setUnassignedTaskList(topology);
+        _schedule = new Schedule(2, topology);
 
         List<Processor> processors = _schedule.getProcessors();
 
@@ -75,12 +74,11 @@ public class OutputGraphTests {
 
     @Before
     public void generateNoEdgesSchedule() throws ProcessorException {
-        _noEdgesSchedule = new Schedule(1);
         TaskNode a = new TaskNode(2, "a");
 
         List<TaskNode> topology = new ArrayList<>();
         topology.add(a);
-        _noEdgesSchedule.setUnassignedTaskList(topology);
+        _noEdgesSchedule = new Schedule(1, topology);
 
         List<Processor> processors = _noEdgesSchedule.getProcessors();
         _noEdgesSchedule.scheduleTask(processors.get(0), a, 0);
