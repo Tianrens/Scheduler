@@ -5,6 +5,15 @@ All notable changes/commits to this Scheduler project will be recorded in this l
 ##[Unreleased]
 
 &nbsp;
+## [0.8.0] - 2020-08-13
+## Added 
+- Added Wiki folder and related md files
+- TopologyFinder tests
+- Output parsing tests
+- More graph generator tests
+- Content in Main to run scheduling system
+
+&nbsp;
 ## [0.7.0] - 2020-08-12
 ## Added 
 - Scheduler Tests
