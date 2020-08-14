@@ -23,13 +23,11 @@ public class Main {
         _appConfig = buildAppConfig(args);
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        System.out.println("File " + _appConfig.getInputFile().toString() + " has been successfully read and parsed");
         TopologyFinder topologyFinder = new TopologyFinder();
         IScheduler scheduler = new OneProcessorScheduler(topologyFinder);
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         DOTDataParser outputBuilder = new DOTDataParser();
         outputBuilder.parseOutput("",schedule);
-        System.out.println(_appConfig.getOutputFile().toString() + " has been generated");
 
 
     }

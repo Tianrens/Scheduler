@@ -75,6 +75,8 @@ public class DOTDataParser implements IDOTDataParser {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println(AppConfig.getInstance().getOutputFile().toString() + " has been generated");
     }
 
     /**

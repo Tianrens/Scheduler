@@ -3,6 +3,7 @@ package group8.parser;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
 import com.paypal.digraph.parser.GraphParser;
+import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 
 import java.io.FileInputStream;
@@ -19,6 +20,7 @@ public class DOTPaypalParser extends DOTExternalParser<GraphNode, GraphEdge> {
     public DOTPaypalParser() throws AppConfigException {
         FileInputStream inputStream = getFileInputStream();
         _parser = new GraphParser(inputStream);
+        System.out.println("File " + AppConfig.getInstance().getInputFile().toString() + " has been successfully read and parsed");
     }
 
     @Override
