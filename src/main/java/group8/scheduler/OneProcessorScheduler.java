@@ -8,9 +8,9 @@ import java.util.List;
 import static group8.scheduler.SchedulerConstants.*;
 
 public class OneProcessorScheduler implements IScheduler {
-    private final TopologyFinder _topologyFinder;
+    private final ITopologyFinder _topologyFinder;
 
-    public OneProcessorScheduler(TopologyFinder topologyFinder) {
+    public OneProcessorScheduler(ITopologyFinder topologyFinder) {
         _topologyFinder = topologyFinder;
     }
 

@@ -24,7 +24,7 @@ public class Main {
         _appConfig = buildAppConfig(args);
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        TopologyFinder topologyFinder = new TopologyFinder();
+        ITopologyFinder topologyFinder = new TopologyFinder();
         IScheduler scheduler = new OneProcessorScheduler(topologyFinder);
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         DOTDataParser outputBuilder = new DOTDataParser();
