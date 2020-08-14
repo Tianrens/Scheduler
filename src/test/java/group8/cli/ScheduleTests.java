@@ -1,13 +1,14 @@
 package group8.cli;
 
 import group8.models.Graph;
+import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 import group8.parser.DOTDataParser;
 import group8.parser.GraphGenerator;
 import group8.scheduler.IScheduler;
 import group8.scheduler.OneProcessorScheduler;
-import group8.scheduler.SchedulerConstants;
+import static group8.scheduler.SchedulerConstants.*;
 import group8.scheduler.TopologyFinder;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,14 +20,12 @@ import static org.junit.Assert.*;
 
 public class ScheduleTests {
 
-
-    private String[] _cliInput = {"INPUT.dot", "P", "3"};
     private Graph _graph;
 
 
     @Before
     public void buildGraph(){
-
+        AppConfig.getInstance().setNumProcessors(3);
 
         List<String> a = new ArrayList<String>();
         a.add("a");
@@ -96,13 +95,13 @@ public class ScheduleTests {
      * tests that all processors are on the single process
      */
     @Test
-    public void OneProcessorTest(){
+    public void OneProcessorTest() throws ProcessorException, AppConfigException {
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
 
         List<TaskNode> taskNodeList = schedule.getTaskNodeList();
         for (TaskNode tn : taskNodeList){
-            assertEquals(0,tn.getProcessor().getId());
+            assertEquals(ONE_PROCESSOR_SCHEDULER_DEFAULT, tn.getProcessor().getId());
         }
 
     }
@@ -111,7 +110,7 @@ public class ScheduleTests {
      * test the correct start times are calculated
      */
     @Test
-    public void timeScheduledTest(){
+    public void timeScheduledTest() throws ProcessorException, AppConfigException {
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
 

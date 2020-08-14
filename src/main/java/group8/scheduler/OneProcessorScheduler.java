@@ -1,28 +1,29 @@
 package group8.scheduler;
 
 import group8.cli.AppConfig;
-import group8.models.Graph;
-import group8.models.Processor;
-import group8.models.Schedule;
-import group8.models.TaskNode;
+import group8.cli.AppConfigException;
+import group8.models.*;
 
 import java.util.List;
 
 import static group8.scheduler.SchedulerConstants.*;
 
 public class OneProcessorScheduler implements IScheduler {
-    private final TopologyFinder _topologyFinder;
+    private final ITopologyFinder _topologyFinder;
 
-    public OneProcessorScheduler(TopologyFinder topologyFinder) {
+    public OneProcessorScheduler(ITopologyFinder topologyFinder) {
         _topologyFinder = topologyFinder;
     }
 
     @Override
-    public Schedule generateValidSchedule(Graph graph) {
+    public Schedule generateValidSchedule(Graph graph) throws ProcessorException, AppConfigException {
         List<TaskNode> topology = _topologyFinder.generateTopology(graph);
+        int numProcessors = AppConfig.getInstance().getNumProcessors();
+        if (numProcessors == 0) {
+            throw new AppConfigException();
+        }
 
-        Schedule schedule = new Schedule(1);
-        schedule.setUnassignedTaskList(topology);
+        Schedule schedule = new Schedule(numProcessors, topology);
 
         scheduleTopology(schedule, topology);
 
@@ -30,7 +31,7 @@ public class OneProcessorScheduler implements IScheduler {
     }
 
     private void scheduleTopology(Schedule schedule, List<TaskNode> topology) {
-        Processor processor = schedule.getProcessors().get(ONE_PROCESSOR_SCHEDULER_DEFAULT); // Get default processor for this scheduler
+        Processor processor = schedule.getProcessors().get(ONE_PROCESSOR_SCHEDULER_DEFAULT - 1); // Get default processor for this scheduler
 
         int startTime;
         for (TaskNode taskNode : topology) {

@@ -13,10 +13,14 @@ public class Processor {
     private int _firstAvailableTime;
     private int _id;
 
-    public Processor(int id) {
+    public Processor(int id) throws ProcessorException {
         _taskList = new ArrayList<TaskNode>();
         _firstAvailableTime = 0;
         _id=id;
+
+        if (id < 1) {
+            throw new ProcessorException("Processor id must be larger than one.");
+        }
     }
 
     /**

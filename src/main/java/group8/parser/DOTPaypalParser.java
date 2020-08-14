@@ -14,7 +14,7 @@ import java.util.Map;
  * a DOT file back.
  */
 public class DOTPaypalParser extends DOTExternalParser<GraphNode, GraphEdge> {
-    GraphParser _parser;
+    private GraphParser _parser;
 
     public DOTPaypalParser() throws AppConfigException {
         FileInputStream inputStream = getFileInputStream();

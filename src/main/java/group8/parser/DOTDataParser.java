@@ -1,6 +1,7 @@
 package group8.parser;
 
 import group8.cli.AppConfig;
+import group8.cli.AppConfigException;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 
@@ -40,17 +41,15 @@ public class DOTDataParser implements IDOTDataParser {
     /**
      * This function is responsible for parsing the valid schedule as a dot file output
      * This function prints out all Nodes first, then edges are printed out to the dot file
-     * @param filePath This is either specified by the user or the default value is output.dot
      * @param schedule More about the schedule sobject can be found in the documentation of the class
      */
     @Override
-    public void parseOutput(String filePath, Schedule schedule) {
-        File outputFile;
-        if (filePath.isEmpty()) {
-            outputFile = AppConfig.getInstance().getOutputFile();
-        } else {
-            outputFile = new File(filePath);
+    public void parseOutput(Schedule schedule) throws AppConfigException {
+        File outputFile = AppConfig.getInstance().getOutputFile();
+        if (outputFile == null) {
+            throw new AppConfigException();
         }
+
         try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
             out.write("digraph output_graph {");
             out.newLine();

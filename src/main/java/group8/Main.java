@@ -4,6 +4,7 @@ import group8.cli.AppConfig;
 import group8.cli.AppConfigBuilder;
 import group8.cli.AppConfigException;
 import group8.cli.CLIException;
+import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.IScheduler;
@@ -19,15 +20,15 @@ public class Main {
 
     private static AppConfig _appConfig;
 
-    public static void main(String[] args) throws AppConfigException {
+    public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        TopologyFinder topologyFinder = new TopologyFinder();
+        ITopologyFinder topologyFinder = new TopologyFinder();
         IScheduler scheduler = new OneProcessorScheduler(topologyFinder);
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         DOTDataParser outputBuilder = new DOTDataParser();
-        outputBuilder.parseOutput("",schedule);
+        outputBuilder.parseOutput(schedule);
 
 
     }

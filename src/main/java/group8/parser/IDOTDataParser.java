@@ -1,5 +1,6 @@
 package group8.parser;
 
+import group8.cli.AppConfigException;
 import group8.models.Schedule;
 
 import java.util.List;
@@ -28,9 +29,8 @@ public interface IDOTDataParser {
 
     /**
      * Writes out first param to a specified outfile location.
-     * @param filePath This is either specified by the user or the default value is output.dot
      * @param schedule More about the schedule object can be found in the documentation of the class
      */
-    void parseOutput(String filePath, Schedule schedule);
+    void parseOutput(Schedule schedule) throws AppConfigException;
 
 }

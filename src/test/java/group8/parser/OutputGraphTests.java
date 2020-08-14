@@ -1,10 +1,14 @@
 package group8.parser;
 
+import group8.cli.AppConfig;
+import group8.cli.AppConfigException;
 import group8.models.Processor;
+import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,16 +33,15 @@ public class OutputGraphTests {
     private final String _actualOutputSchedule = "actualOutputSchedule.dot";
 
     @Before
-    public void setUpParser() {
+    public void setUpParser() throws ProcessorException {
         _dataParser = new DOTDataParser();
         _graphGenerator = new GraphGenerator(_dataParser);
 
-        _emptySchedule = new Schedule(0);
+        _emptySchedule = new Schedule(1, null);
     }
 
     @Before
-    public void generateSchedule() {
-        _schedule = new Schedule(2);
+    public void generateSchedule() throws ProcessorException {
 
         TaskNode a = new TaskNode(2, "a");
         TaskNode b = new TaskNode(3, "b");
@@ -58,7 +61,7 @@ public class OutputGraphTests {
         topology.add(b);
         topology.add(d);
         topology.add(e);
-        _schedule.setUnassignedTaskList(topology);
+        _schedule = new Schedule(2, topology);
 
         List<Processor> processors = _schedule.getProcessors();
 
@@ -70,13 +73,12 @@ public class OutputGraphTests {
     }
 
     @Before
-    public void generateNoEdgesSchedule() {
-        _noEdgesSchedule = new Schedule(1);
+    public void generateNoEdgesSchedule() throws ProcessorException {
         TaskNode a = new TaskNode(2, "a");
 
         List<TaskNode> topology = new ArrayList<>();
         topology.add(a);
-        _noEdgesSchedule.setUnassignedTaskList(topology);
+        _noEdgesSchedule = new Schedule(1, topology);
 
         List<Processor> processors = _noEdgesSchedule.getProcessors();
         _noEdgesSchedule.scheduleTask(processors.get(0), a, 0);
@@ -86,11 +88,11 @@ public class OutputGraphTests {
     public void setUpExpectedSchedules() {
         _expectedSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
-            add("a [Weight=2, Start=0, Processor=0];");
-            add("c [Weight=2, Start=2, Processor=0];");
-            add("b [Weight=3, Start=4, Processor=0];");
-            add("d [Weight=1, Start=7, Processor=0];");
-            add("e [Weight=10, Start=9, Processor=1];");
+            add("a [Weight=2, Start=0, Processor=1];");
+            add("c [Weight=2, Start=2, Processor=1];");
+            add("b [Weight=3, Start=4, Processor=1];");
+            add("d [Weight=1, Start=7, Processor=1];");
+            add("e [Weight=10, Start=9, Processor=2];");
             add("a->b [Weight=4];");
             add("a->c [Weight=5];");
             add("c->e [Weight=1];");
@@ -101,7 +103,7 @@ public class OutputGraphTests {
 
         _expectedNoEdgesSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
-            add("a [Weight=2, Start=0, Processor=0];");
+            add("a [Weight=2, Start=0, Processor=1];");
             add("}");
         }};
 
@@ -115,9 +117,10 @@ public class OutputGraphTests {
      * Test a normal schedule with nodes and edges, scheduled on TWO processors.
      */
     @Test
-    public void NormalScheduleTest() {
+    public void NormalScheduleTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
-        _dataParser.parseOutput(pathOfOutputTestSchedule, _schedule);
+        AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
+        _dataParser.parseOutput(_schedule);
 
         checkExpectedVsActual(_expectedSchedule);
 
@@ -127,9 +130,10 @@ public class OutputGraphTests {
      * Test a schedule with no edges, just a singular node.
      */
     @Test
-    public void NoEdgesTest() {
+    public void NoEdgesTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
-        _dataParser.parseOutput(pathOfOutputTestSchedule, _noEdgesSchedule);
+        AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
+        _dataParser.parseOutput(_noEdgesSchedule);
 
         checkExpectedVsActual(_expectedNoEdgesSchedule);
     }
@@ -138,9 +142,10 @@ public class OutputGraphTests {
      * Test a schedule that has no edges nor nodes.
      */
     @Test
-    public void EmptyScheduleTest() {
+    public void EmptyScheduleTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
-        _dataParser.parseOutput(pathOfOutputTestSchedule, _emptySchedule);
+        AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
+        _dataParser.parseOutput(_emptySchedule);
 
         checkExpectedVsActual(_expectedEmptySchedule);
     }
