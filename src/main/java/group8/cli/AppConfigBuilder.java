@@ -33,6 +33,7 @@ public class AppConfigBuilder {
      * @return the created AppConfig instance.
      */
     public AppConfig build() throws CLIException {
+        System.out.println("Creating App Config.");
         AppConfig.clearConfig();
         _config = AppConfig.getInstance();
 
@@ -65,6 +66,7 @@ public class AppConfigBuilder {
         _config.setNumProcessors(numProcessors);
         _config.setVisualise(useVisualisation);
         _config.setOutputFile(outputDOTFile);
+        System.out.println("App Config Created.");
         return _config;
     }
 
