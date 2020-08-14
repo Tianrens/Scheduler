@@ -28,7 +28,7 @@ public class Main {
         IScheduler scheduler = new OneProcessorScheduler(topologyFinder);
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         DOTDataParser outputBuilder = new DOTDataParser();
-        outputBuilder.parseOutput("",schedule);
+        outputBuilder.parseOutput(schedule);
 
 
     }

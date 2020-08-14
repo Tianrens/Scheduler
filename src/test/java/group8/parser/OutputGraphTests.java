@@ -1,11 +1,13 @@
 package group8.parser;
 
+import group8.cli.AppConfig;
 import group8.models.Processor;
 import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.models.TaskNode;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -118,7 +120,8 @@ public class OutputGraphTests {
     @Test
     public void NormalScheduleTest() {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
-        _dataParser.parseOutput(pathOfOutputTestSchedule, _schedule);
+        AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
+        _dataParser.parseOutput(_schedule);
 
         checkExpectedVsActual(_expectedSchedule);
 
@@ -130,7 +133,8 @@ public class OutputGraphTests {
     @Test
     public void NoEdgesTest() {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
-        _dataParser.parseOutput(pathOfOutputTestSchedule, _noEdgesSchedule);
+        AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
+        _dataParser.parseOutput(_noEdgesSchedule);
 
         checkExpectedVsActual(_expectedNoEdgesSchedule);
     }
@@ -141,7 +145,8 @@ public class OutputGraphTests {
     @Test
     public void EmptyScheduleTest() {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
-        _dataParser.parseOutput(pathOfOutputTestSchedule, _emptySchedule);
+        AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
+        _dataParser.parseOutput(_emptySchedule);
 
         checkExpectedVsActual(_expectedEmptySchedule);
     }
