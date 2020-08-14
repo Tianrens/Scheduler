@@ -33,7 +33,7 @@ public class OutputGraphTests {
         _dataParser = new DOTDataParser();
         _graphGenerator = new GraphGenerator(_dataParser);
 
-        _emptySchedule = new Schedule(0);
+        _emptySchedule = new Schedule(1);
     }
 
     @Before
@@ -86,11 +86,11 @@ public class OutputGraphTests {
     public void setUpExpectedSchedules() {
         _expectedSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
-            add("a [Weight=2, Start=0, Processor=0];");
-            add("c [Weight=2, Start=2, Processor=0];");
-            add("b [Weight=3, Start=4, Processor=0];");
-            add("d [Weight=1, Start=7, Processor=0];");
-            add("e [Weight=10, Start=9, Processor=1];");
+            add("a [Weight=2, Start=0, Processor=1];");
+            add("c [Weight=2, Start=2, Processor=1];");
+            add("b [Weight=3, Start=4, Processor=1];");
+            add("d [Weight=1, Start=7, Processor=1];");
+            add("e [Weight=10, Start=9, Processor=2];");
             add("a->b [Weight=4];");
             add("a->c [Weight=5];");
             add("c->e [Weight=1];");
@@ -101,7 +101,7 @@ public class OutputGraphTests {
 
         _expectedNoEdgesSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
-            add("a [Weight=2, Start=0, Processor=0];");
+            add("a [Weight=2, Start=0, Processor=1];");
             add("}");
         }};
 

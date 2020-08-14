@@ -30,7 +30,7 @@ public class OneProcessorScheduler implements IScheduler {
     }
 
     private void scheduleTopology(Schedule schedule, List<TaskNode> topology) {
-        Processor processor = schedule.getProcessors().get(ONE_PROCESSOR_SCHEDULER_DEFAULT); // Get default processor for this scheduler
+        Processor processor = schedule.getProcessors().get(ONE_PROCESSOR_SCHEDULER_DEFAULT - 1); // Get default processor for this scheduler
 
         int startTime;
         for (TaskNode taskNode : topology) {

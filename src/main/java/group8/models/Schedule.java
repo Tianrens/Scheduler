@@ -24,7 +24,7 @@ public class Schedule {
      */
     public Schedule(int numProcessors) {
 
-        for (int i = 0; i < numProcessors; i++) {
+        for (int i = 1; i <= numProcessors; i++) {
             Processor processor = new Processor(i);
             _processorList.add(processor);
         }
@@ -36,6 +36,10 @@ public class Schedule {
         return _taskNodeList;
     }
 
+    /**
+     * To get the desired processor, please minus one for the index. E.g. to get processer one, you must .get(0) instead.
+     * @return List of {@link Processor}
+     */
     public List<Processor> getProcessors() {
         return _processorList;
     }

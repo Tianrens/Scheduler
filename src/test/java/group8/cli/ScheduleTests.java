@@ -7,7 +7,7 @@ import group8.parser.DOTDataParser;
 import group8.parser.GraphGenerator;
 import group8.scheduler.IScheduler;
 import group8.scheduler.OneProcessorScheduler;
-import group8.scheduler.SchedulerConstants;
+import static group8.scheduler.SchedulerConstants.*;
 import group8.scheduler.TopologyFinder;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,7 +102,7 @@ public class ScheduleTests {
 
         List<TaskNode> taskNodeList = schedule.getTaskNodeList();
         for (TaskNode tn : taskNodeList){
-            assertEquals(0,tn.getProcessor().getId());
+            assertEquals(ONE_PROCESSOR_SCHEDULER_DEFAULT, tn.getProcessor().getId());
         }
 
     }
