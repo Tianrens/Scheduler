@@ -1,6 +1,7 @@
 package group8.parser;
 
 import group8.cli.AppConfig;
+import group8.cli.AppConfigException;
 import group8.models.Processor;
 import group8.models.ProcessorException;
 import group8.models.Schedule;
@@ -118,7 +119,7 @@ public class OutputGraphTests {
      * Test a normal schedule with nodes and edges, scheduled on TWO processors.
      */
     @Test
-    public void NormalScheduleTest() {
+    public void NormalScheduleTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
         _dataParser.parseOutput(_schedule);
@@ -131,7 +132,7 @@ public class OutputGraphTests {
      * Test a schedule with no edges, just a singular node.
      */
     @Test
-    public void NoEdgesTest() {
+    public void NoEdgesTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
         _dataParser.parseOutput(_noEdgesSchedule);
@@ -143,7 +144,7 @@ public class OutputGraphTests {
      * Test a schedule that has no edges nor nodes.
      */
     @Test
-    public void EmptyScheduleTest() {
+    public void EmptyScheduleTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
         _dataParser.parseOutput(_emptySchedule);

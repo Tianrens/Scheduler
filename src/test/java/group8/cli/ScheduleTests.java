@@ -20,14 +20,12 @@ import static org.junit.Assert.*;
 
 public class ScheduleTests {
 
-
-    private String[] _cliInput = {"INPUT.dot", "P", "3"};
     private Graph _graph;
 
 
     @Before
     public void buildGraph(){
-
+        AppConfig.getInstance().setNumProcessors(3);
 
         List<String> a = new ArrayList<String>();
         a.add("a");
@@ -97,7 +95,7 @@ public class ScheduleTests {
      * tests that all processors are on the single process
      */
     @Test
-    public void OneProcessorTest() throws ProcessorException {
+    public void OneProcessorTest() throws ProcessorException, AppConfigException {
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
 
@@ -112,7 +110,7 @@ public class ScheduleTests {
      * test the correct start times are calculated
      */
     @Test
-    public void timeScheduledTest() throws ProcessorException {
+    public void timeScheduledTest() throws ProcessorException, AppConfigException {
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
 
