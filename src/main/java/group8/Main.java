@@ -27,8 +27,10 @@ public class Main {
         ITopologyFinder topologyFinder = new TopologyFinder();
         IScheduler scheduler = new OneProcessorScheduler(topologyFinder);
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
-        DOTDataParser outputBuilder = new DOTDataParser();
-        outputBuilder.parseOutput(schedule);
+        IDOTFileWriter outputBuilder = new DOTFileWriter();
+        outputBuilder.writeOutput(schedule);
+//        DOTDataParser outputBuilder = new DOTDataParser();
+//        outputBuilder.parseOutput(schedule);
 
 
     }

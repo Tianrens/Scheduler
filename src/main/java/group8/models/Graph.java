@@ -1,6 +1,7 @@
 package group8.models;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Graph {
 
@@ -37,4 +38,27 @@ public class Graph {
         return _nodes;
     }
 
+    /**
+     * The two following method is for testing purposes only
+     * @return
+     */
+    public Graph createGraph() {
+        Graph graph = new Graph();
+        return graph;
+    }
+
+    public void addData(List<String> graphData) {
+        if (graphData.size() == 1) {
+            /** Graph name */
+        } else if (graphData.size() == 2) {
+            this.addNode(new TaskNode(Integer.parseInt(graphData.get(1)), graphData.get(0)));
+        } else if (graphData.size() == 3) {
+            // The .dot file input can be assumed to be sequential. Therefore all nodes
+            // will have been previously initialised before they are referenced as an edge
+            TaskNode src = this.getNode(graphData.get(0));
+            TaskNode dst = this.getNode(graphData.get(1));
+            src.addDestination(dst, Integer.parseInt(graphData.get(2)));
+            dst.addParentNode(src);
+        }
+    }
 }
