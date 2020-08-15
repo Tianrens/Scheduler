@@ -4,8 +4,6 @@ import group8.models.Graph;
 import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.models.TaskNode;
-import group8.parser.DOTDataParser;
-import group8.parser.GraphGenerator;
 import group8.scheduler.IScheduler;
 import group8.scheduler.OneProcessorScheduler;
 import static group8.scheduler.SchedulerConstants.*;
@@ -72,20 +70,20 @@ public class ScheduleTests {
         edge6.add("1");
 
 
-        GraphGenerator generator = new GraphGenerator(new DOTDataParser());
-        generator.addData(a);
-        generator.addData(b);
-        generator.addData(c);
-        generator.addData(d);
-        generator.addData(e);
-        generator.addData(f);
-        generator.addData(edge1);
-        generator.addData(edge2);
-        generator.addData(edge3);
-        generator.addData(edge4);
-        generator.addData(edge5);
-        generator.addData(edge6);
-        _graph = generator.getGraph();
+        Graph graph = new Graph();
+        graph.addData(a);
+        graph.addData(b);
+        graph.addData(c);
+        graph.addData(d);
+        graph.addData(e);
+        graph.addData(f);
+        graph.addData(edge1);
+        graph.addData(edge2);
+        graph.addData(edge3);
+        graph.addData(edge4);
+        graph.addData(edge5);
+        graph.addData(edge6);
+        _graph = graph;
 
 
 
