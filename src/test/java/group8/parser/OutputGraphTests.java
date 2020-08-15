@@ -19,21 +19,24 @@ import org.junit.Test;
 import static org.junit.Assert.fail;
 
 public class OutputGraphTests {
-    private IDOTFileWriter _dataParser;
+    IDOTDataParser _dataParser;
+    GraphGenerator _graphGenerator;
 
-    private Schedule _schedule;
-    private Schedule _noEdgesSchedule;
-    private Schedule _emptySchedule;
+    Schedule _schedule;
+    Schedule _noEdgesSchedule;
+    Schedule _emptySchedule;
 
-    private List<String> _expectedSchedule;
-    private List<String> _expectedNoEdgesSchedule;
-    private List<String> _expectedEmptySchedule;
+    List<String> _expectedSchedule;
+    List<String> _expectedNoEdgesSchedule;
+    List<String> _expectedEmptySchedule;
 
     private final String _actualOutputSchedule = "actualOutputSchedule.dot";
 
     @Before
     public void setUpParser() throws ProcessorException {
-        _dataParser = new DOTFileWriter();
+        _dataParser = new DOTDataParser();
+        _graphGenerator = new GraphGenerator(_dataParser);
+
         _emptySchedule = new Schedule(1, null);
     }
 
@@ -117,7 +120,7 @@ public class OutputGraphTests {
     public void NormalScheduleTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
-        _dataParser.writeOutput(_schedule);
+        _dataParser.parseOutput(_schedule);
 
         checkExpectedVsActual(_expectedSchedule);
 
@@ -130,7 +133,7 @@ public class OutputGraphTests {
     public void NoEdgesTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
-        _dataParser.writeOutput(_noEdgesSchedule);
+        _dataParser.parseOutput(_noEdgesSchedule);
 
         checkExpectedVsActual(_expectedNoEdgesSchedule);
     }
@@ -142,7 +145,7 @@ public class OutputGraphTests {
     public void EmptyScheduleTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
-        _dataParser.writeOutput(_emptySchedule);
+        _dataParser.parseOutput(_emptySchedule);
 
         checkExpectedVsActual(_expectedEmptySchedule);
     }
