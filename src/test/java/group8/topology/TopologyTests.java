@@ -69,20 +69,20 @@ public class TopologyTests {
         edge5.add("f");
         edge5.add("1");
 
-        GraphGenerator generator = new GraphGenerator(new DOTDataParser());
-        generator.addData(a);
-        generator.addData(b);
-        generator.addData(c);
-        generator.addData(d);
-        generator.addData(e);
-        generator.addData(f);
-        generator.addData(edge1);
-        generator.addData(edge2);
-        generator.addData(edge3);
-        generator.addData(edge4);
-        generator.addData(edge5);
+        Graph graph = new Graph();
+        graph.addData(a);
+        graph.addData(b);
+        graph.addData(c);
+        graph.addData(d);
+        graph.addData(e);
+        graph.addData(f);
+        graph.addData(edge1);
+        graph.addData(edge2);
+        graph.addData(edge3);
+        graph.addData(edge4);
+        graph.addData(edge5);
 
-        _graph = generator.getGraph();
+        _graph = graph;
 
         TopologyFinder topologyFinder = new TopologyFinder();
         List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph);
@@ -161,24 +161,24 @@ public class TopologyTests {
         edge9.add("b");
         edge9.add("1");
 
-        GraphGenerator generator1 = new GraphGenerator(new DOTDataParser());
-        generator1.addData(a);
-        generator1.addData(b);
-        generator1.addData(c);
-        generator1.addData(d);
-        generator1.addData(e);
-        generator1.addData(f);
-        generator1.addData(edge1);
-        generator1.addData(edge2);
-        generator1.addData(edge3);
-        generator1.addData(edge4);
-        generator1.addData(edge5);
-        generator1.addData(edge6);
-        generator1.addData(edge7);
-        generator1.addData(edge8);
-        generator1.addData(edge9);
+        Graph graph1 = new Graph();
+        graph1.addData(a);
+        graph1.addData(b);
+        graph1.addData(c);
+        graph1.addData(d);
+        graph1.addData(e);
+        graph1.addData(f);
+        graph1.addData(edge1);
+        graph1.addData(edge2);
+        graph1.addData(edge3);
+        graph1.addData(edge4);
+        graph1.addData(edge5);
+        graph1.addData(edge6);
+        graph1.addData(edge7);
+        graph1.addData(edge8);
+        graph1.addData(edge9);
 
-        _graph1 = generator1.getGraph();
+        _graph1 = graph1;
 
         TopologyFinder topologyFinder = new TopologyFinder();
         List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph1);
@@ -245,20 +245,21 @@ public class TopologyTests {
         edge5.add("a");
         edge5.add("1");
 
-        GraphGenerator generator1 = new GraphGenerator(new DOTDataParser());
-        generator1.addData(a);
-        generator1.addData(b);
-        generator1.addData(c);
-        generator1.addData(d);
-        generator1.addData(e);
-        generator1.addData(f);
-        generator1.addData(edge1);
-        generator1.addData(edge2);
-        generator1.addData(edge3);
-        generator1.addData(edge4);
-        generator1.addData(edge5);
+        Graph graph2 = new Graph();
 
-        _graph2 = generator1.getGraph();
+        graph2.addData(a);
+        graph2.addData(b);
+        graph2.addData(c);
+        graph2.addData(d);
+        graph2.addData(e);
+        graph2.addData(f);
+        graph2.addData(edge1);
+        graph2.addData(edge2);
+        graph2.addData(edge3);
+        graph2.addData(edge4);
+        graph2.addData(edge5);
+
+        _graph2 = graph2;
 
         TopologyFinder topologyFinder = new TopologyFinder();
         List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph2);
@@ -287,10 +288,10 @@ public class TopologyTests {
         a.add("a");
         a.add("3");
 
-        GraphGenerator generator1 = new GraphGenerator(new DOTDataParser());
-        generator1.addData(a);
+        Graph graph3 = new Graph();
+        graph3.addData(a);
 
-        _graph3 = generator1.getGraph();
+        _graph3 = graph3;
 
         TopologyFinder topologyFinder = new TopologyFinder();
         List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph3);
@@ -320,12 +321,13 @@ public class TopologyTests {
         a.add("c");
         a.add("3");
 
-        GraphGenerator generator1 = new GraphGenerator(new DOTDataParser());
-        generator1.addData(a);
-        generator1.addData(b);
-        generator1.addData(c);
 
-        _graph4 = generator1.getGraph();
+        Graph graph4 = new Graph();
+        graph4.addData(a);
+        graph4.addData(b);
+        graph4.addData(c);
+
+        _graph4 = graph4;
 
         TopologyFinder topologyFinder = new TopologyFinder();
         List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph4);
