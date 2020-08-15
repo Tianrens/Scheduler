@@ -279,6 +279,7 @@ public class TopologyTests {
         }
     }
 
+
     /**
      * The graph for this test is just one node
      */
