@@ -29,10 +29,6 @@ public class Main {
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         IDOTFileWriter outputBuilder = new DOTFileWriter();
         outputBuilder.writeOutput(schedule);
-//        DOTDataParser outputBuilder = new DOTDataParser();
-//        outputBuilder.parseOutput(schedule);
-
-
     }
 
     private static AppConfig buildAppConfig(String[] args) {

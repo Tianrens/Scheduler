@@ -2,8 +2,6 @@ package group8.topology;
 
 import group8.models.Graph;
 import group8.models.TaskNode;
-import group8.parser.DOTDataParser;
-import group8.parser.GraphGenerator;
 import group8.scheduler.TopologyFinder;
 import org.junit.*;
 
