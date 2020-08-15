@@ -85,22 +85,22 @@ public class OutputGraphTests {
     public void setUpExpectedSchedules() {
         _expectedSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
-            add("a [Weight=2, Start=0, Processor=1];");
-            add("c [Weight=2, Start=2, Processor=1];");
-            add("b [Weight=3, Start=4, Processor=1];");
-            add("d [Weight=1, Start=7, Processor=1];");
-            add("e [Weight=10, Start=9, Processor=2];");
-            add("a->b [Weight=4];");
-            add("a->c [Weight=5];");
-            add("c->e [Weight=1];");
-            add("b->d [Weight=6];");
-            add("d->e [Weight=1];");
+            add("\ta [Weight=2, Start=0, Processor=1];");
+            add("\tc [Weight=2, Start=2, Processor=1];");
+            add("\tb [Weight=3, Start=4, Processor=1];");
+            add("\td [Weight=1, Start=7, Processor=1];");
+            add("\te [Weight=10, Start=9, Processor=2];");
+            add("\ta->b [Weight=4];");
+            add("\ta->c [Weight=5];");
+            add("\tc->e [Weight=1];");
+            add("\tb->d [Weight=6];");
+            add("\td->e [Weight=1];");
             add("}");
         }};
 
         _expectedNoEdgesSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
-            add("a [Weight=2, Start=0, Processor=1];");
+            add("\ta [Weight=2, Start=0, Processor=1];");
             add("}");
         }};
 

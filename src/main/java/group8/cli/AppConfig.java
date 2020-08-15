@@ -11,6 +11,7 @@ public class AppConfig {
     private int _numCores;
     private boolean _visualise;
     private File _outputFile;
+    private String _graphName;
 
     private AppConfig() {}
 
@@ -73,5 +74,13 @@ public class AppConfig {
 
     public File getOutputFile() {
         return _outputFile;
+    }
+
+    public String getGraphName() {
+        return _graphName;
+    }
+
+    public void setGraphName(String graphName) {
+        this._graphName = graphName;
     }
 }

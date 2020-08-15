@@ -66,7 +66,7 @@ public class DOTFileWriter implements IDOTFileWriter{
      * @return
      */
     private String createNodeString(TaskNode task) {
-        StringBuffer sb = new StringBuffer(task.getId());
+        StringBuffer sb = new StringBuffer("\t"+task.getId());
         sb.append(" [");
         sb.append(WEIGHTATTR);
         sb.append("=");
@@ -91,7 +91,7 @@ public class DOTFileWriter implements IDOTFileWriter{
      * @return
      */
     private String createEdgeString(TaskNode task, Map.Entry<TaskNode, Integer> edge) {
-        StringBuffer sb = new StringBuffer(task.getId());
+        StringBuffer sb = new StringBuffer("\t" + task.getId());
         sb.append("->");
         sb.append(edge.getKey().getId());
         sb.append(" [");
