@@ -8,7 +8,8 @@ import java.util.Arrays;
 import static group8.cli.CLIConstants.*;
 
 /**
- * Builds a AppConfig class
+ * Builds a AppConfig class. Parses input parameters from command line input and does error checking, before building
+ * App Config instance.
  */
 public class AppConfigBuilder {
 
@@ -21,6 +22,7 @@ public class AppConfigBuilder {
 
     /**
      * Debugging purposes
+     * Prints out all arguments received from command prompt.
      */
     public void printArgs() {
         for (String arg : _args) {
@@ -70,8 +72,10 @@ public class AppConfigBuilder {
 
     /**
      *  Gets the input file.
+     *  Checks if input is in correct format.
      * @param filePath path to the file.
      * @return File object of the file.
+     * @throws CLIException if the input file is invalid.
      */
     private File getInputFile(String filePath) throws CLIException {
         File file = new File(filePath);
@@ -86,7 +90,7 @@ public class AppConfigBuilder {
     }
 
     /**
-     * Set options.
+     * Setup options for CommandLine from apache.commons.cli
      * @return Options variable
      */
     private Options getOptions() {
@@ -102,6 +106,7 @@ public class AppConfigBuilder {
 
         return options;
     }
+
     /**
      * Checks if the file extention is '.dot'
      * @param file
@@ -137,7 +142,7 @@ public class AppConfigBuilder {
      * Get number of cores.
      * @param cmd
      * @return
-     * @throws CLIException
+     * @throws CLIException if number of cores is invalid.
      */
     private int getNumCores(CommandLine cmd) throws CLIException {
         int numCores = DEFAULT_CORES;
@@ -171,6 +176,7 @@ public class AppConfigBuilder {
      * Get output file
      * @param cmd
      * @return
+     * @throws CLIException If output file format is invalid.
      */
     private File getOutputFile(CommandLine cmd) throws CLIException {
         File file = new File(_args[0].substring(0,_args[0].length() - 4) + DEFAULT_OUTPUT_SUFFIX);
