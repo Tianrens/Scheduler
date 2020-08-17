@@ -9,10 +9,6 @@ import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class Main {
 
     private static AppConfig _appConfig;
@@ -22,7 +18,7 @@ public class Main {
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
         ITopologyFinder topologyFinder = new TopologyFinder();
-        IScheduler scheduler = new simpleProcessorScheduler(topologyFinder);
+        IScheduler scheduler = new SimpleProcessorScheduler(topologyFinder);
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         IDOTFileWriter outputBuilder = new DOTFileWriter();
         outputBuilder.writeOutput(schedule);

@@ -6,15 +6,21 @@ import group8.models.*;
 
 import java.util.List;
 
-import static group8.scheduler.SchedulerConstants.ONE_PROCESSOR_SCHEDULER_DEFAULT;
 
-public class simpleProcessorScheduler implements IScheduler {
+public class SimpleProcessorScheduler implements IScheduler {
     private final ITopologyFinder _topologyFinder;
 
-    public simpleProcessorScheduler(ITopologyFinder topologyFinder) {
+    public SimpleProcessorScheduler(ITopologyFinder topologyFinder) {
         _topologyFinder = topologyFinder;
     }
 
+    /**
+     * Calling this function will generate a simple valid schedule to output
+     * @param graph
+     * @return
+     * @throws ProcessorException
+     * @throws AppConfigException
+     */
     @Override
     public Schedule generateValidSchedule(Graph graph) throws ProcessorException, AppConfigException {
         List<TaskNode> topology = _topologyFinder.generateTopology(graph);
@@ -32,6 +38,11 @@ public class simpleProcessorScheduler implements IScheduler {
         return schedule;
     }
 
+    /**
+     *
+     * @param schedule
+     * @param topology
+     */
     private void scheduleTopology(Schedule schedule, List<TaskNode> topology) {
         List<Processor> processors = schedule.getProcessors(); // Get default processor for this scheduler
         int processorCount = 0;
@@ -47,6 +58,7 @@ public class simpleProcessorScheduler implements IScheduler {
 
             for(TaskNode parent : parentList){
 
+                //if parent is not on the same processor, remote costs have to be considered
                 if(parent.getProcessor()!=processor){
                     startTime = parent.getEdgeList().get(taskNode)+parent.getCost()+parent.getTimeScheduled();
                     if(startTime < processor.getFirstAvailableTime()){
@@ -60,6 +72,7 @@ public class simpleProcessorScheduler implements IScheduler {
                     earliestStartTime=startTime;
                 }
             }
+
 
             schedule.scheduleTask(processor, taskNode, earliestStartTime);
             processor.setFirstAvailableTime(earliestStartTime + taskNode.getCost());
