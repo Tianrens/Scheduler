@@ -15,12 +15,12 @@ import java.util.Map;
 import static group8.parser.DOTFileConstants.*;
 
 /**
- * This class deals with output parsing
+ * A service for writing the final schedule to the output DOT file.
  */
 public class DOTFileWriter implements IDOTFileWriter{
 
     /**
-     * This method handles the writing of the schedule to a file
+     * Main method for writing the schedule to the output DOT file.
      * @param schedule
      * @throws AppConfigException
      */

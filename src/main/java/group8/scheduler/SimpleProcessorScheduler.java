@@ -6,7 +6,9 @@ import group8.models.*;
 
 import java.util.List;
 
-
+/**
+ * This class is designed to generate a simple schedule where as many processors are utilised as possible
+ */
 public class SimpleProcessorScheduler implements IScheduler {
     private final ITopologyFinder _topologyFinder;
 
@@ -39,12 +41,12 @@ public class SimpleProcessorScheduler implements IScheduler {
     }
 
     /**
-     *
+     * This method handles most of the schduling and processing logic of the class
      * @param schedule
      * @param topology
      */
     private void scheduleTopology(Schedule schedule, List<TaskNode> topology) {
-        List<Processor> processors = schedule.getProcessors(); // Get default processor for this scheduler
+        List<Processor> processors = schedule.getProcessors(); // A list of all processors are obtained
         int processorCount = 0;
 
 
@@ -53,9 +55,9 @@ public class SimpleProcessorScheduler implements IScheduler {
             int startTime;
             int earliestStartTime = 0;
             Processor processor = processors.get(processorCount);
-            //get all parents
             List<TaskNode> parentList = taskNode.getParentNodeList();
 
+            //checks all parents to determine earliest possible start time, by taking into account remote costs
             for(TaskNode parent : parentList){
 
                 //if parent is not on the same processor, remote costs have to be considered
@@ -68,6 +70,7 @@ public class SimpleProcessorScheduler implements IScheduler {
                     startTime = processor.getFirstAvailableTime();
                 }
 
+                //checks if there any dependencies that might delay the scheduling of the task
                 if(startTime>earliestStartTime){
                     earliestStartTime=startTime;
                 }
