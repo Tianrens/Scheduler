@@ -68,6 +68,7 @@ public class SimpleProcessorScheduler implements IScheduler {
                     startTime = processor.getFirstAvailableTime();
                 }
 
+                //checks if there any dependencies that might delay the scheduling of the task
                 if(startTime>earliestStartTime){
                     earliestStartTime=startTime;
                 }
