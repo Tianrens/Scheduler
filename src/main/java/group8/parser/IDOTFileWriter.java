@@ -4,10 +4,15 @@ import group8.cli.AppConfigException;
 import group8.models.Schedule;
 
 /**
- * Interface to handle output parsing
+ * Main interface for a service to write schedules to output DOT file.
  */
 public interface IDOTFileWriter {
 
+    /**
+     * Main method which handles the writing of the DOT file from the {@link Schedule}.
+     * @param schedule
+     * @throws AppConfigException if the output file has not been configured, i.e. AppConfig has not been generated.
+     */
     void writeOutput(Schedule schedule) throws AppConfigException;
 
 }
