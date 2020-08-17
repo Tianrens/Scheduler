@@ -6,12 +6,11 @@ import group8.models.*;
 
 import java.util.List;
 
-import static group8.scheduler.SchedulerConstants.ONE_PROCESSOR_SCHEDULER_DEFAULT;
 
-public class simpleProcessorScheduler implements IScheduler {
+public class SimpleProcessorScheduler implements IScheduler {
     private final ITopologyFinder _topologyFinder;
 
-    public simpleProcessorScheduler(ITopologyFinder topologyFinder) {
+    public SimpleProcessorScheduler(ITopologyFinder topologyFinder) {
         _topologyFinder = topologyFinder;
     }
 
