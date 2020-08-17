@@ -30,7 +30,7 @@ The JAR will be generated in the `build/libs` directory.
 1. To run the JAR. Open a new terminal window and `cd` to the directory with the JAR.
 2. Type the following command into the terminal window.
     ```
-    java -jar scheduler.jar INPUT.jar P [OPTION]
+    java -jar scheduler.jar INPUT.dot P [OPTION]
     ```
     
     ```

@@ -37,7 +37,7 @@ public class Main {
             return cli.build();
         } catch (CLIException e) {
             //e.printStackTrace();
-            String getHelp = "java -jar scheduler.jar INPUT.jar P [OPTION]" + System.lineSeparator()
+            String getHelp = "java -jar scheduler.jar INPUT.dot P [OPTION]" + System.lineSeparator()
                     + "INPUT.dot    a task graph with integer weights in dot format" + System.lineSeparator()
                     + "P            number of processors to schedule the INPUT graph on" + System.lineSeparator()
                     + "Optional:" + System.lineSeparator()
