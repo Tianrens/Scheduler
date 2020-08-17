@@ -1,4 +1,4 @@
-#Meeting Minutes
+# Meeting Minutes
 
 - [28/07/2020](https://github.com/SoftEng306-2020/project-1-8-gr8-b8-m8/blob/master/wiki/meeting_minutes/meeting1.md)
 - [29/07/2020](https://github.com/SoftEng306-2020/project-1-8-gr8-b8-m8/blob/master/wiki/meeting_minutes/meeting2.md)

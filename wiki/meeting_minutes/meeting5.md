@@ -1,7 +1,7 @@
-##Meeting 5
+## Meeting 5
 04/08/2020
 
-####Agenda
+#### Agenda
 - Make sure everyone is on the repo
 - Set up project in repo
 - Gradle vs Maven
@@ -23,7 +23,7 @@
 64
 
 &nbsp;
-####ACTION ITEMS:
+#### ACTION ITEMS:
 - Review Monday lecture
 
 **CODING:**

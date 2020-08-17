@@ -1,7 +1,7 @@
-##Meeting 6
+## Meeting 6
 07/08/2020 3:00pm
 
-####Agenda
+#### Agenda
 - Set deadline for milestone 1, to check
 - Go over the things that we’ve done
 
@@ -38,11 +38,11 @@ _Apache Commons for parsing CLI inputs_
 - What DOT syntax are we following, and exemplar
 
 &nbsp;
-####Future meetings
+#### Future meetings
 - Every Monday, Thursday (in-person). Saturday (online).
 
 &nbsp;
-####ACTION ITEMS:
+#### ACTION ITEMS:
 - Research about A* algorithm - David
 - Research about DFS algorithm - Justin & Tianren
 - Individual item tasks specified above.
