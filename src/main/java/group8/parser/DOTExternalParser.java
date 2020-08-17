@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 
 /**
- * An intermediary between our code base and the external parser (dependency).
+ * An intermediary between our code base and the external parser (dependent parser that is not of our code base).
  * @param <T> External parser implementation of the Node class
  * @param <U> External parser implementation of the Edge class
  */
@@ -27,6 +27,7 @@ public abstract class DOTExternalParser<T, U> {
 
     /**
      * Retrieve an input stream for reading in values via {@link AppConfig}'s input file.
+     * This needs to be manually closed later, after using any external parser.
      * @return input stream for reading in values.
      * @throws AppConfigException if file does not exist, which should have if {@link AppConfig} had been built correctly.
      */
