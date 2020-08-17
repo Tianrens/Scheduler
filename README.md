@@ -43,5 +43,5 @@ The JAR will be generated in the `build/libs` directory.
     ```
 
 ## Documentation
- * [Wiki](https://github.com/SoftEng306-2020/project-1-8-gr8-b8-m8/tree/master/wiki) 
+ * [Wiki](wiki/Home.md) 
 
