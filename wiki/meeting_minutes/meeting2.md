@@ -1,7 +1,7 @@
-##Meeting 2
+## Meeting 2
 29/07/2020 10:30am
 
-####Agenda
+#### Agenda
 
 - Look over WBS
 - Network diagram
@@ -11,7 +11,7 @@
 - Allocate someone to make gantt chart pretty
 
 &nbsp;
-####ACTION ITEMS:
+#### ACTION ITEMS:
 - Email oliver about the waterfall model and UX/UI design thing - David
 - Make WBS pretty - Tianren & Jennifer (need to finalise later)
 - Network diagram pretty - Justin & David help (need to finalise later)

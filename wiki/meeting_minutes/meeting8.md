@@ -1,14 +1,14 @@
-##Meeting 8
+## Meeting 8
 13/08/2020 3:00pm
 
-####AGENDA
+#### AGENDA
 - Go over our tasks, start testing for final so we can submit by perhaps this Saturday.
 - Polishing up tasks
     - Tianren wants to add head node/ topologically available nodes.
 - Assign someone to submit
 
 &nbsp;
-####ACTION ITEMS:
+#### ACTION ITEMS:
 - Polishing up:
     - ScheduleTests
         - Move scheduletests out of cli folder (tests) - David

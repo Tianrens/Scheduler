@@ -1,7 +1,7 @@
-##Meeting 10
+## Meeting 10
 17/08/2020 3pm
 
-####AGENDA
+#### AGENDA
 - SUBMIT MILESTONE 1 (JAR release) + release note
     - We fixed some README issues, talked about Oliver’s reply
     - Fix some input reader not closing
@@ -27,7 +27,7 @@ _In the end, we decided that A* is doable within our time limit (we will still h
 _Possible split for the multi-threading: List<Leaves> / No. threads_
 
 &nbsp;
-####ACTION ITEMS:
+#### ACTION ITEMS:
 - Test David’s code
     - Add graphs to resources so we can use this later on
     - Graphs - Raymond and Justin

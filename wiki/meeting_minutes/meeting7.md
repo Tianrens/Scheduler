@@ -1,7 +1,7 @@
-##Meeting 7
+## Meeting 7
 10/08/2020 1:00pm
 
-####AGENDA
+#### AGENDA
 - Discuss what we have done so far
 - What needs to be done to get us to milestone 1 (simple scheduler output parsing)
 - Decide on how to test for milestone 1 deliverables
@@ -23,6 +23,6 @@ Jennifer is to finish the scheduler, put on one process. Make sure it is valid._
 - Jennifer - output parser tests
 
 &nbsp;
-####ACTION ITEMS:
+#### ACTION ITEMS:
 - Finish your tasks specified above by Thursday
 - Add to the research document about brand and bound algorithms, and read over what David has written
