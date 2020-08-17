@@ -6,7 +6,7 @@ import group8.models.ProcessorException;
 import group8.models.Schedule;
 
 /**
- *
+ * Interface for the different scheduling algorithms
  */
 public interface IScheduler {
 
