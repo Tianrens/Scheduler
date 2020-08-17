@@ -52,6 +52,7 @@ public class DOTFileWriter implements IDOTFileWriter{
 
             out.write(edgeList); // All edges are written out to the dot file
             out.write("}");
+            out.flush();
             System.out.println(AppConfig.getInstance().getOutputFile().toString() + " has been generated");
         } catch (Exception e) {
             e.printStackTrace();
