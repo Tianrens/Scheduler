@@ -7,10 +7,7 @@ import group8.cli.CLIException;
 import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
-import group8.scheduler.IScheduler;
-import group8.scheduler.ITopologyFinder;
-import group8.scheduler.OneProcessorScheduler;
-import group8.scheduler.TopologyFinder;
+import group8.scheduler.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +22,7 @@ public class Main {
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
         ITopologyFinder topologyFinder = new TopologyFinder();
-        IScheduler scheduler = new OneProcessorScheduler(topologyFinder);
+        IScheduler scheduler = new simpleProcessorScheduler(topologyFinder);
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         IDOTFileWriter outputBuilder = new DOTFileWriter();
         outputBuilder.writeOutput(schedule);
