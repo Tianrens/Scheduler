@@ -7,6 +7,7 @@ import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -20,6 +21,11 @@ public class DOTPaypalParser extends DOTExternalParser<GraphNode, GraphEdge> {
     public DOTPaypalParser() throws AppConfigException {
         FileInputStream inputStream = getFileInputStream();
         _parser = new GraphParser(inputStream);
+        try {
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("File " + AppConfig.getInstance().getInputFile().toString() + " has been successfully read and parsed");
     }
 
