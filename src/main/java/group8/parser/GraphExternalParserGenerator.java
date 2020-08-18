@@ -8,7 +8,8 @@ import java.util.Map;
 import static group8.parser.DOTFileConstants.*;
 
 /**
- * This generates a graph using an {@link DOTExternalParser}.
+ * This generates a graph from the input DOT file using a {@link DOTExternalParser}. It is essentially a converter
+ * service between the external parser's implementation of edges and nodes into our code bases' implementation of edges and nodes.
  */
 public class GraphExternalParserGenerator implements IGraphGenerator {
     private DOTExternalParser _parser;
@@ -34,7 +35,7 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         for (String nodeId : nodes.keySet()) {
             GraphNode node = nodes.get(nodeId);
 
-            Integer weight = Integer.parseInt((String) node.getAttribute(WEIGHTATTR));
+            Integer weight = Integer.parseInt((String) node.getAttribute(WEIGHTATTR)); // Retrieve the relevant attribute (Cost)
 
             TaskNode newNode = new TaskNode(weight, nodeId);
             graph.addNode(newNode);

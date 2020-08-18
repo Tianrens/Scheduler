@@ -7,19 +7,28 @@ import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
 
 /**
- * An intermediary between the external Paypay DOT parser and our code base. On construction, takes in an inputstream
+ * An intermediary between the external Paypal DOT parser and our code base. On construction, takes in an inputstream
  * provided by the parent class {@link DOTExternalParser}. This external parser does not have any methods for generating
  * a DOT file back.
+ *
+ * Paypal DOT parser: https://github.com/paypal/digraph-parser.
  */
 public class DOTPaypalParser extends DOTExternalParser<GraphNode, GraphEdge> {
     private GraphParser _parser;
 
     public DOTPaypalParser() throws AppConfigException {
         FileInputStream inputStream = getFileInputStream();
-        _parser = new GraphParser(inputStream);
+        _parser = new GraphParser(inputStream); // Paypal DOT parser
+
+        try {
+            inputStream.close(); // Input stream has to be manually closed, as we are borrowing the input stream from parent class.
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("File " + AppConfig.getInstance().getInputFile().toString() + " has been successfully read and parsed");
     }
 

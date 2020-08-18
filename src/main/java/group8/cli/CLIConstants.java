@@ -1,5 +1,8 @@
 package group8.cli;
 
+/**
+ * Constants for AppBuilder class.
+ */
 public class CLIConstants {
     protected static final String PARALLEL_FLAG = "p";
     protected static final String VISUALISE_FLAG = "v";

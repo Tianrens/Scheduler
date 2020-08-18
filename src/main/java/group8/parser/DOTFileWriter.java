@@ -15,12 +15,12 @@ import java.util.Map;
 import static group8.parser.DOTFileConstants.*;
 
 /**
- * This class deals with output parsing
+ * A service for writing the final schedule to the output DOT file.
  */
 public class DOTFileWriter implements IDOTFileWriter{
 
     /**
-     * This method handles the writing of the schedule to a file
+     * Main method for writing the schedule to the output DOT file.
      * @param schedule
      * @throws AppConfigException
      */
@@ -52,9 +52,13 @@ public class DOTFileWriter implements IDOTFileWriter{
 
             out.write(edgeList); // All edges are written out to the dot file
             out.write("}");
+            out.flush();
+            System.out.println(AppConfig.getInstance().getOutputFile().toString() + " has been generated");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+       
     }
 
     /**
@@ -63,7 +67,7 @@ public class DOTFileWriter implements IDOTFileWriter{
      * @return
      */
     private String createNodeString(TaskNode task) {
-        StringBuffer sb = new StringBuffer(task.getId());
+        StringBuffer sb = new StringBuffer("\t"+task.getId());
         sb.append(" [");
         sb.append(WEIGHTATTR);
         sb.append("=");
@@ -88,7 +92,7 @@ public class DOTFileWriter implements IDOTFileWriter{
      * @return
      */
     private String createEdgeString(TaskNode task, Map.Entry<TaskNode, Integer> edge) {
-        StringBuffer sb = new StringBuffer(task.getId());
+        StringBuffer sb = new StringBuffer("\t" + task.getId());
         sb.append("->");
         sb.append(edge.getKey().getId());
         sb.append(" [");

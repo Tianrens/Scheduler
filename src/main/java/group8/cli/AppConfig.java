@@ -2,6 +2,13 @@ package group8.cli;
 
 import java.io.File;
 
+/**
+ * This class stores configuration information of the application.
+ * This is a singleton class.
+ *
+ * Stores:
+ * Input File, Number of processors, number of cores, to use visualisation or not, output name and graph name.
+ */
 public class AppConfig {
 
     private static AppConfig _appConfig;
@@ -11,9 +18,14 @@ public class AppConfig {
     private int _numCores;
     private boolean _visualise;
     private File _outputFile;
+    private String _graphName;
 
     private AppConfig() {}
 
+    /**
+     * Singleton. Gets an instance of this class, if not instance exists, a new instance is created.
+     * @return
+     */
     public static AppConfig getInstance() {
         if (_appConfig == null) {
             _appConfig = new AppConfig();
@@ -21,6 +33,9 @@ public class AppConfig {
         return _appConfig;
     }
 
+    /**
+     * Removes instance of this class.
+     */
     public static void clearConfig() {
         _appConfig = null;
     }
@@ -73,5 +88,13 @@ public class AppConfig {
 
     public File getOutputFile() {
         return _outputFile;
+    }
+
+    public String getGraphName() {
+        return _graphName;
+    }
+
+    public void setGraphName(String graphName) {
+        this._graphName = graphName;
     }
 }

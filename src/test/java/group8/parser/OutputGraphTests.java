@@ -19,24 +19,21 @@ import org.junit.Test;
 import static org.junit.Assert.fail;
 
 public class OutputGraphTests {
-    IDOTDataParser _dataParser;
-    GraphGenerator _graphGenerator;
+    private IDOTFileWriter _dataParser;
 
-    Schedule _schedule;
-    Schedule _noEdgesSchedule;
-    Schedule _emptySchedule;
+    private Schedule _schedule;
+    private Schedule _noEdgesSchedule;
+    private Schedule _emptySchedule;
 
-    List<String> _expectedSchedule;
-    List<String> _expectedNoEdgesSchedule;
-    List<String> _expectedEmptySchedule;
+    private List<String> _expectedSchedule;
+    private List<String> _expectedNoEdgesSchedule;
+    private List<String> _expectedEmptySchedule;
 
     private final String _actualOutputSchedule = "actualOutputSchedule.dot";
 
     @Before
     public void setUpParser() throws ProcessorException {
-        _dataParser = new DOTDataParser();
-        _graphGenerator = new GraphGenerator(_dataParser);
-
+        _dataParser = new DOTFileWriter();
         _emptySchedule = new Schedule(1, null);
     }
 
@@ -88,22 +85,22 @@ public class OutputGraphTests {
     public void setUpExpectedSchedules() {
         _expectedSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
-            add("a [Weight=2, Start=0, Processor=1];");
-            add("c [Weight=2, Start=2, Processor=1];");
-            add("b [Weight=3, Start=4, Processor=1];");
-            add("d [Weight=1, Start=7, Processor=1];");
-            add("e [Weight=10, Start=9, Processor=2];");
-            add("a->b [Weight=4];");
-            add("a->c [Weight=5];");
-            add("c->e [Weight=1];");
-            add("b->d [Weight=6];");
-            add("d->e [Weight=1];");
+            add("\ta [Weight=2, Start=0, Processor=1];");
+            add("\tc [Weight=2, Start=2, Processor=1];");
+            add("\tb [Weight=3, Start=4, Processor=1];");
+            add("\td [Weight=1, Start=7, Processor=1];");
+            add("\te [Weight=10, Start=9, Processor=2];");
+            add("\ta->b [Weight=4];");
+            add("\ta->c [Weight=5];");
+            add("\tc->e [Weight=1];");
+            add("\tb->d [Weight=6];");
+            add("\td->e [Weight=1];");
             add("}");
         }};
 
         _expectedNoEdgesSchedule = new ArrayList<String>() {{
             add("digraph output_graph {");
-            add("a [Weight=2, Start=0, Processor=1];");
+            add("\ta [Weight=2, Start=0, Processor=1];");
             add("}");
         }};
 
@@ -120,7 +117,7 @@ public class OutputGraphTests {
     public void NormalScheduleTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
-        _dataParser.parseOutput(_schedule);
+        _dataParser.writeOutput(_schedule);
 
         checkExpectedVsActual(_expectedSchedule);
 
@@ -133,7 +130,7 @@ public class OutputGraphTests {
     public void NoEdgesTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
-        _dataParser.parseOutput(_noEdgesSchedule);
+        _dataParser.writeOutput(_noEdgesSchedule);
 
         checkExpectedVsActual(_expectedNoEdgesSchedule);
     }
@@ -145,7 +142,7 @@ public class OutputGraphTests {
     public void EmptyScheduleTest() throws AppConfigException {
         String pathOfOutputTestSchedule = this.getClass().getResource(_actualOutputSchedule).getPath();
         AppConfig.getInstance().setOutputFile(new File(pathOfOutputTestSchedule));
-        _dataParser.parseOutput(_emptySchedule);
+        _dataParser.writeOutput(_emptySchedule);
 
         checkExpectedVsActual(_expectedEmptySchedule);
     }

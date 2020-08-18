@@ -7,14 +7,7 @@ import group8.cli.CLIException;
 import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
-import group8.scheduler.IScheduler;
-import group8.scheduler.ITopologyFinder;
-import group8.scheduler.OneProcessorScheduler;
-import group8.scheduler.TopologyFinder;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import group8.scheduler.*;
 
 public class Main {
 
@@ -25,14 +18,10 @@ public class Main {
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
         ITopologyFinder topologyFinder = new TopologyFinder();
-        IScheduler scheduler = new OneProcessorScheduler(topologyFinder);
+        IScheduler scheduler = new SimpleProcessorScheduler(topologyFinder);
         Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
         IDOTFileWriter outputBuilder = new DOTFileWriter();
         outputBuilder.writeOutput(schedule);
-//        DOTDataParser outputBuilder = new DOTDataParser();
-//        outputBuilder.parseOutput(schedule);
-
-
     }
 
     private static AppConfig buildAppConfig(String[] args) {
@@ -41,7 +30,7 @@ public class Main {
             return cli.build();
         } catch (CLIException e) {
             //e.printStackTrace();
-            String getHelp = "java -jar scheduler.jar INPUT.jar P [OPTION]" + System.lineSeparator()
+            String getHelp = "java -jar scheduler.jar INPUT.dot P [OPTION]" + System.lineSeparator()
                     + "INPUT.dot    a task graph with integer weights in dot format" + System.lineSeparator()
                     + "P            number of processors to schedule the INPUT graph on" + System.lineSeparator()
                     + "Optional:" + System.lineSeparator()

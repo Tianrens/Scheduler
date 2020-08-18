@@ -12,8 +12,6 @@ public class Graph {
      * Method used by GraphGenerator to add a new node into the Graph
      * @param newNode node to add to the graph
      */
-
-
     public void addNode(TaskNode newNode){
         String nodeID = newNode.getId();
         _nodes.put(nodeID, newNode);
@@ -38,14 +36,6 @@ public class Graph {
         return _nodes;
     }
 
-    /**
-     * The two following method is for testing purposes only
-     * @return
-     */
-    public Graph createGraph() {
-        Graph graph = new Graph();
-        return graph;
-    }
 
     /**
      * This method is used to bypass having to create a TaskNode and adding it to graph manually

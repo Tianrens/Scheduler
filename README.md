@@ -3,13 +3,13 @@
 This project utilises AI and parallel processing power to find an optimal schedule from a given directed task graph.
 
 ## Team 8 - GR8 B8 M8
-|Name           |GitHub Username                                            |UPI    |ID     |
-|---------------|-----------------------------------------------------------|-------|-------|
-|David Xiao     |[David-Xia0](https://github.com/David-Xia0)                |dxia063|       |
-|Jennifer Lowe  |[parfei](https://github.com/parfei)                        |jlow987|       |
-|Justin Teo     |[jteo97](https://github.com/jteo97)                        |jteo158|       |
-|Raymond Chiu   |[raymondhonsumchiu](https://github.com/raymondhonsumchiu)  |rchi385|       |
-|Tianren Shen   |[Tianrens](https://github.com/Tianrens)                    |tshe695|       |
+|Name           |GitHub Username                                            |UPI    |
+|---------------|-----------------------------------------------------------|-------|
+|David Xiao     |[David-Xia0](https://github.com/David-Xia0)                |dxia063|
+|Jennifer Lowe  |[parfei](https://github.com/parfei)                        |jlow987|
+|Justin Teo     |[jteo97](https://github.com/jteo97)                        |jteo158|
+|Raymond Chiu   |[raymondhonsumchiu](https://github.com/raymondhonsumchiu)  |rchi385|
+|Tianren Shen   |[Tianrens](https://github.com/Tianrens)                    |tshe695|
 
 
 ## Importing the project
@@ -26,11 +26,16 @@ Run the Gradle Task
 ```
 The JAR will be generated in the `build/libs` directory.
 
+NOTE: If you do not have sufficient permissions, run the following command.
+```
+chmod -x ./gradlew
+```
+
 ## Running the JAR
 1. To run the JAR. Open a new terminal window and `cd` to the directory with the JAR.
 2. Type the following command into the terminal window.
     ```
-    java -jar scheduler.jar INPUT.jar P [OPTION]
+    java -jar scheduler.jar INPUT.dot P [OPTION]
     ```
     
     ```
@@ -43,5 +48,12 @@ The JAR will be generated in the `build/libs` directory.
     ```
 
 ## Documentation
- * [Wiki](wiki/Home.md) 
+* [Wiki](wiki/Home.md) 
+ 
+## External Dependencies
+* [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/)
+* [Paypal Digraph Parser](https://github.com/paypal/digraph-parser)
+
+
+
 
