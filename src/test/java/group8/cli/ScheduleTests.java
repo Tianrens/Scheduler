@@ -1,9 +1,9 @@
 package group8.cli;
 
 import group8.models.Graph;
+import group8.models.Node;
 import group8.models.ProcessorException;
 import group8.models.Schedule;
-import group8.models.TaskNode;
 import group8.scheduler.IScheduler;
 import group8.scheduler.OneProcessorScheduler;
 import static group8.scheduler.SchedulerConstants.*;
@@ -97,8 +97,8 @@ public class ScheduleTests {
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
 
-        List<TaskNode> taskNodeList = schedule.getTaskNodeList();
-        for (TaskNode tn : taskNodeList){
+        List<Node> nodeList = schedule.getTaskNodeList();
+        for (Node tn : nodeList){
             assertEquals(ONE_PROCESSOR_SCHEDULER_DEFAULT, tn.getProcessor().getId());
         }
 
@@ -112,7 +112,7 @@ public class ScheduleTests {
         IScheduler scheduler = new OneProcessorScheduler(new TopologyFinder());
         Schedule schedule = scheduler.generateValidSchedule(_graph);
 
-        List<TaskNode> list = schedule.getTaskNodeList();
+        List<Node> list = schedule.getTaskNodeList();
         int cost = 0;
         char node = 'a';
 

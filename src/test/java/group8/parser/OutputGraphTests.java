@@ -2,10 +2,10 @@ package group8.parser;
 
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
+import group8.models.Node;
 import group8.models.Processor;
 import group8.models.ProcessorException;
 import group8.models.Schedule;
-import group8.models.TaskNode;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,11 +40,11 @@ public class OutputGraphTests {
     @Before
     public void generateSchedule() throws ProcessorException {
 
-        TaskNode a = new TaskNode(2, "a");
-        TaskNode b = new TaskNode(3, "b");
-        TaskNode c = new TaskNode(2, "c");
-        TaskNode d = new TaskNode(1, "d");
-        TaskNode e = new TaskNode(10, "e");
+        Node a = new Node(2, "a");
+        Node b = new Node(3, "b");
+        Node c = new Node(2, "c");
+        Node d = new Node(1, "d");
+        Node e = new Node(10, "e");
 
         a.addDestination(b, 4);
         a.addDestination(c, 5);
@@ -52,7 +52,7 @@ public class OutputGraphTests {
         b.addDestination(d, 6);
         d.addDestination(e, 1);
 
-        List<TaskNode> topology = new ArrayList<>();
+        List<Node> topology = new ArrayList<>();
         topology.add(a);
         topology.add(c);
         topology.add(b);
@@ -71,9 +71,9 @@ public class OutputGraphTests {
 
     @Before
     public void generateNoEdgesSchedule() throws ProcessorException {
-        TaskNode a = new TaskNode(2, "a");
+        Node a = new Node(2, "a");
 
-        List<TaskNode> topology = new ArrayList<>();
+        List<Node> topology = new ArrayList<>();
         topology.add(a);
         _noEdgesSchedule = new Schedule(1, topology);
 

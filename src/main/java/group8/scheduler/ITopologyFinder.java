@@ -1,7 +1,7 @@
 package group8.scheduler;
 
 import group8.models.Graph;
-import group8.models.TaskNode;
+import group8.models.Node;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface ITopologyFinder {
 
-    List<TaskNode> generateTopology(Graph graph);
+    List<Node> generateTopology(Graph graph);
 }

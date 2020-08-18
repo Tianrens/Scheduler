@@ -21,7 +21,7 @@ public class OneProcessorScheduler implements IScheduler {
 
     @Override
     public Schedule generateValidSchedule(Graph graph) throws ProcessorException, AppConfigException {
-        List<TaskNode> topology = _topologyFinder.generateTopology(graph);
+        List<Node> topology = _topologyFinder.generateTopology(graph);
         int numProcessors = AppConfig.getInstance().getNumProcessors();
         if (numProcessors == 0) {
             throw new AppConfigException();
@@ -41,14 +41,14 @@ public class OneProcessorScheduler implements IScheduler {
      * @param schedule
      * @param topology
      */
-    private void scheduleTopology(Schedule schedule, List<TaskNode> topology) {
+    private void scheduleTopology(Schedule schedule, List<Node> topology) {
         Processor processor = schedule.getProcessors().get(ONE_PROCESSOR_SCHEDULER_DEFAULT - 1); // Get default processor for this scheduler
 
         int startTime;
-        for (TaskNode taskNode : topology) {
+        for (Node node : topology) {
             startTime = processor.getFirstAvailableTime();
-            schedule.scheduleTask(processor, taskNode, startTime);
-            processor.setFirstAvailableTime(startTime + taskNode.getCost());
+            schedule.scheduleTask(processor, node, startTime);
+            processor.setFirstAvailableTime(startTime + node.getCost());
         }
     }
 }

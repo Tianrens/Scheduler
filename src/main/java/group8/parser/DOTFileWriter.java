@@ -3,7 +3,7 @@ package group8.parser;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 import group8.models.Schedule;
-import group8.models.TaskNode;
+import group8.models.Node;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,18 +34,18 @@ public class DOTFileWriter implements IDOTFileWriter{
         try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
             out.write("digraph output_graph {");
             out.newLine();
-            List<TaskNode> taskNodeList  = schedule.getTaskNodeList();
+            List<Node> nodeList = schedule.getTaskNodeList();
 
             //This string is written out last because all nodes must be declared before edges
             String edgeList = "";
 
             // The for loop cycles through all takesNodes and prints them out + their edges
-            for(TaskNode task : taskNodeList){
+            for(Node task : nodeList){
 
                 out.write(createNodeString(task)); // This prints out all nodes their weights, processor and start time
                 out.newLine();
 
-                for (Map.Entry<TaskNode, Integer> edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+                for (Map.Entry<Node, Integer> edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
                     edgeList += createEdgeString(task, edge);
                 }
             }
@@ -66,7 +66,7 @@ public class DOTFileWriter implements IDOTFileWriter{
      * @param task
      * @return
      */
-    private String createNodeString(TaskNode task) {
+    private String createNodeString(Node task) {
         StringBuffer sb = new StringBuffer("\t"+task.getId());
         sb.append(" [");
         sb.append(WEIGHTATTR);
@@ -91,7 +91,7 @@ public class DOTFileWriter implements IDOTFileWriter{
      * @param edge
      * @return
      */
-    private String createEdgeString(TaskNode task, Map.Entry<TaskNode, Integer> edge) {
+    private String createEdgeString(Node task, Map.Entry<Node, Integer> edge) {
         StringBuffer sb = new StringBuffer("\t" + task.getId());
         sb.append("->");
         sb.append(edge.getKey().getId());

@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * This class is a model of each individual node in the graph
  */
-public class TaskNode {
+public class Node {
 
-    private HashMap<TaskNode, Integer> _edgeList;
-    private List<TaskNode> _parentNodeList;
+    private HashMap<Node, Integer> _edgeList;
+    private List<Node> _parentNodeList;
     private int _cost;
     private String _id;
     private Processor _processor;
@@ -23,9 +23,9 @@ public class TaskNode {
      * @param cost
      * @param id
      */
-    public TaskNode(int cost, String id) {
-        _edgeList = new HashMap<TaskNode, Integer>();
-        _parentNodeList = new ArrayList<TaskNode>();
+    public Node(int cost, String id) {
+        _edgeList = new HashMap<Node, Integer>();
+        _parentNodeList = new ArrayList<Node>();
         _cost = cost;
         _id = id;
     }
@@ -36,7 +36,7 @@ public class TaskNode {
      * @param destNode
      * @param edgeWeight
      */
-    public void addDestination(TaskNode destNode, int edgeWeight) {
+    public void addDestination(Node destNode, int edgeWeight) {
         _edgeList.put(destNode, edgeWeight);
     }
 
@@ -45,7 +45,7 @@ public class TaskNode {
      * so that dependencies can be checked easily
      * @param parentNode
      */
-    public void addParentNode(TaskNode parentNode) {
+    public void addParentNode(Node parentNode) {
         _parentNodeList.add(parentNode);
     }
 
@@ -59,19 +59,19 @@ public class TaskNode {
         _id = id;
     }
 
-    public List<TaskNode> getParentNodeList() {
+    public List<Node> getParentNodeList() {
         return _parentNodeList;
     }
 
-    public void setParentNodeList(List<TaskNode> parentNodeList) {
+    public void setParentNodeList(List<Node> parentNodeList) {
         _parentNodeList = parentNodeList;
     }
 
-    public HashMap<TaskNode, Integer> getEdgeList() {
+    public HashMap<Node, Integer> getEdgeList() {
         return _edgeList;
     }
 
-    public void setEdgeList(HashMap<TaskNode, Integer> edgeList) {
+    public void setEdgeList(HashMap<Node, Integer> edgeList) {
         _edgeList = edgeList;
     }
 
