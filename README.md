@@ -3,13 +3,13 @@
 This project utilises AI and parallel processing power to find an optimal schedule from a given directed task graph.
 
 ## Team 8 - GR8 B8 M8
-|Name           |GitHub Username                                            |UPI    |ID     |
-|---------------|-----------------------------------------------------------|-------|-------|
-|David Xiao     |[David-Xia0](https://github.com/David-Xia0)                |dxia063|       |
-|Jennifer Lowe  |[parfei](https://github.com/parfei)                        |jlow987|       |
-|Justin Teo     |[jteo97](https://github.com/jteo97)                        |jteo158|       |
-|Raymond Chiu   |[raymondhonsumchiu](https://github.com/raymondhonsumchiu)  |rchi385|       |
-|Tianren Shen   |[Tianrens](https://github.com/Tianrens)                    |tshe695|       |
+|Name           |GitHub Username                                            |UPI    |
+|---------------|-----------------------------------------------------------|-------|
+|David Xiao     |[David-Xia0](https://github.com/David-Xia0)                |dxia063|
+|Jennifer Lowe  |[parfei](https://github.com/parfei)                        |jlow987|
+|Justin Teo     |[jteo97](https://github.com/jteo97)                        |jteo158|
+|Raymond Chiu   |[raymondhonsumchiu](https://github.com/raymondhonsumchiu)  |rchi385|
+|Tianren Shen   |[Tianrens](https://github.com/Tianrens)                    |tshe695|
 
 
 ## Importing the project
@@ -48,9 +48,12 @@ chmod -x ./gradlew
     ```
 
 ## Documentation
- * [Wiki](https://github.com/SoftEng306-2020/project-1-8-gr8-b8-m8/tree/master/wiki) 
+* [Wiki](wiki/Home.md) 
  
 ## External Dependencies
 * [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/)
 * [Paypal Digraph Parser](https://github.com/paypal/digraph-parser)
+
+
+
 
