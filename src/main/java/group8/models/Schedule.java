@@ -18,9 +18,9 @@ public class Schedule {
     /**
      * HashMap storing nodes in the schedule.
      * Key is nodeID.
-     * Value is a String array, first element is start time, second element is processor.
+     * Value is a int array, first element is start time, second element is processor.
      */
-    private Map<String, String[]> _nodes = new HashMap<>();
+    private Map<String, int[]> _nodes = new HashMap<>();
     /**
      * Int array of processors. Where the arr[Index] = earliest start time.
      * Processors start at 0.
@@ -43,8 +43,8 @@ public class Schedule {
      * @param startTime the first value of array
      * @param processor the second value of array
      */
-    public void setNode(String nodeId, String startTime, String processor) throws ScheduleException {
-        String[] value = {startTime, processor};
+    public void setNode(String nodeId, int startTime, int processor) throws ScheduleException {
+        int[] value = new int[]{startTime, processor};
 //        if (_nodes.containsKey(nodeId)) {
 //            throw new ScheduleException("NodeId already in map.");
 //        }
@@ -77,9 +77,9 @@ public class Schedule {
 //            if (_nodes.get(key) == null) {
 //                throw new ScheduleException("Null Value for this key, in Nodes HashMap");
 //            }
-            String[] value = _nodes.get(key);
-            int processorId = Integer.parseInt(value[0]);
-            int startTime = Integer.parseInt((value[1]));
+            int[] value = _nodes.get(key);
+            int processorId = value[0];
+            int startTime = value[1];
 
             setProcessorStartTime(processorId, startTime);
         }
@@ -94,11 +94,11 @@ public class Schedule {
         _heuristicCost = heuristicCost;
     }
 
-    public Map<String, String[]> get_nodes() {
+    public Map<String, int[]> get_nodes() {
         return _nodes;
     }
 
-    private void set_nodes(Map<String, String[]> _nodes) {
+    private void set_nodes(Map<String, int[]> _nodes) {
         this._nodes = _nodes;
     }
 
