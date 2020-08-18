@@ -26,6 +26,11 @@ Run the Gradle Task
 ```
 The JAR will be generated in the `build/libs` directory.
 
+NOTE: If you do not have sufficient permissions, run the following command.
+```
+chmod -x ./gradlew
+```
+
 ## Running the JAR
 1. To run the JAR. Open a new terminal window and `cd` to the directory with the JAR.
 2. Type the following command into the terminal window.
