@@ -10,19 +10,19 @@ import java.util.List;
 public class Schedule {
 
     private List<Processor> _processorList;
-    private List<TaskNode> _taskNodeList;
-    private List<TaskNode> _unassignedTaskList;
-    private List<TaskNode> _assignedTaskList;
+    private List<Node> _nodeList;
+    private List<Node> _unassignedTaskList;
+    private List<Node> _assignedTaskList;
 
     /**
      * The constructor takes in number of processors that
      * the schedule can utilise and instantiates those.
      * @param numProcessors
-     * @param tasksInOrder TaskNode in order (the topology)
+     * @param tasksInOrder Node in order (the topology)
      */
-    public Schedule(int numProcessors, List<TaskNode> tasksInOrder) throws ProcessorException {
+    public Schedule(int numProcessors, List<Node> tasksInOrder) throws ProcessorException {
         _processorList = new ArrayList<>();
-        _taskNodeList = new ArrayList<>();
+        _nodeList = new ArrayList<>();
         _unassignedTaskList = new ArrayList<>();
         _assignedTaskList = new ArrayList<>();
 
@@ -32,13 +32,13 @@ public class Schedule {
         }
 
         if (tasksInOrder != null) {
-            _taskNodeList.addAll(tasksInOrder);
+            _nodeList.addAll(tasksInOrder);
             _unassignedTaskList.addAll(tasksInOrder);
         }
     }
 
-    public List<TaskNode> getTaskNodeList(){
-        return _taskNodeList;
+    public List<Node> getTaskNodeList(){
+        return _nodeList;
     }
 
     /**
@@ -57,7 +57,7 @@ public class Schedule {
      * @param task
      * @param timeScheduled
      */
-    public void scheduleTask(Processor processor, TaskNode task, int timeScheduled) {
+    public void scheduleTask(Processor processor, Node task, int timeScheduled) {
         task.setProcessor(processor);
         task.setTimeScheduled(timeScheduled);
 

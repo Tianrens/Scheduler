@@ -25,7 +25,7 @@ public class SimpleProcessorScheduler implements IScheduler {
      */
     @Override
     public Schedule generateValidSchedule(Graph graph) throws ProcessorException, AppConfigException {
-        List<TaskNode> topology = _topologyFinder.generateTopology(graph);
+        List<Node> topology = _topologyFinder.generateTopology(graph);
         int numProcessors = AppConfig.getInstance().getNumProcessors();
         if (numProcessors == 0) {
             throw new AppConfigException();
@@ -45,24 +45,24 @@ public class SimpleProcessorScheduler implements IScheduler {
      * @param schedule
      * @param topology
      */
-    private void scheduleTopology(Schedule schedule, List<TaskNode> topology) {
+    private void scheduleTopology(Schedule schedule, List<Node> topology) {
         List<Processor> processors = schedule.getProcessors(); // A list of all processors are obtained
         int processorCount = 0;
 
 
 
-        for (TaskNode taskNode : topology) {
+        for (Node node : topology) {
             int startTime;
             int earliestStartTime = 0;
             Processor processor = processors.get(processorCount);
-            List<TaskNode> parentList = taskNode.getParentNodeList();
+            List<Node> parentList = node.getParentNodeList();
 
             //checks all parents to determine earliest possible start time, by taking into account remote costs
-            for(TaskNode parent : parentList){
+            for(Node parent : parentList){
 
                 //if parent is not on the same processor, remote costs have to be considered
                 if(parent.getProcessor()!=processor){
-                    startTime = parent.getEdgeList().get(taskNode)+parent.getCost()+parent.getTimeScheduled();
+                    startTime = parent.getEdgeList().get(node)+parent.getCost()+parent.getTimeScheduled();
                     if(startTime < processor.getFirstAvailableTime()){
                         startTime = processor.getFirstAvailableTime();
                     }
@@ -77,8 +77,8 @@ public class SimpleProcessorScheduler implements IScheduler {
             }
 
 
-            schedule.scheduleTask(processor, taskNode, earliestStartTime);
-            processor.setFirstAvailableTime(earliestStartTime + taskNode.getCost());
+            schedule.scheduleTask(processor, node, earliestStartTime);
+            processor.setFirstAvailableTime(earliestStartTime + node.getCost());
 
             processorCount++;
             if(processorCount==processors.size()){

@@ -1,7 +1,7 @@
 package group8.scheduler;
 
 import group8.models.Graph;
-import group8.models.TaskNode;
+import group8.models.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,28 +9,28 @@ import java.util.List;
 public class TopologyFinder implements  ITopologyFinder {
 
     //A list of all unassigned nodes in the graph
-    private List<TaskNode> _nodeList;
+    private List<Node> _nodeList;
 
     //A List of all nodes in a topological order
-    private List<TaskNode> _topology;
+    private List<Node> _topology;
 
     /**
      * Method used to generate a topology from a given graph
      * @param graph graph to generate a topology from
      * @return the topology as a sequential list of Nodes
      */
-    public List<TaskNode> generateTopology(Graph graph){
+    public List<Node> generateTopology(Graph graph){
 
         //add all of the nodes in Graph into a List
-        _nodeList = new ArrayList<TaskNode>(graph.getAllNodes().values());
+        _nodeList = new ArrayList<Node>(graph.getAllNodes().values());
         _topology = new ArrayList<>();
 
         //Keep looping through until the nodeList is empty
         while(!_nodeList.isEmpty()){
 
-            List<TaskNode> removeList = new ArrayList<>();
-            for (TaskNode node: _nodeList) {
-                List<TaskNode> parentNodes = node.getParentNodeList();
+            List<Node> removeList = new ArrayList<>();
+            for (Node node: _nodeList) {
+                List<Node> parentNodes = node.getParentNodeList();
 
                 //Check if node already has no parents
                 if(parentNodes == null){
@@ -56,8 +56,8 @@ public class TopologyFinder implements  ITopologyFinder {
      * Helper function for moving nodes from Node List to topology list
      * @param removeList list of nodes to move
      */
-    private void moveList(List<TaskNode> removeList){
-        for (TaskNode node: removeList) {
+    private void moveList(List<Node> removeList){
+        for (Node node: removeList) {
             _nodeList.remove(node);
             _topology.add(node);
         }
@@ -68,11 +68,11 @@ public class TopologyFinder implements  ITopologyFinder {
      * @param parentList parent nodes to check
      * @return true if all parents already added, false if at least one parent is not already n the topology
      */
-    private boolean checkParents(List<TaskNode> parentList){
+    private boolean checkParents(List<Node> parentList){
         boolean allParentsAdded = true;
 
         //Check parents one by one
-        for (TaskNode pNode: parentList) {
+        for (Node pNode: parentList) {
             if(_nodeList.contains(pNode)){
                 allParentsAdded = false;
             }

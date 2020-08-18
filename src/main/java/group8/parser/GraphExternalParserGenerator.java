@@ -3,7 +3,8 @@ package group8.parser;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
 import group8.models.Graph;
-import group8.models.TaskNode;
+import group8.models.Node;
+
 import java.util.Map;
 import static group8.parser.DOTFileConstants.*;
 
@@ -37,7 +38,7 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
 
             Integer weight = Integer.parseInt((String) node.getAttribute(WEIGHTATTR)); // Retrieve the relevant attribute (Cost)
 
-            TaskNode newNode = new TaskNode(weight, nodeId);
+            Node newNode = new Node(weight, nodeId);
             graph.addNode(newNode);
         }
     }
@@ -46,8 +47,8 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         for (String edgeId : edges.keySet()) {
             GraphEdge edge = edges.get(edgeId);
 
-            TaskNode src = graph.getNode(edge.getNode1().getId());
-            TaskNode dst = graph.getNode(edge.getNode2().getId());
+            Node src = graph.getNode(edge.getNode1().getId());
+            Node dst = graph.getNode(edge.getNode2().getId());
             Integer weight = Integer.parseInt((String) edge.getAttribute(WEIGHTATTR));
 
             src.addDestination(dst, weight);

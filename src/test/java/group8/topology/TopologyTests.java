@@ -1,7 +1,7 @@
 package group8.topology;
 
 import group8.models.Graph;
-import group8.models.TaskNode;
+import group8.models.Node;
 import group8.scheduler.TopologyFinder;
 import org.junit.*;
 
@@ -83,17 +83,17 @@ public class TopologyTests {
         _graph = graph;
 
         TopologyFinder topologyFinder = new TopologyFinder();
-        List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph);
-        TaskNode[] arrayOfTaskNodes = {
-                new TaskNode(3, "a"),
-                new TaskNode(2, "b"),
-                new TaskNode(1, "c"),
-                new TaskNode(3, "d"),
-                new TaskNode(2, "e"),
-                new TaskNode(1, "f")};
+        List<Node> computedTopology = topologyFinder.generateTopology(_graph);
+        Node[] arrayOfNodes = {
+                new Node(3, "a"),
+                new Node(2, "b"),
+                new Node(1, "c"),
+                new Node(3, "d"),
+                new Node(2, "e"),
+                new Node(1, "f")};
 
 
-        List<TaskNode> validTopology = Arrays.asList(arrayOfTaskNodes);
+        List<Node> validTopology = Arrays.asList(arrayOfNodes);
 
         for (int i = 0; i < computedTopology.size(); i++) {
             assertEquals(computedTopology.get(i).getId(), validTopology.get(i).getId());
@@ -179,17 +179,17 @@ public class TopologyTests {
         _graph1 = graph1;
 
         TopologyFinder topologyFinder = new TopologyFinder();
-        List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph1);
-        TaskNode[] arrayOfTaskNodes = {
-                new TaskNode(3, "a"),
-                new TaskNode(2, "c"),
-                new TaskNode(1, "f"),
-                new TaskNode(1, "b"),
-                new TaskNode(2, "e"),
-                new TaskNode(3, "d")};
+        List<Node> computedTopology = topologyFinder.generateTopology(_graph1);
+        Node[] arrayOfNodes = {
+                new Node(3, "a"),
+                new Node(2, "c"),
+                new Node(1, "f"),
+                new Node(1, "b"),
+                new Node(2, "e"),
+                new Node(3, "d")};
 
 
-        List<TaskNode> validTopology = Arrays.asList(arrayOfTaskNodes);
+        List<Node> validTopology = Arrays.asList(arrayOfNodes);
 
         for (int i = 0; i < computedTopology.size(); i++) {
             assertEquals(computedTopology.get(i).getId(), validTopology.get(i).getId());
@@ -260,17 +260,17 @@ public class TopologyTests {
         _graph2 = graph2;
 
         TopologyFinder topologyFinder = new TopologyFinder();
-        List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph2);
-        TaskNode[] arrayOfTaskNodes = {
-                new TaskNode(3, "b"),
-                new TaskNode(2, "c"),
-                new TaskNode(1, "d"),
-                new TaskNode(1, "e"),
-                new TaskNode(2, "f"),
-                new TaskNode(3, "a")};
+        List<Node> computedTopology = topologyFinder.generateTopology(_graph2);
+        Node[] arrayOfNodes = {
+                new Node(3, "b"),
+                new Node(2, "c"),
+                new Node(1, "d"),
+                new Node(1, "e"),
+                new Node(2, "f"),
+                new Node(3, "a")};
 
 
-        List<TaskNode> validTopology = Arrays.asList(arrayOfTaskNodes);
+        List<Node> validTopology = Arrays.asList(arrayOfNodes);
 
         for (int i = 0; i < computedTopology.size(); i++) {
             assertEquals(computedTopology.get(i).getId(), validTopology.get(i).getId());
@@ -293,12 +293,12 @@ public class TopologyTests {
         _graph3 = graph3;
 
         TopologyFinder topologyFinder = new TopologyFinder();
-        List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph3);
-        TaskNode[] arrayOfTaskNodes = {
-                new TaskNode(3, "a"),
+        List<Node> computedTopology = topologyFinder.generateTopology(_graph3);
+        Node[] arrayOfNodes = {
+                new Node(3, "a"),
         };
 
-        List<TaskNode> validTopology = Arrays.asList(arrayOfTaskNodes);
+        List<Node> validTopology = Arrays.asList(arrayOfNodes);
 
         for (int i = 0; i < computedTopology.size(); i++) {
             assertEquals(computedTopology.get(i).getId(), validTopology.get(i).getId());
@@ -329,14 +329,14 @@ public class TopologyTests {
         _graph4 = graph4;
 
         TopologyFinder topologyFinder = new TopologyFinder();
-        List<TaskNode> computedTopology = topologyFinder.generateTopology(_graph4);
-        TaskNode[] arrayOfTaskNodes = {
-                new TaskNode(3, "a"),
-                new TaskNode(3, "b"),
-                new TaskNode(3, "c")
+        List<Node> computedTopology = topologyFinder.generateTopology(_graph4);
+        Node[] arrayOfNodes = {
+                new Node(3, "a"),
+                new Node(3, "b"),
+                new Node(3, "c")
         };
 
-        List<TaskNode> validTopology = Arrays.asList(arrayOfTaskNodes);
+        List<Node> validTopology = Arrays.asList(arrayOfNodes);
 
         for (int i = 0; i < computedTopology.size(); i++) {
             assertEquals(computedTopology.get(i).getId(), validTopology.get(i).getId());

@@ -3,7 +3,7 @@ package group8.parser;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 import group8.models.Graph;
-import group8.models.TaskNode;
+import group8.models.Node;
 import org.junit.Test;
 
 import java.io.File;
@@ -40,13 +40,13 @@ public class ExternalGraphGeneratorTests {
         }
         GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
         Graph inputGraph = graphGenerator.generate();
-        List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+        List<Node> arr = new ArrayList<>(inputGraph.getAllNodes().values());
 
         Set<String> output = new HashSet<>();
-        for (TaskNode node : arr) {
+        for (Node node : arr) {
             output.add("node " + node.getId() + " " + node.getCost());
 
-            for (TaskNode edge : node.getEdgeList().keySet()) {
+            for (Node edge : node.getEdgeList().keySet()) {
                 output.add("edge " + node.getId() + " " + edge.getId() + " " + node.getEdgeList().get(edge));
             }
         }
@@ -72,13 +72,13 @@ public class ExternalGraphGeneratorTests {
         }
         GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
         Graph inputGraph = graphGenerator.generate();
-        List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+        List<Node> arr = new ArrayList<>(inputGraph.getAllNodes().values());
 
         Set<String> output = new HashSet<>();
-        for (TaskNode node : arr) {
+        for (Node node : arr) {
             output.add("node " + node.getId() + " " + node.getCost());
 
-            for (TaskNode edge : node.getEdgeList().keySet()) {
+            for (Node edge : node.getEdgeList().keySet()) {
                 output.add("edge " + node.getId() + " " + edge.getId() + " " + node.getEdgeList().get(edge));
             }
         }
@@ -108,13 +108,13 @@ public class ExternalGraphGeneratorTests {
         }
         GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
         Graph inputGraph = graphGenerator.generate();
-        List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+        List<Node> arr = new ArrayList<>(inputGraph.getAllNodes().values());
 
         Set<String> output = new HashSet<>();
-        for (TaskNode node : arr) {
+        for (Node node : arr) {
             output.add("node " + node.getId() + " " + node.getCost());
 
-            for (TaskNode edge : node.getEdgeList().keySet()) {
+            for (Node edge : node.getEdgeList().keySet()) {
                 output.add("edge " + node.getId() + " " + edge.getId() + " " + node.getEdgeList().get(edge));
             }
         }
@@ -144,13 +144,13 @@ public class ExternalGraphGeneratorTests {
         }
         GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
         Graph inputGraph = graphGenerator.generate();
-        List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+        List<Node> arr = new ArrayList<>(inputGraph.getAllNodes().values());
 
         Set<String> output = new HashSet<>();
-        for (TaskNode node : arr) {
+        for (Node node : arr) {
             output.add("node " + node.getId() + " " + node.getCost());
 
-            for (TaskNode edge : node.getEdgeList().keySet()) {
+            for (Node edge : node.getEdgeList().keySet()) {
                 output.add("edge " + node.getId() + " " + edge.getId() + " " + node.getEdgeList().get(edge));
             }
         }
@@ -175,13 +175,13 @@ public class ExternalGraphGeneratorTests {
         }
         GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
         Graph inputGraph = graphGenerator.generate();
-        List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+        List<Node> arr = new ArrayList<>(inputGraph.getAllNodes().values());
 
         Set<String> output = new HashSet<>();
-        for (TaskNode node : arr) {
+        for (Node node : arr) {
             output.add("node " + node.getId() + " " + node.getCost());
 
-            for (TaskNode edge : node.getEdgeList().keySet()) {
+            for (Node edge : node.getEdgeList().keySet()) {
                 output.add("edge " + node.getId() + " " + edge.getId() + " " + node.getEdgeList().get(edge));
             }
         }
@@ -209,13 +209,13 @@ public class ExternalGraphGeneratorTests {
         }
         GraphExternalParserGenerator graphGenerator = new GraphExternalParserGenerator(parser);
         Graph inputGraph = graphGenerator.generate();
-        List<TaskNode> arr = new ArrayList<>(inputGraph.getAllNodes().values());
+        List<Node> arr = new ArrayList<>(inputGraph.getAllNodes().values());
 
         Set<String> output = new HashSet<>();
-        for (TaskNode node : arr) {
+        for (Node node : arr) {
             output.add("node " + node.getId() + " " + node.getCost());
 
-            for (TaskNode edge : node.getEdgeList().keySet()) {
+            for (Node edge : node.getEdgeList().keySet()) {
                 output.add("edge " + node.getId() + " " + edge.getId() + " " + node.getEdgeList().get(edge));
             }
         }
