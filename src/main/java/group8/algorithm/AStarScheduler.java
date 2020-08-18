@@ -19,7 +19,11 @@ public class AStarScheduler implements IScheduler {
         return null;
     }
 
-    public boolean checkCompleteSchedule() {
+    public boolean checkCompleteSchedule(Schedule state) {
         return false;
+    }
+
+    private int calculateF(Schedule state) {
+        return -1;
     }
 }
