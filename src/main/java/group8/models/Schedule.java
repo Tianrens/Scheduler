@@ -1,7 +1,8 @@
 package group8.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import group8.cli.AppConfig;
+
+import java.util.*;
 
 /**
  * This class contains the methods and fields to mimic
@@ -9,54 +10,79 @@ import java.util.List;
  */
 public class Schedule {
 
-    private List<Processor> _processorList;
-    private List<Node> _nodeList;
-
     /**
-     * The constructor takes in number of processors that
-     * the schedule can utilise and instantiates those.
-     * @param numProcessors
-     * @param tasksInOrder Node in order (the topology)
+     *  Initial cost is -1.
      */
-    public Schedule(int numProcessors, List<Node> tasksInOrder) throws ProcessorException {
-        _processorList = new ArrayList<>();
-        _nodeList = new ArrayList<>();
+    private int _heuristicCost = -1;
+    /**
+     * HashMap storing nodes in the schedule.
+     * Key is nodeID.
+     * Value is a String array, first element is start time, second element is processor.
+     */
+    private Map<String, String[]> _nodes = new HashMap<>();
+    /**
+     * Int array of processors. Where the arr[Index] = earliest start time.
+     * Processors start at 0.
+     */
+    private int[] _processors = new int[AppConfig.getInstance().getNumProcessors()];
 
-        for (int i = 1; i <= numProcessors; i++) {
-            Processor processor = new Processor(i);
-            _processorList.add(processor);
+    public Schedule() {
+        for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
+            _processors[i] = -1;
         }
+    }
 
-        if (tasksInOrder != null) {
-            _nodeList.addAll(tasksInOrder);
+    public void setNode(String nodeId, String startTime, String processor) throws ScheduleException {
+        String[] value = {startTime, processor};
+        if (_nodes.containsKey(nodeId)) {
+            throw new ScheduleException("NodeId already in map.");
+        }
+        _nodes.put(nodeId, value);
+    }
+
+    public void setProcessorStartTime(int processor, int startTime) throws ScheduleException {
+        int oldStartTime = _processors[processor];
+        if (oldStartTime > startTime) {
+            throw new ScheduleException("Invalid Start time of processor");
+        }
+        _processors[processor] = startTime;
+    }
+
+    protected void computeProcessorStartTimes() throws ScheduleException {
+        for (String key : _nodes.keySet()) {
+            if (_nodes.get(key) == null) {
+                throw new ScheduleException("Null Value for this key, in Nodes HashMap");
+            }
+            String[] value = _nodes.get(key);
+            int processorId = Integer.parseInt(value[0]);
+            int startTime = Integer.parseInt((value[1]));
+
+            setProcessorStartTime(processorId, startTime);
         }
     }
 
 
-    public List<Node> getTaskNodeList(){
-        return _nodeList;
+    public int getHeuristicCost() {
+        return _heuristicCost;
     }
 
-    /**
-     * To get the desired processor, please minus one for the index. E.g. to get processer one, you must .get(0) instead.
-     * @return List of {@link Processor}
-     */
-    public List<Processor> getProcessors() {
-        return _processorList;
+    public void setHeuristicCost(int heuristicCost) {
+        _heuristicCost = heuristicCost;
     }
 
-    /**
-     * This method schedules the task on the processor
-     * and assigns the processor to the task.
-     * It also moves the task from the unassigned list to assigned list.
-     * @param processor
-     * @param task
-     * @param timeScheduled
-     */
-    public void scheduleTask(Processor processor, Node task, int timeScheduled) {
-        task.setProcessor(processor);
-        task.setTimeScheduled(timeScheduled);
+    public Map<String, String[]> get_nodes() {
+        return _nodes;
+    }
 
-        processor.addTask(task, timeScheduled);
+    private void set_nodes(Map<String, String[]> _nodes) {
+        this._nodes = _nodes;
+    }
+
+    public int[] get_processors() {
+        return _processors;
+    }
+
+    private void set_processors(int[] _processors) {
+        this._processors = _processors;
     }
 }
