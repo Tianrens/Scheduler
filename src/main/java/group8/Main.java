@@ -16,12 +16,12 @@ public class Main {
     public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
 
-        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        ITopologyFinder topologyFinder = new TopologyFinder();
-        IScheduler scheduler = new SimpleProcessorScheduler(topologyFinder);
-        Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
-        IDOTFileWriter outputBuilder = new DOTFileWriter();
-        outputBuilder.writeOutput(schedule);
+//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+//        ITopologyFinder topologyFinder = new TopologyFinder();
+//        IScheduler scheduler = new SimpleProcessorScheduler(topologyFinder);
+//        Schedule schedule = scheduler.generateValidSchedule(externalGraphGenerator.generate());
+//        IDOTFileWriter outputBuilder = new DOTFileWriter();
+//        outputBuilder.writeOutput(schedule);
     }
 
     private static AppConfig buildAppConfig(String[] args) {
