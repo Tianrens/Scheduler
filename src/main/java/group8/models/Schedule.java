@@ -11,8 +11,6 @@ public class Schedule {
 
     private List<Processor> _processorList;
     private List<Node> _nodeList;
-    private List<Node> _unassignedTaskList;
-    private List<Node> _assignedTaskList;
 
     /**
      * The constructor takes in number of processors that
@@ -23,8 +21,6 @@ public class Schedule {
     public Schedule(int numProcessors, List<Node> tasksInOrder) throws ProcessorException {
         _processorList = new ArrayList<>();
         _nodeList = new ArrayList<>();
-        _unassignedTaskList = new ArrayList<>();
-        _assignedTaskList = new ArrayList<>();
 
         for (int i = 1; i <= numProcessors; i++) {
             Processor processor = new Processor(i);
@@ -33,9 +29,9 @@ public class Schedule {
 
         if (tasksInOrder != null) {
             _nodeList.addAll(tasksInOrder);
-            _unassignedTaskList.addAll(tasksInOrder);
         }
     }
+
 
     public List<Node> getTaskNodeList(){
         return _nodeList;
@@ -62,8 +58,5 @@ public class Schedule {
         task.setTimeScheduled(timeScheduled);
 
         processor.addTask(task, timeScheduled);
-
-        _unassignedTaskList.remove(task);
-        _assignedTaskList.add(task);
     }
 }
