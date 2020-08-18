@@ -28,7 +28,7 @@ The JAR will be generated in the `build/libs` directory.
 
 NOTE: If you do not have sufficient permissions, run the following command.
 ```
-chmod -x ./gradlew
+chmod 777 ./gradlew
 ```
 
 ## Running the JAR
