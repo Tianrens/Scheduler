@@ -5,6 +5,6 @@ import group8.models.Schedule;
 import java.util.List;
 
 public interface IStateExpander {
-    public List<Schedule> getNewStates(Schedule schedule);
+    public List<Schedule> getNewStates(Schedule state);
 
 }
