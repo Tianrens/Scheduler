@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ELSModelStateExpander implements IStateExpander {
     @Override
-    public List<Schedule> getNewStates(Schedule schedule){
+    public List<Schedule> getNewStates(Schedule state){
         return null;
     }
 }
