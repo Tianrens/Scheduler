@@ -1,12 +1,13 @@
 package group8.models;
 
 import group8.cli.AppConfig;
+import group8.cli.AppConfigException;
 
 import java.util.*;
 
 /**
- * This class contains the methods and fields to mimic
- * a real world schedule
+ * This class contains the methods and fields to mimic a real world schedule and to also represent a state of the state
+ * space tree.
  */
 public class Schedule {
 
@@ -20,7 +21,7 @@ public class Schedule {
      * Key is nodeID.
      * Value is a int array, first element is start time, second element is processor.
      */
-    private Map<String, int[]> _nodes = new HashMap<>();
+    private Map<String, int[]> _tasks = new HashMap<>();
     /**
      * Int array of processors. Where the arr[Index] = earliest start time.
      * Processors start at 0.
@@ -31,58 +32,33 @@ public class Schedule {
      * Creates schedule object.
      * Sets all processors start time to -1.
      */
-    public Schedule() {
+    public Schedule() throws AppConfigException {
+        if (AppConfig.getInstance().getNumProcessors() == 0) {
+            throw new AppConfigException();
+        }
         for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
-            _processors[i] = -1;
+            _processors[i] = 0;
         }
     }
 
     /**
-     * Sets a node in the _nodes map.
-     * @param nodeId the key
-     * @param startTime the first value of array
-     * @param processor the second value of array
+     * Schedules a task in this {@link Schedule}.
+     * @param nodeId the node id of the task
+     * @param startTime start time of the task in this schedule
+     * @param processor the processor the task has been assigned to. (processor starts from ZERO)
      */
-    public void setNode(String nodeId, int startTime, int processor) throws ScheduleException {
+    public void scheduleTask(String nodeId, int startTime, int processor) {
         int[] value = new int[]{startTime, processor};
-//        if (_nodes.containsKey(nodeId)) {
-//            throw new ScheduleException("NodeId already in map.");
-//        }
-        _nodes.put(nodeId, value);
+        _tasks.put(nodeId, value);
     }
 
     /**
      * Set the start time of a processor
      * @param processor the processor. Processors start at 0 index!
      * @param startTime the start time of the processor.
-     * @throws ScheduleException
      */
-    public void setProcessorStartTime(int processor, int startTime) throws ScheduleException {
-//        int oldStartTime = _processors[processor];
-//        // Can remove for memory.
-//        if (oldStartTime > startTime) {
-//            throw new ScheduleException("Invalid Start time of processor");
-//        }
+    public void setProcessorStartTime(int processor, int startTime) {
         _processors[processor] = startTime;
-    }
-
-    /**
-     * Calculates the start time of each processor in _processors.
-     * Iterates through the _nodes map, and calcualtes the start time of each processor.
-     * @throws ScheduleException
-     */
-    protected void computeProcessorStartTimes() throws ScheduleException {
-        for (String key : _nodes.keySet()) {
-//            // Can remove for memory.
-//            if (_nodes.get(key) == null) {
-//                throw new ScheduleException("Null Value for this key, in Nodes HashMap");
-//            }
-            int[] value = _nodes.get(key);
-            int processorId = value[0];
-            int startTime = value[1];
-
-            setProcessorStartTime(processorId, startTime);
-        }
     }
 
 
@@ -94,19 +70,19 @@ public class Schedule {
         _heuristicCost = heuristicCost;
     }
 
-    public Map<String, int[]> get_nodes() {
-        return _nodes;
+    public Map<String, int[]> getTasks() {
+        return _tasks;
     }
 
-    private void set_nodes(Map<String, int[]> _nodes) {
-        this._nodes = _nodes;
+    public void setTasks(Map<String, int[]> _nodes) {
+        this._tasks = _nodes;
     }
 
-    public int[] get_processors() {
+    public int[] getProcessors() {
         return _processors;
     }
 
-    private void set_processors(int[] _processors) {
+    public void setProcessors(int[] _processors) {
         this._processors = _processors;
     }
 }

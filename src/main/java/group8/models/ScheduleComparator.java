@@ -14,7 +14,7 @@ public class ScheduleComparator implements Comparator<Schedule> {
 
         if (cost1 == -1 || cost2 == -1) {
             try {
-                throw new ScheduleException("Invalid Schedule Heuristic Cost.");
+                throw new ScheduleException("Invalid Schedule Heuristic Cost");
             } catch (ScheduleException e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,11 @@
 package group8.models;
 
 public class ScheduleException extends Exception {
-    public ScheduleException(String m) {
-        super(m);
+    public ScheduleException() {
+        super();
+    }
+
+    public ScheduleException(String msg) {
+        super(msg);
     }
 }

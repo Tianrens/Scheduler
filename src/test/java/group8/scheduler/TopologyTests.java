@@ -1,8 +1,7 @@
-package group8.topology;
+package group8.scheduler;
 
 import group8.models.Graph;
 import group8.models.Node;
-import group8.scheduler.TopologyFinder;
 import org.junit.*;
 
 import java.util.ArrayList;

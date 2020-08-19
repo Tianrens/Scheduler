@@ -2,6 +2,7 @@ package group8.parser;
 
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
+import group8.models.Graph;
 import group8.models.Schedule;
 import group8.models.Node;
 
@@ -9,9 +10,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.util.List;
 import java.util.Map;
 
+import static group8.models.ScheduleConstants.*;
 import static group8.parser.DOTFileConstants.*;
 
 /**
@@ -25,7 +26,7 @@ public class DOTFileWriter implements IDOTFileWriter{
      * @throws AppConfigException
      */
     @Override
-    public void writeOutput(Schedule schedule) throws AppConfigException {
+    public void writeOutput(Schedule schedule, Graph graph) throws AppConfigException {
         File outputFile = AppConfig.getInstance().getOutputFile();
         if (outputFile == null) {
             throw new AppConfigException();
@@ -34,19 +35,20 @@ public class DOTFileWriter implements IDOTFileWriter{
         try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
             out.write("digraph output_graph {");
             out.newLine();
-            List<Node> nodeList = schedule.getTaskNodeList();
+            Map<String, int[]> tasks = schedule.getTasks();
 
-            //This string is written out last because all nodes must be declared before edges
-            String edgeList = "";
+            String edgeList = ""; // This string is written out last because all nodes must be declared before edges
 
             // The for loop cycles through all takesNodes and prints them out + their edges
-            for(Node task : nodeList){
+            for(Map.Entry<String, int[]> task : tasks.entrySet()){
+                Node node = graph.getNode(task.getKey());
+                int[] taskScheduleInfo = task.getValue();
 
-                out.write(createNodeString(task)); // This prints out all nodes their weights, processor and start time
+                out.write(createNodeString(node, taskScheduleInfo)); // This prints out all nodes their weights, processor and start time
                 out.newLine();
 
-                for (Map.Entry<Node, Integer> edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
-                    edgeList += createEdgeString(task, edge);
+                for (Map.Entry<Node, Integer> edge : node.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+                    edgeList += createEdgeString(node, edge);
                 }
             }
 
@@ -57,8 +59,6 @@ public class DOTFileWriter implements IDOTFileWriter{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-       
     }
 
     /**
@@ -66,7 +66,7 @@ public class DOTFileWriter implements IDOTFileWriter{
      * @param task
      * @return
      */
-    private String createNodeString(Node task) {
+    private String createNodeString(Node task, int[] taskScheduleInfo) {
         StringBuffer sb = new StringBuffer("\t"+task.getId());
         sb.append(" [");
         sb.append(WEIGHTATTR);
@@ -75,11 +75,11 @@ public class DOTFileWriter implements IDOTFileWriter{
         sb.append(", ");
         sb.append(STARTATTR);
         sb.append("=");
-        sb.append(task.getTimeScheduled());
+        sb.append(taskScheduleInfo[STARTTIMEINDEX]);
         sb.append(", ");
         sb.append(PROCESSORATTR);
         sb.append("=");
-        sb.append(task.getProcessor().getId());
+        sb.append(taskScheduleInfo[PROCESSORINDEX] + 1); // +1 for original processor number
         sb.append("];");
 
         return sb.toString();
