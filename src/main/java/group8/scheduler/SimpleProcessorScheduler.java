@@ -25,15 +25,15 @@ public class SimpleProcessorScheduler implements IScheduler {
      */
     @Override
     public Schedule generateValidSchedule(Graph graph) throws ProcessorException, AppConfigException {
-//        List<Node> topology = _topologyFinder.generateTopology(graph);
+//        List<Node> scheduler = _topologyFinder.generateTopology(graph);
 //        int numProcessors = AppConfig.getInstance().getNumProcessors();
 //        if (numProcessors == 0) {
 //            throw new AppConfigException();
 //        }
 //
-//        Schedule schedule = new Schedule(numProcessors, topology);
+//        Schedule schedule = new Schedule(numProcessors, scheduler);
 //
-//        scheduleTopology(schedule, topology);
+//        scheduleTopology(schedule, scheduler);
 //
 //        System.out.println("Schedule generated");
 //
@@ -52,7 +52,7 @@ public class SimpleProcessorScheduler implements IScheduler {
 //
 //
 //
-//        for (Node node : topology) {
+//        for (Node node : scheduler) {
 //            int startTime;
 //            int earliestStartTime = 0;
 //            Processor processor = processors.get(processorCount);
