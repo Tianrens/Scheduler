@@ -59,7 +59,7 @@ public class ELSModelStateExpander implements IStateExpander {
                         newScheduledNodes.putAll(scheduledNodes);
                         newScheduledNodes.put(nodeEntry.getKey(), nodeInfo);
 
-                        //TODO assignSchedule
+                        newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
                     }
                 }else if(checkParents(parentNodes,scheduledNodes)){
 
@@ -67,6 +67,10 @@ public class ELSModelStateExpander implements IStateExpander {
                     boolean emptyAssign = false;
 
                     for(int i = 0 ; i < processors.length ; i++){
+
+                        int[] newProcessors = processors;
+                        Map<String, int[]> newScheduledNodes = new HashMap<>();
+                        int[] nodeInfo = new int[2];
 
                         if(!emptyAssign && processors[i]==-1){
                             emptyAssign=true;
@@ -96,6 +100,15 @@ public class ELSModelStateExpander implements IStateExpander {
                         }
 
 
+                        nodeInfo[0] = newProcessors[i];
+                        nodeInfo[1]=i;
+                        newProcessors[i] = earliestStartTime + nodeEntry.getValue().getCost();
+                        newScheduledNodes.putAll(scheduledNodes);
+                        newScheduledNodes.put(nodeEntry.getKey(), nodeInfo);
+
+                        newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
+
+
                     }
 
                 }
@@ -103,7 +116,7 @@ public class ELSModelStateExpander implements IStateExpander {
             }
 
         }
-        return null;
+        return newSchedules;
     }
 
 
@@ -128,12 +141,12 @@ public class ELSModelStateExpander implements IStateExpander {
 
 
 
-    private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes ){
+    private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes){
 
         Schedule newSchdule = new Schedule();
+        //newSchdule.set_nodes(scheduledNodes);
+        //newSchdule.setProcessors;
 
-
-
-        return null;
+        return newSchdule;
     }
 }
