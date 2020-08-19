@@ -24,9 +24,9 @@ public class ELSModelStateExpander implements IStateExpander {
     @Override
     public List<Schedule> getNewStates(Schedule state){
 
-        Map<String, int[]> scheduledNodes = state.get_nodes();
+        Map<String, int[]> scheduledNodes = state.getNodes();
         List<Schedule> newSchedules = new ArrayList<>();
-        int[] processors = state.get_processors();
+        int[] processors = state.getProcessors();
         //loops through all nodes in the graph
         for(Map.Entry<String,Node> nodeEntry : _nodeList.entrySet()){
 
@@ -108,7 +108,6 @@ public class ELSModelStateExpander implements IStateExpander {
 
                         newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
 
-
                     }
 
                 }
@@ -144,8 +143,8 @@ public class ELSModelStateExpander implements IStateExpander {
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes){
 
         Schedule newSchdule = new Schedule();
-        //newSchdule.set_nodes(scheduledNodes);
-        //newSchdule.setProcessors;
+        newSchdule.setNodes(scheduledNodes);
+        newSchdule.setProcessors(processors);
 
         return newSchdule;
     }
