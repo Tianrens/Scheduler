@@ -34,7 +34,7 @@ public class OutputGraphTests {
     @Before
     public void setUpParser() throws ProcessorException {
         _dataParser = new DOTFileWriter();
-        _emptySchedule = new Schedule(1, null);
+//        _emptySchedule = new Schedule(1, null);
     }
 
     @Before
@@ -58,15 +58,15 @@ public class OutputGraphTests {
         topology.add(b);
         topology.add(d);
         topology.add(e);
-        _schedule = new Schedule(2, topology);
-
-        List<Processor> processors = _schedule.getProcessors();
-
-        _schedule.scheduleTask(processors.get(0), a, 0);
-        _schedule.scheduleTask(processors.get(0), c, 2);
-        _schedule.scheduleTask(processors.get(0), b, 4);
-        _schedule.scheduleTask(processors.get(0), d, 7);
-        _schedule.scheduleTask(processors.get(1), e, 9);
+//        _schedule = new Schedule(2, topology);
+//
+//        List<Processor> processors = _schedule.getProcessors();
+//
+//        _schedule.scheduleTask(processors.get(0), a, 0);
+//        _schedule.scheduleTask(processors.get(0), c, 2);
+//        _schedule.scheduleTask(processors.get(0), b, 4);
+//        _schedule.scheduleTask(processors.get(0), d, 7);
+//        _schedule.scheduleTask(processors.get(1), e, 9);
     }
 
     @Before
@@ -75,10 +75,10 @@ public class OutputGraphTests {
 
         List<Node> topology = new ArrayList<>();
         topology.add(a);
-        _noEdgesSchedule = new Schedule(1, topology);
-
-        List<Processor> processors = _noEdgesSchedule.getProcessors();
-        _noEdgesSchedule.scheduleTask(processors.get(0), a, 0);
+//        _noEdgesSchedule = new Schedule(1, topology);
+//
+//        List<Processor> processors = _noEdgesSchedule.getProcessors();
+//        _noEdgesSchedule.scheduleTask(processors.get(0), a, 0);
     }
 
     @Before

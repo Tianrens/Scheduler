@@ -26,37 +26,37 @@ public class DOTFileWriter implements IDOTFileWriter{
      */
     @Override
     public void writeOutput(Schedule schedule) throws AppConfigException {
-        File outputFile = AppConfig.getInstance().getOutputFile();
-        if (outputFile == null) {
-            throw new AppConfigException();
-        }
-
-        try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
-            out.write("digraph output_graph {");
-            out.newLine();
-            List<Node> nodeList = schedule.getTaskNodeList();
-
-            //This string is written out last because all nodes must be declared before edges
-            String edgeList = "";
-
-            // The for loop cycles through all takesNodes and prints them out + their edges
-            for(Node task : nodeList){
-
-                out.write(createNodeString(task)); // This prints out all nodes their weights, processor and start time
-                out.newLine();
-
-                for (Map.Entry<Node, Integer> edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
-                    edgeList += createEdgeString(task, edge);
-                }
-            }
-
-            out.write(edgeList); // All edges are written out to the dot file
-            out.write("}");
-            out.flush();
-            System.out.println(AppConfig.getInstance().getOutputFile().toString() + " has been generated");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        File outputFile = AppConfig.getInstance().getOutputFile();
+//        if (outputFile == null) {
+//            throw new AppConfigException();
+//        }
+//
+//        try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
+//            out.write("digraph output_graph {");
+//            out.newLine();
+//            List<Node> nodeList = schedule.getTaskNodeList();
+//
+//            //This string is written out last because all nodes must be declared before edges
+//            String edgeList = "";
+//
+//            // The for loop cycles through all takesNodes and prints them out + their edges
+//            for(Node task : nodeList){
+//
+//                out.write(createNodeString(task)); // This prints out all nodes their weights, processor and start time
+//                out.newLine();
+//
+//                for (Map.Entry<Node, Integer> edge : task.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+//                    edgeList += createEdgeString(task, edge);
+//                }
+//            }
+//
+//            out.write(edgeList); // All edges are written out to the dot file
+//            out.write("}");
+//            out.flush();
+//            System.out.println(AppConfig.getInstance().getOutputFile().toString() + " has been generated");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
        
     }
