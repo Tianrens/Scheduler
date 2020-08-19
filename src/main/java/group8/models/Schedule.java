@@ -1,6 +1,7 @@
 package group8.models;
 
 import group8.cli.AppConfig;
+import group8.cli.AppConfigException;
 
 import java.util.*;
 
@@ -20,7 +21,7 @@ public class Schedule {
      * Key is nodeID.
      * Value is a int array, first element is start time, second element is processor.
      */
-    private Map<String, int[]> _nodes = new HashMap<>();
+    private Map<String, int[]> _tasks = new HashMap<>();
     /**
      * Int array of processors. Where the arr[Index] = earliest start time.
      * Processors start at 0.
@@ -31,21 +32,24 @@ public class Schedule {
      * Creates schedule object.
      * Sets all processors start time to -1.
      */
-    public Schedule() {
+    public Schedule() throws AppConfigException {
+        if (AppConfig.getInstance().getNumProcessors() == 0) {
+            throw new AppConfigException();
+        }
         for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
             _processors[i] = 0;
         }
     }
 
     /**
-     * Sets a node in the _nodes map.
-     * @param nodeId the key
-     * @param startTime the first value of array
-     * @param processor the second value of array
+     * Schedules a task in this {@link Schedule}.
+     * @param nodeId the node id of the task
+     * @param startTime start time of the task in this schedule
+     * @param processor the processor the task has been assigned to. (processor starts from ZERO)
      */
-    public void setNode(String nodeId, int startTime, int processor) {
+    public void scheduleTask(String nodeId, int startTime, int processor) {
         int[] value = new int[]{startTime, processor};
-        _nodes.put(nodeId, value);
+        _tasks.put(nodeId, value);
     }
 
     /**
@@ -66,12 +70,12 @@ public class Schedule {
         _heuristicCost = heuristicCost;
     }
 
-    public Map<String, int[]> getNodes() {
-        return _nodes;
+    public Map<String, int[]> getTasks() {
+        return _tasks;
     }
 
-    public void setNodes(Map<String, int[]> _nodes) {
-        this._nodes = _nodes;
+    public void setTasks(Map<String, int[]> _nodes) {
+        this._tasks = _nodes;
     }
 
     public int[] getProcessors() {

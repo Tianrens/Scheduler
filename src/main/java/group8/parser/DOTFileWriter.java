@@ -35,12 +35,12 @@ public class DOTFileWriter implements IDOTFileWriter{
         try(BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile)))){
             out.write("digraph output_graph {");
             out.newLine();
-            Map<String, int[]> nodeList = schedule.getNodes();
+            Map<String, int[]> tasks = schedule.getTasks();
 
             String edgeList = ""; // This string is written out last because all nodes must be declared before edges
 
             // The for loop cycles through all takesNodes and prints them out + their edges
-            for(Map.Entry<String, int[]> task : nodeList.entrySet()){
+            for(Map.Entry<String, int[]> task : tasks.entrySet()){
                 Node node = graph.getNode(task.getKey());
                 int[] taskScheduleInfo = task.getValue();
 
@@ -79,7 +79,7 @@ public class DOTFileWriter implements IDOTFileWriter{
         sb.append(", ");
         sb.append(PROCESSORATTR);
         sb.append("=");
-        sb.append(taskScheduleInfo[PROCESSORINDEX]);
+        sb.append(taskScheduleInfo[PROCESSORINDEX] + 1); // +1 for original processor number
         sb.append("];");
 
         return sb.toString();
