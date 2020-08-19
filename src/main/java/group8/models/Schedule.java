@@ -70,7 +70,7 @@ public class Schedule {
         return _nodes;
     }
 
-    private void setNodes(Map<String, int[]> _nodes) {
+    public void setNodes(Map<String, int[]> _nodes) {
         this._nodes = _nodes;
     }
 
@@ -78,7 +78,7 @@ public class Schedule {
         return _processors;
     }
 
-    private void setProcessors(int[] _processors) {
+    public void setProcessors(int[] _processors) {
         this._processors = _processors;
     }
 }
