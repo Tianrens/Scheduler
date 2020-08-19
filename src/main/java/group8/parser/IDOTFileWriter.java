@@ -1,6 +1,7 @@
 package group8.parser;
 
 import group8.cli.AppConfigException;
+import group8.models.Graph;
 import group8.models.Schedule;
 
 /**
@@ -13,6 +14,6 @@ public interface IDOTFileWriter {
      * @param schedule
      * @throws AppConfigException if the output file has not been configured, i.e. AppConfig has not been generated.
      */
-    void writeOutput(Schedule schedule) throws AppConfigException;
+    void writeOutput(Schedule schedule, Graph graph) throws AppConfigException;
 
 }
