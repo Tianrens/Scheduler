@@ -5,8 +5,8 @@ import group8.cli.AppConfig;
 import java.util.*;
 
 /**
- * This class contains the methods and fields to mimic
- * a real world schedule
+ * This class contains the methods and fields to mimic a real world schedule and to also represent a state of the state
+ * space tree.
  */
 public class Schedule {
 
@@ -94,19 +94,19 @@ public class Schedule {
         _heuristicCost = heuristicCost;
     }
 
-    public Map<String, int[]> get_nodes() {
+    public Map<String, int[]> getNodes() {
         return _nodes;
     }
 
-    private void set_nodes(Map<String, int[]> _nodes) {
+    private void setNodes(Map<String, int[]> _nodes) {
         this._nodes = _nodes;
     }
 
-    public int[] get_processors() {
+    public int[] getProcessors() {
         return _processors;
     }
 
-    private void set_processors(int[] _processors) {
+    private void setProcessors(int[] _processors) {
         this._processors = _processors;
     }
 }
