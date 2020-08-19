@@ -15,9 +15,9 @@ public class TopologyFinder implements  ITopologyFinder {
     private List<Node> _topology;
 
     /**
-     * Method used to generate a topology from a given graph
-     * @param graph graph to generate a topology from
-     * @return the topology as a sequential list of Nodes
+     * Method used to generate a scheduler from a given graph
+     * @param graph graph to generate a scheduler from
+     * @return the scheduler as a sequential list of Nodes
      */
     public List<Node> generateTopology(Graph graph){
 
@@ -53,7 +53,7 @@ public class TopologyFinder implements  ITopologyFinder {
     }
 
     /**
-     * Helper function for moving nodes from Node List to topology list
+     * Helper function for moving nodes from Node List to scheduler list
      * @param removeList list of nodes to move
      */
     private void moveList(List<Node> removeList){
@@ -64,9 +64,9 @@ public class TopologyFinder implements  ITopologyFinder {
     }
 
     /**
-     * Helper function for checking if parent list of a node has all bee added to topology
+     * Helper function for checking if parent list of a node has all bee added to scheduler
      * @param parentList parent nodes to check
-     * @return true if all parents already added, false if at least one parent is not already n the topology
+     * @return true if all parents already added, false if at least one parent is not already n the scheduler
      */
     private boolean checkParents(List<Node> parentList){
         boolean allParentsAdded = true;

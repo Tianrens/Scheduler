@@ -1,5 +1,7 @@
-package group8.cli;
+package group8.scheduler;
 
+import group8.cli.AppConfig;
+import group8.cli.AppConfigException;
 import group8.models.Graph;
 import group8.models.Node;
 import group8.models.ProcessorException;
@@ -16,7 +18,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ScheduleTests {
+public class OneProcessorSchedulerTests {
 
     private Graph _graph;
 
