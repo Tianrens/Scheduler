@@ -24,7 +24,7 @@ public class SimpleHeuristic implements IHeuristic {
     public int calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
         int totalCost = 0;
         //Map<String, int[]> stateNodes = state.get_nodes();
-        ArrayList<String> stateKeys = new ArrayList<String>(state.get_nodes().keySet());
+        ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet());
         ArrayList<String> allKeys = new ArrayList<String>(allNodes.keySet());
         //List<Node> statelessNodes = new ArrayList<>();
 
