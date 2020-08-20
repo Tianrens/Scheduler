@@ -23,8 +23,8 @@ public class AlgorithmIntegrationTests {
 
     @Test
     public void firstTest() throws Exception{
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("TestGraph.dot").getPath()));
-        AppConfig.getInstance().setNumProcessors(4);
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("ComplexGraphv2.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(8);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
 
 
