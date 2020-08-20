@@ -133,7 +133,7 @@ public class ELSModelStateExpander implements IStateExpander {
 
         //Check parents one by one
         for (Node pNode: parentList) {
-            if(scheduledNodes.get(pNode.getId())!=null){
+            if(scheduledNodes.get(pNode.getId())==null){
                 allParentsAdded = false;
             }
         }
