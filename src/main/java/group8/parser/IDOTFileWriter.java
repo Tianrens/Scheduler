@@ -16,4 +16,6 @@ public interface IDOTFileWriter {
      */
     void writeOutput(Schedule schedule, Graph graph) throws AppConfigException;
 
+    void writeOutputToConsole(Schedule schedule, Graph graph) throws AppConfigException;
+
 }

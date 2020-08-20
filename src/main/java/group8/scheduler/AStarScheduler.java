@@ -13,6 +13,7 @@ public class AStarScheduler implements IScheduler {
     private Graph _graph;
     private HashMap<String, Node> _allNodesOfGraph;
     private Set<String> _nodeIdList;
+    private int scheduleCount = 0;
 
     @Override
     public Schedule generateValidSchedule(Graph graph) throws AppConfigException {
@@ -25,14 +26,17 @@ public class AStarScheduler implements IScheduler {
         SimpleHeuristic simpleHeuristic = new SimpleHeuristic();
         List<Schedule> newFoundStates;
         _openState.add(schedule);
+        scheduleCount++;
         while (!_openState.isEmpty()) {
             schedule = _openState.poll();
 
             if (checkCompleteSchedule(schedule)) {
+                System.out.println(scheduleCount);
                 return schedule;
             }
 
             newFoundStates = elsModelStateExpander.getNewStates(schedule);
+            scheduleCount+=newFoundStates.size();
             newFoundStates.forEach(state -> state.setHeuristicCost(simpleHeuristic.calculateEstimate(state, _allNodesOfGraph)));
             _closedState.add(schedule);
 

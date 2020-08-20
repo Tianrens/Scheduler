@@ -36,12 +36,12 @@ public class ELSModelStateExpander implements IStateExpander {
                 List<Node> parentNodes = nodeEntry.getValue().getParentNodeList();
 
                 //if no parents then node has no dependencies and can be assigned to the schedule
-                if(parentNodes == null){
+                if(parentNodes.size()==0){
                     //checks for duplicate states, where a node sis assigned to an empty process
                     boolean emptyAssign = false;
 
                     for(int i = 0 ; i < processors.length ; i++) {
-                        int[] newProcessors = processors;
+                        int[] newProcessors = makeProcessorList(processors);
                         Map<String, int[]> newScheduledNodes = new HashMap<>();
                         int[] nodeInfo = new int[2];
 
@@ -70,7 +70,7 @@ public class ELSModelStateExpander implements IStateExpander {
 
                     for(int i = 0 ; i < processors.length ; i++){
 
-                        int[] newProcessors = processors;
+                        int[] newProcessors = makeProcessorList(processors);
                         Map<String, int[]> newScheduledNodes = new HashMap<>();
                         int[] nodeInfo = new int[2];
 
@@ -142,6 +142,15 @@ public class ELSModelStateExpander implements IStateExpander {
         return allParentsAdded;
     }
 
+    private int[] makeProcessorList(int[] processors){
+        int[] newProcessors = new int[processors.length];
+
+        for (int i =0 ; i< processors.length ;i++){
+            newProcessors[i]=processors[i];
+        }
+        return newProcessors;
+
+    }
 
 
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {

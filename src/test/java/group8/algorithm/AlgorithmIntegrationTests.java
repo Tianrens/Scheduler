@@ -23,7 +23,7 @@ public class AlgorithmIntegrationTests {
 
     @Test
     public void firstTest() throws Exception{
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("defaultGraph.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("TestGraph.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(4);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
 
@@ -36,7 +36,7 @@ public class AlgorithmIntegrationTests {
         Schedule schedule = scheduler.generateValidSchedule(graph);
 
         IDOTFileWriter outputBuilder = new DOTFileWriter();
-        outputBuilder.writeOutput(schedule, graph);
+        outputBuilder.writeOutputToConsole(schedule, graph);
 
     }
 }
