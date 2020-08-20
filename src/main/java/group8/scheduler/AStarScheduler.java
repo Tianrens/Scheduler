@@ -3,24 +3,22 @@ package group8.scheduler;
 import group8.algorithm.ELSModelStateExpander;
 import group8.algorithm.SimpleHeuristic;
 import group8.cli.AppConfigException;
-import group8.models.Graph;
-import group8.models.Node;
-import group8.models.ProcessorException;
-import group8.models.Schedule;
+import group8.models.*;
 
 import java.util.*;
 
 public class AStarScheduler implements IScheduler {
-    private PriorityQueue<Schedule> _openState = new PriorityQueue<>();
+    private PriorityQueue<Schedule> _openState = new PriorityQueue<>(new ScheduleComparator());
     private List<Schedule> _closedState = new ArrayList<>();
     private Graph _graph;
+    private HashMap<String, Node> _allNodesOfGraph;
     private Set<String> _nodeIdList;
 
     @Override
     public Schedule generateValidSchedule(Graph graph) throws ProcessorException, AppConfigException {
         _graph = graph;
-        HashMap<String, Node> allNodesOfGraph = _graph.getAllNodes();
-        _nodeIdList = allNodesOfGraph.keySet();
+        _allNodesOfGraph = _graph.getAllNodes();
+        _nodeIdList = _allNodesOfGraph.keySet();
 
         Schedule schedule = new Schedule();
         ELSModelStateExpander elsModelStateExpander = new ELSModelStateExpander();
@@ -28,18 +26,17 @@ public class AStarScheduler implements IScheduler {
         List<Schedule> newFoundStates;
         _openState.add(schedule);
         while (!_openState.isEmpty()) {
-            newFoundStates = elsModelStateExpander.getNewStates(_openState.peek());
-//            newFoundStates.forEach(state -> state.setHeuristicCost(simpleHeuristic.findHeuristic(state)));
+            schedule = _openState.poll();
 
-
-
-            newFoundStates.forEach(state -> _openState.add(state));
-
-            schedule = _openState.peek();
             if (checkCompleteSchedule(schedule)) {
                 return schedule;
             }
-            _closedState.add(_openState.poll());
+
+            newFoundStates = elsModelStateExpander.getNewStates(schedule);
+            newFoundStates.forEach(state -> state.setHeuristicCost(simpleHeuristic.calculateEstimate(state, _allNodesOfGraph)));
+            _closedState.add(schedule);
+
+            newFoundStates.forEach(state -> _openState.add(state));
         }
         return null;
     }
