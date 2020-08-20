@@ -15,7 +15,7 @@ public class AStarScheduler implements IScheduler {
     private Set<String> _nodeIdList;
 
     @Override
-    public Schedule generateValidSchedule(Graph graph) throws ProcessorException, AppConfigException {
+    public Schedule generateValidSchedule(Graph graph) throws AppConfigException {
         _graph = graph;
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
