@@ -89,7 +89,7 @@ public class ELSModelStateExpander implements IStateExpander {
 
                         for(Node parent : parentNodes) {
                             if(scheduledNodes.get(parent.getId())[1]!=i){
-                                startTime = parent.getEdgeList().get(parent)+parent.getCost()+scheduledNodes.get(parent.getId())[0];
+                                startTime = parent.getEdgeList().get(nodeEntry.getValue())+parent.getCost()+scheduledNodes.get(parent.getId())[0];
                                 if(startTime < processors[i]){
                                     startTime = processors[i];
                                 }
