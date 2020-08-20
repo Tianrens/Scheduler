@@ -37,7 +37,7 @@ public class Schedule {
             throw new AppConfigException();
         }
         for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
-            _processors[i] = 0;
+            _processors[i] = -1;
         }
     }
 
