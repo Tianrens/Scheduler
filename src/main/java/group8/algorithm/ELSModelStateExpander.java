@@ -104,7 +104,7 @@ public class ELSModelStateExpander implements IStateExpander {
                         }
 
 
-                        nodeInfo[0] = newProcessors[i];
+                        nodeInfo[0] = earliestStartTime;
                         nodeInfo[1]=i;
                         newProcessors[i] = earliestStartTime + nodeEntry.getValue().getCost();
                         newScheduledNodes.putAll(scheduledNodes);
