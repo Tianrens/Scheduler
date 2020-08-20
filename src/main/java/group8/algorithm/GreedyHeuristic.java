@@ -82,7 +82,7 @@ public class GreedyHeuristic implements IHeuristic {
             int[] newNodeDetails = {stateProcessors[index], index + 1};
             stateNodes.put(node.getId(), newNodeDetails);
         }
-        
+
         return totalCost;
     }
 

@@ -26,6 +26,7 @@ public class SimpleHeuristic implements IHeuristic {
         //Map<String, int[]> stateNodes = state.get_nodes();
         ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet());
         ArrayList<String> allKeys = new ArrayList<String>(allNodes.keySet());
+        int[] stateProcessors = state.getProcessors();
         //List<Node> statelessNodes = new ArrayList<>();
 
         // Sum up the costs of all nodes not in the current state
@@ -35,6 +36,14 @@ public class SimpleHeuristic implements IHeuristic {
             }
         }
 
-        return totalCost;
+        //Find latest starting processor time
+        int maxStartTime = stateProcessors[0];
+        for(int i = 0; i < stateProcessors.length; i++){
+            if(maxStartTime < stateProcessors[i]){
+                maxStartTime = stateProcessors[i];
+            }
+        }
+
+        return maxStartTime + totalCost;
     }
 }
