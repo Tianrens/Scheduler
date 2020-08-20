@@ -1,4 +1,4 @@
-package group8.scheduler;
+package group8.algorithm;
 
 import group8.models.Graph;
 import group8.models.Node;
@@ -6,8 +6,7 @@ import group8.models.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopologyFinder implements  ITopologyFinder {
-
+public class TempTopologyFinder {
     //A list of all unassigned nodes in the graph
     private List<Node> _nodeList;
 
@@ -16,13 +15,13 @@ public class TopologyFinder implements  ITopologyFinder {
 
     /**
      * Method used to generate a scheduler from a given graph
-     * @param graph graph to generate a scheduler from
+     * @param toSortList list to generate a scheduler from
      * @return the scheduler as a sequential list of Nodes
      */
-    public List<Node> generateTopology(Graph graph){
+    public List<Node> generateTopology(List<Node> toSortList){
 
         //add all of the nodes in Graph into a List
-        _nodeList = new ArrayList<Node>(graph.getAllNodes().values());
+        _nodeList = toSortList;
         _topology = new ArrayList<>();
 
         //Keep looping through until the nodeList is empty
@@ -81,5 +80,4 @@ public class TopologyFinder implements  ITopologyFinder {
         //check if all parents have been added
         return allParentsAdded;
     }
-
 }
