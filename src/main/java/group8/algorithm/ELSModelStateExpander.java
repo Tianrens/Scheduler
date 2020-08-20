@@ -1,5 +1,6 @@
 package group8.algorithm;
 
+import group8.cli.AppConfigException;
 import group8.models.Graph;
 import group8.models.Node;
 import group8.models.Schedule;
@@ -22,9 +23,9 @@ public class ELSModelStateExpander implements IStateExpander {
 
 
     @Override
-    public List<Schedule> getNewStates(Schedule state){
+    public List<Schedule> getNewStates(Schedule state) throws AppConfigException {
 
-        Map<String, int[]> scheduledNodes = state.getNodes();
+        Map<String, int[]> scheduledNodes = state.getTasks();
         List<Schedule> newSchedules = new ArrayList<>();
         int[] processors = state.getProcessors();
         //loops through all nodes in the graph
@@ -143,10 +144,10 @@ public class ELSModelStateExpander implements IStateExpander {
 
 
 
-    private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes){
+    private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
         Schedule newSchdule = new Schedule();
-        newSchdule.setNodes(scheduledNodes);
+        newSchdule.setTasks(scheduledNodes);
         newSchdule.setProcessors(processors);
 
         return newSchdule;

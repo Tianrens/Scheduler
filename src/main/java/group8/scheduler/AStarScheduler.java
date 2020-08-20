@@ -21,7 +21,7 @@ public class AStarScheduler implements IScheduler {
         _nodeIdList = _allNodesOfGraph.keySet();
 
         Schedule schedule = new Schedule();
-        ELSModelStateExpander elsModelStateExpander = new ELSModelStateExpander();
+        ELSModelStateExpander elsModelStateExpander = new ELSModelStateExpander(_graph);
         SimpleHeuristic simpleHeuristic = new SimpleHeuristic();
         List<Schedule> newFoundStates;
         _openState.add(schedule);
