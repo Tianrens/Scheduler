@@ -46,6 +46,7 @@ public class ELSModelStateExpander implements IStateExpander {
 
                         if(!emptyAssign && newProcessors[i]==-1){
                             emptyAssign=true;
+                            newProcessors[i]=0;
                         }else if(emptyAssign && newProcessors[i]==-1){
                             //This might need reconsideration, because I dont think there will be a case where after
                             // reading an empty process will we come across a process that is not empty
@@ -74,6 +75,8 @@ public class ELSModelStateExpander implements IStateExpander {
 
                         if(!emptyAssign && processors[i]==-1){
                             emptyAssign=true;
+                            newProcessors[i]=0;
+
                         }else if(emptyAssign && processors[i]==-1){
                             //This might need reconsideration, because I dont think there will be a case where after
                             // reading an empty process will we come across a process that is not empty
