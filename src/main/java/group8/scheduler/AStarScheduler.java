@@ -1,14 +1,15 @@
 package group8.scheduler;
 
 import group8.algorithm.ELSModelStateExpander;
-import group8.algorithm.SimpleHeuristic;
+import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 import group8.models.*;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
- * This class implements the A* algorithm.
+ * This class implements the A* algorithm
  */
 public class AStarScheduler implements IScheduler {
     private PriorityQueue<Schedule> _openState = new PriorityQueue<>(new ScheduleComparator());
@@ -16,7 +17,9 @@ public class AStarScheduler implements IScheduler {
     private Graph _graph;
     private HashMap<String, Node> _allNodesOfGraph;
     private Set<String> _nodeIdList;
-    private int scheduleCount = 0;
+    private int _scheduleCount = 0;
+    private ExecutorService _executorService = Executors.newFixedThreadPool(AppConfig.getInstance().getNumCores());
+    private int _numUsableThreads = AppConfig.getInstance().getNumCores();
 
     /**
      * This method is an implementation of the A* algorithm
@@ -32,34 +35,76 @@ public class AStarScheduler implements IScheduler {
 
         //initialises the helper classes as objects to use their methods
         Schedule schedule = new Schedule();
-        ELSModelStateExpander elsModelStateExpander = new ELSModelStateExpander(_graph);
         List<Schedule> newFoundStates;
         _openState.add(schedule); //add the empty schedule to get the algorithm started
-        scheduleCount++;
+        _scheduleCount++;
+
 
         //continue with the algorithm while there are still states in the priority queue
-        while (!_openState.isEmpty()) {
-            schedule = _openState.poll(); //pop out the most promising state
+        while (true) {
+            //check if the size of the priority queue is less than number of threads we have available
+            //if it is then we don't parallelise the expansion since we don't have enough schedules to assign
+            if (_openState.size() < _numUsableThreads) {
+                schedule = _openState.poll(); //pop out the most promising state
 
-            //run checkCompleteSchedule helper method to check if state is complete,
-            //meaning that the schedule is valid
-            if (checkCompleteSchedule(schedule)) {
-                System.out.println(scheduleCount);
-                return schedule;
+                //run checkCompleteSchedule helper method to check if state is complete,
+                //meaning that the schedule is valid
+                if (checkCompleteSchedule(schedule)) {
+                    System.out.println(_scheduleCount);
+                    return schedule;
+                }
+
+                //obtain a new set of states expanding from the most promising state
+                newFoundStates = new ELSModelStateExpander(_graph, schedule).getNewStates(schedule);
+                _scheduleCount +=newFoundStates.size();
+                _closedState.add(schedule);
+
+                //add the newly found states into the priority queue
+                newFoundStates.forEach(state -> _openState.add(state));
+
+            } else {
+                //A list to contain the future list of states which each thread will return
+                List<Future> allFutures = new ArrayList<>();
+                for (int i = 0; i < _numUsableThreads; i++) { //perform actions for each thread
+                    schedule = _openState.poll(); //pop out the most promising state for each thread
+
+                    //run checkCompleteSchedule helper method to check if state is complete,
+                    //if schedule is complete then that the schedule is valid
+                    if (checkCompleteSchedule(schedule)) {
+                        System.out.println(_scheduleCount);
+                        return schedule;
+                    }
+                    // assign each thread in the thread pool a state to expand
+                    Future<List<Schedule>> future = _executorService.submit(new ELSModelStateExpander(_graph, schedule));
+                    allFutures.add(future); //add future values to the list of future values
+                    _closedState.add(schedule); //add the explored schedule to another list
+                }
+
+                for (int i = 0; i < allFutures.size(); i++) { //for each of the futures
+                    Future<List<Schedule>> future = allFutures.get(i); //retrieve the future object
+                    try {
+                        //main will block here when trying to get the real value of the future
+                        newFoundStates = future.get(); //obtain a new set of states expanding from the most promising state
+                        _scheduleCount +=newFoundStates.size(); //add the found schedules to the count
+
+                        //add the newly found states into the priority queue
+                        newFoundStates.forEach(state -> _openState.add(state));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-
-            //obtain a new set of states expanding from the most promising state
-            newFoundStates = elsModelStateExpander.getNewStates(schedule);
-            scheduleCount+=newFoundStates.size();
-            _closedState.add(schedule);
-
-
-            //add the newly found states into thee priority queue
-            newFoundStates.forEach(state -> _openState.add(state));
         }
-        return null;
     }
 
+    /**
+     * check if the state is complete, meaning that the schedule contains
+     * all of the nodes of the graph.
+     * @param state
+     * @return
+     */
     private boolean checkCompleteSchedule(Schedule state) {
         Set<String> taskIdList = state.getTasks().keySet();
         Set<String> nodeIdListCopy = new TreeSet<>();
