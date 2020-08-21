@@ -12,13 +12,13 @@ public class GreedyHeuristic implements IHeuristic {
 
     @Override
     public int calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
-        int totalCost = 0;
-        Map<String, int[]> stateNodes = state.getTasks();
+        Map<String, int[]> stateNodes = new HashMap<String, int[]>();
+        stateNodes.putAll(state.getTasks());
         ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet());
         ArrayList<String> allKeys = new ArrayList<String>(allNodes.keySet());
         List<Node> statelessNodes = new ArrayList<>();
         List<Node> topology = new ArrayList<>();
-        int[] stateProcessors = state.getProcessors();
+        int[] stateProcessors = state.getProcessors().clone();
         Schedule currentState = state;
         TempTopologyFinder topologyFinder = new TempTopologyFinder();
 
@@ -77,13 +77,19 @@ public class GreedyHeuristic implements IHeuristic {
             }
 
             //Now processor index is chosen, add new start time with new node
-            totalCost += (processSelection[index] + node.getCost()) - stateProcessors[index];
             stateProcessors[index] = processSelection[index] + node.getCost();
             int[] newNodeDetails = {stateProcessors[index], index + 1};
             stateNodes.put(node.getId(), newNodeDetails);
         }
 
-        return totalCost;
+        // Find the latest ending time to output as the estimate
+        int maxStartTime = stateProcessors[0];
+        for(int i = 0; i < stateProcessors.length; i++){
+            if(maxStartTime < stateProcessors[i]){
+                maxStartTime = stateProcessors[i];
+            }
+        }
+        return maxStartTime;
     }
 
 }
