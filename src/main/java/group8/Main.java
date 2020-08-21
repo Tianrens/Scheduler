@@ -8,13 +8,29 @@ import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.*;
+import group8.visualisation.MainScreenController;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
-public class Main {
+public class Main extends Application {
 
     private static AppConfig _appConfig;
 
     public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
+        //System.out.println("Helo World");
+//        if (AppConfig.getInstance().isVisualise()) {
+//            // Using Visualisation
+//            launch();
+//        } else {
+//
+//        }
 
 //        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
 //        ITopologyFinder topologyFinder = new TopologyFinder();
@@ -41,5 +57,26 @@ public class Main {
             System.exit(-1);
             return null;
         }
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(this.getClass().getResource("/visualisation/MainScreen.fxml"));
+        MainScreenController controller = new MainScreenController();
+        loader.setController(controller);
+        Parent layout = loader.load();
+
+        Scene scene = new Scene(layout);
+        primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+        primaryStage.show();
+
     }
 }
