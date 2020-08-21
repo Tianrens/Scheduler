@@ -61,6 +61,37 @@ public class DOTFileWriter implements IDOTFileWriter{
         }
     }
 
+    public void writeOutputToConsole(Schedule schedule, Graph graph) throws AppConfigException {
+        File outputFile = AppConfig.getInstance().getOutputFile();
+        if (outputFile == null) {
+            throw new AppConfigException();
+        }
+
+        try{
+            System.out.println("digraph output_graph {");
+            Map<String, int[]> tasks = schedule.getTasks();
+
+            String edgeList = ""; // This string is written out last because all nodes must be declared before edges
+
+            // The for loop cycles through all takesNodes and prints them out + their edges
+            for(Map.Entry<String, int[]> task : tasks.entrySet()){
+                Node node = graph.getNode(task.getKey());
+                int[] taskScheduleInfo = task.getValue();
+
+                System.out.println(createNodeString(node, taskScheduleInfo)); // This prints out all nodes their weights, processor and start time
+
+                for (Map.Entry<Node, Integer> edge : node.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+                    edgeList += createEdgeString(node, edge);
+                }
+            }
+
+            System.out.println(edgeList); // All edges are written out to the dot file
+            System.out.println(AppConfig.getInstance().getOutputFile().toString() + " has been generated");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Helper method to create a well defined string format for nodes of the graph
      * @param task
