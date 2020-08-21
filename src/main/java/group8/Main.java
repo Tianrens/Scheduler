@@ -25,12 +25,12 @@ public class Main extends Application {
     public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
         //System.out.println("Helo World");
-//        if (AppConfig.getInstance().isVisualise()) {
-//            // Using Visualisation
-//            launch();
-//        } else {
-//
-//        }
+        if (AppConfig.getInstance().isVisualise()) {
+            // Using Visualisation
+            launch();
+        } else {
+
+        }
 
 //        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
 //        ITopologyFinder topologyFinder = new TopologyFinder();
