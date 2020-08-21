@@ -156,8 +156,10 @@ public class ELSModelStateExpander implements IStateExpander {
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
         Schedule newSchdule = new Schedule();
+        IHeuristic simpleHeuristic = new SimpleHeuristic();
         newSchdule.setTasks(scheduledNodes);
         newSchdule.setProcessors(processors);
+        newSchdule.setHeuristicCost(simpleHeuristic.calculateEstimate(newSchdule, _nodeList));
 
         return newSchdule;
     }

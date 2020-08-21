@@ -23,7 +23,6 @@ public class AStarScheduler implements IScheduler {
 
         Schedule schedule = new Schedule();
         ELSModelStateExpander elsModelStateExpander = new ELSModelStateExpander(_graph);
-        SimpleHeuristic simpleHeuristic = new SimpleHeuristic();
         List<Schedule> newFoundStates;
         _openState.add(schedule);
         scheduleCount++;
@@ -37,7 +36,6 @@ public class AStarScheduler implements IScheduler {
 
             newFoundStates = elsModelStateExpander.getNewStates(schedule);
             scheduleCount+=newFoundStates.size();
-            newFoundStates.forEach(state -> state.setHeuristicCost(simpleHeuristic.calculateEstimate(state, _allNodesOfGraph)));
             _closedState.add(schedule);
 
             newFoundStates.forEach(state -> _openState.add(state));
