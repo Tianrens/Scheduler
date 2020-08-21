@@ -23,27 +23,61 @@ public class SimpleHeuristic implements IHeuristic {
     @Override
     public int calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
         int totalCost = 0;
-        //Map<String, int[]> stateNodes = state.get_nodes();
+        Map<String, int[]> stateNodes = state.getTasks();
         ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet());
         ArrayList<String> allKeys = new ArrayList<String>(allNodes.keySet());
         int[] stateProcessors = state.getProcessors();
         //List<Node> statelessNodes = new ArrayList<>();
 
-        // Sum up the costs of all nodes not in the current state
-        for (String nodeId: allKeys) {
-            if(!stateKeys.contains(nodeId)){
-                totalCost += allNodes.get(nodeId).getCost();
-            }
-        }
-
         //Find latest starting processor time
-        int maxStartTime = stateProcessors[0];
+        int index = 0;
+        int maxStartTime = stateProcessors[index];
         for(int i = 0; i < stateProcessors.length; i++){
             if(maxStartTime < stateProcessors[i]){
                 maxStartTime = stateProcessors[i];
+                index = i;
             }
         }
 
-        return maxStartTime + totalCost;
+        totalCost += maxStartTime;
+        // Sum up the costs of all nodes not in the current state
+        for(String nodeId: allKeys){
+            //Check every stateless nodes parent
+            if(!stateKeys.contains(nodeId)){
+                int startTime = totalCost;
+                int currentStartTime = totalCost;
+                Node currentNode = allNodes.get(nodeId);
+                List<Node> parentList = currentNode.getParentNodeList();
+
+                // If node is not independent, check if parent effects the start time
+                if(parentList != null){
+                    for (Node parent: parentList) {
+                        int[] parentDetails = stateNodes.get(parent.getId());
+
+                        // If parent isn't in the state then it can start asap
+                        if(parentDetails == null){
+                            currentStartTime = totalCost;
+
+                        }else if(parentDetails[1] - 1 != index){
+                            // If parent in other processor, factor in remote cost
+                            currentStartTime = parent.getEdgeList().get(currentNode) + parent.getCost() + parentDetails[0];
+
+                        }else{
+                            //parent in same process already, start asap
+                            currentStartTime = totalCost;
+                        }
+
+                        // If current start time exceeds the one previously set, then set it as the new
+                        if(startTime < currentStartTime){
+                            startTime = currentStartTime;
+                        }
+                    }
+                }
+
+                totalCost = startTime + currentNode.getCost();
+            }
+        }
+        
+        return totalCost;
     }
 }
