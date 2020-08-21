@@ -9,15 +9,12 @@ import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.*;
-import group8.visualisation.MainScreenController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class Main extends Application {
 
@@ -25,8 +22,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
-        if (AppConfig.getInstance().isVisualise()) {
-            // Using Visualisation
+        if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
             launch();
         } else {
 
@@ -47,7 +43,6 @@ public class Main extends Application {
         try {
             return cli.build();
         } catch (CLIException e) {
-            //e.printStackTrace();
             String getHelp = "java -jar scheduler.jar INPUT.dot P [OPTION]" + System.lineSeparator()
                     + "INPUT.dot    a task graph with integer weights in dot format" + System.lineSeparator()
                     + "P            number of processors to schedule the INPUT graph on" + System.lineSeparator()
@@ -69,12 +64,9 @@ public class Main extends Application {
 
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Platform.exit();
-                System.exit(0);
-            }
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
         });
         primaryStage.show();
 
