@@ -24,7 +24,6 @@ public class Main extends Application {
 
     public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
-        //System.out.println("Helo World");
         if (AppConfig.getInstance().isVisualise()) {
             // Using Visualisation
             launch();
@@ -62,9 +61,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/visualisation/MainScreen.fxml"));
-        MainScreenController controller = new MainScreenController();
-        loader.setController(controller);
+        loader.setLocation(this.getClass().getResource("visualisation/MainScreen.fxml"));
         Parent layout = loader.load();
 
         Scene scene = new Scene(layout);

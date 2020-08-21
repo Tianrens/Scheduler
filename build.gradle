@@ -21,7 +21,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'group8/Main'
+                'Main-Class': 'group8.Main'
         )
     }
     from {
