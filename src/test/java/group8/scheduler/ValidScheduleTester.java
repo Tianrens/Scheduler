@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertTrue;
+
 public class ValidScheduleTester {
 
     Graph _graph;
@@ -21,11 +23,12 @@ public class ValidScheduleTester {
     }
 
 
-    private boolean isValid(Schedule schedule){
+    private void isValid(Schedule schedule){
         Map<String, int[]> tasks = schedule.getTasks();
         int[] processors = schedule.getProcessors();
 
-        return true;
+        assertTrue(checkParents(tasks));
+        assertTrue(checkProcessors(tasks, processors));
     }
 
 
@@ -50,11 +53,16 @@ public class ValidScheduleTester {
 
         int[] testProcessors = new int[processors.length];
 
-
         for(Map.Entry<String, int[]> entry : tasks.entrySet()){
             Node node = _nodes.get(entry.getKey());
-            testProcessors[entry.getValue()[1]]+=
+            testProcessors[entry.getValue()[1]]+=node.getCost();
 
+        }
+
+        for(int i = 0 ; i< processors.length ; i++) {
+            if(testProcessors[i]>processors[i]){
+                return false;
+            }
         }
         return true;
     }
