@@ -9,18 +9,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
-public class ELSModelStateExpander implements IStateExpander {
+public class ELSModelStateExpander implements IStateExpander, Callable<List<Schedule>> {
 
     /**
      * This is a constant store of all nodes in the graph, This should never be written to!!
      */
     private HashMap<String,Node> _nodeList;
+    private Schedule _state;
 
-    public ELSModelStateExpander(Graph graph){
+    public ELSModelStateExpander(Graph graph, Schedule state){
         _nodeList=graph.getAllNodes();
+        _state = state;
     }
 
+    @Override
+    public List<Schedule> call() throws AppConfigException {
+        return getNewStates(_state);
+    }
 
     @Override
     public List<Schedule> getNewStates(Schedule state) throws AppConfigException {
