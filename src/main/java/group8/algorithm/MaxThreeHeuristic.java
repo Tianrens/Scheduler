@@ -76,10 +76,11 @@ public class MaxThreeHeuristic implements IHeuristic{
             if(!assignedTasks.containsKey(node.getId())){
                 //check if all its parents have been assigned or not
                 if(checkParents(node.getParentNodeList(),state.getTasks())) {
-                    int earliestStartTime = 0;
+
+                    int earliestProcessorStartTime = Integer.MAX_VALUE;
 
                     for (int i = 0; i < processors.length; i++) {
-
+                        int earliestStartTime = 0;
                         for (Node parent : node.getParentNodeList()) {
                             int startTime = 0;
                             if (assignedTasks.get(parent.getId())[1] != i) {
@@ -95,11 +96,16 @@ public class MaxThreeHeuristic implements IHeuristic{
                                 earliestStartTime = startTime;
                             }
                         }
+
+                        if (earliestProcessorStartTime > earliestStartTime) {
+                            earliestProcessorStartTime = earliestStartTime;
+                        }
+
                     }
                     //record largest value
                     int bl=calculateBottomLevel(node);
-                    if(maxHeuristic<earliestStartTime+bl){
-                        maxHeuristic = earliestStartTime+bl;
+                    if(maxHeuristic<earliestProcessorStartTime+bl){
+                        maxHeuristic = earliestProcessorStartTime+bl;
                     }
                 }
             }
