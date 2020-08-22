@@ -9,22 +9,33 @@ import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.*;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
 
     private static AppConfig _appConfig;
 
     public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
+        if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
+            launch();
+        } else {
 
-        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        IScheduler scheduler = new AStarScheduler();
-        Graph graph = externalGraphGenerator.generate();
+        }
 
-        Schedule schedule = scheduler.generateValidSchedule(graph);
-
-        IDOTFileWriter outputBuilder = new DOTFileWriter();
-        outputBuilder.writeOutput(schedule, graph);
+//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+//        IScheduler scheduler = new AStarScheduler();
+//        Graph graph = externalGraphGenerator.generate();
+//
+//        Schedule schedule = scheduler.generateValidSchedule(graph);
+//
+//        IDOTFileWriter outputBuilder = new DOTFileWriter();
+//        outputBuilder.writeOutput(schedule, graph);
     }
 
     private static AppConfig buildAppConfig(String[] args) {
@@ -32,7 +43,6 @@ public class Main {
         try {
             return cli.build();
         } catch (CLIException e) {
-            //e.printStackTrace();
             String getHelp = "java -jar scheduler.jar INPUT.dot P [OPTION]" + System.lineSeparator()
                     + "INPUT.dot    a task graph with integer weights in dot format" + System.lineSeparator()
                     + "P            number of processors to schedule the INPUT graph on" + System.lineSeparator()
@@ -44,5 +54,21 @@ public class Main {
             System.exit(-1);
             return null;
         }
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(this.getClass().getResource("visualisation/MainScreen.fxml"));
+        Parent layout = loader.load();
+
+        Scene scene = new Scene(layout);
+        primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        primaryStage.show();
+
     }
 }
