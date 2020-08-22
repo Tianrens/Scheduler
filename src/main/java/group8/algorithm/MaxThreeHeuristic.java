@@ -19,16 +19,46 @@ public class MaxThreeHeuristic implements IHeuristic{
 
     private int calculateIdleHeuristics(Schedule state, HashMap<String, Node> allNodes){
 
+        int[] processors = state.getProcessors();
+        int[] sumProcessors = new int[processors.length];
+        int sumIdle = 0;
+        int maxProcssorTime = 0;
+        for(int i = 0; i < processors.length ; i ++){
+            if(processors[i]>maxProcssorTime){
+                maxProcssorTime=processors[i];
+            }
+        }
+
+        for(Map.Entry<String, int[]> entry : state.getTasks().entrySet()){
+            sumProcessors[entry.getValue()[1]]+=allNodes.get(entry.getKey()).getCost();
+        }
+
+        for(int i = 0; i < processors.length ; i ++){
+            sumIdle+=processors[i]-sumProcessors[i];
+        }
+
+        for(Node node : allNodes.values()){
+            sumIdle+=node.getCost();
+        }
+
         //TODO Raymond
-        return 0;
+        return sumIdle/processors.length;
     }
 
 
     private int calculateBlHeuristic(Schedule state, HashMap<String, Node> allNodes){
 
-        //Lmao 
+        int maxHeuristic = 0;
+        //Lmao
+        for (Map.Entry<String, int[]> nodeEntry : state.getTasks().entrySet()){
+            int heuristic = calculateBottomLevel(allNodes.get(nodeEntry.getKey()));
+
+            if(heuristic>maxHeuristic){
+                maxHeuristic=heuristic;
+            }
+        }
         //TODO Jennifer
-        return 0;
+        return maxHeuristic;
     }
 
 
@@ -39,7 +69,7 @@ public class MaxThreeHeuristic implements IHeuristic{
         List<Integer> maxList = new ArrayList<>();
         Map<String,int[]> assignedTasks = state.getTasks();
         int[] processors = state.getProcessors();
-        int heuristic = 0;
+        int maxHeuristic = 0;
 
         for (Node node : allNodes.values()){
             //make sure node has not been assigned yet
@@ -53,7 +83,7 @@ public class MaxThreeHeuristic implements IHeuristic{
                         for (Node parent : node.getParentNodeList()) {
                             int startTime = 0;
                             if (assignedTasks.get(parent.getId())[1] != i) {
-                                startTime = parent.getEdgeList().get(node.getId()) + parent.getCost() + assignedTasks.get(parent.getId())[0];
+                                startTime = parent.getEdgeList().get(node) + parent.getCost() + assignedTasks.get(parent.getId())[0];
                                 if (startTime < processors[i]) {
                                     startTime = processors[i];
                                 }
@@ -68,13 +98,13 @@ public class MaxThreeHeuristic implements IHeuristic{
                     }
                     //record largest value
                     int bl=calculateBottomLevel(node);
-                    if(heuristic<earliestStartTime+bl){
-                        heuristic = earliestStartTime+bl;
+                    if(maxHeuristic<earliestStartTime+bl){
+                        maxHeuristic = earliestStartTime+bl;
                     }
                 }
             }
         }
-        return heuristic;
+        return maxHeuristic;
     }
 
     /**
@@ -87,14 +117,14 @@ public class MaxThreeHeuristic implements IHeuristic{
         int longestCriticalPath = 0;
 
         for(Map.Entry<Node, Integer> dst: node.getEdgeList().entrySet()){
-            int currentPathLength = 0;
+            int currentPathLength =0;
             currentPathLength+=dst.getKey().getCost();
             currentPathLength+=calculateBottomLevel(dst.getKey());
             if(longestCriticalPath<currentPathLength){
                 longestCriticalPath=currentPathLength;
             }
         }
-        return longestCriticalPath;
+        return longestCriticalPath + node.getCost();
     }
 
 
@@ -116,8 +146,6 @@ public class MaxThreeHeuristic implements IHeuristic{
         //check if all parents have been added
         return allParentsAdded;
     }
-
-
 
 
 

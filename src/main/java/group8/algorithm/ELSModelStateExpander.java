@@ -23,6 +23,10 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         _nodeList=graph.getAllNodes();
         _state = state;
     }
+    public ELSModelStateExpander(Graph graph) throws AppConfigException {
+        _nodeList=graph.getAllNodes();
+        _state = new Schedule();
+    }
 
     @Override
     public List<Schedule> call() throws AppConfigException {
@@ -163,10 +167,10 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
         Schedule newSchdule = new Schedule();
-        IHeuristic simpleHeuristic = new SimpleHeuristic();
+        IHeuristic goodHeuristic = new MaxThreeHeuristic();
         newSchdule.setTasks(scheduledNodes);
         newSchdule.setProcessors(processors);
-        newSchdule.setHeuristicCost(simpleHeuristic.calculateEstimate(newSchdule, _nodeList));
+        newSchdule.setHeuristicCost(goodHeuristic.calculateEstimate(newSchdule, _nodeList));
 
         return newSchdule;
     }

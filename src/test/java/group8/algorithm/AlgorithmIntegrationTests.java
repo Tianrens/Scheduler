@@ -13,6 +13,7 @@ import java.util.List;
 import group8.parser.*;
 import group8.scheduler.AStarScheduler;
 import group8.scheduler.IScheduler;
+import group8.scheduler.NotParallelAStar;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,12 +26,13 @@ public class AlgorithmIntegrationTests {
     public void firstTest() throws Exception{
         AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("tenNodeOptimal.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(2);
+        AppConfig.getInstance().setNumCores(1);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
 
 
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        IScheduler scheduler = new AStarScheduler();
+        IScheduler scheduler = new NotParallelAStar();
         Graph graph = externalGraphGenerator.generate();
 
         Schedule schedule = scheduler.generateValidSchedule(graph);
