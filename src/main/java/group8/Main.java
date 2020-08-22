@@ -28,14 +28,14 @@ public class Main extends Application {
 
         }
 
-        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        IScheduler scheduler = new AStarScheduler();
-        Graph graph = externalGraphGenerator.generate();
-
-        Schedule schedule = scheduler.generateValidSchedule(graph);
-
-        IDOTFileWriter outputBuilder = new DOTFileWriter();
-        outputBuilder.writeOutput(schedule, graph);
+//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+//        IScheduler scheduler = new AStarScheduler();
+//        Graph graph = externalGraphGenerator.generate();
+//
+//        Schedule schedule = scheduler.generateValidSchedule(graph);
+//
+//        IDOTFileWriter outputBuilder = new DOTFileWriter();
+//        outputBuilder.writeOutput(schedule, graph);
     }
 
     private static AppConfig buildAppConfig(String[] args) {
