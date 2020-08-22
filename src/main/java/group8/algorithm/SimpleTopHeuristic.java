@@ -83,7 +83,6 @@ public class SimpleTopHeuristic implements IHeuristic {
                 }
 
                 totalCost = startTime + task.getCost();
-
         }
 
         return totalCost;
