@@ -12,7 +12,7 @@ import java.util.Map;
  * Class implementing a simple heuristic that calculates an estimate cost directly from a state to
  * the final schedule
  */
-public class SimpleHeuristic implements IHeuristic {
+public class SimpleTopHeuristic implements IHeuristic {
 
     /**
      * Method for calculating an estimate based on the sum of all unassigned node costs
@@ -27,7 +27,18 @@ public class SimpleHeuristic implements IHeuristic {
         ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet());
         ArrayList<String> allKeys = new ArrayList<String>(allNodes.keySet());
         int[] stateProcessors = state.getProcessors();
-        //List<Node> statelessNodes = new ArrayList<>();
+        TempTopologyFinder topologyFinder = new TempTopologyFinder();
+        List<Node> statelessNodes = new ArrayList<>();
+        List<Node> topology;
+
+        // obtain all nodes outside of the state
+        for (String nodeId: allKeys) {
+            if(!stateKeys.contains(nodeId)){
+                statelessNodes.add(allNodes.get(nodeId));
+            }
+        }
+
+        topology = topologyFinder.generateTopology(statelessNodes);
 
         //Find latest starting processor time
         int index = 0;
@@ -41,13 +52,10 @@ public class SimpleHeuristic implements IHeuristic {
 
         totalCost += maxStartTime;
         // Sum up the costs of all nodes not in the current state
-        for(String nodeId: allKeys){
-            //Check every stateless nodes parent
-            if(!stateKeys.contains(nodeId)){
+        for(Node task: topology){
                 int startTime = totalCost;
                 int currentStartTime = totalCost;
-                Node currentNode = allNodes.get(nodeId);
-                List<Node> parentList = currentNode.getParentNodeList();
+                List<Node> parentList = task.getParentNodeList();
 
                 // If node is not independent, check if parent effects the start time
                 if(parentList != null){
@@ -60,7 +68,7 @@ public class SimpleHeuristic implements IHeuristic {
 
                         }else if(parentDetails[1] - 1 != index){
                             // If parent in other processor, factor in remote cost
-                            currentStartTime = parent.getEdgeList().get(currentNode) + parent.getCost() + parentDetails[0];
+                            currentStartTime = parent.getEdgeList().get(task) + parent.getCost() + parentDetails[0];
 
                         }else{
                             //parent in same process already, start asap
@@ -74,8 +82,8 @@ public class SimpleHeuristic implements IHeuristic {
                     }
                 }
 
-                totalCost = startTime + currentNode.getCost();
-            }
+                totalCost = startTime + task.getCost();
+
         }
 
         return totalCost;
