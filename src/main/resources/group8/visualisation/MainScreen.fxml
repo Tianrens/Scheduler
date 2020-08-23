@@ -22,6 +22,7 @@
                               <Insets left="25.0" top="15.0" />
                            </HBox.margin>
                         </Text>
+                        <Text fx:id="_numSchedulesGeneratedText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </HBox>
                   <HBox prefHeight="200.0" prefWidth="600.0" />
