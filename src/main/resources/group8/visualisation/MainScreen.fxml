@@ -15,7 +15,7 @@
             <Pane prefHeight="200.0" prefWidth="200.0" />
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <HBox fx:id="_numProcessors" prefHeight="200.0" prefWidth="600.0">
+                  <HBox prefHeight="200.0" prefWidth="600.0">
                      <children>
                         <Text fx:id="_numProcessorsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER">
                            <HBox.margin>

@@ -12,13 +12,13 @@ public class MainScreenController {
     @FXML
     private Text _numProcessorsText;
 
-
     public void initialize() {
         _appConfig = AppConfig.getInstance();
+        _algoStatus = AlgorithmStatus.getInstance();
         _numProcessorsText.setText("");
-//        while(_algoStatus == null) {
-//
-//        }
+        while(_algoStatus == null) {
+
+        }
         System.out.println("Its done");
     }
 

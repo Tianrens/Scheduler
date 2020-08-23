@@ -6,18 +6,32 @@ import group8.models.Schedule;
 /**
  * This class stores information on the current running algorithm.
  * The fields in this class is used to visualisation.
+ * This class is singleton.
  */
 public class AlgorithmStatus {
+    private static AlgorithmStatus _instance = null;
+
     private Schedule _currentBestSchedule;
     private long _numSchedulesGenerated = 0;
     private long _numTotalSchedules;
     private AlgorithmState _algoState = AlgorithmState.NOT_RUNNING;
 
+    private AlgorithmStatus() {
+
+    }
+
+    public static synchronized AlgorithmStatus getInstance() {
+        if (_instance == null) {
+            _instance = new AlgorithmStatus();
+        }
+        return _instance;
+    }
+
     public Schedule getCurrentBestSchedule() {
         return _currentBestSchedule;
     }
 
-    public void setCurrentBestSchedule(Schedule _currentBestSchedule) {
+    public synchronized void setCurrentBestSchedule(Schedule _currentBestSchedule) {
         this._currentBestSchedule = _currentBestSchedule;
     }
 
@@ -25,11 +39,11 @@ public class AlgorithmStatus {
         return _numSchedulesGenerated;
     }
 
-    public void incrementSchedulesGenerated() {
+    public synchronized void incrementSchedulesGenerated() {
         _numSchedulesGenerated++;
     }
 
-    public void setNumSchedulesGenerated(long _numSchedulesGenerated) {
+    public synchronized void setNumSchedulesGenerated(long _numSchedulesGenerated) {
         this._numSchedulesGenerated = _numSchedulesGenerated;
     }
 
@@ -37,7 +51,7 @@ public class AlgorithmStatus {
         return _numTotalSchedules;
     }
 
-    public void setNumTotalSchedules(long _numTotalSchedules) {
+    public synchronized void setNumTotalSchedules(long _numTotalSchedules) {
         this._numTotalSchedules = _numTotalSchedules;
     }
 
@@ -45,7 +59,7 @@ public class AlgorithmStatus {
         return _algoState;
     }
 
-    public void setAlgoState(AlgorithmState _algoState) {
+    public synchronized void setAlgoState(AlgorithmState _algoState) {
         this._algoState = _algoState;
     }
 }
