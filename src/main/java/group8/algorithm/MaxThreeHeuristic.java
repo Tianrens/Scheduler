@@ -22,12 +22,6 @@ public class MaxThreeHeuristic implements IHeuristic{
         int[] processors = state.getProcessors();
         int[] sumProcessors = new int[processors.length];
         int sumIdle = 0;
-        int maxProcssorTime = 0;
-        for(int i = 0; i < processors.length ; i ++){
-            if(processors[i]>maxProcssorTime){
-                maxProcssorTime=processors[i];
-            }
-        }
 
         for(Map.Entry<String, int[]> entry : state.getTasks().entrySet()){
             sumProcessors[entry.getValue()[1]]+=allNodes.get(entry.getKey()).getCost();
