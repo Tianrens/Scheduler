@@ -41,7 +41,6 @@ public class MaxThreeHeuristic implements IHeuristic{
             sumIdle+=node.getCost();
         }
 
-        //TODO Raymond
         return sumIdle/processors.length;
     }
 
@@ -49,7 +48,6 @@ public class MaxThreeHeuristic implements IHeuristic{
     private int calculateBlHeuristic(Schedule state, HashMap<String, Node> allNodes){
 
         int maxHeuristic = 0;
-        //Lmao
         for (Map.Entry<String, int[]> nodeEntry : state.getTasks().entrySet()){
             int heuristic = calculateBottomLevel(allNodes.get(nodeEntry.getKey()));
 
@@ -57,7 +55,7 @@ public class MaxThreeHeuristic implements IHeuristic{
                 maxHeuristic=heuristic;
             }
         }
-        //TODO Jennifer
+
         return maxHeuristic;
     }
 
@@ -152,7 +150,5 @@ public class MaxThreeHeuristic implements IHeuristic{
         //check if all parents have been added
         return allParentsAdded;
     }
-
-
 
 }
