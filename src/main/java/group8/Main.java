@@ -1,5 +1,6 @@
 package group8;
 
+import group8.algorithm.AlgorithmState;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigBuilder;
 import group8.cli.AppConfigException;
@@ -9,6 +10,7 @@ import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.*;
+import group8.visualisation.AlgorithmStatus;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +24,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
+        AlgorithmStatus algoStatus = new AlgorithmStatus();
         if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
             launch();
         } else {
