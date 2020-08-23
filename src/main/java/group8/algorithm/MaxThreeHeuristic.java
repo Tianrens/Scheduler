@@ -181,17 +181,16 @@ public class MaxThreeHeuristic implements IHeuristic{
      * @return
      */
     private boolean checkParents(List<Node> parentList, Map<String,int[]> scheduledNodes){
-        boolean allParentsAdded = true;
 
-        //Check parents one by one
+        //Check parents one by one, if any aren't already scheduled, that means a parent is unassigned
         for (Node pNode: parentList) {
             if(scheduledNodes.get(pNode.getId())==null){
-                allParentsAdded = false;
+                return false;
             }
         }
 
-        //check if all parents have been added
-        return allParentsAdded;
+        //otherwise all parents have been scheduled
+        return true;
     }
 
 }
