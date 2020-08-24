@@ -6,6 +6,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -41,6 +42,9 @@ public class MainScreenController {
 
     @FXML
     private Text _appStatusText;
+
+    @FXML
+    private Pane _ganttChartPane;
 
     public void initialize() {
 
@@ -101,5 +105,13 @@ public class MainScreenController {
                 _appStatusText.setText("Application Status: ERROR" );
         }
     }
-    
+
+    private void updateGanttChart() {
+
+        int numProcessors = _appConfig.getNumProcessors();
+
+        
+
+    }
+
 }
