@@ -52,14 +52,13 @@ public class MainScreenController {
         _appConfig = AppConfig.getInstance();
         _algoStatus = AlgorithmStatus.getInstance();
 
-        start();
-
         _numProcessorsText.setText("Number of Processors: " + _appConfig.getNumProcessors());
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
         _inputFileText.setText("Input Graph: " + _appConfig.getInputFile().toString());
         _outputGraphText.setText("Output Graph: " + _appConfig.getOutputFile().toString());
 
-
+        start();
+        
     }
 
     private void start() {
