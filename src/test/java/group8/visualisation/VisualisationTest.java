@@ -55,6 +55,8 @@ public class VisualisationTest extends Application {
 
         Scene scene = new Scene(layout);
 
+        scene.getStylesheets().add(this.getClass().getResource("MainScreen.css").toExternalForm());
+
         primaryStage.setTitle("Team 8: GR8 B8 M8");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);

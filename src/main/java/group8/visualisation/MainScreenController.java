@@ -66,6 +66,7 @@ public class MainScreenController {
         _appConfig = AppConfig.getInstance();
         _algoStatus = AlgorithmStatus.getInstance();
 
+
         _numProcessorsText.setText("Number of Processors: " + _appConfig.getNumProcessors());
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
         _inputFileText.setText("Input Graph: " + _appConfig.getInputFile().toString());
@@ -105,18 +106,18 @@ public class MainScreenController {
 
         switch (_algoStatus.getAlgoState()) {
             case NOT_RUNNING:
-                _appStatusText.setText("Application Status: Not Running" );
+                _appStatusText.setText("Not Running" );
                 break;
 
             case RUNNING:
-                _appStatusText.setText("Application Status: Running" );
+                _appStatusText.setText("Running" );
                 break;
 
             case FINISHED:
-                _appStatusText.setText("Application Status: Done" );
+                _appStatusText.setText("Done" );
 
             default:
-                _appStatusText.setText("Application Status: ERROR" );
+                _appStatusText.setText("ERROR" );
         }
     }
 
@@ -130,6 +131,8 @@ public class MainScreenController {
         final CategoryAxis yAxis = new CategoryAxis();
 
         final GanttChart<Number,String> chart = new GanttChart<Number,String>(xAxis,yAxis);
+        chart.setPrefHeight(600);
+        chart.setPrefWidth(700);
         xAxis.setLabel("");
         xAxis.setTickLabelFill(Color.CHOCOLATE);
         xAxis.setMinorTickCount(4);
@@ -139,7 +142,7 @@ public class MainScreenController {
         yAxis.setTickLabelGap(10);
         yAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(processors)));
 
-        chart.setTitle("Machine Monitoring");
+        chart.setTitle("Schedule");
         chart.setLegendVisible(false);
         chart.setBlockHeight( 50);
         String processor;
