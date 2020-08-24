@@ -74,7 +74,7 @@ public class MaxThreeHeuristic implements IHeuristic{
         // return only the largest bottom level / critical path
         int maxHeuristic = 0;
         for (Map.Entry<String, int[]> nodeEntry : state.getTasks().entrySet()){
-            int heuristic = calculateBottomLevel(allNodes.get(nodeEntry.getKey()));
+            int heuristic = allNodes.get(nodeEntry.getKey()).getBottomLevel();
 
             if(heuristic>maxHeuristic){
                 maxHeuristic=heuristic;
