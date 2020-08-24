@@ -10,53 +10,53 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group8.visualisation.MainScreenController">
    <top>
-      <StackPane prefHeight="30.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+      <StackPane prefHeight="30.0" prefWidth="1024.0" style="-fx-background-color: #00adb5;" BorderPane.alignment="CENTER">
          <children>
             <Text fx:id="_appStatusText" strokeType="OUTSIDE" strokeWidth="0.0" text="Application Status: Running" />
          </children>
       </StackPane>
    </top>
    <left>
-      <Pane prefHeight="570.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="570.0" prefWidth="300.0" style="-fx-background-color: #222831;" BorderPane.alignment="CENTER">
          <children>
             <VBox layoutX="7.0" layoutY="14.0" prefHeight="536.0" prefWidth="286.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="System Status: " textAlignment="CENTER" wrappingWidth="280.0">
+                  <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" text="System Status: " textAlignment="CENTER" wrappingWidth="280.0">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Text>
-                  <Text id="infoText" fx:id="_inputFileText" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph: file" wrappingWidth="280.0">
+                  <Text id="infoText" fx:id="_inputFileText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph: file" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_numProcessorsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Processors: 0" wrappingWidth="280.0">
+                  <Text fx:id="_numProcessorsText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Processors: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_numCoresText" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Cores: 0" wrappingWidth="280.0">
+                  <Text fx:id="_numCoresText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Cores: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_outputGraphText" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph: file" wrappingWidth="280.0">
+                  <Text fx:id="_outputGraphText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph: file" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_timeElapsedText" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed: 0" wrappingWidth="280.0">
+                  <Text fx:id="_timeElapsedText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_numSchedulesGeneratedText" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedules Generated: 0" wrappingWidth="280.0">
+                  <Text fx:id="_numSchedulesGeneratedText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedules Generated: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_RAMUsageText" strokeType="OUTSIDE" strokeWidth="0.0" text="RAM Usage: 0" wrappingWidth="280.0">
+                  <Text fx:id="_RAMUsageText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="RAM Usage: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -67,6 +67,6 @@
       </Pane>
    </left>
    <center>
-      <Pane fx:id="_ganttChartPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="_ganttChartPane" style="-fx-background-color: #393e46;" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
