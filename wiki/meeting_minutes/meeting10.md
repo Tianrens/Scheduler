@@ -1,5 +1,5 @@
 ## Meeting 10
-17/08/2020 3pm
+17/08/2020 3:00pm
 
 #### AGENDA
 - SUBMIT MILESTONE 1 (JAR release) + release note
