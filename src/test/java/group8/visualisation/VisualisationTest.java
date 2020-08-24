@@ -23,16 +23,28 @@ public class VisualisationTest extends Application {
         config.setNumCores(8);
         config.setOutputFile(new File("Output.file"));
 
-        launch();
-        for (int i = 0; i < 100; i++) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            status.incrementSchedulesGenerated();
-        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    try {
+                        System.out.println("Test3");
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    status.incrementSchedulesGenerated();
 
+                }
+
+
+            }
+        });
+        thread.start();
+
+
+        launch();
+        System.out.println("start@@@@@@@@@@@@@@");
     }
 
     @Override

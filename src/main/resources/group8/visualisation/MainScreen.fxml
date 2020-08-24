@@ -1,33 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group8.visualisation.MainScreenController">
-   <children>
-      <VBox prefHeight="400.0" prefWidth="600.0">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group8.visualisation.MainScreenController">
+   <top>
+      <StackPane prefHeight="30.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0" />
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <Text fx:id="_appStatusText" strokeType="OUTSIDE" strokeWidth="0.0" text="Application Status: Running" />
+         </children>
+      </StackPane>
+   </top>
+   <left>
+      <Pane prefHeight="570.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutX="7.0" layoutY="14.0" prefHeight="536.0" prefWidth="286.0">
                <children>
-                  <HBox prefHeight="200.0" prefWidth="600.0">
-                     <children>
-                        <Text fx:id="_numProcessorsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER">
-                           <HBox.margin>
-                              <Insets left="25.0" top="15.0" />
-                           </HBox.margin>
-                        </Text>
-                        <Text fx:id="_numSchedulesGeneratedText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="200.0" prefWidth="600.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="System Status: " textAlignment="CENTER" wrappingWidth="280.0">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="infoText" fx:id="_inputFileText" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph: file" wrappingWidth="280.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="_numProcessorsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Processors: 0" wrappingWidth="280.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="_numCoresText" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Cores: 0" wrappingWidth="280.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="_outputGraphText" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph: file" wrappingWidth="280.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="_timeElapsedText" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed: 0" wrappingWidth="280.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="_numSchedulesGeneratedText" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedules Generated: 0" wrappingWidth="280.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="_RAMUsageText" strokeType="OUTSIDE" strokeWidth="0.0" text="RAM Usage: 0" wrappingWidth="280.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
                </children>
             </VBox>
          </children>
-      </VBox>
-   </children>
-</AnchorPane>
+      </Pane>
+   </left>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
