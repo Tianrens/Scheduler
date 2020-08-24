@@ -110,7 +110,7 @@ public class MainScreenController {
 
         int numProcessors = _appConfig.getNumProcessors();
 
-        
+
 
     }
 

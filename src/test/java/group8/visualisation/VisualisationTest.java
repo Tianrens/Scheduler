@@ -28,7 +28,6 @@ public class VisualisationTest extends Application {
             public void run() {
                 while(true) {
                     try {
-                        System.out.println("Test3");
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
