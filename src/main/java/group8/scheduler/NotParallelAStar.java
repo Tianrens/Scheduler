@@ -8,7 +8,7 @@ import group8.models.*;
 import java.util.*;
 
 /**
- * This class implements the A* algorithm.
+ * This class is currently only used for testing purposes
  */
 public class NotParallelAStar implements IScheduler {
     private PriorityQueue<Schedule> _openState = new PriorityQueue<>(new ScheduleComparator());

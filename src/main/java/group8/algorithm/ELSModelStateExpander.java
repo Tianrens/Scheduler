@@ -140,17 +140,15 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
      * @return
      */
     private boolean checkParents(List<Node> parentList, Map<String,int[]> scheduledNodes){
-        boolean allParentsAdded = true;
 
         //Check parents one by one
         for (Node pNode: parentList) {
             if(scheduledNodes.get(pNode.getId())==null){
-                allParentsAdded = false;
+                return false;
             }
         }
 
-        //check if all parents have been added
-        return allParentsAdded;
+        return true;
     }
 
     private int[] makeProcessorList(int[] processors){
