@@ -28,7 +28,7 @@ public class Main extends Application {
 
         }
 
-//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
 //        IScheduler scheduler = new AStarScheduler();
 //        Graph graph = externalGraphGenerator.generate();
 //

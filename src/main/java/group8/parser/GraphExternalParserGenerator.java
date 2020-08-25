@@ -2,10 +2,16 @@ package group8.parser;
 
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
+import com.sun.beans.WeakCache;
+import group8.cli.AppConfigException;
+import group8.cli.CLIException;
 import group8.models.Graph;
 import group8.models.Node;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import static group8.parser.DOTFileConstants.*;
 
 /**
@@ -42,7 +48,15 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         for (String nodeId : nodes.keySet()) {
             GraphNode node = nodes.get(nodeId);
 
-            Integer weight = Integer.parseInt((String) node.getAttribute(WEIGHTATTR)); // Retrieve the relevant attribute (Cost)
+            String weightKey = node.getAttributes()
+                    .keySet()
+                    .stream()
+                    .filter(s -> s.equalsIgnoreCase(WEIGHTATTR)) // Pattern match with any case of "Weight" attr key
+                    .collect(Collectors.toList())
+                    .get(0); // ASSUMPTION: each node and graph has ONE Weight attr.
+            String weightValue = (String) node.getAttribute(weightKey);
+
+            Integer weight = Integer.parseInt(weightValue); // Retrieve the relevant attribute (Cost)
 
             Node newNode = new Node(weight, nodeId);
             graph.addNode(newNode);
@@ -55,7 +69,16 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
 
             Node src = graph.getNode(edge.getNode1().getId());
             Node dst = graph.getNode(edge.getNode2().getId());
-            Integer weight = Integer.parseInt((String) edge.getAttribute(WEIGHTATTR));
+
+            String weightKey = edge.getAttributes()
+                    .keySet()
+                    .stream()
+                    .filter(s -> s.equalsIgnoreCase(WEIGHTATTR))
+                    .collect(Collectors.toList())
+                    .get(0);
+            String weightValue = (String) edge.getAttribute(weightKey);
+
+            Integer weight = Integer.parseInt(weightValue);
 
             src.addDestination(dst, weight);
             dst.addParentNode(src);
