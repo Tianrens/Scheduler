@@ -1,12 +1,14 @@
 package group8.models;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class Graph {
 
     private HashMap<String, Node> _nodes = new HashMap<>();
-
+    private List<Queue<Node>> _identicalNodes = new LinkedList<>();
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph
@@ -15,6 +17,15 @@ public class Graph {
     public void addNode(Node newNode){
         String nodeID = newNode.getId();
         _nodes.put(nodeID, newNode);
+    }
+
+    /**
+     * Check for any identical node groupings in the Graph. If there is, create a mapping of it in this {@link Graph}
+     * class, and return true, else false.
+     * @return {@link boolean} on whether there is an identical node grouping.
+     */
+    public boolean checkForIdenticalNodes() {
+        return false;
     }
 
 
@@ -36,6 +47,14 @@ public class Graph {
         return _nodes;
     }
 
+    /**
+     * Get the identical node group associated and poll for the NEXT fixed order node.
+     * @param identicalGroupId
+     * @return {@link Node} The next node to be scheduled for this identical group of nodes (FIXED ORDER).
+     */
+    public Node getFixedOrderNode(int identicalGroupId) {
+        return _identicalNodes.get(identicalGroupId).poll();
+    }
 
     /**
      * This method is used to bypass having to create a Node and adding it to graph manually

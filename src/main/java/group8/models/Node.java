@@ -10,13 +10,17 @@ import java.util.Map;
  */
 public class Node {
 
-    private HashMap<Node, Integer> _edgeList;
-    private List<Node> _parentNodeList;
     private int _cost;
     private String _id;
+    private int _bottomLevel = -1;
+    private int _identicalGroupId = -1;
+
+    private HashMap<Node, Integer> _edgeList;
+    private List<Node> _parentNodeList;
+
+    // unused for main algorithm
     private Processor _processor;
     private int _timeScheduled;
-    private int _bottomLevel = -1;
 
     /**
      * Constructs a new node with empty _edgeList and
@@ -77,7 +81,7 @@ public class Node {
     }
 
 
-    //getters for mandatory fields
+    //getters and setters for mandatory fields
     public String getId() {
         return _id;
     }
@@ -87,6 +91,10 @@ public class Node {
     }
 
     public int getBottomLevel(){return _bottomLevel;}
+
+    public int getIdenticalNodeId() { return _identicalGroupId; }
+
+    public void setIdenticalNodeId(int id) { _identicalGroupId = id; }
 
 
     //getters and setters for other fields
@@ -106,6 +114,7 @@ public class Node {
         _edgeList = edgeList;
     }
 
+    // unused in main algorithm
     public Processor getProcessor() {
         return _processor;
     }
