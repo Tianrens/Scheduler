@@ -41,6 +41,7 @@ public class MaxThreeHeuristic implements IHeuristic{
         int[] processors = state.getProcessors();
         int[] sumProcessors = new int[processors.length];
         int sumIdle = 0;
+        int maxP = 0;
 
         // Find amount of time used in each processor by nodes
         for(Map.Entry<String, int[]> entry : state.getTasks().entrySet()){
@@ -49,8 +50,16 @@ public class MaxThreeHeuristic implements IHeuristic{
 
         // subtract node times from processor times to find sum of all dile times
         for(int i = 0; i < processors.length ; i ++){
-            sumIdle+=processors[i]-sumProcessors[i];
+
+            if(processors[i]>maxP){
+                maxP=processors[i];
+            }
+            sumIdle-=processors[i];
+
         }
+
+        sumIdle+=maxP*processors.length;
+
 
         // Add total node costs
         for(Node node : allNodes.values()){
@@ -77,7 +86,7 @@ public class MaxThreeHeuristic implements IHeuristic{
             int heuristic = calculateBottomLevel(allNodes.get(nodeEntry.getKey()));
 
             if(heuristic>maxHeuristic){
-                maxHeuristic=heuristic;
+                maxHeuristic=nodeEntry.getValue()[0]+heuristic;
             }
         }
 

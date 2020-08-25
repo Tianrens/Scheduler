@@ -48,8 +48,8 @@ public class Schedule {
      * @param processor the processor the task has been assigned to. (processor starts from ZERO)
      */
     public void scheduleTask(String nodeId, int startTime, int processor) {
-        int[] value = new int[]{startTime, processor};
-        _tasks.put(nodeId, value);
+
+        _tasks.put(nodeId, new int[]{startTime, processor});
     }
 
     /**

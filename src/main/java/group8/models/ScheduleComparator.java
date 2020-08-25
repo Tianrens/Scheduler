@@ -24,6 +24,9 @@ public class ScheduleComparator implements Comparator<Schedule> {
         }
 
         if (cost1 == cost2) {
+
+            return 0;
+            /*
             if(l1<l2){
                 return -1;
             }else if(l1==l2){
@@ -31,6 +34,8 @@ public class ScheduleComparator implements Comparator<Schedule> {
             }else{
                 return 1;
             }
+
+             */
         } else if (cost1 < cost2){
             return -1;
         } else {
