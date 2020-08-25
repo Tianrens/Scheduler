@@ -65,7 +65,6 @@ public class Node {
         // to find the longest, Critical path
         for(Map.Entry<Node, Integer> dst: this.getEdgeList().entrySet()){
             int currentPathLength =0;
-            currentPathLength+=dst.getKey().getCost();
             currentPathLength+=dst.getKey().calculateBottomLevel();
             if(longestCriticalPath<currentPathLength){
                 longestCriticalPath=currentPathLength;
