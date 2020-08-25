@@ -28,21 +28,21 @@ public class Main extends Application {
     private static Graph _graph;
 
     public static void main(String[] args) throws AppConfigException, ProcessorException {
-        _appConfig = buildAppConfig(args);
-        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        IScheduler scheduler = new AStarScheduler();
-        Graph graph = externalGraphGenerator.generate();
-
-        launch();
-
-        //_graph = graph;
-
-        if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
-            // Run algorithm in another thread before launch.
-            launch();
-        } else {
-
-        }
+//        _appConfig = buildAppConfig(args);
+//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+//        IScheduler scheduler = new AStarScheduler();
+//        Graph graph = externalGraphGenerator.generate();
+//
+//        launch();
+//
+//        //_graph = graph;
+//
+//        if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
+//            // Run algorithm in another thread before launch.
+//            launch();
+//        } else {
+//
+//        }
 
 
 //
@@ -50,6 +50,45 @@ public class Main extends Application {
 //
 //        IDOTFileWriter outputBuilder = new DOTFileWriter();
 //        outputBuilder.writeOutput(schedule, graph);
+
+        _graph = new Graph();
+        _graph.addNode(new Node(5, "A"));
+        _graph.addNode(new Node(3, "B"));
+
+        AppConfig config = AppConfig.getInstance();
+        AlgorithmStatus status = AlgorithmStatus.getInstance();
+
+        config.setInputFile(new File("Some-Test-File.file"));
+        config.setNumProcessors(3);
+        config.setGraphName("Good Graph");
+        config.setNumCores(8);
+        config.setOutputFile(new File("Output.file"));
+
+        Schedule schedule = new Schedule();
+        schedule.scheduleTask("A", 0, 0);
+        schedule.scheduleTask("B", 5, 1);
+
+        status.setCurrentBestSchedule(schedule);
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    status.incrementSchedulesGenerated();
+
+                }
+
+
+            }
+        });
+        thread.start();
+
+        launch();
     }
 
     private static AppConfig buildAppConfig(String[] args) {
@@ -73,7 +112,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("visualisation/MainScreen.fxml"));
+        loader.setLocation(this.getClass().getResource("visualisation" + System.getProperty("file.separator") + "MainScreen.fxml"));
         MainScreenController controller = new MainScreenController();
         loader.setController(controller);
         Parent layout = loader.load();
@@ -82,6 +121,7 @@ public class Main extends Application {
         controller.start();
 
         Scene scene = new Scene(layout);
+        scene.getStylesheets().add(getClass().getResource("visualisation" + System.getProperty("file.separator") + "MainScreen.css").toExternalForm());
 
         primaryStage.setTitle("Team 8: GR8 B8 M8");
         primaryStage.setResizable(false);

@@ -24,6 +24,7 @@ import java.util.Map;
 import static java.lang.Runtime.getRuntime;
 
 /**
+ * This is the Controller class for the Main Screen.
  * Color palette:
  * Black: #222831
  * Grey: #393e46
@@ -69,12 +70,13 @@ public class MainScreenController {
 
 
     public void start() {
+        //Acquire app and algo instances
         _appConfig = AppConfig.getInstance();
         _algoStatus = AlgorithmStatus.getInstance();
 
-        _appStatusText.setStyle("-fx-font-family:\'Roboto Light\'");
+        //_appStatusText.getStyleClass("text");
 
-
+        // Set App Config values
         _numProcessorsText.setText("Number of Processors: " + _appConfig.getNumProcessors());
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
         _inputFileText.setText("Input Graph: " + _appConfig.getInputFile().toString());
@@ -85,7 +87,7 @@ public class MainScreenController {
         _startTime = System.currentTimeMillis();
 
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.5), e -> {
+                new KeyFrame(Duration.seconds(1), e -> {
 
                     update();
                 })
@@ -145,21 +147,21 @@ public class MainScreenController {
 
         chart.setPrefHeight(600);
         chart.setPrefWidth(700);
-        xAxis.setLabel("time");
+        xAxis.setLabel("");
         xAxis.setTickLabelFill(Color.WHITE);
         xAxis.setMinorTickCount(4);
 
 
-        yAxis.setLabel("Processor");
+        yAxis.setLabel("");
         yAxis.setTickLabelFill(Color.WHITE);
         yAxis.setTickLabelGap(10);
         yAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(processors)));
 
-        chart.setTitle("Schedule");
+        chart.setTitle("Test");
         chart.setLegendVisible(false);
         chart.setBlockHeight( 50);
 
-
+        chart.setStyle("-fx-background-color: #393e46");
 
         chart.getStylesheets().add(getClass().getResource("GanttChart.css").toExternalForm());
 
@@ -188,6 +190,8 @@ public class MainScreenController {
 
         Schedule schedule = _algoStatus.getCurrentBestSchedule();
         Map<String, int[]> tasks = schedule.getTasks();
+
+        // Loop through each processor, and assign the tasks in the schedule into each processor.
         for (int i = 0; i < numProcessors; i++) {
             processor = processors[i];
             XYChart.Series serie = new XYChart.Series();
@@ -200,7 +204,6 @@ public class MainScreenController {
                     if (processorNum == i) {
                         Node node = _graph.getNode(key);
                         serie.getData().add(new XYChart.Data(startTime, processor, new GanttChart.ExtraData( node.getCost(), "gantt-chart-bar")));
-                        //serie.getData().add(new XYChart.Data(startTime, processor, new GanttChart.ExtraData( node.getCost(), "gantt-chart-bar")));
                     }
                 }
 
@@ -208,7 +211,6 @@ public class MainScreenController {
             series[i] = serie;
         }
 
-        //_chart.getData().addAll(series1, series2, series3);
         _chart.getData().addAll(series);
 
 
