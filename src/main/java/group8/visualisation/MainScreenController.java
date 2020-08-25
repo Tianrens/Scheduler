@@ -2,6 +2,7 @@ package group8.visualisation;
 
 import group8.algorithm.AlgorithmState;
 import group8.cli.AppConfig;
+import group8.models.Schedule;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static java.lang.Runtime.getRuntime;
 
@@ -32,6 +34,8 @@ public class MainScreenController {
     private AlgorithmStatus _algoStatus;
     private long _startTime;
     private long _currentTime;
+
+    private GanttChart<Number,String> _chart;
 
     @FXML
     private Text _numProcessorsText;
@@ -66,6 +70,8 @@ public class MainScreenController {
         _appConfig = AppConfig.getInstance();
         _algoStatus = AlgorithmStatus.getInstance();
 
+        _appStatusText.setStyle("-fx-font-family:\'Roboto Light\'");
+
 
         _numProcessorsText.setText("Number of Processors: " + _appConfig.getNumProcessors());
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
@@ -87,8 +93,8 @@ public class MainScreenController {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+        setUpGanttChart();
 
-        updateGanttChart();
 
     }
 
@@ -119,59 +125,91 @@ public class MainScreenController {
             default:
                 _appStatusText.setText("ERROR" );
         }
+        //updateGanttChart();
     }
 
-    private void updateGanttChart() {
+    private void setUpGanttChart() {
 
         int numProcessors = _appConfig.getNumProcessors();
 
-        String[] processors = new String[] { "Processor 1", "Processor 2", "Processor 3" };
+        String[] processors = new String[numProcessors];
+
+        for (int i = 0; i < numProcessors; i++) {
+            processors[i] = "Processor " + (i + 1);
+        }
 
         final NumberAxis xAxis = new NumberAxis();
         final CategoryAxis yAxis = new CategoryAxis();
 
         final GanttChart<Number,String> chart = new GanttChart<Number,String>(xAxis,yAxis);
+        _chart = chart;
+
         chart.setPrefHeight(600);
         chart.setPrefWidth(700);
-        xAxis.setLabel("");
-        xAxis.setTickLabelFill(Color.CHOCOLATE);
+        xAxis.setLabel("time");
+        xAxis.setTickLabelFill(Color.WHITE);
         xAxis.setMinorTickCount(4);
 
-        yAxis.setLabel("");
-        yAxis.setTickLabelFill(Color.CHOCOLATE);
+
+        yAxis.setLabel("Processor");
+        yAxis.setTickLabelFill(Color.WHITE);
         yAxis.setTickLabelGap(10);
         yAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(processors)));
 
         chart.setTitle("Schedule");
         chart.setLegendVisible(false);
         chart.setBlockHeight( 50);
-        String processor;
 
-        processor = processors[0];
-        XYChart.Series series1 = new XYChart.Series();
-        series1.getData().add(new XYChart.Data(0, processor, new GanttChart.ExtraData( 1, "status-red")));
-        series1.getData().add(new XYChart.Data(1, processor, new GanttChart.ExtraData( 1, "status-green")));
-        series1.getData().add(new XYChart.Data(2, processor, new GanttChart.ExtraData( 1, "status-red")));
-        series1.getData().add(new XYChart.Data(3, processor, new GanttChart.ExtraData( 1, "status-green")));
 
-        processor = processors[1];
-        XYChart.Series series2 = new XYChart.Series();
-        series2.getData().add(new XYChart.Data(0, processor, new GanttChart.ExtraData( 1, "status-green")));
-        series2.getData().add(new XYChart.Data(1, processor, new GanttChart.ExtraData( 1, "status-green")));
-        series2.getData().add(new XYChart.Data(2, processor, new GanttChart.ExtraData( 2, "status-red")));
-
-        processor = processors[2];
-        XYChart.Series series3 = new XYChart.Series();
-        series3.getData().add(new XYChart.Data(0, processor, new GanttChart.ExtraData( 1, "status-blue")));
-        series3.getData().add(new XYChart.Data(1, processor, new GanttChart.ExtraData( 2, "status-red")));
-        series3.getData().add(new XYChart.Data(3, processor, new GanttChart.ExtraData( 1, "status-green")));
-
-        chart.getData().addAll(series1, series2, series3);
 
         chart.getStylesheets().add(getClass().getResource("GanttChart.css").toExternalForm());
 
         _ganttChartPane.getChildren().addAll(chart);
 
     }
+
+    public void updateGanttChart() {
+        _chart.getData().clear();
+
+        int numProcessors = _appConfig.getNumProcessors();
+
+        String[] processors = new String[numProcessors];
+
+        for (int i = 0; i < numProcessors; i++) {
+            processors[i] = "Processor " + (i + 1);
+        }
+
+        String processor;
+
+        XYChart.Series[] series = new XYChart.Series[numProcessors];
+
+
+        for (int i = 0; i < numProcessors; i++) {
+            processor = processors[i];
+            XYChart.Series serie = new XYChart.Series();
+//            Schedule schedule = _algoStatus.getCurrentBestSchedule();
+//            Map<String, int[]> tasks = schedule.getTasks();
+
+//            int[] scheduleProcessors = schedule.getProcessors();
+
+//            for (int j = 0; j < scheduleProcessors.length; j++) {
+//                //serie.getData().add(new XYChart.Data(0, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
+//            }
+
+            serie.getData().add(new XYChart.Data(0, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
+            serie.getData().add(new XYChart.Data(1, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
+            serie.getData().add(new XYChart.Data(2, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
+            serie.getData().add(new XYChart.Data(3, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
+
+            series[i] = serie;
+        }
+
+        //_chart.getData().addAll(series1, series2, series3);
+        _chart.getData().addAll(series);
+
+
+    }
+
+
 
 }
