@@ -112,7 +112,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("visualisation" + System.getProperty("file.separator") + "MainScreen.fxml"));
+        loader.setLocation(this.getClass().getResource("visualisation/MainScreen.fxml"));
         MainScreenController controller = new MainScreenController();
         loader.setController(controller);
         Parent layout = loader.load();
@@ -121,7 +121,7 @@ public class Main extends Application {
         controller.start();
 
         Scene scene = new Scene(layout);
-        //scene.getStylesheets().add(getClass().getResource("visualisation" + System.getProperty("file.separator") + "MainScreen.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("visualisation/MainScreen.css").toExternalForm());
 
         primaryStage.setTitle("Team 8: GR8 B8 M8");
         primaryStage.setResizable(false);
