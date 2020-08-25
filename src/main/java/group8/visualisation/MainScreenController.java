@@ -170,6 +170,10 @@ public class MainScreenController {
     public void updateGanttChart() {
         _chart.getData().clear();
 
+        if (_graph == null || _algoStatus.getCurrentBestSchedule() == null) {
+            return;
+        }
+
         int numProcessors = _appConfig.getNumProcessors();
 
         String[] processors = new String[numProcessors];
