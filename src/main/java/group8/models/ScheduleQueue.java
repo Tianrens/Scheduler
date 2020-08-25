@@ -23,7 +23,7 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
         if(state == null){
             throw new NullPointerException();
         }
-        
+
         // Perform processor sets check on CLOSED list
         for (Schedule cState: _closedState) {
             if(stateProcessorSet.equals(cState.getProcessorSet())){
