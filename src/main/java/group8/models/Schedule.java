@@ -93,7 +93,7 @@ public class Schedule {
 
     public Set<Set<List<String>>> getProcessorSet(){ return _processorSet; }
 
-    public void setProcessors(Set<Set<List<String>>> processorSet) {
+    public void setProcessorSet(Set<Set<List<String>>> processorSet) {
         _processorSet = processorSet;
     }
 }
