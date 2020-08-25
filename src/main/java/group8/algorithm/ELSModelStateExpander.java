@@ -52,17 +52,17 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     boolean emptyAssign = false;
 
                     for(int i = 0 ; i < processors.length ; i++) {
-                        int[] newProcessors = makeProcessorList(processors);
-                        Map<String, int[]> newScheduledNodes = new HashMap<>();
-                        int[] nodeInfo = new int[2];
+                                int[] newProcessors = makeProcessorList(processors);
+                                Map<String, int[]> newScheduledNodes = new HashMap<>();
+                                int[] nodeInfo = new int[2];
 
-                        if(!emptyAssign && newProcessors[i]==-1){
-                            emptyAssign=true;
-                            newProcessors[i]=0;
-                        }else if(emptyAssign && newProcessors[i]==-1){
-                            //This might need reconsideration, because I dont think there will be a case where after
-                            // reading an empty process will we come across a process that is not empty
-                            continue;
+                                if(!emptyAssign && newProcessors[i]==-1){
+                                    emptyAssign=true;
+                                    newProcessors[i]=0;
+                                }else if(emptyAssign && newProcessors[i]==-1){
+                                    //This might need reconsideration, because I dont think there will be a case where after
+                                    // reading an empty process will we come across a process that is not empty
+                                    continue;
                         }
 
                         nodeInfo[0] = newProcessors[i];
@@ -74,7 +74,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
                         newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
                     }
-                }else if(checkParents(parentNodes,scheduledNodes)){
+                } else if(checkParents(parentNodes,scheduledNodes)){
 
                     //checks for duplicate states, where a node sis assigned to an empty process
                     boolean emptyAssign = false;
