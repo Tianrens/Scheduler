@@ -44,7 +44,7 @@ digraph "R" {
 		"Start time"=383,
 		Weight=55];
 
-		
+
 
 
 
@@ -56,9 +56,6 @@ digraph "R" {
 	0 -> 5	[Weight=2];
 	0 -> 8	[Weight=9];
 	0 -> 4	[Weight=4];
-
-	
-
 
 
 

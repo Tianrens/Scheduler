@@ -51,14 +51,19 @@ public class MaxThreeHeuristic implements IHeuristic{
         // subtract node times from processor times to find sum of all dile times
         for(int i = 0; i < processors.length ; i ++){
 
+
+            if(processors[i]==-1){
+                continue;
+            }
+
             if(processors[i]>maxP){
                 maxP=processors[i];
             }
-            sumIdle-=processors[i];
+            sumIdle+=processors[i]-sumProcessors[i];
 
         }
 
-        sumIdle+=maxP*processors.length;
+        //sumIdle+=maxP*processors.length;
 
 
         // Add total node costs
@@ -83,10 +88,10 @@ public class MaxThreeHeuristic implements IHeuristic{
         // return only the largest bottom level / critical path
         int maxHeuristic = 0;
         for (Map.Entry<String, int[]> nodeEntry : state.getTasks().entrySet()){
-            int heuristic = calculateBottomLevel(allNodes.get(nodeEntry.getKey()));
+            int heuristic = nodeEntry.getValue()[0]+calculateBottomLevel(allNodes.get(nodeEntry.getKey()));
 
             if(heuristic>maxHeuristic){
-                maxHeuristic=nodeEntry.getValue()[0]+heuristic;
+                maxHeuristic=heuristic;
             }
         }
 
