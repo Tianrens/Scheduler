@@ -6,11 +6,13 @@ import group8.cli.AppConfigBuilder;
 import group8.cli.AppConfigException;
 import group8.cli.CLIException;
 import group8.models.Graph;
+import group8.models.Node;
 import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.*;
 import group8.visualisation.AlgorithmStatus;
+import group8.visualisation.MainScreenController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -18,12 +20,57 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class Main extends Application {
 
     private static AppConfig _appConfig;
+    private static Graph _graph;
 
     public static void main(String[] args) throws AppConfigException, ProcessorException {
         _appConfig = buildAppConfig(args);
+        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+        IScheduler scheduler = new AStarScheduler();
+        Graph graph = externalGraphGenerator.generate();
+//        _graph = new Graph();
+//        _graph.addNode(new Node(5, "A"));
+//        _graph.addNode(new Node(3, "B"));
+//        AppConfig config = AppConfig.getInstance();
+//        AlgorithmStatus status = AlgorithmStatus.getInstance();
+//
+//        config.setInputFile(new File("Some-Test-File.file"));
+//        config.setNumProcessors(3);
+//        config.setGraphName("Good Graph");
+//        config.setNumCores(8);
+//        config.setOutputFile(new File("Output.file"));
+//
+//        Schedule schedule = new Schedule();
+//        schedule.scheduleTask("A", 0, 0);
+//        schedule.scheduleTask("B", 5, 1);
+//
+//        status.setCurrentBestSchedule(schedule);
+//
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while(true) {
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    status.incrementSchedulesGenerated();
+//
+//                }
+//
+//
+//            }
+//        });
+//        thread.start();
+
+        launch();
+
+        //_graph = graph;
         //AlgorithmStatus algoStatus = AlgorithmStatus.getInstance();
         if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
             launch();
@@ -31,9 +78,7 @@ public class Main extends Application {
 
         }
 
-//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-//        IScheduler scheduler = new AStarScheduler();
-//        Graph graph = externalGraphGenerator.generate();
+
 //
 //        Schedule schedule = scheduler.generateValidSchedule(graph);
 //
@@ -62,16 +107,25 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("visualisation/MainScreen.fxml"));
+        loader.setLocation(this.getClass().getResource("MainScreen.fxml"));
+        MainScreenController controller = new MainScreenController();
+        loader.setController(controller);
         Parent layout = loader.load();
 
+        controller.setGraph(_graph);
+        controller.start();
+
         Scene scene = new Scene(layout);
+
+        primaryStage.setTitle("Team 8: GR8 B8 M8");
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
             System.exit(0);
         });
         primaryStage.show();
+
 
     }
 }
