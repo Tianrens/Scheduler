@@ -5,10 +5,7 @@ import group8.models.Graph;
 import group8.models.Node;
 import group8.models.Schedule;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public class ELSModelStateExpander implements IStateExpander, Callable<List<Schedule>> {
@@ -17,6 +14,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
      * This is a constant store of all nodes in the graph, This should never be written to!!
      */
     private HashMap<String,Node> _nodeList;
+    private Graph _graph;
     private Schedule _state;
 
     public ELSModelStateExpander(Graph graph, Schedule state){
@@ -39,12 +37,23 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         Map<String, int[]> scheduledNodes = state.getTasks();
         List<Schedule> newSchedules = new ArrayList<>();
         int[] processors = state.getProcessors();
+
+        List<String> identicalIds = new ArrayList<>();
+
         //loops through all nodes in the graph
         for(Map.Entry<String,Node> nodeEntry : _nodeList.entrySet()){
-
             //if schedule does not contain the node then the node has not been assigned yet
             if(!scheduledNodes.containsKey(nodeEntry.getKey())){
-                List<Node> parentNodes = nodeEntry.getValue().getParentNodeList();
+                Node node = nodeEntry.getValue();
+
+                // If identical group has already been assigned, then skip node to avoid duplication.
+                if (identicalIds.contains(nodeEntry.getValue().getIdenticalNodeId())) {
+                    continue;
+                } else if (nodeEntry.getValue().getIdenticalNodeId() != -1) {
+                    node = _graph.getFixedOrderNode(nodeEntry.getValue().getIdenticalNodeId());
+                }
+
+                List<Node> parentNodes = node.getParentNodeList();
 
                 //if no parents then node has no dependencies and can be assigned to the schedule
                 if(parentNodes.size()==0){
@@ -67,10 +76,10 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
                         nodeInfo[0] = newProcessors[i];
                         nodeInfo[1]=i;
-                        newProcessors[i]=newProcessors[i]+nodeEntry.getValue().getCost();
+                        newProcessors[i]=newProcessors[i]+node.getCost();
 
                         newScheduledNodes.putAll(scheduledNodes);
-                        newScheduledNodes.put(nodeEntry.getKey(), nodeInfo);
+                        newScheduledNodes.put(node.getId(), nodeInfo);
 
                         newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
                     }
@@ -100,7 +109,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
                         for(Node parent : parentNodes) {
                             if(scheduledNodes.get(parent.getId())[1]!=i){
-                                startTime = parent.getEdgeList().get(nodeEntry.getValue())+parent.getCost()+scheduledNodes.get(parent.getId())[0];
+                                startTime = parent.getEdgeList().get(node)+parent.getCost()+scheduledNodes.get(parent.getId())[0];
                                 if(startTime < processors[i]){
                                     startTime = processors[i];
                                 }
@@ -117,9 +126,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
                         nodeInfo[0] = earliestStartTime;
                         nodeInfo[1]=i;
-                        newProcessors[i] = earliestStartTime + nodeEntry.getValue().getCost();
+                        newProcessors[i] = earliestStartTime + node.getCost();
                         newScheduledNodes.putAll(scheduledNodes);
-                        newScheduledNodes.put(nodeEntry.getKey(), nodeInfo);
+                        newScheduledNodes.put(node.getId(), nodeInfo);
 
                         newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
 
