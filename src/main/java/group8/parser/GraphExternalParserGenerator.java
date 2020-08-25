@@ -28,6 +28,12 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         addNodesToGraph(graph, nodes);
         addEdgesToGraph(graph, edges);
 
+        //calculate bottom level for all nodes - later used in heurisitc calculations
+        for(Node node : graph.getAllNodes().values()){
+            if(node.getBottomLevel()==-1){
+                node.calculateBottomLevel();
+            }
+        }
 
         return graph;
     }

@@ -3,6 +3,7 @@ package group8.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is a model of each individual node in the graph
@@ -15,6 +16,7 @@ public class Node {
     private String _id;
     private Processor _processor;
     private int _timeScheduled;
+    private int _bottomLevel = -1;
 
     /**
      * Constructs a new node with empty _edgeList and
@@ -50,15 +52,44 @@ public class Node {
     }
 
 
-    //below are generic getters and setters
+    /**
+     * Helper method for calculating the bottom level of a node
+     * @param
+     * @return
+     */
+    public int calculateBottomLevel(){
+
+        int longestCriticalPath = 0;
+
+        // for every of the nodes dependees/pointed to nodes, recursively descend the various possible paths
+        // to find the longest, Critical path
+        for(Map.Entry<Node, Integer> dst: this.getEdgeList().entrySet()){
+            int currentPathLength =0;
+            currentPathLength+=dst.getKey().calculateBottomLevel();
+            if(longestCriticalPath<currentPathLength){
+                longestCriticalPath=currentPathLength;
+            }
+        }
+
+        _bottomLevel = longestCriticalPath + getCost();
+        // return the critical path cost for the node
+        return _bottomLevel;
+    }
+
+
+    //getters for mandatory fields
     public String getId() {
         return _id;
     }
 
-    public void setId(String id) {
-        _id = id;
+    public int getCost() {
+        return _cost;
     }
 
+    public int getBottomLevel(){return _bottomLevel;}
+
+
+    //getters and setters for other fields
     public List<Node> getParentNodeList() {
         return _parentNodeList;
     }
@@ -73,10 +104,6 @@ public class Node {
 
     public void setEdgeList(HashMap<Node, Integer> edgeList) {
         _edgeList = edgeList;
-    }
-
-    public int getCost() {
-        return _cost;
     }
 
     public Processor getProcessor() {
