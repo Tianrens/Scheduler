@@ -2,6 +2,8 @@ package group8.visualisation;
 
 import group8.algorithm.AlgorithmState;
 import group8.cli.AppConfig;
+import group8.models.Graph;
+import group8.models.Node;
 import group8.models.Schedule;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -34,6 +36,7 @@ public class MainScreenController {
     private AlgorithmStatus _algoStatus;
     private long _startTime;
     private long _currentTime;
+    private Graph _graph;
 
     private GanttChart<Number,String> _chart;
 
@@ -64,9 +67,8 @@ public class MainScreenController {
     @FXML
     private Pane _ganttChartPane;
 
-    public void initialize() {
 
-
+    public void start() {
         _appConfig = AppConfig.getInstance();
         _algoStatus = AlgorithmStatus.getInstance();
 
@@ -78,11 +80,8 @@ public class MainScreenController {
         _inputFileText.setText("Input Graph: " + _appConfig.getInputFile().toString());
         _outputGraphText.setText("Output Graph: " + _appConfig.getOutputFile().toString());
 
-        start();
 
-    }
 
-    private void start() {
         _startTime = System.currentTimeMillis();
 
         Timeline timeline = new Timeline(
@@ -125,7 +124,7 @@ public class MainScreenController {
             default:
                 _appStatusText.setText("ERROR" );
         }
-        //updateGanttChart();
+        updateGanttChart();
     }
 
     private void setUpGanttChart() {
@@ -183,23 +182,24 @@ public class MainScreenController {
 
         XYChart.Series[] series = new XYChart.Series[numProcessors];
 
-
+        Schedule schedule = _algoStatus.getCurrentBestSchedule();
+        Map<String, int[]> tasks = schedule.getTasks();
         for (int i = 0; i < numProcessors; i++) {
             processor = processors[i];
             XYChart.Series serie = new XYChart.Series();
-//            Schedule schedule = _algoStatus.getCurrentBestSchedule();
-//            Map<String, int[]> tasks = schedule.getTasks();
 
-//            int[] scheduleProcessors = schedule.getProcessors();
+            for (String key : tasks.keySet()) {
+                    int[] value = tasks.get(key);
+                    int startTime = value[0];
+                    int processorNum = value[1];
 
-//            for (int j = 0; j < scheduleProcessors.length; j++) {
-//                //serie.getData().add(new XYChart.Data(0, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
-//            }
+                    if (processorNum == i && _graph !=null) {
+                        Node node = _graph.getNode(key);
+                        serie.getData().add(new XYChart.Data(startTime, processor, new GanttChart.ExtraData( node.getCost(), "gantt-chart-bar")));
+                        //serie.getData().add(new XYChart.Data(startTime, processor, new GanttChart.ExtraData( node.getCost(), "gantt-chart-bar")));
+                    }
+                }
 
-            serie.getData().add(new XYChart.Data(0, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
-            serie.getData().add(new XYChart.Data(1, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
-            serie.getData().add(new XYChart.Data(2, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
-            serie.getData().add(new XYChart.Data(3, processor, new GanttChart.ExtraData( 1, "gantt-chart-bar")));
 
             series[i] = serie;
         }
@@ -208,6 +208,10 @@ public class MainScreenController {
         _chart.getData().addAll(series);
 
 
+    }
+
+    public void setGraph(Graph graph) {
+        _graph = graph;
     }
 
 
