@@ -177,7 +177,6 @@ public class MaxThreeHeuristic implements IHeuristic{
         // to find the longest, Critical path
         for(Map.Entry<Node, Integer> dst: node.getEdgeList().entrySet()){
             int currentPathLength =0;
-            currentPathLength+=dst.getKey().getCost();
             currentPathLength+=calculateBottomLevel(dst.getKey());
             if(longestCriticalPath<currentPathLength){
                 longestCriticalPath=currentPathLength;

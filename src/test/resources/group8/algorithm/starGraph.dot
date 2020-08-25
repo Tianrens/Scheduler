@@ -5,7 +5,7 @@ digraph "G" {
 	c [Weight=3];
 	c->a [Weight=10];
 	d [Weight=2];
-	d->a [Weight=2];
+	d->a [Weight=1];
 	e [Weight=2];
 	e->a [Weight=4];
 }
