@@ -176,7 +176,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
                 int nodeProcessor = scheduledNodes.get(nodeId)[1];
                 // If the node processor number matches
-                if((i + 1) == nodeProcessor){
+                if(i == nodeProcessor){
 
                     // add details to a list and add to this processor's set
                     List<String> nodeDetails = new ArrayList<>();
