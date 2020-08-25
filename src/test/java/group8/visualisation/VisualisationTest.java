@@ -38,7 +38,7 @@ public class VisualisationTest extends Application {
         AlgorithmStatus status = AlgorithmStatus.getInstance();
 
         config.setInputFile(new File("Some-Test-File.file"));
-        config.setNumProcessors(3);
+        config.setNumProcessors(8);
         config.setGraphName("Good Graph");
         config.setNumCores(8);
         config.setOutputFile(new File("Output.file"));

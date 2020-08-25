@@ -13,21 +13,13 @@
     src: url("./fonts/Roboto/Roboto-Regular.ttf");
 }
 
-/*@font-face {*/
-/*    font-family: 'Roboto';*/
-/*    font-style: normal;*/
-/*    font-weight: 500;*/
-/*    src: url('./fonts/Roboto/Roboto-Black.ttf');*/
-/*}*/
-
-/*@font-face {*/
-/*    font-family: 'Roboto';*/
-/*    font-style: normal;*/
-/*    font-weight: 300;*/
-/*    src: url('./fonts/Roboto/Roboto-Bold.ttf');*/
-/*}*/
-
-.text {
-    -fx-font-family: 'Roboto Regular';
-
+@font-face {
+    font-family: 'Roboto Bold';
+    src: url('./fonts/Roboto/Roboto-Bold.ttf');
 }
+
+.title-text {
+    -fx-font-family: 'Roboto Bold';
+    -fx-font-size: 24;
+}
+

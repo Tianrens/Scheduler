@@ -22,7 +22,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="_appStatusText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="280.0">
+                              <Text fx:id="_appStatusText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Running" textAlignment="CENTER" wrappingWidth="280.0">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -34,7 +34,7 @@
                   <Pane prefHeight="30.0" prefWidth="286.0" />
                   <StackPane prefHeight="50.0" prefWidth="286.0" style="-fx-background-color: #00adb5;">
                      <children>
-                        <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Configuration" textAlignment="CENTER" wrappingWidth="280.0">
+                        <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Configuration" textAlignment="CENTER" wrappingWidth="280.0">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
@@ -64,7 +64,7 @@
                   <Pane prefHeight="30.0" prefWidth="286.0" />
                   <StackPane prefHeight="50.0" prefWidth="286.0" style="-fx-background-color: #00adb5;">
                      <children>
-                        <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" text="Algorithm Stats" textAlignment="CENTER" wrappingWidth="280.0">
+                        <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Algorithm Stats" textAlignment="CENTER" wrappingWidth="280.0">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>

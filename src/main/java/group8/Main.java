@@ -121,7 +121,7 @@ public class Main extends Application {
         controller.start();
 
         Scene scene = new Scene(layout);
-        scene.getStylesheets().add(getClass().getResource("visualisation" + System.getProperty("file.separator") + "MainScreen.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("visualisation" + System.getProperty("file.separator") + "MainScreen.css").toExternalForm());
 
         primaryStage.setTitle("Team 8: GR8 B8 M8");
         primaryStage.setResizable(false);
