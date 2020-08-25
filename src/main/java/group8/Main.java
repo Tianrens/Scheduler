@@ -32,47 +32,13 @@ public class Main extends Application {
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
         IScheduler scheduler = new AStarScheduler();
         Graph graph = externalGraphGenerator.generate();
-//        _graph = new Graph();
-//        _graph.addNode(new Node(5, "A"));
-//        _graph.addNode(new Node(3, "B"));
-//        AppConfig config = AppConfig.getInstance();
-//        AlgorithmStatus status = AlgorithmStatus.getInstance();
-//
-//        config.setInputFile(new File("Some-Test-File.file"));
-//        config.setNumProcessors(3);
-//        config.setGraphName("Good Graph");
-//        config.setNumCores(8);
-//        config.setOutputFile(new File("Output.file"));
-//
-//        Schedule schedule = new Schedule();
-//        schedule.scheduleTask("A", 0, 0);
-//        schedule.scheduleTask("B", 5, 1);
-//
-//        status.setCurrentBestSchedule(schedule);
-//
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while(true) {
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    status.incrementSchedulesGenerated();
-//
-//                }
-//
-//
-//            }
-//        });
-//        thread.start();
 
         launch();
 
         //_graph = graph;
-        //AlgorithmStatus algoStatus = AlgorithmStatus.getInstance();
+
         if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
+            // Run algorithm in another thread before launch.
             launch();
         } else {
 
@@ -107,7 +73,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("MainScreen.fxml"));
+        loader.setLocation(this.getClass().getResource("visualisation/MainScreen.fxml"));
         MainScreenController controller = new MainScreenController();
         loader.setController(controller);
         Parent layout = loader.load();
