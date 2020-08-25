@@ -197,7 +197,7 @@ public class MainScreenController {
                     int startTime = value[0];
                     int processorNum = value[1];
 
-                    if (processorNum == i && _graph !=null) {
+                    if (processorNum == i) {
                         Node node = _graph.getNode(key);
                         serie.getData().add(new XYChart.Data(startTime, processor, new GanttChart.ExtraData( node.getCost(), "gantt-chart-bar")));
                         //serie.getData().add(new XYChart.Data(startTime, processor, new GanttChart.ExtraData( node.getCost(), "gantt-chart-bar")));
