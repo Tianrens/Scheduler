@@ -27,6 +27,11 @@ public class Schedule {
      * Processors start at 0.
      */
     private int[] _processors = new int[AppConfig.getInstance().getNumProcessors()];
+    /**
+     * Set of processors in the form of sets
+     * Each processor is a set of node ids
+     */
+    private Set<Set<String>> _processorSet;
 
     /**
      * Creates schedule object.
@@ -84,5 +89,11 @@ public class Schedule {
 
     public void setProcessors(int[] _processors) {
         this._processors = _processors;
+    }
+
+    public Set<Set<String>> getProcessorSet(){ return _processorSet; }
+
+    public void setProcessors(Set<Set<String>> processorSet) {
+        _processorSet = processorSet;
     }
 }
