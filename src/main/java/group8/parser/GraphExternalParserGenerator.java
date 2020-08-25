@@ -2,6 +2,9 @@ package group8.parser;
 
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
+import com.sun.beans.WeakCache;
+import group8.cli.AppConfigException;
+import group8.cli.CLIException;
 import group8.models.Graph;
 import group8.models.Node;
 
@@ -42,7 +45,10 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         for (String nodeId : nodes.keySet()) {
             GraphNode node = nodes.get(nodeId);
 
-            Integer weight = Integer.parseInt((String) node.getAttribute(WEIGHTATTR)); // Retrieve the relevant attribute (Cost)
+            Map<String, Object> attrs = node.getAttributes();
+            String weightValue = (String) attrs.entrySet().iterator().next().getValue();
+
+            Integer weight = Integer.parseInt(weightValue); // Retrieve the relevant attribute (Cost)
 
             Node newNode = new Node(weight, nodeId);
             graph.addNode(newNode);
@@ -55,7 +61,11 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
 
             Node src = graph.getNode(edge.getNode1().getId());
             Node dst = graph.getNode(edge.getNode2().getId());
-            Integer weight = Integer.parseInt((String) edge.getAttribute(WEIGHTATTR));
+
+            Map<String, Object> attrs = edge.getAttributes();
+            String weightValue = (String) attrs.entrySet().iterator().next().getValue();
+
+            Integer weight = Integer.parseInt(weightValue); // ASSUMPTION: each node and graph has one Weight attr.
 
             src.addDestination(dst, weight);
             dst.addParentNode(src);
