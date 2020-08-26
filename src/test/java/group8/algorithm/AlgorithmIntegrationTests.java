@@ -27,7 +27,7 @@ public class AlgorithmIntegrationTests {
 
         AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("tenNodeOptimal.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(2);
-        AppConfig.getInstance().setNumCores(1);
+        AppConfig.getInstance().setNumCores(16);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
 
 

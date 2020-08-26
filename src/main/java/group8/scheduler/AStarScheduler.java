@@ -75,6 +75,7 @@ public class AStarScheduler implements IScheduler {
                 //run checkCompleteSchedule helper method to check if state is complete,
                 //meaning that the schedule is valid
                 if (checkCompleteSchedule(schedule)) {
+                    System.out.println(_scheduleCount);
                     return schedule;
                 }
 
@@ -92,6 +93,9 @@ public class AStarScheduler implements IScheduler {
                 });
 
             } else {
+
+
+
                 //A list to contain the future list of states which each thread will return
                 List<Future> allFutures = new ArrayList<>();
                 for (int i = 0; i < _numUsableThreads; i++) { //perform actions for each thread
@@ -99,7 +103,10 @@ public class AStarScheduler implements IScheduler {
 
                     //run checkCompleteSchedule helper method to check if state is complete,
                     //if schedule is complete then that the schedule is valid
+
+                    algorithmStatus.setCurrentBestSchedule(schedule);
                     if (checkCompleteSchedule(schedule)) {
+                        System.out.println(_scheduleCount);
                         return schedule;
                     }
                     // assign each thread in the thread pool a state to expand

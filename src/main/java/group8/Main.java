@@ -147,5 +147,19 @@ public class Main extends Application {
 
     private static void runAlgorithm() {
 
+        try {
+
+            IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+            IScheduler scheduler = new AStarScheduler();
+            Graph graph = externalGraphGenerator.generate();
+
+            Schedule schedule = scheduler.generateValidSchedule(graph);
+
+            IDOTFileWriter outputBuilder = new DOTFileWriter();
+            outputBuilder.writeOutputToConsole(schedule, graph);
+
+        }catch(Exception e){
+
+        }
     }
 }
