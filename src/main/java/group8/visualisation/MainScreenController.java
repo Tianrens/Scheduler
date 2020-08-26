@@ -40,6 +40,7 @@ public class MainScreenController {
     private long _currentTime;
     private Graph _graph;
     private Timeline _timeLine;
+    private Timeline _poller;
 
     private GanttChart<Number,String> _chart;
     private LineChart _lineChart;
@@ -90,21 +91,29 @@ public class MainScreenController {
 
         _startTime = System.currentTimeMillis();
 
-        _timeLine = new Timeline(
-                new KeyFrame(Duration.seconds(1), e -> {
-                    if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
-                        update();
-                        _timeLine.stop();
-                    }
-                    update();
-                })
-        );
-        _timeLine.setCycleCount(Animation.INDEFINITE);
-        _timeLine.play();
         setUpGanttChart();
 
         setupLineGraph();
 
+        _timeLine = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> {
+                    if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
+                        update();
+                        //_appStatusText.setText("Done" );
+                        _timeLine.stop();
+                    }
+                })
+        );
+        _timeLine.setCycleCount(Animation.INDEFINITE);
+        _timeLine.play();
+
+        _poller = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> {
+                    update();
+                })
+        );
+        _poller.setCycleCount(Animation.INDEFINITE);
+        _poller.play();
 
     }
 
