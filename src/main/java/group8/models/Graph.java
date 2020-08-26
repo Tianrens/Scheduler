@@ -37,34 +37,36 @@ public class Graph {
         for (Node node : _nodes.values()) {
             List<Node> queue = new ArrayList<>();
 
-            if (skip.contains(node)) {
+            if (skip.contains(node)) { // Skips if it is already part of a group. At all times it will only belong to ONE group
                 continue;
             }
 
-            for (Node nodeToCompare : _nodes.values()) {
+            for (Node nodeToCompare : _nodes.values()) { // Loops through all other nodes to compare
 
-                if (node.getCost() == nodeToCompare.getCost()) {
-                    if (node.getEdgeList().equals(nodeToCompare.getEdgeList())) {
-                        if (node.getParentNodeList().equals(nodeToCompare.getParentNodeList())) {
-                            if (node.getChildren().equals(nodeToCompare.getChildren())) {
-                                result = true;
+                if (node.getId().equals(nodeToCompare.getId())) {
+                    continue;
+                }
 
-                                if (node.getIdenticalNodeId() == -1) {
-                                    node.setIdenticalNodeId(id);
-                                    queue.add(node);
-                                    skip.add(node);
-                                }
-                                nodeToCompare.setIdenticalNodeId(id);
-                                queue.add(nodeToCompare);
-                                skip.add(nodeToCompare);
+                if (node.getCost() == nodeToCompare.getCost()) { // Cost
+                    if (node.getEdgeList().equals(nodeToCompare.getEdgeList())) { // Children
+                        if (node.getParentNodeList().equals(nodeToCompare.getParentNodeList())) { // Parents
+                            result = true;
+
+                            if (node.getIdenticalNodeId() == -1) {
+                                node.setIdenticalNodeId(id);
+                                queue.add(node);
+                                skip.add(node);
                             }
+                            nodeToCompare.setIdenticalNodeId(id);
+                            queue.add(nodeToCompare);
+                            skip.add(nodeToCompare);
                         }
                     }
                 }
             }
             if (! queue.isEmpty()) {
                 _identicalNodes.add(id, queue);
-                _identicalNodeOrders.add(id, 0);
+                _identicalNodeOrders.add(id, 0); // Initialise to order 0
                 id++;
             }
         }
@@ -99,10 +101,11 @@ public class Graph {
         Integer order = _identicalNodeOrders.get(identicalGroupId);
         Node node = _identicalNodes.get(identicalGroupId).get(order); // Get the node that is in the fixed order
 
+        // Set next order for the identical nodes group
         if (order == _identicalNodes.get(identicalGroupId).size() - 1) {
-            _identicalNodeOrders.set(identicalGroupId, 0); // Next order
+            _identicalNodeOrders.set(identicalGroupId, 0); // wraps around
         } else {
-            _identicalNodeOrders.set(identicalGroupId, order + 1); // Next order
+            _identicalNodeOrders.set(identicalGroupId, order + 1);
         }
 
         return node;

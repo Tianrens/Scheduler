@@ -19,10 +19,12 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
     public ELSModelStateExpander(Graph graph, Schedule state){
         _nodeList=graph.getAllNodes();
+        _graph = graph;
         _state = state;
     }
     public ELSModelStateExpander(Graph graph) throws AppConfigException {
         _nodeList=graph.getAllNodes();
+        _graph = graph;
         _state = new Schedule();
     }
 
@@ -38,7 +40,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         List<Schedule> newSchedules = new ArrayList<>();
         int[] processors = state.getProcessors();
 
-        List<Integer> identicalIds = new ArrayList<>(); // All identified identical node groupings
+        List<Integer> addedIdenticalIds = new ArrayList<>(); // All identified identical node groupings
 
         for(Node node : _nodeList.values()){
             // If schedule contains node then it has already been assigned.
@@ -46,14 +48,15 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
-            if (scheduledNodes.containsKey(node.getId()) && identicalIds.contains(node.getIdenticalNodeId())) {
+            // If the identical group has already been assigned
+            if (addedIdenticalIds.contains(node.getIdenticalNodeId())) {
                 continue;
             }
 
-            // SKip nodes associated with the identical group next time around
+            // Skip nodes associated with the identical group next time around
             if (node.getIdenticalNodeId() != -1) {
-                if (! identicalIds.contains(node.getIdenticalNodeId())) {
-                    identicalIds.add(node.getIdenticalNodeId());
+                if (! addedIdenticalIds.contains(node.getIdenticalNodeId())) {
+                    addedIdenticalIds.add(node.getIdenticalNodeId());
                 }
             }
 
@@ -63,7 +66,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
             // get loop count. Loops around more than once if the node is identical
             int loopCount = processors.length;
             if (node.getIdenticalNodeId() != -1) {
-                int difference = _graph.getGroupOfIdenticalNodes(node.getIdenticalNodeId()).size() - processors.length;
+                int difference = _graph.getGroupOfIdenticalNodes(node.getIdenticalNodeId()).size() - processors.length; // Size of group - num of processors
                 if (difference > 0) {
                     loopCount += difference;
                 }

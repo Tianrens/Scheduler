@@ -55,18 +55,6 @@ public class Node {
     }
 
     /**
-     * Get the children of a node
-     * @return {@link Map<Node, Integer>} of all the children and their edge costs
-     */
-    public Set<Node> getChildren() {
-        return  getEdgeList().keySet()
-                .stream()
-                .filter(key -> !key.getParentNodeList().contains(key)) // If parent list does not contain the key then it is a child
-                .collect(Collectors.toSet());
-    }
-
-
-    /**
      * Helper method for calculating the bottom level of a node
      * @param
      * @return

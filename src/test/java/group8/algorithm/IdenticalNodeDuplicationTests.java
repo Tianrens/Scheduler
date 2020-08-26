@@ -6,6 +6,9 @@ import group8.models.Graph;
 import group8.models.Node;
 import group8.models.Schedule;
 import org.junit.Before;
+import org.junit.Test;
+
+import java.util.List;
 
 public class IdenticalNodeDuplicationTests {
     private Graph _graph;
@@ -34,14 +37,19 @@ public class IdenticalNodeDuplicationTests {
         _graph.addNode(d);
         _graph.addNode(e);
 
-        _stateExpander = new ELSModelStateExpander(_graph);
-    }
-
-    @Before
-    public void generateSchedule() throws AppConfigException {
         AppConfig.getInstance().setNumProcessors(3);
         _schedule = new Schedule();
 
         _schedule.scheduleTask("a", 0, 0);
+
+        _stateExpander = new ELSModelStateExpander(_graph);
+    }
+
+    @Test
+    public void generateSchedule() throws AppConfigException {
+        List<Schedule> schedules = _stateExpander.getNewStates(_schedule);
+        for (Schedule s : schedules) {
+            System.out.println(s.getTasks());
+        }
     }
 }
