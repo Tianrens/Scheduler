@@ -27,10 +27,10 @@ import static java.lang.Runtime.getRuntime;
 /**
  * This is the Controller class for the Main Screen.
  * Color palette:
- * Black: #222831
- * Grey: #393e46
- * Blue: #00adb5
- * White: #eeeeee
+ * White: #f9f7f7
+ * Light Blue: #dbe2ef
+ * Blue: #3f72af
+ * DarkBlue: #112d4e
  */
 public class MainScreenController {
 
