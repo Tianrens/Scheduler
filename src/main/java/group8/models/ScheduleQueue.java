@@ -10,6 +10,14 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
     private Object[] _openQueue;
 
     /**
+     * Constructor to handle comparator argument
+     * @param comparator
+     */
+    public ScheduleQueue(Comparator<? super Schedule> comparator){
+        super(comparator);
+    }
+
+    /**
      * Override the add() from priority queue to include duplicate state check
      * @param state
      * @return
