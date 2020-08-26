@@ -65,19 +65,14 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
             //checks for duplicate states, where a node sis assigned to an empty process
             boolean emptyAssign = false;
-
-            // get loop count. Loops around more than once if the node is identical
-            int loopCount = processors.length;
-            if (node.getIdenticalNodeId() != -1) {
-                int difference = _graph.getGroupOfIdenticalNodes(node.getIdenticalNodeId()).size() - processors.length; // Size of group - num of processors
-                if (difference > 0) {
-                    loopCount += difference;
-                }
-            }
-
-            for(int i = 0 ; i < loopCount ; i++) {
+            for(int i = 0 ; i < processors.length ; i++) {
                 if (node.getIdenticalNodeId() != -1) {
                     node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
+                }
+
+                // Skip if the node from the identical group has already been assigned.
+                if (scheduledNodes.containsKey(node.getId())) {
+                    continue;
                 }
 
                 int[] newProcessors = makeProcessorList(processors);
