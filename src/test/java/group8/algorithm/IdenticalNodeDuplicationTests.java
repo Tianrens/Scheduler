@@ -10,6 +10,7 @@ import group8.parser.IDOTFileWriter;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.List;
 
 public class IdenticalNodeDuplicationTests {
@@ -21,33 +22,9 @@ public class IdenticalNodeDuplicationTests {
     @Before
     public void setUp() throws AppConfigException {
         _writer = new DOTFileWriter();
-        Node a = new Node(2, "a");
-        Node b = new Node(3, "b");
-        Node c = new Node(4, "c");
-        Node d = new Node(3, "d");
-        Node e = new Node(1, "e");
+        _graph.setUpForIdenticalNodes();
 
-        a.addDestination(b, 2);
-        a.addDestination(c, 2);
-        a.addDestination(d, 2);
-        b.addDestination(e, 2);
-        c.addDestination(e, 2);
-        d.addDestination(e, 2);
-
-        b.addParentNode(a);
-        c.addParentNode(a);
-        d.addParentNode(a);
-        e.addParentNode(b);
-        e.addParentNode(c);
-        e.addParentNode(d);
-
-        _graph = new Graph();
-        _graph.addNode(a);
-        _graph.addNode(b);
-        _graph.addNode(c);
-        _graph.addNode(d);
-        _graph.addNode(e);
-
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("identicalNodes.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(3);
         _schedule = new Schedule();
 
