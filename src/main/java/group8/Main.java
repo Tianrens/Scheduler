@@ -28,22 +28,20 @@ public class Main extends Application {
     private static Graph _graph;
 
     public static void main(String[] args) throws AppConfigException, ProcessorException {
-//        _appConfig = buildAppConfig(args);
-//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-//        IScheduler scheduler = new AStarScheduler();
-//        Graph graph = externalGraphGenerator.generate();
-//
-//        launch();
-//
-//        //_graph = graph;
-//
-//        if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
-//            // Run algorithm in another thread before launch.
-//            //new Thread().start();
-//            launch();
-//        } else {
-//
-//        }
+        _appConfig = buildAppConfig(args);
+        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+        IScheduler scheduler = new AStarScheduler();
+        Graph graph = externalGraphGenerator.generate();
+
+        _graph = graph;
+
+        if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
+            // Run algorithm in another thread before launch.
+            new Thread(Main::runAlgorithm).start();
+            launch();
+        } else {
+            runAlgorithm();
+        }
 
 
 //
@@ -52,44 +50,57 @@ public class Main extends Application {
 //        IDOTFileWriter outputBuilder = new DOTFileWriter();
 //        outputBuilder.writeOutput(schedule, graph);
 
-        _graph = new Graph();
-        _graph.addNode(new Node(5, "A"));
-        _graph.addNode(new Node(3, "B"));
+//        _graph = new Graph();
+//        _graph.addNode(new Node(5, "A"));
+//        _graph.addNode(new Node(3, "B"));
+//
+//        AppConfig config = AppConfig.getInstance();
+//        AlgorithmStatus status = AlgorithmStatus.getInstance();
+//
+//        config.setInputFile(new File("Some-Test-File.file"));
+//        config.setNumProcessors(3);
+//        config.setGraphName("Good Graph");
+//        config.setNumCores(8);
+//        config.setOutputFile(new File("Output.file"));
+//
+//
+//
+//        Schedule schedule = new Schedule();
+//        schedule.scheduleTask("A", 0, 0);
+//        schedule.scheduleTask("B", 5, 1);
+//
+//        status.setCurrentBestSchedule(schedule);
+//
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                int startTime = 100;
+//                while(true) {
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    status.incrementSchedulesGenerated();
+//                    Schedule schedule = null;
+//                    try {
+//                        schedule = new Schedule();
+//                    } catch (AppConfigException e) {
+//                        e.printStackTrace();
+//                    }
+//                    schedule.scheduleTask("A", startTime + 0, 0);
+//                    schedule.scheduleTask("B", startTime + 100, 1);
+//                    startTime = startTime + 10;
+//                    status.setCurrentBestSchedule(schedule);
+//
+//                }
+//
+//
+//            }
+//        });
+//        thread.start();
 
-        AppConfig config = AppConfig.getInstance();
-        AlgorithmStatus status = AlgorithmStatus.getInstance();
-
-        config.setInputFile(new File("Some-Test-File.file"));
-        config.setNumProcessors(3);
-        config.setGraphName("Good Graph");
-        config.setNumCores(8);
-        config.setOutputFile(new File("Output.file"));
-
-        Schedule schedule = new Schedule();
-        schedule.scheduleTask("A", 0, 0);
-        schedule.scheduleTask("B", 5, 1);
-
-        status.setCurrentBestSchedule(schedule);
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    status.incrementSchedulesGenerated();
-
-                }
-
-
-            }
-        });
-        thread.start();
-
-        launch();
+        //launch();
     }
 
     private static AppConfig buildAppConfig(String[] args) {
@@ -132,7 +143,9 @@ public class Main extends Application {
             System.exit(0);
         });
         primaryStage.show();
+    }
 
+    private static void runAlgorithm() {
 
     }
 }
