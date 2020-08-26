@@ -1,63 +1,59 @@
-digraph "R" {
-0	["Finish time"=41,
+digraph "Stencil_Nodes_10_CCR_10.00_WeightType_Random" {
+
+	0	["Finish time"=9,
 		Processor=0,
 		"Start time"=0,
-		Weight=41];
-
-	1	["Finish time"=178,
+		Weight=9];
+	2	["Finish time"=1403,
 		Processor=0,
-		"Start time"=41,
-		Weight=137];
-
-	2	["Finish time"=291,
-		Processor=1,
-		"Start time"=181,
-		Weight=110];
-
-	3	["Finish time"=301,
+		"Start time"=1400,
+		Weight=3];
+	0 -> 2	[Weight=54];
+	3	["Finish time"=1705,
 		Processor=0,
-		"Start time"=178,
-		Weight=123];
-
-	4	["Finish time"=428,
-		Processor=1,
-		"Start time"=401,
-		Weight=27];
-
-	5	["Finish time"=401,
-		Processor=1,
-		"Start time"=291,
-		Weight=110];
-	
-	6	["Finish time"=383,
+		"Start time"=1700,
+		Weight=5];
+	0 -> 3	[Weight=43];
+	1	["Finish time"=905,
 		Processor=0,
-		"Start time"=301,
-		Weight=82];
-
-	7	["Finish time"=181,
-		Processor=1,
-		"Start time"=44,
-		Weight=137];
-
-	8	["Finish time"=438,
+		"Start time"=900,
+		Weight=5];
+	1 -> 2	[Weight=49];
+	1 -> 3	[Weight=27];
+	4	["Finish time"=2205,
 		Processor=0,
-		"Start time"=383,
-		Weight=55];
-
-
-
-
-
-	0 -> 1	[Weight=10];
-	0 -> 7	[Weight=3];
-	0 -> 3	[Weight=2];
-	0 -> 2	[Weight=7];	
-	0 -> 6	[Weight=2];
-	0 -> 5	[Weight=2];
-	0 -> 8	[Weight=9];
-	0 -> 4	[Weight=4];
-
-
-
-
+		"Start time"=2200,
+		Weight=5];
+	2 -> 4	[Weight=43];
+	5	["Finish time"=2706,
+		Processor=0,
+		"Start time"=2700,
+		Weight=6];
+	2 -> 5	[Weight=38];
+	3 -> 4	[Weight=27];
+	3 -> 5	[Weight=49];
+	7	["Finish time"=3306,
+		Processor=0,
+		"Start time"=3300,
+		Weight=6];
+	4 -> 7	[Weight=32];
+	6	["Finish time"=3909,
+		Processor=0,
+		"Start time"=3900,
+		Weight=9];
+	4 -> 6	[Weight=54];
+	5 -> 7	[Weight=16];
+	5 -> 6	[Weight=32];
+	9	["Finish time"=4809,
+		Processor=0,
+		"Start time"=4800,
+		Weight=9];
+	7 -> 9	[Weight=43];
+	8	["Finish time"=5704,
+		Processor=0,
+		"Start time"=5700,
+		Weight=4];
+	7 -> 8	[Weight=27];
+	6 -> 9	[Weight=38];
+	6 -> 8	[Weight=38];
 }
