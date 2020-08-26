@@ -76,12 +76,12 @@
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_numSchedulesGeneratedText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedules Generated: 0" wrappingWidth="280.0">
+                  <Text fx:id="_RAMUsageText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="RAM Usage: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_RAMUsageText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="RAM Usage: 0" wrappingWidth="280.0">
+                  <Text fx:id="_numSchedulesGeneratedText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedules Generated: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
