@@ -1,11 +1,13 @@
 package group8.scheduler;
 
+import group8.algorithm.AlgorithmState;
 import group8.algorithm.ELSModelStateExpander;
 import group8.algorithm.GreedyHeuristic;
 import group8.algorithm.SimpleHeuristic;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 import group8.models.*;
+import group8.visualisation.AlgorithmStatus;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -44,6 +46,9 @@ public class AStarScheduler implements IScheduler {
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
 
+        // Set algo status to RUNNING.
+        AlgorithmStatus algorithmStatus = AlgorithmStatus.getInstance();
+        algorithmStatus.setAlgoState(AlgorithmState.RUNNING);
 
         //initialises the helper classes as objects to use their methods
         Schedule schedule = new Schedule();
