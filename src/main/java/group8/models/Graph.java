@@ -5,8 +5,14 @@ import java.util.List;
 
 public class Graph {
 
+    //Contains all the nodes of the graph
+    //Key is the nodeId and value is the node itself
     private HashMap<String, Node> _nodes = new HashMap<>();
 
+    //heuristicCost is the graph's initial heuristic cost
+    //Acts as a baseline for comparision for schedules that spawn from this graph
+    //Larger schedule heuristic costs are discarded
+    private int heuristicCost;
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph
@@ -36,6 +42,13 @@ public class Graph {
         return _nodes;
     }
 
+    public int getHeuristicCost() {
+        return heuristicCost;
+    }
+
+    public void setHeuristicCost(int heuristicCost) {
+        this.heuristicCost = heuristicCost;
+    }
 
     /**
      * This method is used to bypass having to create a Node and adding it to graph manually

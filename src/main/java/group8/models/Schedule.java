@@ -85,4 +85,21 @@ public class Schedule {
     public void setProcessors(int[] _processors) {
         this._processors = _processors;
     }
+
+    /**
+     * This is a calculation of a heuristic. The heuristic is
+     * the earliest start time of the schedule
+     * @return earliestStartTime
+     */
+    public int getEarliestStartTime() {
+        int shortestLength = -1;
+
+        for(int i = 0; i <_processors.length;i++){
+            int length = _processors[i];
+            if(shortestLength==-1 || length>shortestLength){
+                shortestLength=length;
+            }
+        }
+        return shortestLength;
+    }
 }
