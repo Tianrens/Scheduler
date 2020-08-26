@@ -39,6 +39,7 @@ public class Main extends Application {
 //
 //        if (AppConfig.getInstance().isVisualise()) { // Using Visualisation
 //            // Run algorithm in another thread before launch.
+//            //new Thread().start();
 //            launch();
 //        } else {
 //
