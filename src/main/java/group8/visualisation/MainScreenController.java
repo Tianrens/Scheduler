@@ -34,13 +34,14 @@ import static java.lang.Runtime.getRuntime;
  */
 public class MainScreenController {
 
+    private boolean algoFinished = false;
     private AppConfig _appConfig;
     private AlgorithmStatus _algoStatus;
     private long _startTime;
     private long _currentTime;
     private Graph _graph;
     private Timeline _timeLine;
-    private Timeline _poller;
+    //private Timeline _poller;
 
     private GanttChart<Number,String> _chart;
     private LineChart _lineChart;
@@ -97,23 +98,14 @@ public class MainScreenController {
 
         _timeLine = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
+                    update();
                     if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
-                        update();
-                        //_appStatusText.setText("Done" );
-                        _poller.stop();
+                        _timeLine.stop();
                     }
                 })
         );
         _timeLine.setCycleCount(Animation.INDEFINITE);
         _timeLine.play();
-
-        _poller = new Timeline(
-                new KeyFrame(Duration.seconds(1), e -> {
-                    update();
-                })
-        );
-        _poller.setCycleCount(Animation.INDEFINITE);
-        _poller.play();
 
     }
 
@@ -140,9 +132,10 @@ public class MainScreenController {
 
             case FINISHED:
                 _appStatusText.setText("Done" );
-
+                break;
             default:
                 _appStatusText.setText("ERROR" );
+                break;
         }
         updateGanttChart();
         updateLineGraph();
