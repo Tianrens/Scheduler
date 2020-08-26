@@ -30,7 +30,13 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         addNodesToGraph(graph, nodes);
         addEdgesToGraph(graph, edges);
 
-        graph.setUpForIdenticalNodes();
+        for (Node node : graph.getAllNodes().values()) {
+            if (node.getBottomLevel() != -1 ){
+                node.calculateBottomLevel(); // calculate bottom level for all nodes - later used in heurisitc calculations
+            }
+        }
+
+        graph.setUpForIdenticalNodes(); // Sets up the identical nodes mapping in the graph object
 
         return graph;
     }
@@ -43,7 +49,6 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
             Integer weight = Integer.parseInt((String) node.getAttribute(weightKey)); // Retrieve the relevant attribute (Cost)
 
             Node newNode = new Node(weight, nodeId);
-            newNode.calculateBottomLevel(); // calculate bottom level for all nodes - later used in heurisitc calculations
             graph.addNode(newNode);
         }
     }

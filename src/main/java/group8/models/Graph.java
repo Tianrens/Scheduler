@@ -6,7 +6,7 @@ public class Graph {
 
     private HashMap<String, Node> _nodes = new HashMap<>();
     private List<List<Node>> _identicalNodes = new ArrayList<>(); // Index represents the identical group id
-    private List<Integer> _identicalNodeOrders = new ArrayList<>();
+    private List<Integer> _identicalNodeOrders = new ArrayList<>(); // Index represents the identical group id, value is the next order
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph
@@ -27,32 +27,38 @@ public class Graph {
         List<Node> skip = new ArrayList<>();
         int id = 0;
         for (Node node : _nodes.values()) {
-            if (skip.contains(node)) { // Node has already been identified as an identical
+            List<Node> queue = new ArrayList<>();
+
+            if (skip.contains(node)) {
                 continue;
             }
 
-            List<Node> queue = new ArrayList<>();
-            Set<Node> intersection = node.getChildren();
-            intersection.retainAll(node.getParentNodeList()); // Intersection of parents and children: same parents and children
+            for (Node nodeToCompare : _nodes.values()) {
 
-            if (intersection.contains(node) && intersection.size() > 1) { // Potentially has one other node that is the same as this node being compared
-                for (Node identical : intersection){
-                    if (node.getCost() == identical.getCost() && node.getEdgeList().equals(identical.getEdgeList())) { // Edges and cost equal
-                        queue.add(identical);
-                        identical.setIdenticalNodeId(id);
-                        skip.add(identical);
+                if (node.getCost() == nodeToCompare.getCost()) {
+                    if (node.getEdgeList().equals(nodeToCompare.getEdgeList())) {
+                        if (node.getParentNodeList().equals(nodeToCompare.getParentNodeList())) {
+                            if (node.getChildren().equals(nodeToCompare.getChildren())) {
+                                result = true;
+
+                                if (node.getIdenticalNodeId() == -1) {
+                                    node.setIdenticalNodeId(id);
+                                    queue.add(node);
+                                    skip.add(node);
+                                }
+                                nodeToCompare.setIdenticalNodeId(id);
+                                queue.add(nodeToCompare);
+                                skip.add(nodeToCompare);
+                            }
+                        }
                     }
                 }
-
-                if (! queue.isEmpty()) { // If there were identical nodes to the node being compared, then add it to the queue
-                    result = true;
-                    queue.add(node);
-                    node.setIdenticalNodeId(id);
-                }
             }
-            _identicalNodes.add(id, queue);
-            _identicalNodeOrders.add(id, 0);
-            id++;
+            if (! queue.isEmpty()) {
+                _identicalNodes.add(id, queue);
+                _identicalNodeOrders.add(id, 0);
+                id++;
+            }
         }
 
         return result;
@@ -84,9 +90,18 @@ public class Graph {
     public Node getFixedOrderNode(int identicalGroupId) {
         Integer order = _identicalNodeOrders.get(identicalGroupId);
         Node node = _identicalNodes.get(identicalGroupId).get(order); // Get the node that is in the fixed order
-        _identicalNodeOrders.set(identicalGroupId, order + 1); // Next order
+
+        if (order == _identicalNodes.get(identicalGroupId).size() - 1) {
+            _identicalNodeOrders.set(identicalGroupId, 0); // Next order
+        } else {
+            _identicalNodeOrders.set(identicalGroupId, order + 1); // Next order
+        }
 
         return node;
+    }
+
+    public List<Node> getGroupOfIdenticalNodes(int identicalGroupId) {
+        return _identicalNodes.get(identicalGroupId);
     }
 
     /**

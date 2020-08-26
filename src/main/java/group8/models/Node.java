@@ -61,7 +61,7 @@ public class Node {
     public Set<Node> getChildren() {
         return  getEdgeList().keySet()
                 .stream()
-                .filter(key -> !key.getParentNodeList().contains(key))
+                .filter(key -> !key.getParentNodeList().contains(key)) // If parent list does not contain the key then it is a child
                 .collect(Collectors.toSet());
     }
 

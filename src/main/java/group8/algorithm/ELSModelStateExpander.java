@@ -46,7 +46,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
-            if (identicalIds.contains(node.getIdenticalNodeId())) {
+            if (scheduledNodes.containsKey(node.getId()) && identicalIds.contains(node.getIdenticalNodeId())) {
                 continue;
             }
 
@@ -72,7 +72,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
         for(int i = 0 ; i < processors.length ; i++) {
             if (node.getIdenticalNodeId() != -1) {
-                node = _graph.getFixedOrderNode(node.getIdenticalNodeId());
+                node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will alwyas
             }
 
             int[] newProcessors = makeProcessorList(processors);
@@ -103,7 +103,15 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         //checks for duplicate states, where a node sis assigned to an empty process
         boolean emptyAssign = false;
 
-        for(int i = 0 ; i < processors.length ; i++){
+        int loopCount = processors.length;
+        if (node.getIdenticalNodeId() != -1) {
+            int difference = _graph.getGroupOfIdenticalNodes(node.getIdenticalNodeId()).size() - processors.length;
+            if (difference > 0) {
+                loopCount += difference;
+            }
+        }
+
+        for(int i = 0 ; i < loopCount ; i++){
             if (node.getIdenticalNodeId() != -1) {
                 node = _graph.getFixedOrderNode(node.getIdenticalNodeId());
             }
