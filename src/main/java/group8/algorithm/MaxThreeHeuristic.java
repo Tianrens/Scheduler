@@ -74,7 +74,7 @@ public class MaxThreeHeuristic implements IHeuristic{
         // return only the largest bottom level / critical path
         int maxHeuristic = 0;
         for (Map.Entry<String, int[]> nodeEntry : state.getTasks().entrySet()){
-            int heuristic = calculateBottomLevel(allNodes.get(nodeEntry.getKey()));
+            int heuristic = allNodes.get(nodeEntry.getKey()).getBottomLevel();
 
             if(heuristic>maxHeuristic){
                 maxHeuristic=heuristic;
@@ -140,9 +140,8 @@ public class MaxThreeHeuristic implements IHeuristic{
 
                     }
                     //record largest value
-                    int bl=calculateBottomLevel(node);
-                    if(maxHeuristic<earliestProcessorStartTime+bl){
-                        maxHeuristic = earliestProcessorStartTime+bl;
+                    if(maxHeuristic<earliestProcessorStartTime+node.getBottomLevel()){
+                        maxHeuristic = earliestProcessorStartTime+node.getBottomLevel();
                     }
                 }
             }
@@ -150,29 +149,6 @@ public class MaxThreeHeuristic implements IHeuristic{
         return maxHeuristic;
     }
 
-    /**
-     * Helper method for calculating the bottom level of a node
-     * @param node
-     * @return
-     */
-    private int calculateBottomLevel(Node node){
-
-        int longestCriticalPath = 0;
-
-        // for every of the nodes dependees/pointed to nodes, recursively descend the various possible paths
-        // to find the longest, Critical path
-        for(Map.Entry<Node, Integer> dst: node.getEdgeList().entrySet()){
-            int currentPathLength =0;
-            currentPathLength+=dst.getKey().getCost();
-            currentPathLength+=calculateBottomLevel(dst.getKey());
-            if(longestCriticalPath<currentPathLength){
-                longestCriticalPath=currentPathLength;
-            }
-        }
-
-        // return the critical path cost for the node
-        return longestCriticalPath + node.getCost();
-    }
 
 
     /**

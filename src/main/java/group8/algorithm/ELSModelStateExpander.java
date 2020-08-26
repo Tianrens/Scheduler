@@ -5,10 +5,7 @@ import group8.models.Graph;
 import group8.models.Node;
 import group8.models.Schedule;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public class ELSModelStateExpander implements IStateExpander, Callable<List<Schedule>> {
@@ -140,17 +137,15 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
      * @return
      */
     private boolean checkParents(List<Node> parentList, Map<String,int[]> scheduledNodes){
-        boolean allParentsAdded = true;
 
         //Check parents one by one
         for (Node pNode: parentList) {
             if(scheduledNodes.get(pNode.getId())==null){
-                allParentsAdded = false;
+                return false;
             }
         }
 
-        //check if all parents have been added
-        return allParentsAdded;
+        return true;
     }
 
     private int[] makeProcessorList(int[] processors){
@@ -163,15 +158,53 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
     }
 
+    /**
+     * Helper method for generating a ProcessorSet
+     * @param numOfProcessors
+     * @param scheduledNodes
+     * @return
+     */
+    private Set<Set<List<String>>> makeProcessorSet(int numOfProcessors, Map<String, int[]> scheduledNodes){
+        Set<Set<List<String>>> newSet = new HashSet<>();
+        Set<String> scheduledNodeIds = scheduledNodes.keySet();
+
+        // scan through the nodelist per processor to find that processors nodes
+        for (int i = 0; i < numOfProcessors; i++) {
+            Set<List<String>> newProcessorSet = new HashSet<>();
+
+            for (String nodeId:scheduledNodeIds) {
+
+                int nodeProcessor = scheduledNodes.get(nodeId)[1];
+                // If the node processor number matches
+                if(i == nodeProcessor){
+
+                    // add details to a list and add to this processor's set
+                    List<String> nodeDetails = new ArrayList<>();
+                    nodeDetails.add(nodeId);
+                    nodeDetails.add(Integer.toString(nodeProcessor));
+                    newProcessorSet.add(nodeDetails);
+                }
+            }
+
+            // If this processor isn't empty, add its set to the encompassing set
+            if(!newProcessorSet.isEmpty()){
+                newSet.add(newProcessorSet);
+            }
+        }
+        
+        return newSet;
+    }
+
 
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
-        Schedule newSchdule = new Schedule();
+        Schedule newSchedule = new Schedule();
         IHeuristic goodHeuristic = new MaxThreeHeuristic();
-        newSchdule.setTasks(scheduledNodes);
-        newSchdule.setProcessors(processors);
-        newSchdule.setHeuristicCost(goodHeuristic.calculateEstimate(newSchdule, _nodeList));
+        newSchedule.setTasks(scheduledNodes);
+        newSchedule.setProcessors(processors);
+        newSchedule.setHeuristicCost(goodHeuristic.calculateEstimate(newSchedule, _nodeList));
+        newSchedule.setProcessorSet(makeProcessorSet(processors.length, scheduledNodes));
 
-        return newSchdule;
+        return newSchedule;
     }
 }

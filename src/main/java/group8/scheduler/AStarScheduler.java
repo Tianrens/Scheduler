@@ -14,6 +14,7 @@ import java.util.concurrent.*;
  * This class implements the A* algorithm
  */
 public class AStarScheduler implements IScheduler {
+
     //These comparators allow us to compare with one heuristic first then another one
     //the program only compares with the second heuristic if first one returns zero
     Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
@@ -21,8 +22,9 @@ public class AStarScheduler implements IScheduler {
     Comparator<Schedule> heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator);
 
     //make the priority queue use our own comparator by passing it into the priority queue
-    private PriorityQueue<Schedule> _openState = new PriorityQueue<>(heuristicAndEarliestStartTimeComparator);
-    private List<Schedule> _closedState = new ArrayList<>();
+    private ScheduleQueue _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
+    //private List<Schedule> _closedState = new ArrayList<>();
+
     private Graph _graph;
     private HashMap<String, Node> _allNodesOfGraph;
     private Set<String> _nodeIdList;
@@ -69,7 +71,7 @@ public class AStarScheduler implements IScheduler {
                 //obtain a new set of states expanding from the most promising state
                 newFoundStates = new ELSModelStateExpander(_graph, schedule).getNewStates(schedule);
                 _scheduleCount +=newFoundStates.size();
-                _closedState.add(schedule);
+                _openState.addClosedState(schedule);
 
                 //add the newly found states into the priority queue only if their heuristic cost is smaller
                 // than baseline heuristic cost of the whole graph
@@ -94,7 +96,7 @@ public class AStarScheduler implements IScheduler {
                     // assign each thread in the thread pool a state to expand
                     Future<List<Schedule>> future = _executorService.submit(new ELSModelStateExpander(_graph, schedule));
                     allFutures.add(future); //add future values to the list of future values
-                    _closedState.add(schedule); //add the explored schedule to another list
+                    _openState.addClosedState(schedule); //add the explored schedule to another list
                 }
 
                 for (int i = 0; i < allFutures.size(); i++) { //for each of the futures
