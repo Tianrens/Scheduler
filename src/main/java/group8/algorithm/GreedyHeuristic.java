@@ -13,12 +13,12 @@ public class GreedyHeuristic implements IHeuristic {
     @Override
     public int calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
         Map<String, int[]> stateNodes = new HashMap<String, int[]>();
-        stateNodes.putAll(state.getTasks());
-        ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet());
-        ArrayList<String> allKeys = new ArrayList<String>(allNodes.keySet());
-        List<Node> statelessNodes = new ArrayList<>();
+        stateNodes.putAll(state.getTasks()); // Get all nodes in the schedule. Put into a new map
+        ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet()); // Keys of the tasks in schedule
+        ArrayList<String> allKeys = new ArrayList<String>(allNodes.keySet()); // All task keys
+        List<Node> statelessNodes = new ArrayList<>(); // Nodes not in schedule
         List<Node> topology = new ArrayList<>();
-        int[] stateProcessors = state.getProcessors().clone();
+        int[] stateProcessors = state.getProcessors().clone(); // Get processors from the schedule.
         Schedule currentState = state;
         TempTopologyFinder topologyFinder = new TempTopologyFinder();
 
@@ -30,15 +30,15 @@ public class GreedyHeuristic implements IHeuristic {
         }
 
         //Obtain topology for them
-        topology = topologyFinder.generateTopology(statelessNodes);
+        topology = topologyFinder.generateTopology(statelessNodes); // Create topology from unassigned modes.
 
-        for (Node node:topology) {
-            int earliestStartTime = 0;
-            List<Node> parentList = node.getParentNodeList();
+        for (Node node:topology) { // Every node in topology
+            int earliestStartTime = 0; // Earliest start time the node on all processes.
+            List<Node> parentList = node.getParentNodeList(); // For Remote Costs.
             //Keep list of start time costs available for each process
-            int[] processSelection = new int[stateProcessors.length];
+            int[] processSelection = new int[stateProcessors.length]; // Store the costs of start time for this singular node. Select lowest cost processor from this list, to add onto.
 
-            for (int i = 0; i < stateProcessors.length; i++) {
+            for (int i = 0; i < stateProcessors.length; i++) { // For each processor in the state
                 int startTime;
                 int processorStartTime = stateProcessors[i];
                 earliestStartTime = processorStartTime;
@@ -47,12 +47,15 @@ public class GreedyHeuristic implements IHeuristic {
                     //if parent is not on the same processor, remote costs have to be considered
                     int[] parentDetails = stateNodes.get(parent.getId());
 
-                    if(parentDetails[1] - 1 != i){
+                    // Get parents processor number.
+                    if(parentDetails[1] != i){ // Removed minus 1. If parents processor does not match current processor.
+                        // Calculate start time with remote cost factored in.
                         startTime = parentDetails[0] + parent.getCost() + parent.getEdgeList().get(node);
+                        // If start time is smaller than current processor start time, ignore remote cost, as start time already longer than processor start time.
                         if(startTime < processorStartTime){
                             startTime = processorStartTime;
                         }
-                    }else{
+                    }else{ // If parent is on the processor. No need for remote cost.
                         startTime = processorStartTime;
                     }
 
