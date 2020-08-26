@@ -31,7 +31,7 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         addEdgesToGraph(graph, edges);
 
         for (Node node : graph.getAllNodes().values()) {
-            if (node.getBottomLevel() != -1 ){
+            if (node.getBottomLevel() == -1 ){
                 node.calculateBottomLevel(); // calculate bottom level for all nodes - later used in heurisitc calculations
             }
         }
