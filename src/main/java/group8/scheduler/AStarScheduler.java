@@ -83,17 +83,10 @@ public class AStarScheduler implements IScheduler {
                 _scheduleCount +=newFoundStates.size();
                 _openState.addClosedState(schedule);
 
-                //add the newly found states into the priority queue only if their heuristic cost is smaller
-                // than baseline heuristic cost of the whole graph
-                newFoundStates.forEach(state -> {
-                    if (_graph.getHeuristicCost() > state.getHeuristicCost()) {
-                        _openState.add(state);
-                    }
-                });
+                //add the newly found states into the priority queue
+                newFoundStates.forEach(state -> _openState.add(state));
 
             } else {
-
-
 
                 //A list to contain the future list of states which each thread will return
                 List<Future> allFutures = new ArrayList<>();
@@ -122,15 +115,8 @@ public class AStarScheduler implements IScheduler {
                         newFoundStates = future.get(); //obtain a new set of states expanding from the most promising state
                         _scheduleCount +=newFoundStates.size(); //add the found schedules to the count
 
-                        //add the newly found states into the priority queue only if their heuristic cost is smaller
-                        // than baseline heuri  stic cost of the whole graph
-
-                        newFoundStates.forEach(state -> {
-                            if (_graph.getHeuristicCost() >= state.getHeuristicCost()) {
-                                _openState.add(state);
-                            }
-                        });
-
+                        //add the newly found states into the priority queue
+                        newFoundStates.forEach(state -> _openState.add(state));
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();

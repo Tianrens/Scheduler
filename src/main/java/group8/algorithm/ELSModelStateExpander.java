@@ -16,16 +16,19 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private HashMap<String,Node> _nodeList;
     private Graph _graph;
     private Schedule _state;
+    private int _graphHeuristicCost;
 
     public ELSModelStateExpander(Graph graph, Schedule state){
         _nodeList=graph.getAllNodes();
         _graph = graph;
         _state = state;
+        _graphHeuristicCost = graph.getHeuristicCost();
     }
     public ELSModelStateExpander(Graph graph) throws AppConfigException {
         _nodeList=graph.getAllNodes();
         _graph = graph;
         _state = new Schedule();
+        _graphHeuristicCost = graph.getHeuristicCost();
     }
 
     @Override
@@ -93,7 +96,13 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     newScheduledNodes.putAll(scheduledNodes);
                     newScheduledNodes.put(node.getId(), nodeInfo);
 
-                    newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
+                    //Only if a schedule has a lower heuristic than the baseline graph heuristic
+                    //we add it to the new schedules
+                    Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
+                    if (schedule.getHeuristicCost() < _graphHeuristicCost) {
+                        newSchedules.add(schedule);
+                    }
+
                 } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
                     int startTime;
                     int earliestStartTime = 0;
@@ -119,7 +128,12 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     newScheduledNodes.putAll(scheduledNodes);
                     newScheduledNodes.put(node.getId(), nodeInfo);
 
-                    newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
+                    //Only if a schedule has a lower heuristic than the baseline graph heuristic
+                    //we add it to the new schedules
+                    Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
+                    if (schedule.getHeuristicCost() < _graphHeuristicCost) {
+                        newSchedules.add(schedule);
+                    }
                 }
             }
         }
@@ -205,6 +219,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         newSchedule.setProcessors(processors);
         newSchedule.setHeuristicCost(goodHeuristic.calculateEstimate(newSchedule, _nodeList));
         newSchedule.setProcessorSet(makeProcessorSet(processors.length, scheduledNodes));
+        newSchedule.setEarliestStartTime(newSchedule.calculateEarliestStartTime());
 
         return newSchedule;
     }
