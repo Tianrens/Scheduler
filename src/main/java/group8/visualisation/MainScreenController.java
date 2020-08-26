@@ -217,7 +217,7 @@ public class MainScreenController {
     }
 
     private void setupLineGraph() {
-
+        
     }
 
     public void setGraph(Graph graph) {
