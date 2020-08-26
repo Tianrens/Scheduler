@@ -100,7 +100,7 @@ public class MainScreenController {
                     if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
                         update();
                         //_appStatusText.setText("Done" );
-                        _timeLine.stop();
+                        _poller.stop();
                     }
                 })
         );
