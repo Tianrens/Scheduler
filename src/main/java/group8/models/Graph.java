@@ -4,9 +4,17 @@ import java.util.*;
 
 public class Graph {
 
+    //Contains all the nodes of the graph
+    //Key is the nodeId and value is the node itself
     private HashMap<String, Node> _nodes = new HashMap<>();
+
     private List<List<Node>> _identicalNodes = new ArrayList<>(); // Index represents the identical group id
     private List<Integer> _identicalNodeOrders = new ArrayList<>(); // Index represents the identical group id, value is the next order
+
+    //heuristicCost is the graph's initial heuristic cost
+    //Acts as a baseline for comparision for schedules that spawn from this graph
+    //Larger schedule heuristic costs are discarded
+    private int heuristicCost;
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph
@@ -102,6 +110,14 @@ public class Graph {
 
     public List<Node> getGroupOfIdenticalNodes(int identicalGroupId) {
         return _identicalNodes.get(identicalGroupId);
+    }
+
+    public int getHeuristicCost() {
+        return heuristicCost;
+    }
+
+    public void setHeuristicCost(int heuristicCost) {
+        this.heuristicCost = heuristicCost;
     }
 
     /**

@@ -27,6 +27,11 @@ public class Schedule {
      * Processors start at 0.
      */
     private int[] _processors = new int[AppConfig.getInstance().getNumProcessors()];
+    /**
+     * Set of processors in the form of sets
+     * Each processor is a set of node details in the form of a list [node Id, start time]
+     */
+    private Set<Set<List<String>>> _processorSet;
 
     /**
      * Creates schedule object.
@@ -48,8 +53,8 @@ public class Schedule {
      * @param processor the processor the task has been assigned to. (processor starts from ZERO)
      */
     public void scheduleTask(String nodeId, int startTime, int processor) {
-        int[] value = new int[]{startTime, processor};
-        _tasks.put(nodeId, value);
+
+        _tasks.put(nodeId, new int[]{startTime, processor});
     }
 
     /**
@@ -84,5 +89,31 @@ public class Schedule {
 
     public void setProcessors(int[] _processors) {
         this._processors = _processors;
+    }
+
+
+    /**
+     * This is a calculation of a heuristic. The heuristic is
+     * the earliest start time of the schedule
+     * @return earliestStartTime
+     */
+    public int getEarliestStartTime() {
+        int shortestLength = -1;
+
+        for (int i = 0; i < _processors.length; i++) {
+            int length = _processors[i];
+            if (shortestLength == -1 || length > shortestLength) {
+                shortestLength = length;
+            }
+        }
+        return shortestLength;
+    }
+
+
+    public Set<Set<List<String>>> getProcessorSet() { return _processorSet; }
+
+    public void setProcessorSet(Set<Set<List<String>>> processorSet) {
+        _processorSet = processorSet;
+
     }
 }
