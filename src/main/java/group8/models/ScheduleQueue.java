@@ -6,7 +6,7 @@ import java.util.*;
  * Sub class of Priority queue used specially to handle schedules for the A* algorithm
  */
 public class ScheduleQueue extends PriorityQueue<Schedule> {
-    private List<Schedule> _closedState = new ArrayList<>();
+    private List<List<Schedule>> _closedStates = new ArrayList<>();
     private Object[] _openQueue;
 
     /**
@@ -25,7 +25,7 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
     @Override
     public boolean add(Schedule state){
 
-    /*
+
         Set<Set<List<String>>> stateProcessorSet = state.getProcessorSet();
         // Obtain current OPEN list
         _openQueue = this.toArray();
@@ -35,7 +35,7 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
         }
 
         // Perform processor sets check on CLOSED list
-        for (Schedule cState: _closedState) {
+        for (Schedule cState: _closedStates) {
             if(stateProcessorSet.equals(cState.getProcessorSet())){
                 // If a dupe is found, don't add
                 //return false;
@@ -53,8 +53,6 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
 
         // If passed all duplication checks, add onto queue
 
-     */
-
 
 
         return super.add(state);
@@ -65,6 +63,8 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
      * @param state
      */
     public void addClosedState(Schedule state){
-        //_closedState.add(state);
+
+        if(_closedStates)
+        _closedStates.add(state);
     }
 }
