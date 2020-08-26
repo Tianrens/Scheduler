@@ -54,9 +54,7 @@ public class AStarScheduler implements IScheduler {
 
         //initialises the helper classes as objects to use their methods
         Schedule schedule = new Schedule();
-        _graph.setHeuristicCost(
-                Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()),
-                        new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
+        _graph.setHeuristicCost(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()));
         List<Schedule> newFoundStates;
         _openState.add(schedule); //add the empty schedule to get the algorithm started
         _scheduleCount++;
