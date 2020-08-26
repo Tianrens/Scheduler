@@ -1,6 +1,8 @@
 package group8.scheduler;
 
 import group8.algorithm.ELSModelStateExpander;
+import group8.algorithm.GreedyHeuristic;
+import group8.algorithm.SimpleHeuristic;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 import group8.models.*;
@@ -12,8 +14,17 @@ import java.util.concurrent.*;
  * This class implements the A* algorithm
  */
 public class AStarScheduler implements IScheduler {
-    private ScheduleQueue _openState = new ScheduleQueue(new ScheduleComparator());
+
+    //These comparators allow us to compare with one heuristic first then another one
+    //the program only compares with the second heuristic if first one returns zero
+    Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
+    Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) -> s.getEarliestStartTime());
+    Comparator<Schedule> heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator);
+
+    //make the priority queue use our own comparator by passing it into the priority queue
+    private ScheduleQueue _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
     //private List<Schedule> _closedState = new ArrayList<>();
+
     private Graph _graph;
     private HashMap<String, Node> _allNodesOfGraph;
     private Set<String> _nodeIdList;
@@ -33,12 +44,15 @@ public class AStarScheduler implements IScheduler {
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
 
+
         //initialises the helper classes as objects to use their methods
         Schedule schedule = new Schedule();
         List<Schedule> newFoundStates;
         _openState.add(schedule); //add the empty schedule to get the algorithm started
         _scheduleCount++;
-
+        _graph.setHeuristicCost(
+                Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()),
+                        new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
 
         //continue with the algorithm while there are still states in the priority queue
         while (true) {
@@ -59,8 +73,13 @@ public class AStarScheduler implements IScheduler {
                 _scheduleCount +=newFoundStates.size();
                 _openState.addClosedState(schedule);
 
-                //add the newly found states into the priority queue
-                newFoundStates.forEach(state -> _openState.add(state));
+                //add the newly found states into the priority queue only if their heuristic cost is smaller
+                // than baseline heuristic cost of the whole graph
+                newFoundStates.forEach(state -> {
+                    if (_graph.getHeuristicCost() > state.getHeuristicCost()) {
+                        _openState.add(state);
+                    }
+                });
 
             } else {
                 //A list to contain the future list of states which each thread will return
@@ -87,8 +106,13 @@ public class AStarScheduler implements IScheduler {
                         newFoundStates = future.get(); //obtain a new set of states expanding from the most promising state
                         _scheduleCount +=newFoundStates.size(); //add the found schedules to the count
 
-                        //add the newly found states into the priority queue
-                        newFoundStates.forEach(state -> _openState.add(state));
+                        //add the newly found states into the priority queue only if their heuristic cost is smaller
+                        // than baseline heuri  stic cost of the whole graph
+                        newFoundStates.forEach(state -> {
+                            if (_graph.getHeuristicCost() > state.getHeuristicCost()) {
+                                _openState.add(state);
+                            }
+                        });
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {

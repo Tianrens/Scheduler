@@ -91,9 +91,29 @@ public class Schedule {
         this._processors = _processors;
     }
 
-    public Set<Set<List<String>>> getProcessorSet(){ return _processorSet; }
+
+    /**
+     * This is a calculation of a heuristic. The heuristic is
+     * the earliest start time of the schedule
+     * @return earliestStartTime
+     */
+    public int getEarliestStartTime() {
+        int shortestLength = -1;
+
+        for (int i = 0; i < _processors.length; i++) {
+            int length = _processors[i];
+            if (shortestLength == -1 || length > shortestLength) {
+                shortestLength = length;
+            }
+        }
+        return shortestLength;
+    }
+
+
+    public Set<Set<List<String>>> getProcessorSet() { return _processorSet; }
 
     public void setProcessorSet(Set<Set<List<String>>> processorSet) {
         _processorSet = processorSet;
+
     }
 }
