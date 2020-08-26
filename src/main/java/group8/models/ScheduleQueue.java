@@ -35,7 +35,7 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
         }
 
         // Perform processor sets check on CLOSED list
-        for (Schedule cState: _closedStates) {
+        for (Schedule cState: _closedStates.get(state.getTasks().size())) {
             if(stateProcessorSet.equals(cState.getProcessorSet())){
                 // If a dupe is found, don't add
                 //return false;
@@ -64,7 +64,12 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
      */
     public void addClosedState(Schedule state){
 
-        if(_closedStates)
-        _closedStates.add(state);
+        if(_closedStates.get(state.getTasks().size()) != null){
+            _closedStates.get(state.getTasks().size()).add(state);
+        }else{
+            _closedStates.add(new ArrayList<Schedule>());
+            _closedStates.get(state.getTasks().size()).add(state);
+        }
+
     }
 }
