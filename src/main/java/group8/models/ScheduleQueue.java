@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Sub class of Priority queue used specially to handle schedules for the A* algorithm
  */
-public class ScheduleQueue extends PriorityQueue<Schedule> {
+public class ScheduleQueue extends TreeSet<Schedule> {
     private List<List<Schedule>> _closedStates = new ArrayList<>();
     private Object[] _openQueue;
 
@@ -27,6 +27,8 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
 
 
         Set<Set<List<String>>> stateProcessorSet = state.getProcessorSet();
+
+        /*
         // Obtain current OPEN list
         _openQueue = this.toArray();
 
@@ -34,11 +36,14 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
             throw new NullPointerException();
         }
 
+
         // Perform processor sets check on CLOSED list
-        for (Schedule cState: _closedStates.get(state.getTasks().size())) {
-            if(stateProcessorSet.equals(cState.getProcessorSet())){
-                // If a dupe is found, don't add
-                //return false;
+        if(_closedStates.size()>0) {
+            for (Schedule cState : _closedStates.get(state.getTasks().size()-1)) {
+                if (stateProcessorSet.equals(cState.getProcessorSet())) {
+                    // If a dupe is found, don't add
+                    //return false;
+                }
             }
         }
 
@@ -53,7 +58,7 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
 
         // If passed all duplication checks, add onto queue
 
-
+         */
 
         return super.add(state);
     }
@@ -64,8 +69,8 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
      */
     public void addClosedState(Schedule state){
 
-        if(_closedStates.get(state.getTasks().size()) != null){
-            _closedStates.get(state.getTasks().size()).add(state);
+        if(_closedStates.size()>state.getTasks().size()){
+            _closedStates.get(state.getTasks().size()-1).add(state);
         }else{
             _closedStates.add(new ArrayList<Schedule>());
             _closedStates.get(state.getTasks().size()).add(state);
