@@ -18,6 +18,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -44,12 +45,12 @@ public class Main extends Application {
         }
 
 
-//
+
 //        Schedule schedule = scheduler.generateValidSchedule(graph);
 //
 //        IDOTFileWriter outputBuilder = new DOTFileWriter();
 //        outputBuilder.writeOutput(schedule, graph);
-
+//
 //        _graph = new Graph();
 //        _graph.addNode(new Node(5, "A"));
 //        _graph.addNode(new Node(3, "B"));
@@ -99,8 +100,8 @@ public class Main extends Application {
 //            }
 //        });
 //        thread.start();
-
-        //launch();
+//
+//        launch();
     }
 
     private static AppConfig buildAppConfig(String[] args) {
@@ -137,6 +138,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("Team 8: GR8 B8 M8");
         primaryStage.setResizable(false);
+        primaryStage.getIcons().add(new Image(this.getClass().getResource("visualisation/icons/8.png").toExternalForm()));
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
