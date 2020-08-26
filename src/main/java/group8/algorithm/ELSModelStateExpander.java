@@ -50,42 +50,44 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
+            // SKip nodes associated with the identical group next time around
             if (node.getIdenticalNodeId() != -1) {
                 if (! identicalIds.contains(node.getIdenticalNodeId())) {
                     identicalIds.add(node.getIdenticalNodeId());
                 }
             }
 
-            //if no parents then node has no dependencies and can be assigned to the schedule
-            if(node.getParentNodeList().size()==0){
-                boolean emptyAssign = false; //checks for duplicate states, where a node sis assigned to an empty process
+            //checks for duplicate states, where a node sis assigned to an empty process
+            boolean emptyAssign = false;
 
-                int loopCount = processors.length;
+            // get loop count. Loops around more than once if the node is identical
+            int loopCount = processors.length;
+            if (node.getIdenticalNodeId() != -1) {
+                int difference = _graph.getGroupOfIdenticalNodes(node.getIdenticalNodeId()).size() - processors.length;
+                if (difference > 0) {
+                    loopCount += difference;
+                }
+            }
+
+            for(int i = 0 ; i < loopCount ; i++) {
                 if (node.getIdenticalNodeId() != -1) {
-                    int difference = _graph.getGroupOfIdenticalNodes(node.getIdenticalNodeId()).size() - processors.length;
-                    if (difference > 0) {
-                        loopCount += difference;
-                    }
+                    node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
                 }
 
-                for(int i = 0 ; i < loopCount ; i++) {
-                    if (node.getIdenticalNodeId() != -1) {
-                        node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will alwyas
-                    }
+                int[] newProcessors = makeProcessorList(processors);
+                Map<String, int[]> newScheduledNodes = new HashMap<>();
+                int[] nodeInfo = new int[2];
 
-                    int[] newProcessors = makeProcessorList(processors);
-                    Map<String, int[]> newScheduledNodes = new HashMap<>();
-                    int[] nodeInfo = new int[2];
+                if(!emptyAssign && newProcessors[i]==-1){
+                    emptyAssign=true;
+                    newProcessors[i]=0;
+                }else if(emptyAssign && newProcessors[i]==-1){
+                    //This might need reconsideration, because I dont think there will be a case where after
+                    // reading an empty process will we come across a process that is not empty
+                    continue;
+                }
 
-                    if(!emptyAssign && newProcessors[i]==-1){
-                        emptyAssign=true;
-                        newProcessors[i]=0;
-                    }else if(emptyAssign && newProcessors[i]==-1){
-                        //This might need reconsideration, because I dont think there will be a case where after
-                        // reading an empty process will we come across a process that is not empty
-                        continue;
-                    }
-
+                if (node.getParentNodeList().size() == 0) {
                     nodeInfo[0] = newProcessors[i];
                     nodeInfo[1]=i;
                     newProcessors[i]=newProcessors[i]+node.getCost();
@@ -94,38 +96,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     newScheduledNodes.put(node.getId(), nodeInfo);
 
                     newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
-                }
-            } else if(checkParents(node.getParentNodeList(),scheduledNodes)){
-                //checks for duplicate states, where a node sis assigned to an empty process
-                boolean emptyAssign = false;
-
-                int loopCount = processors.length;
-                if (node.getIdenticalNodeId() != -1) {
-                    int difference = _graph.getGroupOfIdenticalNodes(node.getIdenticalNodeId()).size() - processors.length;
-                    if (difference > 0) {
-                        loopCount += difference;
-                    }
-                }
-
-                for(int i = 0 ; i < loopCount ; i++){
-                    if (node.getIdenticalNodeId() != -1) {
-                        node = _graph.getFixedOrderNode(node.getIdenticalNodeId());
-                    }
-
-                    int[] newProcessors = makeProcessorList(processors);
-                    Map<String, int[]> newScheduledNodes = new HashMap<>();
-                    int[] nodeInfo = new int[2];
-
-                    if(!emptyAssign && processors[i]==-1){
-                        emptyAssign=true;
-                        newProcessors[i]=0;
-
-                    }else if(emptyAssign && processors[i]==-1){
-                        //This might need reconsideration, because I dont think there will be a case where after
-                        // reading an empty process will we come across a process that is not empty
-                        continue;
-                    }
-
+                } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
                     int startTime;
                     int earliestStartTime = 0;
 
@@ -153,7 +124,6 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     newSchedules.add(assignSchedule(newProcessors,newScheduledNodes));
                 }
             }
-
         }
         return newSchedules;
     }

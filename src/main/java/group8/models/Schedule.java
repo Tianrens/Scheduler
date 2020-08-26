@@ -31,7 +31,7 @@ public class Schedule {
      * Set of processors in the form of sets
      * Each processor is a set of node details in the form of a list [node Id, start time]
      */
-    private Set<Set<List<String>>> _processorSet;
+    private Set<Set<List<String>>> _processorSet = new HashSet<>();
 
     /**
      * Creates schedule object.
@@ -43,6 +43,7 @@ public class Schedule {
         }
         for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
             _processors[i] = -1;
+            _processorSet.add(new HashSet<>());
         }
     }
 
