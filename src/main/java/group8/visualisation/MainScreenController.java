@@ -171,7 +171,7 @@ public class MainScreenController {
         chart.setLegendVisible(false);
         chart.setBlockHeight( 50);
 
-        chart.setStyle("-fx-background-color: #dbe2ef");
+        //chart.setStyle("-fx-background-color: #dbe2ef");
 
         chart.getStylesheets().add(getClass().getResource("GanttChart.css").toExternalForm());
 
@@ -237,7 +237,7 @@ public class MainScreenController {
         linechart.setCreateSymbols(false);
 
         XYChart.Series series = new XYChart.Series();
-        //series.setName("Number of Schedules Generated");
+        series.setName("Number of Schedules Generated");
 
         linechart.getData().add(series);
 
