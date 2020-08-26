@@ -153,7 +153,7 @@ public class MainScreenController {
 
         chart.setPrefHeight(600);
         chart.setPrefWidth(700);
-        xAxis.setLabel("Time");
+        xAxis.setLabel("Time (s)");
         xAxis.setTickLabelFill(Color.BLACK);
         xAxis.setMinorTickCount(4);
 
@@ -221,7 +221,7 @@ public class MainScreenController {
 
     private void setupLineGraph() {
         final NumberAxis xAxis = new NumberAxis();
-        xAxis.setLabel("Time");
+        xAxis.setLabel("Time (s)");
         final NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Schedules Generated");
 
