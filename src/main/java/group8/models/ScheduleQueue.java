@@ -24,7 +24,8 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
      */
     @Override
     public boolean add(Schedule state){
-        /*
+
+    /*
         Set<Set<List<String>>> stateProcessorSet = state.getProcessorSet();
         // Obtain current OPEN list
         _openQueue = this.toArray();
@@ -37,7 +38,7 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
         for (Schedule cState: _closedState) {
             if(stateProcessorSet.equals(cState.getProcessorSet())){
                 // If a dupe is found, don't add
-                return false;
+                //return false;
             }
         }
 
@@ -46,13 +47,16 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
             Schedule oStateCompare = (Schedule)oState;
             if(stateProcessorSet.equals(oStateCompare.getProcessorSet())){
                 // If a dupe is found, don't add
-                return false;
+                //return false;
             }
         }
 
         // If passed all duplication checks, add onto queue
 
-         */
+     */
+
+
+
         return super.add(state);
     }
 

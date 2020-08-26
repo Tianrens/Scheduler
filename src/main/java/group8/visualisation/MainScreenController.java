@@ -94,7 +94,10 @@ public class MainScreenController {
                 new KeyFrame(Duration.seconds(1), e -> {
                     if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
                         update();
+                        System.out.println("stop");
                         _timeLine.stop();
+
+
                     }
                     update();
                 })

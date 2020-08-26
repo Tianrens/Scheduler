@@ -158,8 +158,9 @@ public class Main extends Application {
             IDOTFileWriter outputBuilder = new DOTFileWriter();
             outputBuilder.writeOutputToConsole(schedule, graph);
 
-        }catch(Exception e){
 
+        }catch(Exception e){
+        e.printStackTrace();
         }
     }
 }
