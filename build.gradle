@@ -16,6 +16,7 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-cli/commons-cli
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
     implementation group: 'com.paypal.digraph', name: 'digraph-parser', version: '1.0'
+    implementation 'com.jfoenix:jfoenix:8.0.10'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
