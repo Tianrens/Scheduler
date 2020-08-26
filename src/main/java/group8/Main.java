@@ -18,6 +18,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -44,11 +45,13 @@ public class Main extends Application {
         }
 
 
-//
+
 //        Schedule schedule = scheduler.generateValidSchedule(graph);
 //
 //        IDOTFileWriter outputBuilder = new DOTFileWriter();
 //        outputBuilder.writeOutput(schedule, graph);
+
+
 
 //        _graph = new Graph();
 //        _graph.addNode(new Node(5, "A"));
@@ -58,7 +61,7 @@ public class Main extends Application {
 //        AlgorithmStatus status = AlgorithmStatus.getInstance();
 //
 //        config.setInputFile(new File("Some-Test-File.file"));
-//        config.setNumProcessors(3);
+//        config.setNumProcessors(10);
 //        config.setGraphName("Good Graph");
 //        config.setNumCores(8);
 //        config.setOutputFile(new File("Output.file"));
@@ -67,7 +70,7 @@ public class Main extends Application {
 //
 //        Schedule schedule = new Schedule();
 //        schedule.scheduleTask("A", 0, 0);
-//        schedule.scheduleTask("B", 5, 1);
+//        schedule.scheduleTask("B", 0, 1);
 //
 //        status.setCurrentBestSchedule(schedule);
 //
@@ -89,7 +92,7 @@ public class Main extends Application {
 //                        e.printStackTrace();
 //                    }
 //                    schedule.scheduleTask("A", startTime + 0, 0);
-//                    schedule.scheduleTask("B", startTime + 100, 1);
+//                    schedule.scheduleTask("B", startTime  + 0, 9);
 //                    startTime = startTime + 10;
 //                    status.setCurrentBestSchedule(schedule);
 //
@@ -99,8 +102,8 @@ public class Main extends Application {
 //            }
 //        });
 //        thread.start();
-
-        //launch();
+//
+//        launch();
     }
 
     private static AppConfig buildAppConfig(String[] args) {
@@ -121,6 +124,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Set ups the primary stage. Load MainScreen.fxml. Initialize the main screen.
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
@@ -136,7 +144,8 @@ public class Main extends Application {
         scene.getStylesheets().add(getClass().getResource("visualisation/MainScreen.css").toExternalForm());
 
         primaryStage.setTitle("Team 8: GR8 B8 M8");
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
+        primaryStage.getIcons().add(new Image(this.getClass().getResource("visualisation/icons/8.png").toExternalForm()));
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
