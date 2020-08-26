@@ -22,7 +22,7 @@ public class AStarScheduler implements IScheduler {
     Comparator<Schedule> heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator);
 
     //make the priority queue use our own comparator by passing it into the priority queue
-    private ScheduleQueue _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
+    private ScheduleQueue _openState = new ScheduleQueue(heuristicComparator);
     //private List<Schedule> _closedState = new ArrayList<>();
 
     private Graph _graph;
@@ -65,7 +65,6 @@ public class AStarScheduler implements IScheduler {
                 //run checkCompleteSchedule helper method to check if state is complete,
                 //meaning that the schedule is valid
                 if (checkCompleteSchedule(schedule)) {
-                    System.out.println(_scheduleCount);
                     return schedule;
                 }
 
@@ -91,7 +90,6 @@ public class AStarScheduler implements IScheduler {
                     //run checkCompleteSchedule helper method to check if state is complete,
                     //if schedule is complete then that the schedule is valid
                     if (checkCompleteSchedule(schedule)) {
-                        System.out.println(_scheduleCount);
                         return schedule;
                     }
                     // assign each thread in the thread pool a state to expand
@@ -111,7 +109,7 @@ public class AStarScheduler implements IScheduler {
                         // than baseline heuri  stic cost of the whole graph
 
                         newFoundStates.forEach(state -> {
-                            if (_graph.getHeuristicCost() > state.getHeuristicCost()) {
+                            if (_graph.getHeuristicCost() >= state.getHeuristicCost()) {
                                 _openState.add(state);
                             }
                         });
@@ -134,7 +132,6 @@ public class AStarScheduler implements IScheduler {
      * @return
      */
     private boolean checkCompleteSchedule(Schedule state) {
-        System.out.println(state);
         Set<String> taskIdList = state.getTasks().keySet();
         Set<String> nodeIdListCopy = new TreeSet<>();
         nodeIdListCopy.addAll(_nodeIdList);

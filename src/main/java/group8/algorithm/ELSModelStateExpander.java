@@ -165,7 +165,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
      * @return
      */
     private Set<Set<List<String>>> makeProcessorSet(int numOfProcessors, Map<String, int[]> scheduledNodes){
+
         Set<Set<List<String>>> newSet = new HashSet<>();
+        /*
         Set<String> scheduledNodeIds = scheduledNodes.keySet();
 
         // scan through the nodelist per processor to find that processors nodes
@@ -191,6 +193,8 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 newSet.add(newProcessorSet);
             }
         }
+
+         */
         
         return newSet;
     }

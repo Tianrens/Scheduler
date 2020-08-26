@@ -24,7 +24,7 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
      */
     @Override
     public boolean add(Schedule state){
-        System.out.println(state);
+        /*
         Set<Set<List<String>>> stateProcessorSet = state.getProcessorSet();
         // Obtain current OPEN list
         _openQueue = this.toArray();
@@ -51,6 +51,8 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
         }
 
         // If passed all duplication checks, add onto queue
+
+         */
         return super.add(state);
     }
 
@@ -59,6 +61,6 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
      * @param state
      */
     public void addClosedState(Schedule state){
-        _closedState.add(state);
+        //_closedState.add(state);
     }
 }

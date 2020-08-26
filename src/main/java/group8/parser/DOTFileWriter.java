@@ -68,6 +68,8 @@ public class DOTFileWriter implements IDOTFileWriter{
         }
 
         try{
+
+            System.out.println(schedule.getHeuristicCost());
             System.out.println("digraph output_graph {");
             Map<String, int[]> tasks = schedule.getTasks();
 
