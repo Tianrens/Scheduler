@@ -230,6 +230,8 @@ public class MainScreenController {
         linechart.setPrefHeight(280);
         linechart.setPrefWidth(280);
 
+        linechart.setCreateSymbols(false);
+
         XYChart.Series series = new XYChart.Series();
         series.setName("Number of Schedules Generated");
 
