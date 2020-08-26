@@ -237,7 +237,7 @@ public class MainScreenController {
         linechart.setCreateSymbols(false);
 
         XYChart.Series series = new XYChart.Series();
-        series.setName("Number of Schedules Generated");
+        //series.setName("Number of Schedules Generated");
 
         linechart.getData().add(series);
 
