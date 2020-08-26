@@ -11,6 +11,7 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Pane;
@@ -40,6 +41,7 @@ public class MainScreenController {
     private Graph _graph;
 
     private GanttChart<Number,String> _chart;
+    private LineChart _lineChart;
 
     @FXML
     private Text _numProcessorsText;
@@ -68,6 +70,9 @@ public class MainScreenController {
     @FXML
     private Pane _ganttChartPane;
 
+    @FXML
+    private Pane _scheduleGenGraph;
+
 
     public void start() {
         //Acquire app and algo instances
@@ -81,8 +86,6 @@ public class MainScreenController {
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
         _inputFileText.setText("Input Graph: " + _appConfig.getInputFile().toString());
         _outputGraphText.setText("Output Graph: " + _appConfig.getOutputFile().toString());
-
-
 
         _startTime = System.currentTimeMillis();
 
@@ -147,21 +150,21 @@ public class MainScreenController {
 
         chart.setPrefHeight(600);
         chart.setPrefWidth(700);
-        xAxis.setLabel("");
-        xAxis.setTickLabelFill(Color.WHITE);
+        xAxis.setLabel("Time");
+        xAxis.setTickLabelFill(Color.BLACK);
         xAxis.setMinorTickCount(4);
 
 
-        yAxis.setLabel("");
-        yAxis.setTickLabelFill(Color.WHITE);
+        yAxis.setLabel("Processors");
+        yAxis.setTickLabelFill(Color.BLACK);
         yAxis.setTickLabelGap(10);
         yAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(processors)));
 
-        chart.setTitle("Test");
+        chart.setTitle("Current Best Schedule");
         chart.setLegendVisible(false);
         chart.setBlockHeight( 50);
 
-        chart.setStyle("-fx-background-color: #393e46");
+        chart.setStyle("-fx-background-color: #dbe2ef");
 
         chart.getStylesheets().add(getClass().getResource("GanttChart.css").toExternalForm());
 
@@ -169,7 +172,7 @@ public class MainScreenController {
 
     }
 
-    public void updateGanttChart() {
+    private void updateGanttChart() {
         _chart.getData().clear();
 
         if (_graph == null || _algoStatus.getCurrentBestSchedule() == null) {
@@ -207,12 +210,13 @@ public class MainScreenController {
                     }
                 }
 
-
             series[i] = serie;
         }
 
         _chart.getData().addAll(series);
+    }
 
+    private void setupLineGraph() {
 
     }
 

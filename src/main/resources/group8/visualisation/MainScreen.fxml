@@ -9,20 +9,20 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <Pane prefHeight="570.0" prefWidth="300.0" style="-fx-background-color: #222831;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="570.0" prefWidth="300.0" style="-fx-background-color: #f9f7f7;" BorderPane.alignment="CENTER">
          <children>
-            <VBox layoutX="7.0" layoutY="30.0" prefHeight="530.0" prefWidth="286.0">
+            <VBox layoutX="7.0" layoutY="5.0" prefHeight="589.0" prefWidth="286.0">
                <children>
-                  <StackPane prefHeight="72.0" prefWidth="286.0" style="-fx-background-color: #00adb5;">
+                  <StackPane prefHeight="72.0" prefWidth="286.0" style="-fx-background-color: #dbe2ef;">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="286.0">
                            <children>
-                              <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" text="Application Status" textAlignment="CENTER" wrappingWidth="280.0">
+                              <Text fill="#112d4e" strokeType="OUTSIDE" strokeWidth="0.0" text="Application Status" textAlignment="CENTER" wrappingWidth="280.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="_appStatusText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Running" textAlignment="CENTER" wrappingWidth="280.0">
+                              <Text fx:id="_appStatusText" fill="#112d4e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Running" textAlignment="CENTER" wrappingWidth="280.0">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -31,67 +31,69 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <Pane prefHeight="30.0" prefWidth="286.0" />
-                  <StackPane prefHeight="50.0" prefWidth="286.0" style="-fx-background-color: #00adb5;">
+                  <Pane prefHeight="16.0" prefWidth="286.0" />
+                  <StackPane prefHeight="50.0" prefWidth="286.0" style="-fx-background-color: #dbe2ef;">
                      <children>
-                        <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Configuration" textAlignment="CENTER" wrappingWidth="280.0">
+                        <Text fill="#112d4e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Configuration" textAlignment="CENTER" wrappingWidth="280.0">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Text>
                      </children>
                   </StackPane>
-                  <Text id="infoText" fx:id="_inputFileText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph: file" wrappingWidth="280.0">
+                  <Text id="infoText" fx:id="_inputFileText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph: file" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_outputGraphText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph: file" wrappingWidth="280.0">
+                  <Text fx:id="_outputGraphText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph: file" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_numProcessorsText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Processors: 0" wrappingWidth="280.0">
+                  <Text fx:id="_numProcessorsText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Processors: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_numCoresText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Cores: 0" wrappingWidth="280.0">
+                  <Text fx:id="_numCoresText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Cores: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Pane prefHeight="30.0" prefWidth="286.0" />
-                  <StackPane prefHeight="50.0" prefWidth="286.0" style="-fx-background-color: #00adb5;">
+                  <Pane prefHeight="15.0" prefWidth="286.0" />
+                  <StackPane prefHeight="50.0" prefWidth="286.0" style="-fx-background-color: #dbe2ef;">
                      <children>
-                        <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Algorithm Stats" textAlignment="CENTER" wrappingWidth="280.0">
+                        <Text fill="#112d4e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Algorithm Stats" textAlignment="CENTER" wrappingWidth="280.0">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Text>
                      </children>
                   </StackPane>
-                  <Text fx:id="_timeElapsedText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed: 0" wrappingWidth="280.0">
+                  <Text fx:id="_timeElapsedText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_numSchedulesGeneratedText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedules Generated: 0" wrappingWidth="280.0">
+                  <Text fx:id="_numSchedulesGeneratedText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedules Generated: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="_RAMUsageText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="RAM Usage: 0" wrappingWidth="280.0">
+                  <Text fx:id="_RAMUsageText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="RAM Usage: 0" wrappingWidth="280.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
+                  <Pane prefHeight="36.0" prefWidth="286.0" />
+                  <Pane fx:id="_scheduleGenGraph" prefHeight="200.0" prefWidth="286.0" />
                </children>
             </VBox>
          </children>
       </Pane>
    </left>
    <center>
-      <Pane fx:id="_ganttChartPane" style="-fx-background-color: #393e46;" BorderPane.alignment="CENTER" />
+      <Pane fx:id="_ganttChartPane" style="-fx-background-color: #dbe2ef;" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
