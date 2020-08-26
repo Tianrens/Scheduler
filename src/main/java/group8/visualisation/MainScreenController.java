@@ -39,6 +39,7 @@ public class MainScreenController {
     private long _startTime;
     private long _currentTime;
     private Graph _graph;
+    private Timeline _timeLine;
 
     private GanttChart<Number,String> _chart;
     private LineChart _lineChart;
@@ -89,18 +90,20 @@ public class MainScreenController {
 
         _startTime = System.currentTimeMillis();
 
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(1), e -> {
-
-                    update();
-                })
-        );
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
         setUpGanttChart();
 
         setupLineGraph();
 
+        _timeLine = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> {
+                    update();
+                    if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
+                        _timeLine.stop();
+                    }
+                })
+        );
+        _timeLine.setCycleCount(Animation.INDEFINITE);
+        _timeLine.play();
 
     }
 
@@ -127,9 +130,10 @@ public class MainScreenController {
 
             case FINISHED:
                 _appStatusText.setText("Done" );
-
+                break;
             default:
                 _appStatusText.setText("ERROR" );
+                break;
         }
         updateGanttChart();
         updateLineGraph();

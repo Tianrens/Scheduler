@@ -93,6 +93,8 @@ public class VisualisationTest extends Application {
             System.exit(0);
         });
         primaryStage.show();
+        Thread.sleep(3000);
+        primaryStage.close();
 
     }
 }

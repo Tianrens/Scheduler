@@ -1,11 +1,13 @@
 package group8.scheduler;
 
+import group8.algorithm.AlgorithmState;
 import group8.algorithm.ELSModelStateExpander;
 import group8.algorithm.GreedyHeuristic;
 import group8.algorithm.SimpleHeuristic;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 import group8.models.*;
+import group8.visualisation.AlgorithmStatus;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -44,6 +46,9 @@ public class AStarScheduler implements IScheduler {
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
 
+        // Set algo status to RUNNING.
+        AlgorithmStatus algorithmStatus = AlgorithmStatus.getInstance();
+        algorithmStatus.setAlgoState(AlgorithmState.RUNNING);
 
         //initialises the helper classes as objects to use their methods
         Schedule schedule = new Schedule();
@@ -56,10 +61,15 @@ public class AStarScheduler implements IScheduler {
 
         //continue with the algorithm while there are still states in the priority queue
         while (true) {
+            algorithmStatus.setNumSchedulesGenerated(_scheduleCount);
+
             //check if the size of the priority queue is less than number of threads we have available
             //if it is then we don't parallelise the expansion since we don't have enough schedules to assign
             if (_openState.size() < _numUsableThreads) {
                 schedule = _openState.poll(); //pop out the most promising state
+
+                //Set current best schedule.
+                algorithmStatus.setCurrentBestSchedule(schedule);
 
                 //run checkCompleteSchedule helper method to check if state is complete,
                 //meaning that the schedule is valid
