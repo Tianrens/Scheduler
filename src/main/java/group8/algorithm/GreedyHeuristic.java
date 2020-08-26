@@ -60,6 +60,7 @@ public class GreedyHeuristic implements IHeuristic {
                     }
 
                     //checks if there any dependencies that might delay the scheduling of the task
+                    // For this one processor, which every parent. accoutn for the lastest costing parent.
                     if(startTime>earliestStartTime){
                         earliestStartTime=startTime;
                     }
@@ -79,13 +80,14 @@ public class GreedyHeuristic implements IHeuristic {
                 }
             }
 
-            //Now processor index is chosen, add new start time with new node
+            //Now processor index is chosen, add new start time with new node.
             stateProcessors[index] = processSelection[index] + node.getCost();
-            int[] newNodeDetails = {stateProcessors[index], index + 1};
+            int[] newNodeDetails = {stateProcessors[index], index}; // Renived + 1
             stateNodes.put(node.getId(), newNodeDetails);
         }
 
         // Find the latest ending time to output as the estimate
+        // Max start time of the processors.
         int maxStartTime = stateProcessors[0];
         for(int i = 0; i < stateProcessors.length; i++){
             if(maxStartTime < stateProcessors[i]){
