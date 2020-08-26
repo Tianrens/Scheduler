@@ -5,6 +5,8 @@ import group8.cli.AppConfigException;
 import group8.models.Graph;
 import group8.models.Node;
 import group8.models.Schedule;
+import group8.parser.DOTFileWriter;
+import group8.parser.IDOTFileWriter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,9 +16,11 @@ public class IdenticalNodeDuplicationTests {
     private Graph _graph;
     private IStateExpander _stateExpander;
     private Schedule _schedule;
+    private IDOTFileWriter _writer;
 
     @Before
-    public void generateGraph() throws AppConfigException {
+    public void setUp() throws AppConfigException {
+        _writer = new DOTFileWriter();
         Node a = new Node(2, "a");
         Node b = new Node(3, "b");
         Node c = new Node(4, "c");
@@ -29,6 +33,13 @@ public class IdenticalNodeDuplicationTests {
         b.addDestination(e, 2);
         c.addDestination(e, 2);
         d.addDestination(e, 2);
+
+        b.addParentNode(a);
+        c.addParentNode(a);
+        d.addParentNode(a);
+        e.addParentNode(b);
+        e.addParentNode(c);
+        e.addParentNode(d);
 
         _graph = new Graph();
         _graph.addNode(a);
@@ -49,7 +60,7 @@ public class IdenticalNodeDuplicationTests {
     public void generateSchedule() throws AppConfigException {
         List<Schedule> schedules = _stateExpander.getNewStates(_schedule);
         for (Schedule s : schedules) {
-            System.out.println(s.getTasks());
+            _writer.writeOutputToConsole(s,_graph);
         }
     }
 }
