@@ -1,14 +1,11 @@
 package group8.models;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Graph {
 
     private HashMap<String, Node> _nodes = new HashMap<>();
-    private List<Queue<Node>> _identicalNodes = new LinkedList<>();
+    private List<Queue<Node>> _identicalNodes = new LinkedList<>(); // Index represents the identical group id
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph
@@ -25,9 +22,39 @@ public class Graph {
      * @return {@link boolean} on whether there is an identical node grouping.
      */
     public boolean checkForIdenticalNodes() {
-        return false;
-    }
+        boolean result = false;
+        List<Node> skip = new ArrayList<>();
+        int id = 0;
+        for (Node node : _nodes.values()) {
+            if (skip.contains(node)) { // Node has already been identified as an identical
+                continue;
+            }
 
+            Queue<Node> queue = new LinkedList<>();
+            Set<Node> intersection = node.getChildren();
+            intersection.retainAll(node.getParentNodeList()); // Intersection of parents and children: same parents and children
+
+            if (intersection.contains(node) && intersection.size() > 1) { // Potentially has one other node that is the same as this node being compared
+                for (Node identical : intersection){
+                    if (node.getCost() == identical.getCost() && node.getEdgeList().equals(identical.getEdgeList())) { // Edges and cost equal
+                        queue.add(identical);
+                        identical.setIdenticalNodeId(id);
+                        skip.add(identical);
+                    }
+                }
+
+                if (! queue.isEmpty()) { // If there were identical nodes to the node being compared, then add it to the queue
+                    result = true;
+                    queue.add(node);
+                    node.setIdenticalNodeId(id);
+                }
+            }
+            _identicalNodes.add(id, queue);
+            id++;
+        }
+
+        return result;
+    }
 
     /**
      * Method used to obtain a specific node given its ID

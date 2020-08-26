@@ -1,9 +1,7 @@
 package group8.models;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class is a model of each individual node in the graph
@@ -53,6 +51,17 @@ public class Node {
      */
     public void addParentNode(Node parentNode) {
         _parentNodeList.add(parentNode);
+    }
+
+    /**
+     * Get the children of a node
+     * @return {@link Map<Node, Integer>} of all the children and their edge costs
+     */
+    public Set<Node> getChildren() {
+        return  getEdgeList().keySet()
+                .stream()
+                .filter(key -> !key.getParentNodeList().contains(key))
+                .collect(Collectors.toSet());
     }
 
 
