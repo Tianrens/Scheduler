@@ -26,6 +26,8 @@ import static java.lang.Runtime.getRuntime;
 
 /**
  * This is the Controller class for the Main Screen.
+ * This class reads from AppConfig and AlgorithmStatus.
+ * This class polls AlgorithmStatus every second and updates the GUI.
  * Color palette:
  * White: #f9f7f7
  * Light Blue: #dbe2ef
@@ -39,6 +41,7 @@ public class MainScreenController {
     private long _startTime;
     private long _currentTime;
     private Graph _graph;
+    private Timeline _timeLine;
 
     private GanttChart<Number,String> _chart;
     private LineChart _lineChart;
@@ -73,7 +76,11 @@ public class MainScreenController {
     @FXML
     private Pane _scheduleGenGraph;
 
-
+    /**
+     * Initialize this class.
+     * Set Text elements and setup Graphs.
+     * Cannot use build-in Initialize() method, getGraph must be called before start.
+     */
     public void start() {
         //Acquire app and algo instances
         _appConfig = AppConfig.getInstance();
@@ -89,21 +96,30 @@ public class MainScreenController {
 
         _startTime = System.currentTimeMillis();
 
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(1), e -> {
-
-                    update();
-                })
-        );
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
         setUpGanttChart();
 
         setupLineGraph();
 
+        _timeLine = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> {
+                    update();
+                    if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
+                        System.out.println("stop");
+                        _timeLine.stop();
+
+
+                    }
+                })
+        );
+        _timeLine.setCycleCount(Animation.INDEFINITE);
+        _timeLine.play();
 
     }
 
+    /**
+     * This method is run every second in the timeline.
+     * Updates Time elapsed, RAM, Graphs and Algorithm Status.
+     */
     private void update() {
         _currentTime = System.currentTimeMillis();
         long time = (_currentTime - _startTime)/1000;
@@ -127,24 +143,32 @@ public class MainScreenController {
 
             case FINISHED:
                 _appStatusText.setText("Done" );
-
+                break;
             default:
                 _appStatusText.setText("ERROR" );
+                break;
         }
         updateGanttChart();
         updateLineGraph();
     }
 
+    /**
+     * This method setup the GanttChart.
+     * Sets the axis and
+     */
     private void setUpGanttChart() {
 
         int numProcessors = _appConfig.getNumProcessors();
 
         String[] processors = new String[numProcessors];
 
+        // Set up processors to be displayed in the Gantt Chart GUi.
+        // Process of index 0, will be named Process 1 etc...
         for (int i = 0; i < numProcessors; i++) {
             processors[i] = "Processor " + (i + 1);
         }
 
+        // Set up axises
         final NumberAxis xAxis = new NumberAxis();
         final CategoryAxis yAxis = new CategoryAxis();
 
@@ -155,7 +179,7 @@ public class MainScreenController {
         chart.setPrefWidth(700);
         xAxis.setLabel("Time (s)");
         xAxis.setTickLabelFill(Color.BLACK);
-        xAxis.setMinorTickCount(4);
+        xAxis.setMinorTickCount(5);
 
 
         yAxis.setLabel("Processors");
@@ -165,9 +189,9 @@ public class MainScreenController {
 
         chart.setTitle("Current Best Schedule");
         chart.setLegendVisible(false);
-        chart.setBlockHeight( 50);
+        chart.setBlockHeight(50);
 
-        chart.setStyle("-fx-background-color: #dbe2ef");
+        //chart.setStyle("-fx-background-color: #dbe2ef");
 
         chart.getStylesheets().add(getClass().getResource("GanttChart.css").toExternalForm());
 
@@ -175,6 +199,9 @@ public class MainScreenController {
 
     }
 
+    /**
+     * Updates the gantt chart, clears the current Series/data. And adds a new set of Series to the gantt chart.
+     */
     private void updateGanttChart() {
         _chart.getData().clear();
 
@@ -186,6 +213,7 @@ public class MainScreenController {
 
         String[] processors = new String[numProcessors];
 
+        // Name the processes to display. Processor of index 0, will be named Processor 1 etc...
         for (int i = 0; i < numProcessors; i++) {
             processors[i] = "Processor " + (i + 1);
         }
@@ -197,7 +225,9 @@ public class MainScreenController {
         Schedule schedule = _algoStatus.getCurrentBestSchedule();
         Map<String, int[]> tasks = schedule.getTasks();
 
-        // Loop through each processor, and assign the tasks in the schedule into each processor.
+        // Loop through each processor, and for each processor, loop through all tasks.
+        // For each processor create a new serie.
+        // If the task belongs on this processor, add a new s Data point to the processor serie.
         for (int i = 0; i < numProcessors; i++) {
             processor = processors[i];
             XYChart.Series serie = new XYChart.Series();
@@ -215,10 +245,13 @@ public class MainScreenController {
 
             series[i] = serie;
         }
-
+        // Add all series to the gantt chart.
         _chart.getData().addAll(series);
     }
 
+    /**
+     * Set up the line graph to show schedules generated over time.
+     */
     private void setupLineGraph() {
         final NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Time (s)");
@@ -242,6 +275,9 @@ public class MainScreenController {
         _scheduleGenGraph.getChildren().add(linechart);
     }
 
+    /**
+     * Add to the current series/data in the line graph, the new time and number of schedules generated.
+     */
     private void updateLineGraph() {
         XYChart.Series series = (XYChart.Series) _lineChart.getData().get(0);
         //_lineChart.getData().clear();
