@@ -11,6 +11,7 @@ public class Node {
     private int _cost;
     private String _id;
     private int _bottomLevel = -1;
+
     private int _identicalGroupId = -1;
 
     private HashMap<Node, Integer> _edgeList;

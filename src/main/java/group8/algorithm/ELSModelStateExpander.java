@@ -38,7 +38,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         List<Schedule> newSchedules = new ArrayList<>();
         int[] processors = state.getProcessors();
 
-        List<String> identicalIds = new ArrayList<>(); // All identified identical node groupings
+        List<Integer> identicalIds = new ArrayList<>(); // All identified identical node groupings
 
         for(Node node : _nodeList.values()){
             // If schedule contains node then it has already been assigned.
@@ -46,11 +46,14 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
-            // If identical group has already been assigned, then skip node to avoid duplication.
             if (identicalIds.contains(node.getIdenticalNodeId())) {
                 continue;
-            } else if (node.getIdenticalNodeId() != -1) {
-                node = _graph.getFixedOrderNode(node.getIdenticalNodeId());
+            }
+
+            if (node.getIdenticalNodeId() != -1) {
+                if (! identicalIds.contains(node.getIdenticalNodeId())) {
+                    identicalIds.add(node.getIdenticalNodeId());
+                }
             }
 
             //if no parents then node has no dependencies and can be assigned to the schedule
@@ -68,6 +71,10 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         boolean emptyAssign = false; //checks for duplicate states, where a node sis assigned to an empty process
 
         for(int i = 0 ; i < processors.length ; i++) {
+            if (node.getIdenticalNodeId() != -1) {
+                node = _graph.getFixedOrderNode(node.getIdenticalNodeId());
+            }
+
             int[] newProcessors = makeProcessorList(processors);
             Map<String, int[]> newScheduledNodes = new HashMap<>();
             int[] nodeInfo = new int[2];
@@ -97,6 +104,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         boolean emptyAssign = false;
 
         for(int i = 0 ; i < processors.length ; i++){
+            if (node.getIdenticalNodeId() != -1) {
+                node = _graph.getFixedOrderNode(node.getIdenticalNodeId());
+            }
 
             int[] newProcessors = makeProcessorList(processors);
             Map<String, int[]> newScheduledNodes = new HashMap<>();

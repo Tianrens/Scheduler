@@ -5,7 +5,8 @@ import java.util.*;
 public class Graph {
 
     private HashMap<String, Node> _nodes = new HashMap<>();
-    private List<Queue<Node>> _identicalNodes = new LinkedList<>(); // Index represents the identical group id
+    private List<List<Node>> _identicalNodes = new ArrayList<>(); // Index represents the identical group id
+    private List<Integer> _identicalNodeOrders = new ArrayList<>();
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph
@@ -30,7 +31,7 @@ public class Graph {
                 continue;
             }
 
-            Queue<Node> queue = new LinkedList<>();
+            List<Node> queue = new ArrayList<>();
             Set<Node> intersection = node.getChildren();
             intersection.retainAll(node.getParentNodeList()); // Intersection of parents and children: same parents and children
 
@@ -50,6 +51,7 @@ public class Graph {
                 }
             }
             _identicalNodes.add(id, queue);
+            _identicalNodeOrders.add(id, 0);
             id++;
         }
 
@@ -80,7 +82,11 @@ public class Graph {
      * @return {@link Node} The next node to be scheduled for this identical group of nodes (FIXED ORDER).
      */
     public Node getFixedOrderNode(int identicalGroupId) {
-        return _identicalNodes.get(identicalGroupId).poll();
+        Integer order = _identicalNodeOrders.get(identicalGroupId);
+        Node node = _identicalNodes.get(identicalGroupId).get(order); // Get the node that is in the fixed order
+        _identicalNodeOrders.set(identicalGroupId, order + 1); // Next order
+
+        return node;
     }
 
     /**
