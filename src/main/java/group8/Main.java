@@ -59,7 +59,7 @@ public class Main extends Application {
         AlgorithmStatus status = AlgorithmStatus.getInstance();
 
         config.setInputFile(new File("Some-Test-File.file"));
-        config.setNumProcessors(3);
+        config.setNumProcessors(10);
         config.setGraphName("Good Graph");
         config.setNumCores(8);
         config.setOutputFile(new File("Output.file"));
@@ -68,7 +68,7 @@ public class Main extends Application {
 
         Schedule schedule = new Schedule();
         schedule.scheduleTask("A", 0, 0);
-        schedule.scheduleTask("B", 5, 1);
+        schedule.scheduleTask("B", 0, 1);
 
         status.setCurrentBestSchedule(schedule);
 
@@ -90,7 +90,7 @@ public class Main extends Application {
                         e.printStackTrace();
                     }
                     schedule.scheduleTask("A", startTime + 0, 0);
-                    schedule.scheduleTask("B", startTime + 100, 1);
+                    schedule.scheduleTask("B", startTime  + 0, 9);
                     startTime = startTime + 10;
                     status.setCurrentBestSchedule(schedule);
 
