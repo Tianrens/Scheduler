@@ -2,13 +2,9 @@ package group8.parser;
 
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
-import com.sun.beans.WeakCache;
-import group8.cli.AppConfigException;
-import group8.cli.CLIException;
 import group8.models.Graph;
 import group8.models.Node;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,7 +30,7 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         addNodesToGraph(graph, nodes);
         addEdgesToGraph(graph, edges);
 
-        graph.checkForIdenticalNodes();
+        graph.setUpForIdenticalNodes();
 
         return graph;
     }

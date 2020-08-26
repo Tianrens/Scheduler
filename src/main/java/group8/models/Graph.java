@@ -21,7 +21,7 @@ public class Graph {
      * class, and return true, else false.
      * @return {@link boolean} on whether there is an identical node grouping.
      */
-    public boolean checkForIdenticalNodes() {
+    public boolean setUpForIdenticalNodes() {
         boolean result = false;
         List<Node> skip = new ArrayList<>();
         int id = 0;
