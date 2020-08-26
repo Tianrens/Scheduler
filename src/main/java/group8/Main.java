@@ -122,6 +122,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Set ups the primary stage. Load MainScreen.fxml. Initialize the main screen.
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();

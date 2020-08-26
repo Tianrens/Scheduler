@@ -5,7 +5,7 @@ import group8.models.Schedule;
 
 /**
  * This class stores information on the current running algorithm.
- * The fields in this class is used to visualisation.
+ * The fields in this class are used for visualisation.
  * This class is singleton.
  */
 public class AlgorithmStatus {
@@ -13,7 +13,6 @@ public class AlgorithmStatus {
 
     private Schedule _currentBestSchedule;
     private long _numSchedulesGenerated = 0;
-    private long _numTotalSchedules;
     private AlgorithmState _algoState = AlgorithmState.NOT_RUNNING;
 
     private AlgorithmStatus() {
@@ -45,14 +44,6 @@ public class AlgorithmStatus {
 
     public synchronized void setNumSchedulesGenerated(long _numSchedulesGenerated) {
         this._numSchedulesGenerated = _numSchedulesGenerated;
-    }
-
-    public long getNumTotalSchedules() {
-        return _numTotalSchedules;
-    }
-
-    public synchronized void setNumTotalSchedules(long _numTotalSchedules) {
-        this._numTotalSchedules = _numTotalSchedules;
     }
 
     public AlgorithmState getAlgoState() {
