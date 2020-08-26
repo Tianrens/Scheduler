@@ -17,6 +17,10 @@ public class Schedule {
      */
     private int _heuristicCost = -1;
     /**
+     * Earliest start time heuristic
+     */
+    private int _earliestStartTime = -1;
+    /**
      * HashMap storing nodes in the schedule.
      * Key is nodeID.
      * Value is a int array, first element is start time, second element is processor.
@@ -31,7 +35,7 @@ public class Schedule {
      * Set of processors in the form of sets
      * Each processor is a set of node details in the form of a list [node Id, start time]
      */
-    private Set<Set<List<String>>> _processorSet;
+    private Set<Set<List<String>>> _processorSet = new HashSet<>();
 
     /**
      * Creates schedule object.
@@ -43,6 +47,7 @@ public class Schedule {
         }
         for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
             _processors[i] = -1;
+            _processorSet.add(new HashSet<>());
         }
     }
 
@@ -66,13 +71,20 @@ public class Schedule {
         _processors[processor] = startTime;
     }
 
-
     public int getHeuristicCost() {
         return _heuristicCost;
     }
 
     public void setHeuristicCost(int heuristicCost) {
         _heuristicCost = heuristicCost;
+    }
+
+    public int getEarliestStartTime() {
+        return _earliestStartTime;
+    }
+
+    public void setEarliestStartTime(int _earliestStartTime) {
+        this._earliestStartTime = _earliestStartTime;
     }
 
     public Map<String, int[]> getTasks() {
@@ -97,7 +109,7 @@ public class Schedule {
      * the earliest start time of the schedule
      * @return earliestStartTime
      */
-    public int getEarliestStartTime() {
+    public int calculateEarliestStartTime() {
         int shortestLength = -1;
 
         for (int i = 0; i < _processors.length; i++) {
