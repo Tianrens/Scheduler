@@ -65,6 +65,8 @@ public class Main extends Application {
         config.setNumCores(8);
         config.setOutputFile(new File("Output.file"));
 
+
+
         Schedule schedule = new Schedule();
         schedule.scheduleTask("A", 0, 0);
         schedule.scheduleTask("B", 5, 1);
@@ -74,6 +76,7 @@ public class Main extends Application {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                int startTime = 100;
                 while(true) {
                     try {
                         Thread.sleep(1000);
@@ -81,6 +84,16 @@ public class Main extends Application {
                         e.printStackTrace();
                     }
                     status.incrementSchedulesGenerated();
+                    Schedule schedule = null;
+                    try {
+                        schedule = new Schedule();
+                    } catch (AppConfigException e) {
+                        e.printStackTrace();
+                    }
+                    schedule.scheduleTask("A", startTime + 0, 0);
+                    schedule.scheduleTask("B", startTime + 100, 1);
+                    startTime = startTime + 10;
+                    status.setCurrentBestSchedule(schedule);
 
                 }
 
