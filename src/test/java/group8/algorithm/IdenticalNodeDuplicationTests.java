@@ -5,8 +5,7 @@ import group8.cli.AppConfigException;
 import group8.models.Graph;
 import group8.models.Node;
 import group8.models.Schedule;
-import group8.parser.DOTFileWriter;
-import group8.parser.IDOTFileWriter;
+import group8.parser.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,12 +21,13 @@ public class IdenticalNodeDuplicationTests {
     @Before
     public void setUp() throws AppConfigException {
         _writer = new DOTFileWriter();
-        _graph.setUpForIdenticalNodes();
 
         AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("identicalNodes.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(3);
-        _schedule = new Schedule();
+        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+        _graph = externalGraphGenerator.generate();
 
+        _schedule = new Schedule();
         _schedule.scheduleTask("a", 0, 0);
 
         _stateExpander = new ELSModelStateExpander(_graph);
