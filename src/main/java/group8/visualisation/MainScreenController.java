@@ -34,14 +34,12 @@ import static java.lang.Runtime.getRuntime;
  */
 public class MainScreenController {
 
-    private boolean algoFinished = false;
     private AppConfig _appConfig;
     private AlgorithmStatus _algoStatus;
     private long _startTime;
     private long _currentTime;
     private Graph _graph;
     private Timeline _timeLine;
-    //private Timeline _poller;
 
     private GanttChart<Number,String> _chart;
     private LineChart _lineChart;
