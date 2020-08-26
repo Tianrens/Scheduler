@@ -99,6 +99,8 @@ public class MainScreenController {
         timeline.play();
         setUpGanttChart();
 
+        setupLineGraph();
+
 
     }
 
@@ -130,6 +132,7 @@ public class MainScreenController {
                 _appStatusText.setText("ERROR" );
         }
         updateGanttChart();
+        updateLineGraph();
     }
 
     private void setUpGanttChart() {
@@ -217,7 +220,32 @@ public class MainScreenController {
     }
 
     private void setupLineGraph() {
-        
+        final NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel("Time");
+        final NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Schedules Generated");
+
+        LineChart linechart = new LineChart(xAxis,yAxis);
+
+        linechart.setPrefHeight(280);
+        linechart.setPrefWidth(280);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Number of Schedules Generated");
+
+        linechart.getData().add(series);
+
+        _lineChart = linechart;
+
+        _scheduleGenGraph.getChildren().add(linechart);
+    }
+
+    private void updateLineGraph() {
+        XYChart.Series series = (XYChart.Series) _lineChart.getData().get(0);
+        //_lineChart.getData().clear();
+        series.getData().add(new XYChart.Data(_currentTime - _startTime, _algoStatus.getNumSchedulesGenerated()));
+
+        //_lineChart.getData().add(series);
     }
 
     public void setGraph(Graph graph) {
