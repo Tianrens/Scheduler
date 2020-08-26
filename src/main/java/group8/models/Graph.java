@@ -12,7 +12,7 @@ public class Graph {
     //heuristicCost is the graph's initial heuristic cost
     //Acts as a baseline for comparision for schedules that spawn from this graph
     //Larger schedule heuristic costs are discarded
-    private int heuristicCost;
+    private int heuristicCost ;
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph

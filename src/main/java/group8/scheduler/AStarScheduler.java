@@ -21,7 +21,9 @@ public class AStarScheduler implements IScheduler {
     //the program only compares with the second heuristic if first one returns zero
     Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
     Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) -> s.getEarliestStartTime());
-    Comparator<Schedule> heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator);
+    Comparator<Schedule> numberOfNodesComparator = Comparator.comparing((Schedule s) -> s.getTasks().size());
+    Comparator<Schedule> hashCodeComparator = Comparator.comparing((Schedule s) -> s.hashCode());
+    Comparator<Schedule> heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator).thenComparing(numberOfNodesComparator).thenComparing(hashCodeComparator);
 
     //make the priority queue use our own comparator by passing it into the priority queue
     private ScheduleQueue _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
@@ -52,12 +54,11 @@ public class AStarScheduler implements IScheduler {
 
         //initialises the helper classes as objects to use their methods
         Schedule schedule = new Schedule();
+        _graph.setHeuristicCost(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()));
         List<Schedule> newFoundStates;
         _openState.add(schedule); //add the empty schedule to get the algorithm started
         _scheduleCount++;
-        _graph.setHeuristicCost(
-                Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()),
-                        new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
+
 
         //continue with the algorithm while there are still states in the priority queue
         while (true) {
@@ -66,7 +67,7 @@ public class AStarScheduler implements IScheduler {
             //check if the size of the priority queue is less than number of threads we have available
             //if it is then we don't parallelise the expansion since we don't have enough schedules to assign
             if (_openState.size() < _numUsableThreads) {
-                schedule = _openState.poll(); //pop out the most promising state
+                schedule = _openState.pollFirst(); //pop out the most promising state
 
                 //Set current best schedule.
                 algorithmStatus.setCurrentBestSchedule(schedule);
@@ -75,6 +76,7 @@ public class AStarScheduler implements IScheduler {
                 //meaning that the schedule is valid
                 if (checkCompleteSchedule(schedule)) {
                     System.out.println(_scheduleCount);
+                    AlgorithmStatus.getInstance().setAlgoState(AlgorithmState.FINISHED);
                     return schedule;
                 }
 
@@ -92,15 +94,21 @@ public class AStarScheduler implements IScheduler {
                 });
 
             } else {
+
+
+
                 //A list to contain the future list of states which each thread will return
                 List<Future> allFutures = new ArrayList<>();
                 for (int i = 0; i < _numUsableThreads; i++) { //perform actions for each thread
-                    schedule = _openState.poll(); //pop out the most promising state for each thread
+                    schedule = _openState.pollFirst(); //pop out the most promising state for each thread
 
                     //run checkCompleteSchedule helper method to check if state is complete,
                     //if schedule is complete then that the schedule is valid
+
+                    algorithmStatus.setCurrentBestSchedule(schedule);
                     if (checkCompleteSchedule(schedule)) {
                         System.out.println(_scheduleCount);
+                        AlgorithmStatus.getInstance().setAlgoState(AlgorithmState.FINISHED);
                         return schedule;
                     }
                     // assign each thread in the thread pool a state to expand
@@ -118,11 +126,14 @@ public class AStarScheduler implements IScheduler {
 
                         //add the newly found states into the priority queue only if their heuristic cost is smaller
                         // than baseline heuri  stic cost of the whole graph
+
                         newFoundStates.forEach(state -> {
-                            if (_graph.getHeuristicCost() > state.getHeuristicCost()) {
+                            if (_graph.getHeuristicCost() >= state.getHeuristicCost()) {
                                 _openState.add(state);
                             }
                         });
+
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {

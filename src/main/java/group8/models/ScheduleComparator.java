@@ -6,14 +6,21 @@ import java.util.Comparator;
  * This class compares two schedules heuristic costs.
  */
 public class ScheduleComparator implements Comparator<Schedule> {
+
+
     @Override
     public int compare(Schedule s1, Schedule s2) {
+
+        if (s1.getProcessorSet().equals(s2.getProcessorSet())) {
+            // If a dupe is found, don't add
+            return 0;
+        }
+
+
         // Heuristic cost
         int cost1 = s1.getHeuristicCost();
         int cost2 = s2.getHeuristicCost();
 
-        int l1 = earliest(s1.getProcessors());
-        int l2 = earliest(s2.getProcessors());
 
         if (cost1 == -1 || cost2 == -1) {
             try {
@@ -23,23 +30,14 @@ public class ScheduleComparator implements Comparator<Schedule> {
             }
         }
 
-        if (cost1 == cost2) {
 
 
-
-            if(l1<l2){
-                return -1;
-            }else if(l1==l2){
-                return 0;
-            }else{
-                return 1;
-            }
-
-        } else if (cost1 < cost2){
+        if (cost1 < cost2){
             return -1;
         } else {
             return 1;
         }
+
     }
 
     private int earliest(int[] processors){
