@@ -24,6 +24,7 @@ public class ScheduleQueue extends PriorityQueue<Schedule> {
      */
     @Override
     public boolean add(Schedule state){
+        System.out.println(state);
         Set<Set<List<String>>> stateProcessorSet = state.getProcessorSet();
         // Obtain current OPEN list
         _openQueue = this.toArray();

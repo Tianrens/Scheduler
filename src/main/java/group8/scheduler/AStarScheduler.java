@@ -47,12 +47,13 @@ public class AStarScheduler implements IScheduler {
 
         //initialises the helper classes as objects to use their methods
         Schedule schedule = new Schedule();
-        List<Schedule> newFoundStates;
-        _openState.add(schedule); //add the empty schedule to get the algorithm started
-        _scheduleCount++;
         _graph.setHeuristicCost(
                 Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()),
                         new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
+        List<Schedule> newFoundStates;
+        _openState.add(schedule); //add the empty schedule to get the algorithm started
+        _scheduleCount++;
+
 
         //continue with the algorithm while there are still states in the priority queue
         while (true) {
@@ -108,11 +109,14 @@ public class AStarScheduler implements IScheduler {
 
                         //add the newly found states into the priority queue only if their heuristic cost is smaller
                         // than baseline heuri  stic cost of the whole graph
+
                         newFoundStates.forEach(state -> {
                             if (_graph.getHeuristicCost() > state.getHeuristicCost()) {
                                 _openState.add(state);
                             }
                         });
+
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -130,6 +134,7 @@ public class AStarScheduler implements IScheduler {
      * @return
      */
     private boolean checkCompleteSchedule(Schedule state) {
+        System.out.println(state);
         Set<String> taskIdList = state.getTasks().keySet();
         Set<String> nodeIdListCopy = new TreeSet<>();
         nodeIdListCopy.addAll(_nodeIdList);
