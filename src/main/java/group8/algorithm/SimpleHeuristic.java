@@ -80,4 +80,10 @@ public class SimpleHeuristic implements IHeuristic {
 
         return totalCost;
     }
+
+
+
+
+
+
 }

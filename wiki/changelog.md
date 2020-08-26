@@ -5,8 +5,66 @@ All notable changes/commits to this Scheduler project will be recorded in this l
 ## [Unreleased]
 
 &nbsp;
+## [1.4.0] - 2020-08-2X
+### Added
+- New Heuristics (Idle time, Bottom level, DRT)
+
+### Changed
+- Replace old heuristics with new
+
+&nbsp;
+## [1.3.0] - 2020-08-22
+### Added
+- Parallelisation/Multithreading to the A* algorithm
+- A valid schedule checker
+- JavaFX/Visualisation skeleton
+
+### Changed
+- Heuristics now account for parent communication/remote costs
+
+&nbsp;
+## [1.3.0] - 2020-08-20
+### Added
+- Simple & Greedy Heuristic for path estimation
+- ESLModelStateExpander to expand/generate partial schedules
+- A* algorithm to find the optimal schedules
+
+
+&nbsp;
+## [1.2.0] - 2020-08-19
+### Changed
+- Processor class no longer used
+- Schedule class adjusted to use basic fields rather than stored objects
+
+&nbsp;
+## [1.1.0] - 2020-08-18
+### Added 
+- Template skeleton for further development
+
+### Changed
+- TaskNode class renamed to Node
+
+&nbsp;
+## [1.0.0] - 2020-08-18 MILESTONE 1 RELEASE
+### Added 
+- Added SimpleProcessScheduler which can schedule tasks onto multiple processors
+- Wiki additions
+
+### Changed
+- SimpleProcessScheduler is now the primary scheduler
+
+&nbsp;
+## [0.9.0] - 2020-08-15
+### Added 
+- Added user instructions to ReadMe
+- Status print outs on console/terminal
+
+### Changed
+- Shifted output parsing to new DOTFileWriter class
+
+&nbsp;
 ## [0.8.0] - 2020-08-13
-## Added 
+### Added 
 - Added Wiki folder and related md files
 - TopologyFinder tests
 - Output parsing tests
@@ -15,20 +73,20 @@ All notable changes/commits to this Scheduler project will be recorded in this l
 
 &nbsp;
 ## [0.7.0] - 2020-08-12
-## Added 
+### Added 
 - Scheduler Tests
 - GraphGenerator Tests
 - CLI tests
 
-## Changes
+### Changes
 - Finalised output parsing implementation
 
-## Removed
+### Removed
 - removed the Program mode Enums
 
 &nbsp;
 ## [0.6.0] - 2020-08-11
-## Added
+### Added
 - A simple Scheduler for milestone 1
 - extra error check for when CLI receives no arguments
 

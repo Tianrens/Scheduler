@@ -9,18 +9,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
-public class ELSModelStateExpander implements IStateExpander {
+public class ELSModelStateExpander implements IStateExpander, Callable<List<Schedule>> {
 
     /**
      * This is a constant store of all nodes in the graph, This should never be written to!!
      */
     private HashMap<String,Node> _nodeList;
+    private Schedule _state;
 
-    public ELSModelStateExpander(Graph graph){
+    public ELSModelStateExpander(Graph graph, Schedule state){
         _nodeList=graph.getAllNodes();
+        _state = state;
+    }
+    public ELSModelStateExpander(Graph graph) throws AppConfigException {
+        _nodeList=graph.getAllNodes();
+        _state = new Schedule();
     }
 
+    @Override
+    public List<Schedule> call() throws AppConfigException {
+        return getNewStates(_state);
+    }
 
     @Override
     public List<Schedule> getNewStates(Schedule state) throws AppConfigException {
@@ -129,17 +140,15 @@ public class ELSModelStateExpander implements IStateExpander {
      * @return
      */
     private boolean checkParents(List<Node> parentList, Map<String,int[]> scheduledNodes){
-        boolean allParentsAdded = true;
 
         //Check parents one by one
         for (Node pNode: parentList) {
             if(scheduledNodes.get(pNode.getId())==null){
-                allParentsAdded = false;
+                return false;
             }
         }
 
-        //check if all parents have been added
-        return allParentsAdded;
+        return true;
     }
 
     private int[] makeProcessorList(int[] processors){
@@ -156,10 +165,10 @@ public class ELSModelStateExpander implements IStateExpander {
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
         Schedule newSchdule = new Schedule();
-        IHeuristic simpleHeuristic = new SimpleHeuristic();
+        IHeuristic goodHeuristic = new MaxThreeHeuristic();
         newSchdule.setTasks(scheduledNodes);
         newSchdule.setProcessors(processors);
-        newSchdule.setHeuristicCost(simpleHeuristic.calculateEstimate(newSchdule, _nodeList));
+        newSchdule.setHeuristicCost(goodHeuristic.calculateEstimate(newSchdule, _nodeList));
 
         return newSchdule;
     }
