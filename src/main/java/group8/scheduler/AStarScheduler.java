@@ -68,6 +68,9 @@ public class AStarScheduler implements IScheduler {
             if (_openState.size() < _numUsableThreads) {
                 schedule = _openState.poll(); //pop out the most promising state
 
+                //Set current best schedule.
+                algorithmStatus.setCurrentBestSchedule(schedule);
+
                 //run checkCompleteSchedule helper method to check if state is complete,
                 //meaning that the schedule is valid
                 if (checkCompleteSchedule(schedule)) {
