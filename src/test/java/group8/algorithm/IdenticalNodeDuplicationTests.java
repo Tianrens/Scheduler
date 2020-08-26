@@ -29,6 +29,7 @@ public class IdenticalNodeDuplicationTests {
 
         _schedule = new Schedule();
         _schedule.scheduleTask("a", 0, 0);
+        _schedule.setProcessorStartTime(0, 2);
 
         _stateExpander = new ELSModelStateExpander(_graph);
     }
