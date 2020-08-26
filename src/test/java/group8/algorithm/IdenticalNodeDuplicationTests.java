@@ -43,9 +43,5 @@ public class IdenticalNodeDuplicationTests {
         _schedule = new Schedule();
 
         _schedule.scheduleTask("a", 0, 0);
-        _schedule.scheduleTask("c", 2, 0);
-        _schedule.scheduleTask("b", 4, 0);
-        _schedule.scheduleTask("d", 7, 0);
-        _schedule.scheduleTask("e", 9, 1);
     }
 }
