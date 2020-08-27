@@ -28,81 +28,98 @@ public class ScheduleQueue extends TreeSet<Schedule> {
 
         //if number of scheduled nodes is large, then there are no existing schedules that big, so does not need to be checked
         if(_closedStates.size()>schedule.getTasks().size()){
-
+            boolean isSame;
             //loops through all closed states, with the same task node number
             for(Schedule s2 :_closedStates.get(schedule.getTasks().size())) {
                 m2 = s2.getTasks();
 
-                int m2ProCount = 0;
-                //this for loop checks all processors, and stores all tasks stored on a single processor
-                for (int i = 0; i < schedule.getProcessors().length; i++) {
-
-                    //stores all nodes that will be compared for equality
-                    Map<String, Integer> same = new HashMap<>();
-                    //loops through all nodes, and stores all nodes on the specified processor into map for checking later
-                    for (Map.Entry<String, int[]> me1 : m1.entrySet()) {
-                        //puts all nodes on one processor into map
-                        if (me1.getValue()[1] == i) {
-                            same.put(me1.getKey(), me1.getValue()[0]);
-                        }
-                    }
-
-                    //checks if number of processors used is the same size
-                    if(same.size()==0){
-                        for (Map.Entry<String, int[]> me2 : m2.entrySet()) {
-                            //puts all nodes on one processor into map
-                            if (me2.getValue()[1] == i) {
-                                //return false;
-                            }
-                        }
-                    }
+                if(s2.getHeuristicCost()==schedule.getHeuristicCost()) {
+                    if (s2.getEarliestStartTime() == schedule.getEarliestStartTime()) {
+                        if(s2.getTasks().equals(schedule.getTasks())) {
 
 
-                    int processor = -1;
+                            isSame = true;
+                            //this for loop checks all processors, and stores all tasks stored on a single processor
+                            for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
 
-                    //checks if other schedule has a processor with similar nodes
-                    for (Map.Entry<String, Integer> node : same.entrySet()) {
+                                //stores all nodes that will be compared for equality
+                                Map<String, Integer> same = new HashMap<>();
+                                //loops through all nodes, and stores all nodes on the specified processor into map for checking later
+                                for (Map.Entry<String, int[]> me1 : m1.entrySet()) {
+                                    //puts all nodes on one processor into map
+                                    if (me1.getValue()[1] == i) {
+                                        same.put(me1.getKey(), me1.getValue()[0]);
+                                    }
+                                }
 
-                        //if second schedule does not contain node then it cant be same
-                        if (!m2.containsKey(node.getKey())) {
-                            return false;
-                        }
+                                //checks if number of processors used is the same size
+                                if (same.size() == 0) {
+                                    for (Map.Entry<String, int[]> me2 : m2.entrySet()) {
+                                        //puts all nodes on one processor into map
+                                        if (me2.getValue()[1] == i) {
+                                            isSame = false;
+                                            break;
+                                        }
+                                    }
+                                }
 
-                        //if startTimes are differnt then they cannot be the same.
-                        if (m2.get(node.getKey())[0] != node.getValue().intValue()) {
-                            //return false;
-                        }
 
-                        int newProcessor = m2.get(node.getKey())[1];//finds the processor number of the same node in the other schedule
+                                int processor = -1;
 
-                        //checks if first value in loop
-                        if (processor == -1) {
-                            //processor value should remain constant for all nodes
-                            processor = newProcessor;
-                            int size = 0;
-                            m2ProCount++;
+                                //checks if other schedule has a processor with similar nodes
+                                for (Map.Entry<String, Integer> node : same.entrySet()) {
 
-                            //counts how many nodes are on the processor in the other schedule
-                            for(int[] n : m2.values()){
-                                if(n[1]==newProcessor){
-                                    size++;
+                                    //if second schedule does not contain node then it cant be same
+                                    if (!m2.containsKey(node.getKey())) {
+                                        isSame = false;
+                                        break;
+                                    }
+
+                                    //if startTimes are differnt then they cannot be the same.
+                                    if (m2.get(node.getKey())[0] != node.getValue().intValue()) {
+                                        isSame = false;
+                                        break;
+                                    }
+
+                                    int newProcessor = m2.get(node.getKey())[1];//finds the processor number of the same node in the other schedule
+
+                                    //checks if first value in loop
+                                    if (processor == -1) {
+                                        //processor value should remain constant for all nodes
+                                        processor = newProcessor;
+                                        int size = 0;
+
+                                        //counts how many nodes are on the processor in the other schedule
+                                        for (int[] n : m2.values()) {
+                                            if (n[1] == newProcessor) {
+                                                size++;
+                                            }
+                                        }
+
+                                        //there should be same number of nodes in total
+                                        if (size != same.size()) {
+                                            isSame = false;
+                                            break;
+                                        }
+
+                                    } else if (processor != newProcessor) { //if processors do not equal then same nodes are not on the same processor
+                                        isSame = false;
+                                        break;
+                                    }
+
+                                }
+
+                                if (!isSame) {
+                                    break;
+                                } else {
+                                    return false;
                                 }
                             }
-
-                            //there should be same number of nodes in total
-                            if(size!=same.size()){
-                                //return false;
-                            }
-
-                        } else if (processor != newProcessor) { //if processors do not equal then same nodes are not on the same processor
-                            //return false;
                         }
                     }
                 }
             }
         }
-
-
 
         return super.add(schedule);
     }

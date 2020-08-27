@@ -28,7 +28,6 @@ public class ScheduleComparator implements Comparator<Schedule> {
 
         boolean isSame = true;
 
-        int m2ProCount = 0;
         //this for loop checks all processors, and stores all tasks stored on a single processor
         for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
 
@@ -78,7 +77,6 @@ public class ScheduleComparator implements Comparator<Schedule> {
                     //processor value should remain constant for all nodes
                     processor = newProcessor;
                     int size = 0;
-                    m2ProCount++;
 
                     //counts how many nodes are on the processor in the other schedule
                     for(int[] n : m2.values()){
@@ -105,7 +103,6 @@ public class ScheduleComparator implements Comparator<Schedule> {
             }
 
         }
-
 
         if(isSame){
             return 0;
