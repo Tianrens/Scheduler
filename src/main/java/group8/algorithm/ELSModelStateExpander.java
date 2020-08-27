@@ -223,4 +223,8 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
         return newSchedule;
     }
+
+    public void setState(Schedule state) {
+        _state = state;
+    }
 }

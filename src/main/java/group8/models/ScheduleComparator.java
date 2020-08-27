@@ -64,7 +64,6 @@ public class ScheduleComparator implements Comparator<Schedule> {
 
         }
 
-        isSame = false;
 
         if(isSame){
             return 0;
