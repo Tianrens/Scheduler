@@ -50,7 +50,31 @@ digraph "Fork_Join_Nodes_16_CCR_0.10_WeightType_Random" {
 		"Start time"=600,
 		Weight=4];
 
+	10	["Finish time"=798,
+		Processor=1,
+		"Start time"=663,
+		Weight=13];
 
+
+	11	["Finish time"=525,
+		Processor=0,
+		"Start time"=480,
+		Weight=4];
+
+	12	["Finish time"=600,
+		Processor=0,
+		"Start time"=525,
+		Weight=7];
+
+	13	["Finish time"=393,
+		Processor=1,
+		"Start time"=258,
+		Weight=13];
+
+	14	["Finish time"=663,
+		Processor=1,
+		"Start time"=513,
+		Weight=15];
 
 	15	["Finish time"=918,
 		Processor=1,
@@ -67,9 +91,11 @@ digraph "Fork_Join_Nodes_16_CCR_0.10_WeightType_Random" {
 	0 -> 9	[Weight=3];
 	0 -> 7	[Weight=6];
 	0 -> 8	[Weight=5];
-
-
-
+	0 -> 10	[Weight=6];
+	0 -> 11	[Weight=6];
+	0 -> 12	[Weight=5];
+	0 -> 13	[Weight=6];
+	0 -> 14	[Weight=6];
 
 
 	1 -> 15	[Weight=4];
@@ -81,5 +107,11 @@ digraph "Fork_Join_Nodes_16_CCR_0.10_WeightType_Random" {
 	7 -> 15	[Weight=5];
 	8 -> 15	[Weight=3];
 	9 -> 15	[Weight=4];
+	10 -> 15	[Weight=4];
+	11 -> 15	[Weight=10];
+	12 -> 15	[Weight=6];
+	13 -> 15	[Weight=9];
+	14 -> 15	[Weight=7];
+	
 
 }

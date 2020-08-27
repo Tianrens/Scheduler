@@ -1,5 +1,7 @@
 package group8.models;
 
+import group8.cli.AppConfig;
+
 import java.util.*;
 
 /**
@@ -21,51 +23,43 @@ public class ScheduleQueue extends TreeSet<Schedule> {
     @Override
     public boolean add(Schedule schedule){
 
-//        Map<String, int[]> m1 = schedule.getTasks();
-//        Map<String, int[]> m2;
-//
-//        if(_closedStates.size()!=0)
-//        for(Schedule s2 :_closedStates.get(schedule.getTasks().size())) {
-//            m2 = s2.getTasks();
-//
-//            boolean isSame = true;
-//
-//            for (int i = 0; i < schedule.getProcessors().length; i++) {
-//                Map<String, Integer> same = new HashMap<>();
-//                for (Map.Entry<String, int[]> me1 : m1.entrySet()) {
-//                    if (me1.getValue()[1] == i) {
-//                        same.put(me1.getKey(), me1.getValue()[0]);
-//                    }
-//                }
-//
-//                int processor = -1;
-//                for (Map.Entry<String, Integer> node : same.entrySet()) {
-//                    if (!m2.containsKey(node.getKey())) {
-//                        isSame = false;
-//                        break;
-//                    }
-//
-//                    int newProcessor = m2.get(node.getKey())[1];
-//                    if (m2.get(node.getKey())[0] != node.getValue().intValue()) {
-//                        isSame = false;
-//                        break;
-//                    }
-//
-//                    if (processor == -1) {
-//                        processor = newProcessor;
-//                    } else if (processor != newProcessor) {
-//                        isSame = false;
-//                        break;
-//                    }
-//
-//                }
-//
-//                if (!isSame) {
-//                    break;
-//                }
-//
-//            }
-//        }
+        Map<String, int[]> m1 = schedule.getTasks();
+        Map<String, int[]> m2;
+
+        if(_closedStates.size()>schedule.getTasks().size())
+        for(Schedule s2 :_closedStates.get(schedule.getTasks().size())) {
+            m2 = s2.getTasks();
+
+
+            for (int i = 0; i < schedule.getProcessors().length; i++) {
+                Map<String, Integer> same = new HashMap<>();
+                for (Map.Entry<String, int[]> me1 : m1.entrySet()) {
+                    if (me1.getValue()[1] == i) {
+                        same.put(me1.getKey(), me1.getValue()[0]);
+                    }
+                }
+
+                int processor = -1;
+                for (Map.Entry<String, Integer> node : same.entrySet()) {
+                    if (!m2.containsKey(node.getKey())) {
+                        return false;
+                    }
+
+                    int newProcessor = m2.get(node.getKey())[1];
+                    if (m2.get(node.getKey())[0] != node.getValue().intValue()) {
+                        return false;
+                    }
+
+                    if (processor == -1) {
+                        processor = newProcessor;
+                    } else if (processor != newProcessor) {
+                        return false;
+                    }
+
+                }
+
+            }
+        }
 
 
         return super.add(schedule);
@@ -78,11 +72,11 @@ public class ScheduleQueue extends TreeSet<Schedule> {
      */
     public void addClosedState(Schedule state){
 
-//        if(_closedStates.size()>state.getTasks().size()){
-//            _closedStates.get(state.getTasks().size()-1).add(state);
-//        }else{
-//            _closedStates.add(new ArrayList<Schedule>());
-//            _closedStates.get(state.getTasks().size()).add(state);
-//        }
+        if(_closedStates.size()>state.getTasks().size()){
+            _closedStates.get(state.getTasks().size()).add(state);
+        }else{
+            _closedStates.add(new ArrayList<>());
+            _closedStates.get(state.getTasks().size()).add(state);
+        }
     }
 }

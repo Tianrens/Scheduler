@@ -89,8 +89,7 @@ public class AStarScheduler implements IScheduler {
                 _expanderList.get(0).setState(schedule);
                 newFoundStates = _expanderList.get(0).getNewStates(schedule);
                 _scheduleCount +=newFoundStates.size();
-                //_openState.addClosedState(schedule);
-
+                _openState.addClosedState(schedule);
                 //add the newly found states into the priority queue
                 newFoundStates.forEach(state -> _openState.add(state));
 
