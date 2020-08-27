@@ -98,12 +98,13 @@ public class MainScreenController {
         String inputFileName = _appConfig.getInputFile().toPath().getFileName().toString();
         String outputFileName = _appConfig.getOutputFile().toPath().getFileName().toString();
 
-        if (inputFileName.length() > 29) {
-            inputFileName = inputFileName.substring(0,29) + "...";
+        // Trim input file length and output file length, to make it say on one row.
+        if (inputFileName.length() > 23) {
+            inputFileName = inputFileName.substring(0,23) + "...";
         }
 
-        if (outputFileName.length() > 26) {
-            outputFileName = outputFileName.substring(0,26) + "...";
+        if (outputFileName.length() > 23) {
+            outputFileName = outputFileName.substring(0,23) + "...";
         }
 
         _inputFileText.setText("Input: " + inputFileName);
