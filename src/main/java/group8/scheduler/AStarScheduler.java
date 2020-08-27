@@ -33,6 +33,7 @@ public class AStarScheduler implements IScheduler {
     private int _scheduleCount = 0;
     private ExecutorService _executorService = Executors.newFixedThreadPool(AppConfig.getInstance().getNumCores());
     private int _numUsableThreads = AppConfig.getInstance().getNumCores();
+    private List<ELSModelStateExpander> _expanderList = new ArrayList<>();
 
     /**
      * This method is an implementation of the A* algorithm
@@ -45,6 +46,9 @@ public class AStarScheduler implements IScheduler {
         _graph = graph;
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
+        for (int i = 0; i < _numUsableThreads; i++) {
+            _expanderList.add(new ELSModelStateExpander(graph, null));
+        }
 
         // Set algo status to RUNNING.
         AlgorithmStatus algorithmStatus = AlgorithmStatus.getInstance();
@@ -78,7 +82,8 @@ public class AStarScheduler implements IScheduler {
                 }
 
                 //obtain a new set of states expanding from the most promising state
-                newFoundStates = new ELSModelStateExpander(_graph, schedule).getNewStates(schedule);
+                _expanderList.get(0).setState(schedule);
+                newFoundStates = _expanderList.get(0).getNewStates(schedule);
                 _scheduleCount +=newFoundStates.size();
                 _openState.addClosedState(schedule);
 
@@ -102,7 +107,8 @@ public class AStarScheduler implements IScheduler {
                         return schedule;
                     }
                     // assign each thread in the thread pool a state to expand
-                    Future<List<Schedule>> future = _executorService.submit(new ELSModelStateExpander(_graph, schedule));
+                    _expanderList.get(i).setState(schedule);
+                    Future<List<Schedule>> future = _executorService.submit(_expanderList.get(i));
                     allFutures.add(future); //add future values to the list of future values
                     _openState.addClosedState(schedule); //add the explored schedule to another list
                 }
