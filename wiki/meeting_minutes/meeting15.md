@@ -16,6 +16,7 @@
             - This is when we are crafting up the schedule
             - For the first node, we are just chucking it in. Could we also check if all processor finishing time is the same, then???? But parents.
             - We might have to override sets because of identical nodes
+            
 ![normalisedProcessorImage](normalisedProcessorsImage.JPG)
 - Identical Tasks
     - Node class
