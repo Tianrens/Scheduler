@@ -218,7 +218,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         newSchedule.setTasks(scheduledNodes);
         newSchedule.setProcessors(processors);
         newSchedule.setHeuristicCost(goodHeuristic.calculateEstimate(newSchedule, _nodeList));
-        newSchedule.setProcessorSet(makeProcessorSet(processors.length, scheduledNodes));
+        //newSchedule.setProcessorSet(makeProcessorSet(processors.length, scheduledNodes));
         newSchedule.setEarliestStartTime(newSchedule.calculateEarliestStartTime());
 
         return newSchedule;

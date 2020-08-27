@@ -19,14 +19,14 @@ public class AStarScheduler implements IScheduler {
 
     //These comparators allow us to compare with one heuristic first then another one
     //the program only compares with the second heuristic if first one returns zero
-    Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
-    Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) -> s.getEarliestStartTime());
-    Comparator<Schedule> heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator).thenComparing(new ScheduleComparator());
 
     //make the priority queue use our own comparator by passing it into the priority queue
-    private ScheduleQueue _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
-    //private List<Schedule> _closedState = new ArrayList<>();
 
+    //private List<Schedule> _closedState = new ArrayList<>();
+    Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
+    Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) -> s.getTasks().size());
+    Comparator<Schedule> heuristicAndEarliestStartTimeComparator;
+    private ScheduleQueue _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
     private Graph _graph;
     private HashMap<String, Node> _allNodesOfGraph;
     private Set<String> _nodeIdList;
@@ -45,7 +45,9 @@ public class AStarScheduler implements IScheduler {
         _graph = graph;
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
-
+        earliestStartTimeComparator = Comparator.comparing((Schedule s) ->graph.getAllNodes().size()- s.getTasks().size());
+        heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator).thenComparing(new ScheduleComparator(_graph));
+        _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
         // Set algo status to RUNNING.
         AlgorithmStatus algorithmStatus = AlgorithmStatus.getInstance();
         algorithmStatus.setAlgoState(AlgorithmState.RUNNING);
@@ -81,7 +83,7 @@ public class AStarScheduler implements IScheduler {
                 //obtain a new set of states expanding from the most promising state
                 newFoundStates = new ELSModelStateExpander(_graph, schedule).getNewStates(schedule);
                 _scheduleCount +=newFoundStates.size();
-                _openState.addClosedState(schedule);
+                //_openState.addClosedState(schedule);
 
                 //add the newly found states into the priority queue
                 newFoundStates.forEach(state -> _openState.add(state));
