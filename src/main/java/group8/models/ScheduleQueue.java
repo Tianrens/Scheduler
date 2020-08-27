@@ -72,6 +72,7 @@ public class ScheduleQueue extends TreeSet<Schedule> {
      */
     public void addClosedState(Schedule state){
 
+
         if(_closedStates.size()>state.getTasks().size()){
             _closedStates.get(state.getTasks().size()).add(state);
         }else{

@@ -15,7 +15,7 @@ public class Schedule {
      *  Initial cost is -1.
      *  F = G + H
      */
-    private int _heuristicCost = -1;
+    private double _heuristicCost = -1;
     /**
      * Earliest start time heuristic
      */
@@ -70,11 +70,11 @@ public class Schedule {
         _processors[processor] = startTime;
     }
 
-    public int getHeuristicCost() {
+    public double getHeuristicCost() {
         return _heuristicCost;
     }
 
-    public void setHeuristicCost(int heuristicCost) {
+    public void setHeuristicCost(double heuristicCost) {
         _heuristicCost = heuristicCost;
     }
 

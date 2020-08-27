@@ -21,7 +21,7 @@ public class SimpleTopHeuristic implements IHeuristic {
      * @return the cost from the state to the end
      */
     @Override
-    public int calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
+    public double calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
         int totalCost = 0;
         Map<String, int[]> stateNodes = state.getTasks();
         ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet());

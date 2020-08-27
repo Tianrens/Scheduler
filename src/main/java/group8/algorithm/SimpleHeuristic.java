@@ -21,7 +21,7 @@ public class SimpleHeuristic implements IHeuristic {
      * @return the cost from the state to the end
      */
     @Override
-    public int calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
+    public double calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
 
         int sum = 0;
         for(Node node : allNodes.values()){

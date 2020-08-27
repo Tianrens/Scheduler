@@ -31,6 +31,8 @@ public class AStarScheduler implements IScheduler {
     private int _numUsableThreads = AppConfig.getInstance().getNumCores();
     private List<ELSModelStateExpander> _expanderList = new ArrayList<>();
 
+    private int test = 0;
+
     /**
      * This method is an implementation of the A* algorithm
      * @param graph
@@ -49,7 +51,7 @@ public class AStarScheduler implements IScheduler {
         _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
 
         Schedule schedule = new Schedule();
-        _graph.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()), new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
+        _graph.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()),new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
 
 
         //create a list of ELS expander objects for reuse
@@ -71,9 +73,9 @@ public class AStarScheduler implements IScheduler {
 
             //check if the size of the priority queue is less than number of threads we have available
             //if it is then we don't parallelise the expansion since we don't have enough schedules to assign
-            if (_openState.size() < _numUsableThreads) {
+            if (_openState.size() < _numUsableThreads * 1000) {
                 schedule = _openState.pollFirst(); //pop out the most promising state
-
+                test = 1;
                 //Set current best schedule.
                 algorithmStatus.setCurrentBestSchedule(schedule);
 
@@ -94,7 +96,7 @@ public class AStarScheduler implements IScheduler {
                 newFoundStates.forEach(state -> _openState.add(state));
 
             } else {
-
+                test = 2;
                 //A list to contain the future list of states which each thread will return
                 List<Future> allFutures = new ArrayList<>();
                 for (int i = 0; i < _numUsableThreads; i++) { //perform actions for each thread
@@ -144,6 +146,11 @@ public class AStarScheduler implements IScheduler {
      * @return
      */
     private boolean checkCompleteSchedule(Schedule state) {
+
+        if(state==null){
+            System.out.println(_scheduleCount);
+            System.out.println(test);
+        }
         Set<String> taskIdList = state.getTasks().keySet();
         Set<String> nodeIdListCopy = new TreeSet<>();
         nodeIdListCopy.addAll(_graph.getAllNodes().keySet());
