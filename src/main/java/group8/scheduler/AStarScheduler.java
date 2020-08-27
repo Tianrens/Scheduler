@@ -60,7 +60,6 @@ public class AStarScheduler implements IScheduler {
 
         //continue with the algorithm while there are still states in the priority queue
         while (true) {
-            algorithmStatus.setNumSchedulesGenerated(_scheduleCount);
 
             //check if the size of the priority queue is less than number of threads we have available
             //if it is then we don't parallelise the expansion since we don't have enough schedules to assign
@@ -125,6 +124,7 @@ public class AStarScheduler implements IScheduler {
                     }
                 }
             }
+            algorithmStatus.setNumSchedulesGenerated(_scheduleCount);
         }
     }
 
