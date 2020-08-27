@@ -37,11 +37,11 @@ public class VisualisationTest extends Application {
         AppConfig config = AppConfig.getInstance();
         AlgorithmStatus status = AlgorithmStatus.getInstance();
 
-        config.setInputFile(new File("Some-Test-File.file"));
+        config.setInputFile(new File("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"));
         config.setNumProcessors(8);
         config.setGraphName("Good Graph");
         config.setNumCores(8);
-        config.setOutputFile(new File("Output.file"));
+        config.setOutputFile(new File("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"));
 
         Schedule schedule = new Schedule();
         schedule.scheduleTask("A", 0, 0);
@@ -94,7 +94,7 @@ public class VisualisationTest extends Application {
         });
         primaryStage.show();
         Thread.sleep(3000);
-        primaryStage.close();
+        //primaryStage.close();
 
     }
 }

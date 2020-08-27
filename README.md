@@ -1,6 +1,10 @@
-# project-1-8-gr8-b8-m8
+# SOFTENG306 Project-1 Team 8: GR8-B8-M8
 
-This project utilises AI and parallel processing power to find an optimal schedule from a given directed task graph.
+This project utilises artificial intelligence(AI) and parallel processing to optimally schedule a set of tasks from a 
+directed task graph onto a given amount of processors. This project uses the AStar algorithm to find an optimal 
+schedule to the scheduling problem.
+
+![Image of Visualisation](visualisationImage.png)
 
 ## Team 8 - GR8 B8 M8
 |Name           |GitHub Username                                            |UPI    |
@@ -22,7 +26,7 @@ This project utilises AI and parallel processing power to find an optimal schedu
 ## Building the JAR
 Run the Gradle Task
 ```
-./gradlew build
+./gradlew jar
 ```
 The JAR will be generated in the `build/libs` directory.
 
@@ -46,6 +50,7 @@ chmod 777 ./gradlew
     -v           visualise the search
     -o OUTPUT    output file is named OUTPUT(default is INPUT-output.dot)
     ```
+    
 
 ## Documentation
 * [Wiki](wiki/Home.md) 

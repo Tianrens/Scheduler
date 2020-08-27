@@ -76,6 +76,9 @@ public class MainScreenController {
     @FXML
     private Pane _scheduleGenGraph;
 
+    @FXML
+    private Text _numTasksText;
+
     /**
      * Initialize this class.
      * Set Text elements and setup Graphs.
@@ -91,8 +94,22 @@ public class MainScreenController {
         // Set App Config values
         _numProcessorsText.setText("Number of Processors: " + _appConfig.getNumProcessors());
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
-        _inputFileText.setText("Input Graph: " + _appConfig.getInputFile().toPath().getFileName().toString());
-        _outputGraphText.setText("Output Graph: " + _appConfig.getOutputFile().toPath().getFileName().toString());
+
+        String inputFileName = _appConfig.getInputFile().toPath().getFileName().toString();
+        String outputFileName = _appConfig.getOutputFile().toPath().getFileName().toString();
+
+        // Trim input file length and output file length, to make it say on one row.
+        if (inputFileName.length() > 23) {
+            inputFileName = inputFileName.substring(0,23) + "...";
+        }
+
+        if (outputFileName.length() > 23) {
+            outputFileName = outputFileName.substring(0,23) + "...";
+        }
+
+        _inputFileText.setText("Input: " + inputFileName);
+        _outputGraphText.setText("Output: " + outputFileName);
+        _numTasksText.setText("Tasks: " + _graph.getAllNodes().size());
 
         _startTime = System.currentTimeMillis();
 
@@ -260,13 +277,14 @@ public class MainScreenController {
 
         LineChart linechart = new LineChart(xAxis,yAxis);
 
-        linechart.setPrefHeight(280);
+        linechart.setPrefHeight(250);
         linechart.setPrefWidth(280);
 
         linechart.setCreateSymbols(false);
 
         XYChart.Series series = new XYChart.Series();
         series.setName("Number of Schedules Generated");
+        linechart.setLegendVisible(false);
 
         linechart.getData().add(series);
 
@@ -281,7 +299,7 @@ public class MainScreenController {
     private void updateLineGraph() {
         XYChart.Series series = (XYChart.Series) _lineChart.getData().get(0);
         //_lineChart.getData().clear();
-        series.getData().add(new XYChart.Data(_currentTime - _startTime, _algoStatus.getNumSchedulesGenerated()));
+        series.getData().add(new XYChart.Data((_currentTime - _startTime) / 1000, _algoStatus.getNumSchedulesGenerated()));
 
         //_lineChart.getData().add(series);
     }
