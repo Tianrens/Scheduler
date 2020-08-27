@@ -94,8 +94,20 @@ public class MainScreenController {
         // Set App Config values
         _numProcessorsText.setText("Number of Processors: " + _appConfig.getNumProcessors());
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
-        _inputFileText.setText("Input: " + _appConfig.getInputFile().toPath().getFileName().toString());
-        _outputGraphText.setText("Output: " + _appConfig.getOutputFile().toPath().getFileName().toString());
+
+        String inputFileName = _appConfig.getInputFile().toPath().getFileName().toString();
+        String outputFileName = _appConfig.getOutputFile().toPath().getFileName().toString();
+
+        if (inputFileName.length() > 29) {
+            inputFileName = inputFileName.substring(0,29) + "...";
+        }
+
+        if (outputFileName.length() > 26) {
+            outputFileName = outputFileName.substring(0,26) + "...";
+        }
+
+        _inputFileText.setText("Input: " + inputFileName);
+        _outputGraphText.setText("Output: " + outputFileName);
         _numTasksText.setText("Tasks: " + _graph.getAllNodes().size());
 
         _startTime = System.currentTimeMillis();
@@ -264,13 +276,14 @@ public class MainScreenController {
 
         LineChart linechart = new LineChart(xAxis,yAxis);
 
-        linechart.setPrefHeight(280);
+        linechart.setPrefHeight(250);
         linechart.setPrefWidth(280);
 
         linechart.setCreateSymbols(false);
 
         XYChart.Series series = new XYChart.Series();
         series.setName("Number of Schedules Generated");
+        linechart.setLegendVisible(false);
 
         linechart.getData().add(series);
 
