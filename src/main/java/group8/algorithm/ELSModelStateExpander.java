@@ -56,19 +56,19 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
-//            // Skip nodes associated with the identical group next time around
-//            if (node.getIdenticalNodeId() != -1) {
-//                if (! addedIdenticalIds.contains(node.getIdenticalNodeId())) {
-//                    addedIdenticalIds.add(node.getIdenticalNodeId());
-//                }
-//            }
+            // Skip nodes associated with the identical group next time around
+            if (node.getIdenticalNodeId() != -1) {
+                if (! addedIdenticalIds.contains(node.getIdenticalNodeId())) {
+                    addedIdenticalIds.add(node.getIdenticalNodeId());
+                }
+            }
 
             //checks for duplicate states, where a node sis assigned to an empty process
             boolean emptyAssign = false;
             for(int i = 0 ; i < processors.length ; i++) {
-//                if (node.getIdenticalNodeId() != -1) {
-//                    node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
-//                }
+                if (node.getIdenticalNodeId() != -1) {
+                    node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
+                }
 
                 // Skip if the node from the identical group has already been assigned.
                 if (scheduledNodes.containsKey(node.getId())) {
@@ -99,9 +99,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     //Only if a schedule has a lower heuristic than the baseline graph heuristic
                     //we add it to the new schedules
                     Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
-                    //if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
+                    if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
                         newSchedules.add(schedule);
-                    //}
+                    }
 
                 } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
                     Map<String, int[]> newScheduledNodes = new HashMap<>();
@@ -133,9 +133,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     //Only if a schedule has a lower heuristic than the baseline graph heuristic
                     //we add it to the new schedules
                     Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
-                    //if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
+                    if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
                         newSchedules.add(schedule);
-                    //}
+                    }
                 }
             }
         }

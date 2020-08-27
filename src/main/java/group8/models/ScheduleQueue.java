@@ -120,7 +120,6 @@ public class ScheduleQueue extends TreeSet<Schedule> {
                 }
             }
         }
-
         return super.add(schedule);
     }
 

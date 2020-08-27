@@ -63,9 +63,6 @@ public class MaxThreeHeuristic implements IHeuristic{
 
         }
 
-        //sumIdle+=maxP*processors.length;
-
-
         // Add total node costs
         for(Node node : allNodes.values()){
             sumIdle+=node.getCost();
@@ -158,7 +155,6 @@ public class MaxThreeHeuristic implements IHeuristic{
                     //record largest value
                     if(maxHeuristic<earliestProcessorStartTime+node.getBottomLevel()){
                         maxHeuristic = earliestProcessorStartTime+node.getBottomLevel();
-                            System.out.print("");
 
                     }
                 }
