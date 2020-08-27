@@ -40,7 +40,12 @@ public class GreedyHeuristic implements IHeuristic {
 
             for (int i = 0; i < stateProcessors.length; i++) { // For each processor in the state
                 int startTime;
+
                 int processorStartTime = stateProcessors[i];
+                if(processorStartTime==-1){
+                    processorStartTime=0;
+                }
+
                 earliestStartTime = processorStartTime;
 
                 for (Node parent:parentList) {

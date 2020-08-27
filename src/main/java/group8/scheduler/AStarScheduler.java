@@ -53,7 +53,6 @@ public class AStarScheduler implements IScheduler {
         Schedule schedule = new Schedule();
         _graph.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()),new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
 
-
         //create a list of ELS expander objects for reuse
         for (int i = 0; i < _numUsableThreads; i++) {
             _expanderList.add(new ELSModelStateExpander(graph));
