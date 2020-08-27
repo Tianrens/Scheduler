@@ -27,7 +27,7 @@ public class Main extends Application {
     private static AppConfig _appConfig;
     private static Graph _graph;
 
-    public static void main(String[] args) throws AppConfigException, ProcessorException {
+    public static void main(String[] args) throws AppConfigException {
         _appConfig = buildAppConfig(args);
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
         IScheduler scheduler = new AStarScheduler();

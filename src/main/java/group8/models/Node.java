@@ -14,7 +14,6 @@ public class Node {
     private List<Node> _parentNodeList;
     private int _cost;
     private String _id;
-    private Processor _processor;
     private int _timeScheduled;
     private int _bottomLevel = -1;
 
@@ -104,14 +103,6 @@ public class Node {
 
     public void setEdgeList(HashMap<Node, Integer> edgeList) {
         _edgeList = edgeList;
-    }
-
-    public Processor getProcessor() {
-        return _processor;
-    }
-
-    public void setProcessor(Processor processor) {
-        _processor = processor;
     }
 
     public int getTimeScheduled(){
