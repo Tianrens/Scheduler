@@ -285,7 +285,7 @@ public class MainScreenController {
     private void updateLineGraph() {
         XYChart.Series series = (XYChart.Series) _lineChart.getData().get(0);
         //_lineChart.getData().clear();
-        series.getData().add(new XYChart.Data(_currentTime - _startTime, _algoStatus.getNumSchedulesGenerated()));
+        series.getData().add(new XYChart.Data((_currentTime - _startTime) / 1000, _algoStatus.getNumSchedulesGenerated()));
 
         //_lineChart.getData().add(series);
     }
