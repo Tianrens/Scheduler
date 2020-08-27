@@ -2,13 +2,9 @@ package group8.parser;
 
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
-import com.sun.beans.WeakCache;
-import group8.cli.AppConfigException;
-import group8.cli.CLIException;
 import group8.models.Graph;
 import group8.models.Node;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,12 +30,13 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         addNodesToGraph(graph, nodes);
         addEdgesToGraph(graph, edges);
 
-        //calculate bottom level for all nodes - later used in heurisitc calculations
-        for(Node node : graph.getAllNodes().values()){
-            if(node.getBottomLevel()==-1){
-                node.calculateBottomLevel();
+        for (Node node : graph.getAllNodes().values()) {
+            if (node.getBottomLevel() != -1 ){
+                node.calculateBottomLevel(); // calculate bottom level for all nodes - later used in heurisitc calculations
             }
         }
+
+        graph.setUpForIdenticalNodes(); // Sets up the identical nodes mapping in the graph object
 
         return graph;
     }
@@ -48,15 +45,8 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         for (String nodeId : nodes.keySet()) {
             GraphNode node = nodes.get(nodeId);
 
-            String weightKey = node.getAttributes()
-                    .keySet()
-                    .stream()
-                    .filter(s -> s.equalsIgnoreCase(WEIGHTATTR)) // Pattern match with any case of "Weight" attr key
-                    .collect(Collectors.toList())
-                    .get(0); // ASSUMPTION: each node and graph has ONE Weight attr.
-            String weightValue = (String) node.getAttribute(weightKey);
-
-            Integer weight = Integer.parseInt(weightValue); // Retrieve the relevant attribute (Cost)
+            String weightKey = getWeightKey(node.getAttributes());
+            Integer weight = Integer.parseInt((String) node.getAttribute(weightKey)); // Retrieve the relevant attribute (Cost)
 
             Node newNode = new Node(weight, nodeId);
             graph.addNode(newNode);
@@ -70,18 +60,18 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
             Node src = graph.getNode(edge.getNode1().getId());
             Node dst = graph.getNode(edge.getNode2().getId());
 
-            String weightKey = edge.getAttributes()
-                    .keySet()
-                    .stream()
-                    .filter(s -> s.equalsIgnoreCase(WEIGHTATTR))
-                    .collect(Collectors.toList())
-                    .get(0);
-            String weightValue = (String) edge.getAttribute(weightKey);
-
-            Integer weight = Integer.parseInt(weightValue);
+            String weightKey = getWeightKey(edge.getAttributes());
+            Integer weight = Integer.parseInt((String) edge.getAttribute(weightKey));
 
             src.addDestination(dst, weight);
             dst.addParentNode(src);
         }
+    }
+
+    private String getWeightKey(Map<String, Object> attrs) {
+        return  attrs.keySet()
+                .stream()
+                .filter(s -> s.equalsIgnoreCase(WEIGHTATTR)) // Pattern match with any case of "Weight" attr key
+                .collect(Collectors.toList()).get(0); // ASSUMPTION: each node and edge has ONE Weight attr.
     }
 }

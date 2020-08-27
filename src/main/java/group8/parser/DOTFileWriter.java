@@ -62,18 +62,11 @@ public class DOTFileWriter implements IDOTFileWriter{
     }
 
     public void writeOutputToConsole(Schedule schedule, Graph graph) throws AppConfigException {
-        File outputFile = AppConfig.getInstance().getOutputFile();
-        if (outputFile == null) {
-            throw new AppConfigException();
-        }
-
         try{
-
-            System.out.println(schedule.getHeuristicCost());
             System.out.println("digraph output_graph {");
-            Map<String, int[]> tasks = schedule.getTasks();
+                Map<String, int[]> tasks = schedule.getTasks();
 
-            String edgeList = ""; // This string is written out last because all nodes must be declared before edges
+                String edgeList = ""; // This string is written out last because all nodes must be declared before edges
 
             // The for loop cycles through all takesNodes and prints them out + their edges
             for(Map.Entry<String, int[]> task : tasks.entrySet()){
@@ -88,7 +81,6 @@ public class DOTFileWriter implements IDOTFileWriter{
             }
 
             System.out.println(edgeList); // All edges are written out to the dot file
-            System.out.println(AppConfig.getInstance().getOutputFile().toString() + " has been generated");
         } catch (Exception e) {
             e.printStackTrace();
         }

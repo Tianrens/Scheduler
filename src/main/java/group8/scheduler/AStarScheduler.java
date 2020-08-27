@@ -21,7 +21,7 @@ public class AStarScheduler implements IScheduler {
     //the program only compares with the second heuristic if first one returns zero
     Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
     Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) -> s.getEarliestStartTime());
-    Comparator<Schedule> heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator);
+    Comparator<Schedule> heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator).thenComparing(new ScheduleComparator());
 
     //make the priority queue use our own comparator by passing it into the priority queue
     private ScheduleQueue _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
@@ -33,6 +33,7 @@ public class AStarScheduler implements IScheduler {
     private int _scheduleCount = 0;
     private ExecutorService _executorService = Executors.newFixedThreadPool(AppConfig.getInstance().getNumCores());
     private int _numUsableThreads = AppConfig.getInstance().getNumCores();
+    private List<ELSModelStateExpander> _expanderList = new ArrayList<>();
 
     /**
      * This method is an implementation of the A* algorithm
@@ -45,6 +46,10 @@ public class AStarScheduler implements IScheduler {
         _graph = graph;
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
+        //create a list of ELS expander objects for reuse
+        for (int i = 0; i < _numUsableThreads; i++) {
+            _expanderList.add(new ELSModelStateExpander(graph, null));
+        }
 
         // Set algo status to RUNNING.
         AlgorithmStatus algorithmStatus = AlgorithmStatus.getInstance();
@@ -52,21 +57,19 @@ public class AStarScheduler implements IScheduler {
 
         //initialises the helper classes as objects to use their methods
         Schedule schedule = new Schedule();
+        _graph.setHeuristicCost(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()));
         List<Schedule> newFoundStates;
         _openState.add(schedule); //add the empty schedule to get the algorithm started
         _scheduleCount++;
-        _graph.setHeuristicCost(
-                Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()),
-                        new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
+
 
         //continue with the algorithm while there are still states in the priority queue
         while (true) {
-            algorithmStatus.setNumSchedulesGenerated(_scheduleCount);
 
             //check if the size of the priority queue is less than number of threads we have available
             //if it is then we don't parallelise the expansion since we don't have enough schedules to assign
             if (_openState.size() < _numUsableThreads) {
-                schedule = _openState.poll(); //pop out the most promising state
+                schedule = _openState.pollFirst(); //pop out the most promising state
 
                 //Set current best schedule.
                 algorithmStatus.setCurrentBestSchedule(schedule);
@@ -75,36 +78,38 @@ public class AStarScheduler implements IScheduler {
                 //meaning that the schedule is valid
                 if (checkCompleteSchedule(schedule)) {
                     System.out.println(_scheduleCount);
+                    AlgorithmStatus.getInstance().setAlgoState(AlgorithmState.FINISHED);
                     return schedule;
                 }
 
                 //obtain a new set of states expanding from the most promising state
-                newFoundStates = new ELSModelStateExpander(_graph, schedule).getNewStates(schedule);
+                _expanderList.get(0).setState(schedule);
+                newFoundStates = _expanderList.get(0).getNewStates(schedule);
                 _scheduleCount +=newFoundStates.size();
                 _openState.addClosedState(schedule);
 
-                //add the newly found states into the priority queue only if their heuristic cost is smaller
-                // than baseline heuristic cost of the whole graph
-                newFoundStates.forEach(state -> {
-                    if (_graph.getHeuristicCost() > state.getHeuristicCost()) {
-                        _openState.add(state);
-                    }
-                });
+                //add the newly found states into the priority queue
+                newFoundStates.forEach(state -> _openState.add(state));
 
             } else {
+
                 //A list to contain the future list of states which each thread will return
                 List<Future> allFutures = new ArrayList<>();
                 for (int i = 0; i < _numUsableThreads; i++) { //perform actions for each thread
-                    schedule = _openState.poll(); //pop out the most promising state for each thread
+                    schedule = _openState.pollFirst(); //pop out the most promising state for each thread
 
                     //run checkCompleteSchedule helper method to check if state is complete,
                     //if schedule is complete then that the schedule is valid
+
+                    algorithmStatus.setCurrentBestSchedule(schedule);
                     if (checkCompleteSchedule(schedule)) {
                         System.out.println(_scheduleCount);
+                        AlgorithmStatus.getInstance().setAlgoState(AlgorithmState.FINISHED);
                         return schedule;
                     }
                     // assign each thread in the thread pool a state to expand
-                    Future<List<Schedule>> future = _executorService.submit(new ELSModelStateExpander(_graph, schedule));
+                    _expanderList.get(i).setState(schedule);
+                    Future<List<Schedule>> future = _executorService.submit(_expanderList.get(i));
                     allFutures.add(future); //add future values to the list of future values
                     _openState.addClosedState(schedule); //add the explored schedule to another list
                 }
@@ -116,13 +121,9 @@ public class AStarScheduler implements IScheduler {
                         newFoundStates = future.get(); //obtain a new set of states expanding from the most promising state
                         _scheduleCount +=newFoundStates.size(); //add the found schedules to the count
 
-                        //add the newly found states into the priority queue only if their heuristic cost is smaller
-                        // than baseline heuri  stic cost of the whole graph
-                        newFoundStates.forEach(state -> {
-                            if (_graph.getHeuristicCost() > state.getHeuristicCost()) {
-                                _openState.add(state);
-                            }
-                        });
+                        //add the newly found states into the priority queue
+                        newFoundStates.forEach(state -> _openState.add(state));
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -130,6 +131,7 @@ public class AStarScheduler implements IScheduler {
                     }
                 }
             }
+            algorithmStatus.setNumSchedulesGenerated(_scheduleCount);
         }
     }
 
