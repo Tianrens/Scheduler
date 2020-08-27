@@ -23,13 +23,9 @@ public class AStarScheduler implements IScheduler {
     //make the priority queue use our own comparator by passing it into the priority queue
 
     //private List<Schedule> _closedState = new ArrayList<>();
-    Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
-    Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) -> s.getTasks().size());
     Comparator<Schedule> heuristicAndEarliestStartTimeComparator;
     private ScheduleQueue _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
     private Graph _graph;
-    private HashMap<String, Node> _allNodesOfGraph;
-    private Set<String> _nodeIdList;
     private int _scheduleCount = 0;
     private ExecutorService _executorService = Executors.newFixedThreadPool(AppConfig.getInstance().getNumCores());
     private int _numUsableThreads = AppConfig.getInstance().getNumCores();
@@ -44,12 +40,14 @@ public class AStarScheduler implements IScheduler {
     @Override
     public Schedule generateValidSchedule(Graph graph) throws AppConfigException {
         _graph = graph;
-        _allNodesOfGraph = _graph.getAllNodes();
-        _nodeIdList = _allNodesOfGraph.keySet();
 
-        earliestStartTimeComparator = Comparator.comparing((Schedule s) ->graph.getAllNodes().size()- s.getTasks().size());
-        heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(earliestStartTimeComparator).thenComparing(new ScheduleComparator(_graph));
+        //Make comparators
+        Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
+        Comparator<Schedule> nodesAssignedComparator = Comparator.comparing((Schedule s) ->s.getTasks().size());
+        Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) ->s.getEarliestStartTime());
+        heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(nodesAssignedComparator).thenComparing(earliestStartTimeComparator).thenComparing(new ScheduleComparator(_graph));
         _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
+
         Schedule schedule = new Schedule();
         _graph.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()), new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
 
@@ -63,7 +61,6 @@ public class AStarScheduler implements IScheduler {
         AlgorithmStatus algorithmStatus = AlgorithmStatus.getInstance();
         algorithmStatus.setAlgoState(AlgorithmState.RUNNING);
 
-        //initialises the helper classes as objects to use their methods
         List<Schedule> newFoundStates;
         _openState.add(schedule); //add the empty schedule to get the algorithm started
         _scheduleCount++;
@@ -150,7 +147,7 @@ public class AStarScheduler implements IScheduler {
     private boolean checkCompleteSchedule(Schedule state) {
         Set<String> taskIdList = state.getTasks().keySet();
         Set<String> nodeIdListCopy = new TreeSet<>();
-        nodeIdListCopy.addAll(_nodeIdList);
+        nodeIdListCopy.addAll(_graph.getAllNodes().keySet());
         nodeIdListCopy.removeAll(taskIdList);
 
         if (nodeIdListCopy.size() == 0) {
@@ -160,7 +157,4 @@ public class AStarScheduler implements IScheduler {
         }
     }
 
-    private int calculateCostFunction(Schedule state) {
-        return -1;
-    }
 }

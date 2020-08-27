@@ -21,36 +21,14 @@ import static org.junit.Assert.fail;
 
 public class AlgorithmIntegrationTests {
 
-//
-//    @Test
-//    public void firstTest() throws Exception{
-//
-//        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("ThirteenNodeGraph.dot").getPath()));
-//        AppConfig.getInstance().setNumProcessors(2);
-//        AppConfig.getInstance().setNumCores(7);
-//        AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
-//
-//
-//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-//        IScheduler scheduler = new AStarScheduler();
-//        Graph graph = externalGraphGenerator.generate();
-//
-//        Schedule schedule = scheduler.generateValidSchedule(graph);
-//
-//        IDOTFileWriter outputBuilder = new DOTFileWriter();
-//        outputBuilder.writeOutputToConsole(schedule, graph);
-//
-//
-//    }
 
     @Test
-    public void secTest() throws Exception{
+    public void firstTest() throws Exception{
 
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("starGraph.dot").getPath()));
-        AppConfig.getInstance().setNumProcessors(4);
-        AppConfig.getInstance().setNumCores(2);
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("ThirteenNodeGraph.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(2);
+        AppConfig.getInstance().setNumCores(7);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
-
 
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
@@ -63,53 +41,67 @@ public class AlgorithmIntegrationTests {
         outputBuilder.writeOutputToConsole(schedule, graph);
 
 
+    }
+
+    @Test
+    public void secTest() throws Exception{
+
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("starGraph.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(4);
+        AppConfig.getInstance().setNumCores(2);
+        AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
+
+        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+        IScheduler scheduler = new AStarScheduler();
+        Graph graph = externalGraphGenerator.generate();
+
+        Schedule schedule = scheduler.generateValidSchedule(graph);
+
+        IDOTFileWriter outputBuilder = new DOTFileWriter();
+        outputBuilder.writeOutputToConsole(schedule, graph);
 
     }
 
-//    @Test
-//    public void thirdTest() throws Exception{
-//
-//
-//        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("testGraph.dot").getPath()));
-//        AppConfig.getInstance().setNumProcessors(2);
-//        AppConfig.getInstance().setNumCores(2);
-//
-//        AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
-//
-//
-//
-//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-//        IScheduler scheduler = new AStarScheduler();
-//        Graph graph = externalGraphGenerator.generate();
-//
-//        Schedule schedule = scheduler.generateValidSchedule(graph);
-//
-//        IDOTFileWriter outputBuilder = new DOTFileWriter();
-//        outputBuilder.writeOutputToConsole(schedule, graph);
-//
-//
-//
-//    }
+    @Test
+    public void thirdTest() throws Exception{
 
-//    @Test
-//    public void fourthTest() throws Exception{
-//
-//        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("tenNodeOptimal.dot").getPath()));
-//        AppConfig.getInstance().setNumProcessors(2);
-//        AppConfig.getInstance().setNumCores(2);
-//        AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
-//
-//
-//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-//        IScheduler scheduler = new AStarScheduler();
-//        Graph graph = externalGraphGenerator.generate();
-//
-//        Schedule schedule = scheduler.generateValidSchedule(graph);
-//
-//        IDOTFileWriter outputBuilder = new DOTFileWriter();
-//        outputBuilder.writeOutputToConsole(schedule, graph);
-//
-//    }
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("test2Graph.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(2);
+        AppConfig.getInstance().setNumCores(2);
+
+        AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
+
+        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+        IScheduler scheduler = new AStarScheduler();
+        Graph graph = externalGraphGenerator.generate();
+
+        Schedule schedule = scheduler.generateValidSchedule(graph);
+
+        IDOTFileWriter outputBuilder = new DOTFileWriter();
+        outputBuilder.writeOutputToConsole(schedule, graph);
+
+
+    }
+
+    @Test
+    public void fourthTest() throws Exception{
+
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("tenNodeOptimal.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(2);
+        AppConfig.getInstance().setNumCores(2);
+        AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
+
+
+        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+        IScheduler scheduler = new AStarScheduler();
+        Graph graph = externalGraphGenerator.generate();
+
+        Schedule schedule = scheduler.generateValidSchedule(graph);
+
+        IDOTFileWriter outputBuilder = new DOTFileWriter();
+        outputBuilder.writeOutputToConsole(schedule, graph);
+
+    }
 
 
 }
