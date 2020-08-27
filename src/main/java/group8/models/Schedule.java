@@ -15,7 +15,7 @@ public class Schedule {
      *  Initial cost is -1.
      *  F = G + H
      */
-    private int _heuristicCost = -1;
+    private double _heuristicCost = -1;
     /**
      * Earliest start time heuristic
      */
@@ -35,7 +35,7 @@ public class Schedule {
      * Set of processors in the form of sets
      * Each processor is a set of node details in the form of a list [node Id, start time]
      */
-    private Set<Set<List<String>>> _processorSet = new HashSet<>();
+
 
     /**
      * Creates schedule object.
@@ -47,7 +47,6 @@ public class Schedule {
         }
         for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
             _processors[i] = -1;
-            _processorSet.add(new HashSet<>());
         }
     }
 
@@ -71,11 +70,11 @@ public class Schedule {
         _processors[processor] = startTime;
     }
 
-    public int getHeuristicCost() {
+    public double getHeuristicCost() {
         return _heuristicCost;
     }
 
-    public void setHeuristicCost(int heuristicCost) {
+    public void setHeuristicCost(double heuristicCost) {
         _heuristicCost = heuristicCost;
     }
 
@@ -121,11 +120,4 @@ public class Schedule {
         return shortestLength;
     }
 
-
-    public Set<Set<List<String>>> getProcessorSet() { return _processorSet; }
-
-    public void setProcessorSet(Set<Set<List<String>>> processorSet) {
-        _processorSet = processorSet;
-
-    }
 }

@@ -10,5 +10,5 @@ import java.util.HashMap;
  */
 public interface IHeuristic {
 
-    int calculateEstimate(Schedule state, HashMap<String, Node> allNodes);
+    double calculateEstimate(Schedule state, HashMap<String, Node> allNodes);
 }

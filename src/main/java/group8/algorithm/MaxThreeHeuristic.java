@@ -25,7 +25,7 @@ public class MaxThreeHeuristic implements IHeuristic{
      * @return
      */
     @Override
-    public int calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
+    public double calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
         return Math.max(calculateBlHeuristic(state, allNodes),Math.max(calculateIdleHeuristics(state, allNodes),calculateDrtHeuristic(state, allNodes)));
     }
 
@@ -36,11 +36,11 @@ public class MaxThreeHeuristic implements IHeuristic{
      * @param allNodes
      * @return
      */
-    private int calculateIdleHeuristics(Schedule state, HashMap<String, Node> allNodes){
+    private double calculateIdleHeuristics(Schedule state, HashMap<String, Node> allNodes){
 
         int[] processors = state.getProcessors();
         int[] sumProcessors = new int[processors.length];
-        int sumIdle = 0;
+        double sumIdle = 0;
         int maxP = 0;
 
         // Find amount of time used in each processor by nodes
@@ -63,9 +63,6 @@ public class MaxThreeHeuristic implements IHeuristic{
 
         }
 
-        //sumIdle+=maxP*processors.length;
-
-
         // Add total node costs
         for(Node node : allNodes.values()){
             sumIdle+=node.getCost();
@@ -82,7 +79,7 @@ public class MaxThreeHeuristic implements IHeuristic{
      * @param allNodes
      * @return
      */
-    private int calculateBlHeuristic(Schedule state, HashMap<String, Node> allNodes){
+    private double calculateBlHeuristic(Schedule state, HashMap<String, Node> allNodes){
 
         // Iterate through every node already in the partial state and calculate their bottom levels
         // return only the largest bottom level / critical path
@@ -109,7 +106,7 @@ public class MaxThreeHeuristic implements IHeuristic{
      * @param allNodes
      * @return
      */
-    private int calculateDrtHeuristic(Schedule state, HashMap<String, Node> allNodes){
+    private double calculateDrtHeuristic(Schedule state, HashMap<String, Node> allNodes){
         List<Integer> maxList = new ArrayList<>();
         Map<String,int[]> assignedTasks = state.getTasks();
         int[] processors = state.getProcessors();
@@ -123,7 +120,7 @@ public class MaxThreeHeuristic implements IHeuristic{
 
                     int earliestProcessorStartTime = Integer.MAX_VALUE;
 
-                    // for every processor, check all of this node's parents
+                    // for every processor, check all of this node's parents earliest allowance
                     for (int i = 0; i < processors.length; i++) {
                         int earliestStartTime = 0;
                         for (Node parent : node.getParentNodeList()) {
@@ -158,6 +155,7 @@ public class MaxThreeHeuristic implements IHeuristic{
                     //record largest value
                     if(maxHeuristic<earliestProcessorStartTime+node.getBottomLevel()){
                         maxHeuristic = earliestProcessorStartTime+node.getBottomLevel();
+
                     }
                 }
             }
