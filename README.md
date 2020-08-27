@@ -1,9 +1,10 @@
-# project-1-8-gr8-b8-m8
+# SOFTENG306 Project-1 Team 8: GR8-B8-M8
 
 This project utilises artificial intelligence(AI) and parallel processing to optimally schedule a set of tasks from a 
 directed task graph onto a given amount of processors. This project uses the AStar algorithm to find an optimal 
 schedule to the scheduling problem.
 
+![Image of Visualisation](visualisationImage.png)
 
 ## Team 8 - GR8 B8 M8
 |Name           |GitHub Username                                            |UPI    |
