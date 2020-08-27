@@ -10,15 +10,12 @@ public class Node {
 
     private int _cost;
     private String _id;
+
     private int _bottomLevel = -1;
 
     private int _identicalGroupId = -1;
     private HashMap<Node, Integer> _edgeList;
     private List<Node> _parentNodeList;
-
-    // unused for main algorithm
-    private Processor _processor;
-    private int _timeScheduled;
 
     /**
      * Constructs a new node with empty _edgeList and
@@ -109,23 +106,6 @@ public class Node {
 
     public void setEdgeList(HashMap<Node, Integer> edgeList) {
         _edgeList = edgeList;
-    }
-
-    // unused in main algorithm
-    public Processor getProcessor() {
-        return _processor;
-    }
-
-    public void setProcessor(Processor processor) {
-        _processor = processor;
-    }
-
-    public int getTimeScheduled(){
-        return _timeScheduled;
-    }
-
-    public void setTimeScheduled(int timeScheduled) {
-        _timeScheduled = timeScheduled;
     }
 
 }

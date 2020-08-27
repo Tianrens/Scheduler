@@ -20,7 +20,6 @@ public class SimpleProcessorScheduler implements IScheduler {
      * Calling this function will generate a simple valid schedule to output
      * @param graph
      * @return
-     * @throws ProcessorException
      * @throws AppConfigException
      */
     @Override

@@ -1,7 +1,7 @@
 package group8.models;
 
 /**
- * Exception for any problem related to {@link Processor}
+ * Exception for any problem related to processors
  */
 public class ProcessorException extends Exception {
     public ProcessorException() {
