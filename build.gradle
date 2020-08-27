@@ -29,6 +29,7 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    archiveName 'scheduler.jar'
 }
 
 mainClassName = 'group8.Main'
