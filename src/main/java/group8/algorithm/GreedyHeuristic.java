@@ -11,7 +11,7 @@ import java.util.Map;
 public class GreedyHeuristic implements IHeuristic {
 
     @Override
-    public int calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
+    public double calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
         Map<String, int[]> stateNodes = new HashMap<String, int[]>();
         stateNodes.putAll(state.getTasks()); // Get all nodes in the schedule. Put into a new map
         ArrayList<String> stateKeys = new ArrayList<String>(state.getTasks().keySet()); // Keys of the tasks in schedule
@@ -40,7 +40,12 @@ public class GreedyHeuristic implements IHeuristic {
 
             for (int i = 0; i < stateProcessors.length; i++) { // For each processor in the state
                 int startTime;
+
                 int processorStartTime = stateProcessors[i];
+                if(processorStartTime==-1){
+                    processorStartTime=0;
+                }
+
                 earliestStartTime = processorStartTime;
 
                 for (Node parent:parentList) {

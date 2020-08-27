@@ -14,7 +14,6 @@ public class Node {
     private int _bottomLevel = -1;
 
     private int _identicalGroupId = -1;
-
     private HashMap<Node, Integer> _edgeList;
     private List<Node> _parentNodeList;
 

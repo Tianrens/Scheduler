@@ -11,7 +11,7 @@ import java.util.*;
  * This class is currently only used for testing purposes
  */
 public class NotParallelAStar implements IScheduler {
-    private PriorityQueue<Schedule> _openState = new PriorityQueue<>(new ScheduleComparator());
+    private PriorityQueue<Schedule> _openState;
     private List<Schedule> _closedState = new ArrayList<>();
     private Graph _graph;
     private HashMap<String, Node> _allNodesOfGraph;
@@ -27,6 +27,7 @@ public class NotParallelAStar implements IScheduler {
     @Override
     public Schedule generateValidSchedule(Graph graph) throws AppConfigException {
         _graph = graph;
+        _openState = new PriorityQueue<>(new ScheduleComparator(graph));
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
 
