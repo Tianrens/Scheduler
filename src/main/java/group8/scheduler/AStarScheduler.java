@@ -46,6 +46,7 @@ public class AStarScheduler implements IScheduler {
         _graph = graph;
         _allNodesOfGraph = _graph.getAllNodes();
         _nodeIdList = _allNodesOfGraph.keySet();
+        //create a list of ELS expander objects for reuse
         for (int i = 0; i < _numUsableThreads; i++) {
             _expanderList.add(new ELSModelStateExpander(graph, null));
         }
