@@ -157,10 +157,9 @@ public class MaxThreeHeuristic implements IHeuristic{
                     }
                     //record largest value
                     if(maxHeuristic<earliestProcessorStartTime+node.getBottomLevel()){
-
                         maxHeuristic = earliestProcessorStartTime+node.getBottomLevel();
-                        if(maxHeuristic>50){
-                        }
+                            System.out.print("");
+
                     }
                 }
             }

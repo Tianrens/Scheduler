@@ -50,7 +50,17 @@ public class ScheduleComparator implements Comparator<Schedule> {
                 }
 
                 if(processor==-1){
-                    processor=newProcessor;
+                    processor = newProcessor;
+                    int size = 0;
+                    for(int[] n : m2.values()){
+                        if(n[1]==newProcessor){
+                            size++;
+                        }
+                    }
+                    if(size!=same.size()){
+                        isSame = false;
+                        break;
+                    }
                 }else if(processor!=newProcessor){
                     isSame = false;
                     break;
