@@ -76,6 +76,9 @@ public class MainScreenController {
     @FXML
     private Pane _scheduleGenGraph;
 
+    @FXML
+    private Text _numTasksText;
+
     /**
      * Initialize this class.
      * Set Text elements and setup Graphs.
@@ -93,6 +96,7 @@ public class MainScreenController {
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
         _inputFileText.setText("Input Graph: " + _appConfig.getInputFile().toPath().getFileName().toString());
         _outputGraphText.setText("Output Graph: " + _appConfig.getOutputFile().toPath().getFileName().toString());
+        _numTasksText.setText("Tasks: " + _graph.getAllNodes().size());
 
         _startTime = System.currentTimeMillis();
 
