@@ -45,27 +45,27 @@
                         </StackPane>
                         <Text id="infoText" fx:id="_inputFileText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph: file" wrappingWidth="280.0">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="15.0" />
                            </font>
                         </Text>
                         <Text fx:id="_outputGraphText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph: file" wrappingWidth="280.0">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="15.0" />
                            </font>
                         </Text>
                         <Text fx:id="_numProcessorsText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Processors: 0" wrappingWidth="280.0">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="15.0" />
                            </font>
                         </Text>
                         <Text fx:id="_numCoresText" fill="#222831" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Cores: 0" wrappingWidth="280.0">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="15.0" />
                            </font>
                         </Text>
                         <Text fx:id="_numTasksText" strokeType="OUTSIDE" strokeWidth="0.0" text="Tasks: 0">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="15.0" />
                            </font>
                         </Text>
                         <Pane prefHeight="15.0" prefWidth="286.0" />

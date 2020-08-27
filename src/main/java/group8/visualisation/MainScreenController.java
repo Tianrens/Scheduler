@@ -94,8 +94,8 @@ public class MainScreenController {
         // Set App Config values
         _numProcessorsText.setText("Number of Processors: " + _appConfig.getNumProcessors());
         _numCoresText.setText("Number of Cores: " + _appConfig.getNumCores());
-        _inputFileText.setText("Input Graph: " + _appConfig.getInputFile().toPath().getFileName().toString());
-        _outputGraphText.setText("Output Graph: " + _appConfig.getOutputFile().toPath().getFileName().toString());
+        _inputFileText.setText("Input: " + _appConfig.getInputFile().toPath().getFileName().toString());
+        _outputGraphText.setText("Output: " + _appConfig.getOutputFile().toPath().getFileName().toString());
         _numTasksText.setText("Tasks: " + _graph.getAllNodes().size());
 
         _startTime = System.currentTimeMillis();
