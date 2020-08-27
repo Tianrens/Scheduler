@@ -28,41 +28,73 @@ public class ScheduleComparator implements Comparator<Schedule> {
 
         boolean isSame = true;
 
-        for(int i = 0 ; i < pCount ; i++){
+        int m2ProCount = 0;
+        //this for loop checks all processors, and stores all tasks stored on a single processor
+        for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
+
+            //stores all nodes that will be compared for equality
             Map<String, Integer> same = new HashMap<>();
-            for(Map.Entry<String, int[]> me1 : m1.entrySet()){
-                if(me1.getValue()[1]==i){
-                    same.put(me1.getKey(),me1.getValue()[0]);
+            //loops through all nodes, and stores all nodes on the specified processor into map for checking later
+            for (Map.Entry<String, int[]> me1 : m1.entrySet()) {
+                //puts all nodes on one processor into map
+                if (me1.getValue()[1] == i) {
+                    same.put(me1.getKey(), me1.getValue()[0]);
                 }
             }
 
+            //checks if number of processors used is the same size
+            if(same.size()==0){
+                for (Map.Entry<String, int[]> me2 : m2.entrySet()) {
+                    //puts all nodes on one processor into map
+                    if (me2.getValue()[1] == i) {
+                        isSame=false;
+                        break;
+                    }
+                }
+            }
+
+
             int processor = -1;
-            for(Map.Entry<String, Integer> node : same.entrySet()){
-                if(!m2.containsKey(node.getKey())){
-                    isSame = false;
+
+            //checks if other schedule has a processor with similar nodes
+            for (Map.Entry<String, Integer> node : same.entrySet()) {
+
+                //if second schedule does not contain node then it cant be same
+                if (!m2.containsKey(node.getKey())) {
+                    isSame=false;
                     break;
                 }
 
-                int newProcessor = m2.get(node.getKey())[1];
-                if(m2.get(node.getKey())[0]!=node.getValue().intValue()){
-                    isSame = false;
+                //if startTimes are differnt then they cannot be the same.
+                if (m2.get(node.getKey())[0] != node.getValue().intValue()) {
+                    isSame=false;
                     break;
                 }
 
-                if(processor==-1){
+                int newProcessor = m2.get(node.getKey())[1];//finds the processor number of the same node in the other schedule
+
+                //checks if first value in loop
+                if (processor == -1) {
+                    //processor value should remain constant for all nodes
                     processor = newProcessor;
                     int size = 0;
+                    m2ProCount++;
+
+                    //counts how many nodes are on the processor in the other schedule
                     for(int[] n : m2.values()){
                         if(n[1]==newProcessor){
                             size++;
                         }
                     }
+
+                    //there should be same number of nodes in total
                     if(size!=same.size()){
-                        isSame = false;
+                        isSame=false;
                         break;
                     }
-                }else if(processor!=newProcessor){
-                    isSame = false;
+
+                } else if (processor != newProcessor) { //if processors do not equal then same nodes are not on the same processor
+                    isSame=false;
                     break;
                 }
 
@@ -82,7 +114,6 @@ public class ScheduleComparator implements Comparator<Schedule> {
         } else {
             return 1;
         }
-
     }
 
 }
