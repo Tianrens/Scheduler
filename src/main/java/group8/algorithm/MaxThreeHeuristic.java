@@ -111,11 +111,11 @@ public class MaxThreeHeuristic implements IHeuristic{
                 if(checkParents(node.getParentNodeList(),state.getTasks())) {
                     int earliestProcessorStartTime = Integer.MAX_VALUE;
 
-                    // putting the node for every processor, check all of this node's parents
+                    // for every processor, check all of this node's parents
                     for (int i = 0; i < state.getProcessors().length; i++) {
                         int earliestStartTime = 0;
                         for (Node parent : node.getParentNodeList()) {
-                            int startTime;
+                            int startTime = 0;
 
                             // If the parent is on another processor, factor in communication cost to
                             // find the required start time for this processor
@@ -131,7 +131,7 @@ public class MaxThreeHeuristic implements IHeuristic{
                                 startTime = state.getProcessors()[i];
                             }
 
-                            // Check if parent remote dependancies have effected this processors earliest start time
+                            // Max time between the parent nodes (tf(parent) + cost) for the node.
                             if (startTime > earliestStartTime) {
                                 earliestStartTime = startTime;
                             }
