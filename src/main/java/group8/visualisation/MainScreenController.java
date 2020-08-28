@@ -125,12 +125,6 @@ public class MainScreenController {
         setupLineGraph();
         setupPieChart();
 
-//        if (_appConfig.getNumCores() == 1) {
-
-//        } else {
-
-//        }
-
 
         _timeLine = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
@@ -190,18 +184,7 @@ public class MainScreenController {
             } else {
                 currentFrame++;
         }
-
-//        if (_appConfig.getNumCores() == 1) {
-//            updateLineGraph();
-//        } else {
-//            if (currentFrame == refreshRate) {
-//                updatePieChart();
-//                currentFrame = 0;
-//            } else {
-//                currentFrame++;
-//            }
-//        }
-
+        
     }
 
     /**
