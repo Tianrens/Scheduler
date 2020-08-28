@@ -12,6 +12,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.chart.*;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -45,9 +48,10 @@ public class MainScreenController {
     private GanttChart<Number,String> _chart;
     private LineChart _lineChart;
     private PieChart _pieChart;
+    private TabPane _tabPane;
 
     private int refreshRate = 3;
-    private int currentFrame = 0;
+    private int currentFrame = 3;
 
     @FXML
     private Text _numProcessorsText;
@@ -117,12 +121,15 @@ public class MainScreenController {
         _startTime = System.currentTimeMillis();
 
         setUpGanttChart();
+        setupTabPane();
+        setupLineGraph();
+        setupPieChart();
 
-        if (_appConfig.getNumCores() == 1) {
-            setupLineGraph();
-        } else {
-            setupPieChart();
-        }
+//        if (_appConfig.getNumCores() == 1) {
+
+//        } else {
+
+//        }
 
 
         _timeLine = new Timeline(
@@ -173,18 +180,27 @@ public class MainScreenController {
                 _appStatusText.setText("ERROR" );
                 break;
         }
-        updateGanttChart();
 
-        if (_appConfig.getNumCores() == 1) {
-            updateLineGraph();
-        } else {
-            if (currentFrame == refreshRate) {
+        updateGanttChart();
+        updateLineGraph();
+
+        if (currentFrame == refreshRate) {
                 updatePieChart();
                 currentFrame = 0;
             } else {
                 currentFrame++;
-            }
         }
+
+//        if (_appConfig.getNumCores() == 1) {
+//            updateLineGraph();
+//        } else {
+//            if (currentFrame == refreshRate) {
+//                updatePieChart();
+//                currentFrame = 0;
+//            } else {
+//                currentFrame++;
+//            }
+//        }
 
     }
 
@@ -296,8 +312,8 @@ public class MainScreenController {
 
         LineChart linechart = new LineChart(xAxis,yAxis);
 
-        linechart.setPrefHeight(250);
-        linechart.setPrefWidth(280);
+        linechart.setPrefHeight(150);
+        linechart.setPrefWidth(150);
 
         linechart.setCreateSymbols(false);
 
@@ -308,8 +324,11 @@ public class MainScreenController {
         linechart.getData().add(series);
 
         _lineChart = linechart;
+        Tab tab = new Tab("Line Chart", _lineChart);
+        tab.setClosable(false);
+        _tabPane.getTabs().add(tab);
 
-        _scheduleGenGraph.getChildren().add(linechart);
+        //_scheduleGenGraph.getChildren().add(linechart);
     }
 
     /**
@@ -331,14 +350,18 @@ public class MainScreenController {
         PieChart pieChart = new PieChart();
 
 
-        pieChart.setPrefWidth(280);
-        pieChart.setPrefWidth(250);
-        pieChart.setPadding(new Insets(0,0,150,0));
+        pieChart.setPrefWidth(300);
+        pieChart.setPrefWidth(300);
+        pieChart.setPadding(new Insets(0,0,0,0));
         pieChart.setLegendVisible(false);
 
         _pieChart = pieChart;
 
-        _scheduleGenGraph.getChildren().add(_pieChart);
+        Tab tab = new Tab("Pie Chart", _pieChart);
+        tab.setClosable(false);
+        _tabPane.getTabs().add(tab);
+
+        //_scheduleGenGraph.getChildren().add(_pieChart);
 
     }
 
@@ -354,6 +377,16 @@ public class MainScreenController {
         //slices.addAll(slices);
         _pieChart.getData().addAll(slices);
 
+    }
+
+    private void setupTabPane() {
+        _tabPane = new TabPane();
+        _tabPane.setStyle("-fx-background-color: white");
+
+        _tabPane.setPrefHeight(250);
+        _tabPane.setPrefWidth(285);
+
+        _scheduleGenGraph.getChildren().add(_tabPane);
     }
 
 
