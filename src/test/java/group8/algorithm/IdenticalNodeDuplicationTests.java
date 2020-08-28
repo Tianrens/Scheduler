@@ -3,7 +3,6 @@ package group8.algorithm;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 import group8.models.Graph;
-import group8.models.Node;
 import group8.models.Schedule;
 import group8.parser.*;
 import org.junit.Before;
@@ -26,12 +25,13 @@ public class IdenticalNodeDuplicationTests {
         AppConfig.getInstance().setNumProcessors(3);
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
         _graph = externalGraphGenerator.generate();
+        IHeuristic heuristic = new MaxThreeHeuristic();
 
         _schedule = new Schedule();
         _schedule.scheduleTask("a", 0, 0);
         _schedule.setProcessorStartTime(0, 2);
 
-        _stateExpander = new ELSModelStateExpander(_graph);
+        _stateExpander = new ELSModelStateExpander(_graph, heuristic);
     }
 
     @Test

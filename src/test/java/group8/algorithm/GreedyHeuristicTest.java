@@ -5,10 +5,7 @@ import group8.cli.AppConfigException;
 import group8.models.Node;
 import group8.models.Schedule;
 import org.junit.Test;
-
 import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.Assert.*;
 
 /**
