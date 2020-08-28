@@ -2,7 +2,6 @@ package group8.algorithm;
 
 import group8.models.Node;
 import group8.models.Schedule;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,7 @@ public class GreedyHeuristic implements IHeuristic {
         }
 
         //Obtain topology for them
-        topology = topologyFinder.generateTopology(statelessNodes); // Create topology from unassigned modes.
+        topology = topologyFinder.generateTopology(statelessNodes); // Create topology from unassigned nodes.
 
         for (Node node:topology) { // Every node in topology
             int earliestStartTime = 0; // Earliest start time the node on all processes.
@@ -68,8 +67,8 @@ public class GreedyHeuristic implements IHeuristic {
                         startTime = processorStartTime;
                     }
 
-                    //checks if there any dependencies that might delay the scheduling of the task
-                    // For this one processor, which every parent. accoutn for the lastest costing parent.
+                    //Checks if there any dependencies that might delay the scheduling of the task
+                    // For this one processor, which every parent. accounting for the latest costing parent.
                     if(startTime>earliestStartTime){
                         earliestStartTime=startTime;
                     }
@@ -91,7 +90,7 @@ public class GreedyHeuristic implements IHeuristic {
 
             //Now processor index is chosen, add new start time with new node.
             stateProcessors[index] = processSelection[index] + node.getCost();
-            int[] newNodeDetails = {stateProcessors[index], index}; // Renived + 1
+            int[] newNodeDetails = {stateProcessors[index], index}; // Removed + 1
             stateNodes.put(node.getId(), newNodeDetails);
         }
 
