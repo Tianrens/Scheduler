@@ -1,17 +1,14 @@
 package group8;
 
-import group8.algorithm.AlgorithmState;
+
 import group8.cli.AppConfig;
 import group8.cli.AppConfigBuilder;
 import group8.cli.AppConfigException;
 import group8.cli.CLIException;
 import group8.models.Graph;
-import group8.models.Node;
-import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.*;
-import group8.visualisation.AlgorithmStatus;
 import group8.visualisation.MainScreenController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,8 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 public class Main extends Application {
 
@@ -45,6 +40,12 @@ public class Main extends Application {
 
     }
 
+    /**
+     * Parse command line input, with AppConfigBuilder.
+     * Checks user input is valid.
+     * @param args
+     * @return
+     */
     private static AppConfig buildAppConfig(String[] args) {
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {

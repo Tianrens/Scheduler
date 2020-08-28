@@ -6,8 +6,8 @@ import java.io.File;
  * This class stores configuration information of the application.
  * This is a singleton class.
  *
- * Stores:
- * Input File, Number of processors, number of cores, to use visualisation or not, output name and graph name.
+ * Stores: Input File, Number of processors, number of cores,
+ * to use visualisation or not, output name and graph name.
  */
 public class AppConfig {
 
@@ -88,10 +88,6 @@ public class AppConfig {
 
     public File getOutputFile() {
         return _outputFile;
-    }
-
-    public String getGraphName() {
-        return _graphName;
     }
 
     public void setGraphName(String graphName) {

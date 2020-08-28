@@ -1,7 +1,6 @@
 package group8.models;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * This class is a model of each individual node in the graph

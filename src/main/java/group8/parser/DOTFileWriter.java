@@ -47,7 +47,7 @@ public class DOTFileWriter implements IDOTFileWriter{
                 out.write(createNodeString(node, taskScheduleInfo)); // This prints out all nodes their weights, processor and start time
                 out.newLine();
 
-                for (Map.Entry<Node, Integer> edge : node.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+                for (Map.Entry<Node, Integer> edge : node.getEdgeList().entrySet()) { //This concatenates all edges a node has and adds then to print later
                     edgeList += createEdgeString(node, edge);
                 }
             }
@@ -61,6 +61,12 @@ public class DOTFileWriter implements IDOTFileWriter{
         }
     }
 
+    /**
+     * Prints the output to the console for easy debugging
+     * @param schedule
+     * @param graph
+     * @throws AppConfigException
+     */
     public void writeOutputToConsole(Schedule schedule, Graph graph) throws AppConfigException {
         try{
             System.out.println("digraph output_graph {");
@@ -75,7 +81,7 @@ public class DOTFileWriter implements IDOTFileWriter{
 
                 System.out.println(createNodeString(node, taskScheduleInfo)); // This prints out all nodes their weights, processor and start time
 
-                for (Map.Entry<Node, Integer> edge : node.getEdgeList().entrySet()) { //This concats all edges a node has and adds then to print later
+                for (Map.Entry<Node, Integer> edge : node.getEdgeList().entrySet()) { //This concatenates all edges a node has and adds then to print later
                     edgeList += createEdgeString(node, edge);
                 }
             }
