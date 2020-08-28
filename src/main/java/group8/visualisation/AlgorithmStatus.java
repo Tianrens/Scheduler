@@ -72,6 +72,10 @@ public class AlgorithmStatus {
         _numSchedulesOnCores[core] = numSchedules;
     }
 
+    /**
+     * Set the whole schedules on cores array.
+     * @param cores
+     */
     public synchronized void setnumSchedulesOnCores(long[] cores) {
         _numSchedulesOnCores = cores;
     }
