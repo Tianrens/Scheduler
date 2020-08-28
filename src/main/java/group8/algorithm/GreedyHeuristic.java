@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * The purpose of this class is to calculate the greedy heuristic of the provided schedule
- * The greedy implementation is finding the selecting earliest starting processor
+ * The greedy implementation selects the earliest starting processor at each step
  */
 public class GreedyHeuristic implements IHeuristic {
 
