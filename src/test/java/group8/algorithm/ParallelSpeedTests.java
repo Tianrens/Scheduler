@@ -13,7 +13,6 @@ import java.util.List;
 import group8.parser.*;
 import group8.scheduler.AStarScheduler;
 import group8.scheduler.IScheduler;
-import group8.scheduler.NotParallelAStar;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
