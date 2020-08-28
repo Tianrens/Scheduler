@@ -34,7 +34,6 @@ public class ScheduleQueue extends TreeSet<Schedule> {
                     if (s2.getEarliestStartTime() == schedule.getEarliestStartTime()) {
                         if(s2.getTasks().equals(schedule.getTasks())) {
 
-
                             isSame = true;
                             //this for loop checks all processors, and stores all tasks stored on a single processor
                             for (int i = 0; i < AppConfig.getInstance().getNumProcessors(); i++) {
@@ -59,7 +58,6 @@ public class ScheduleQueue extends TreeSet<Schedule> {
                                         }
                                     }
                                 }
-
 
                                 int processor = -1;
 
