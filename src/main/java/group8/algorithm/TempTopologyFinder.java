@@ -1,11 +1,12 @@
 package group8.algorithm;
 
-import group8.models.Graph;
 import group8.models.Node;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Generator Class used to create topologies
+ */
 public class TempTopologyFinder {
     //A list of all unassigned nodes in the graph
     private List<Node> _nodeList;
@@ -14,7 +15,7 @@ public class TempTopologyFinder {
     private List<Node> _topology;
 
     /**
-     * Method used to generate a scheduler from a given graph
+     * Method used to sort/generate a topology from a given list of nodes
      * @param toSortList list to generate a scheduler from
      * @return the scheduler as a sequential list of Nodes
      */

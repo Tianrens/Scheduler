@@ -75,7 +75,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     continue;
                 }
 
-                int[] newProcessors = makeProcessorList(processors);
+                int[] newProcessors = processors.clone();
 
                 if(!emptyAssign && newProcessors[i]==-1){
                     emptyAssign=true;
@@ -159,18 +159,13 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         return true;
     }
 
-    private int[] makeProcessorList(int[] processors){
-        int[] newProcessors = new int[processors.length];
-
-        for (int i =0 ; i< processors.length ;i++){
-            newProcessors[i]=processors[i];
-        }
-        return newProcessors;
-
-    }
-
-
-
+    /**
+     * Helper method for creating a new schedule to assign the given attributes/fields
+     * @param processors
+     * @param scheduledNodes
+     * @return
+     * @throws AppConfigException
+     */
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
         Schedule newSchedule = new Schedule();
