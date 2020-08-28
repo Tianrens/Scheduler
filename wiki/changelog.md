@@ -5,7 +5,7 @@ All notable changes/commits to this Scheduler project will be recorded in this l
 ## [Unreleased]
 
 &nbsp;
-## [1.6.0] - 2020-08-27
+## [1.7.0] - 2020-08-28
 ### Removed
 - Out-dated classes e.g. SimpleProcessorScheduler
 
