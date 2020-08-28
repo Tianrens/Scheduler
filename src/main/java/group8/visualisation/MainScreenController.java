@@ -126,7 +126,6 @@ public class MainScreenController {
                         System.out.println("stop");
                         _timeLine.stop();
 
-
                     }
                 })
         );
@@ -176,12 +175,11 @@ public class MainScreenController {
             } else {
                 currentFrame++;
         }
-
     }
 
     /**
      * This method setup the GanttChart.
-     * Sets the axis and
+     * Sets the axis, other properties and adds gantt chart to the pane.
      */
     private void setUpGanttChart() {
 
@@ -189,7 +187,7 @@ public class MainScreenController {
 
         String[] processors = new String[numProcessors];
 
-        // Set up processors to be displayed in the Gantt Chart GUi.
+        // Set up processors to be displayed in the Gantt Chart GUI.
         // Process of index 0, will be named Process 1 etc...
         for (int i = 0; i < numProcessors; i++) {
             processors[i] = "Processor " + (i + 1);
@@ -251,8 +249,8 @@ public class MainScreenController {
         Map<String, int[]> tasks = schedule.getTasks();
 
         // Loop through each processor, and for each processor, loop through all tasks.
-        // For each processor create a new serie.
-        // If the task belongs on this processor, add a new s Data point to the processor serie.
+        // For each processor create a new series.
+        // If the task belongs on this processor, add a new s Data point to the processor series.
         for (int i = 0; i < numProcessors; i++) {
             processor = processors[i];
             XYChart.Series serie = new XYChart.Series();
@@ -270,8 +268,7 @@ public class MainScreenController {
 
             series[i] = serie;
         }
-        // Add all series to the gantt chart.
-        _chart.getData().addAll(series);
+        _chart.getData().addAll(series); // Add all series to the gantt chart.
     }
 
     /**
@@ -356,7 +353,7 @@ public class MainScreenController {
     }
 
     /**
-     * Set up tab pane to siwtch between pie chart and line graph
+     * Set up tab pane to switch between pie chart and line graph
      */
     private void setupTabPane() {
         _tabPane = new TabPane();
@@ -367,7 +364,4 @@ public class MainScreenController {
 
         _scheduleGenGraph.getChildren().add(_tabPane);
     }
-
-
-
 }
