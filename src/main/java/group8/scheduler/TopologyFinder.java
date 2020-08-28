@@ -49,7 +49,6 @@ public class TopologyFinder implements  ITopologyFinder {
         }
 
         return _topology;
-
     }
 
     /**

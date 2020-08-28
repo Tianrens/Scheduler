@@ -3,7 +3,6 @@ package group8.cli;
 import org.apache.commons.cli.*;
 
 import java.io.File;
-import java.util.Arrays;
 
 import static group8.cli.CLIConstants.*;
 

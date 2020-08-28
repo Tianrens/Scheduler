@@ -17,10 +17,6 @@ import java.util.concurrent.*;
  */
 public class AStarScheduler implements IScheduler {
 
-
-
-
-    //private List<Schedule> _closedState = new ArrayList<>();
     private Comparator<Schedule> _heuristicAndEarliestStartTimeComparator;
     private ScheduleQueue _openState;
     private Graph _graph;
@@ -67,7 +63,6 @@ public class AStarScheduler implements IScheduler {
         List<Schedule> newFoundStates;
         _openState.add(schedule); //add the empty schedule to get the algorithm started
         _scheduleCount++;
-
 
         //continue with the algorithm while there are still states in the priority queue
         while (true) {

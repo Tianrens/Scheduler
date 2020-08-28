@@ -9,7 +9,6 @@ import group8.models.Schedule;
  */
 public interface IScheduler {
 
-
     Schedule generateValidSchedule(Graph graph) throws AppConfigException;
 
 }

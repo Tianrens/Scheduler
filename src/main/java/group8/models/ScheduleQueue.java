@@ -1,7 +1,6 @@
 package group8.models;
 
 import group8.cli.AppConfig;
-
 import java.util.*;
 
 /**
@@ -17,8 +16,6 @@ public class ScheduleQueue extends TreeSet<Schedule> {
     public ScheduleQueue(Comparator<? super Schedule> comparator){
         super(comparator);
     }
-
-
 
     @Override
     public boolean add(Schedule schedule){
@@ -123,13 +120,11 @@ public class ScheduleQueue extends TreeSet<Schedule> {
         return super.add(schedule);
     }
 
-
     /**
-     * Method for adding unoptimal schedules to the CLOSED list
+     * Method for adding non-optimal schedules to the CLOSED list
      * @param state
      */
     public void addClosedState(Schedule state){
-
 
         if(_closedStates.size()>state.getTasks().size()){
             _closedStates.get(state.getTasks().size()).add(state);

@@ -27,7 +27,6 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         public long length;
         public String styleClass;
 
-
         public ExtraData(long lengthMs, String styleClass) {
             super();
             this.length = lengthMs;
@@ -45,7 +44,6 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         public void setStyleClass(String styleClass) {
             this.styleClass = styleClass;
         }
-
 
     }
 
@@ -71,7 +69,8 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         return ((ExtraData) obj).getLength();
     }
 
-    @Override protected void layoutPlotChildren() {
+    @Override
+    protected void layoutPlotChildren() {
 
         for (int seriesIndex=0; seriesIndex < getData().size(); seriesIndex++) {
 
@@ -126,21 +125,25 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         this.blockHeight = blockHeight;
     }
 
-    @Override protected void dataItemAdded(Series<X,Y> series, int itemIndex, Data<X,Y> item) {
+    @Override
+    protected void dataItemAdded(Series<X,Y> series, int itemIndex, Data<X,Y> item) {
         Node block = createContainer(series, getData().indexOf(series), item, itemIndex);
         getPlotChildren().add(block);
     }
 
-    @Override protected  void dataItemRemoved(final Data<X,Y> item, final Series<X,Y> series) {
+    @Override
+    protected  void dataItemRemoved(final Data<X,Y> item, final Series<X,Y> series) {
         final Node block = item.getNode();
         getPlotChildren().remove(block);
         removeDataItemFromDisplay(series, item);
     }
 
-    @Override protected void dataItemChanged(Data<X, Y> item) {
+    @Override
+    protected void dataItemChanged(Data<X, Y> item) {
     }
 
-    @Override protected  void seriesAdded(Series<X,Y> series, int seriesIndex) {
+    @Override
+    protected  void seriesAdded(Series<X,Y> series, int seriesIndex) {
         for (int j=0; j<series.getData().size(); j++) {
             Data<X,Y> item = series.getData().get(j);
             Node container = createContainer(series, seriesIndex, item, j);
@@ -148,15 +151,14 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         }
     }
 
-    @Override protected  void seriesRemoved(final Series<X,Y> series) {
+    @Override
+    protected  void seriesRemoved(final Series<X,Y> series) {
         for (XYChart.Data<X,Y> d : series.getData()) {
             final Node container = d.getNode();
             getPlotChildren().remove(container);
         }
         removeSeriesFromDisplay(series);
-
     }
-
 
     private Node createContainer(Series<X, Y> series, int seriesIndex, final Data<X,Y> item, int itemIndex) {
 
@@ -172,7 +174,8 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         return container;
     }
 
-    @Override protected void updateAxisRange() {
+    @Override
+    protected void updateAxisRange() {
         final Axis<X> xa = getXAxis();
         final Axis<Y> ya = getYAxis();
         List<X> xData = null;
@@ -195,5 +198,4 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
             if(yData != null) ya.invalidateRange(yData);
         }
     }
-
 }

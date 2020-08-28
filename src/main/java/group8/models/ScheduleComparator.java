@@ -1,14 +1,12 @@
 package group8.models;
 
 import group8.cli.AppConfig;
-
 import java.util.*;
 
 /**
  * This class compares two schedules heuristic costs.
  */
 public class ScheduleComparator implements Comparator<Schedule> {
-
 
     private Graph _graph;
     private int pCount = AppConfig.getInstance().getNumProcessors();
@@ -17,7 +15,6 @@ public class ScheduleComparator implements Comparator<Schedule> {
         super();
         _graph=graph;
     }
-
 
     /**
      * Method used to compare two schedules to find their "priority"
@@ -57,7 +54,6 @@ public class ScheduleComparator implements Comparator<Schedule> {
                     }
                 }
             }
-
 
             int processor = -1;
 
