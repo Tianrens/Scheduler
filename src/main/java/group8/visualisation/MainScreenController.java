@@ -184,7 +184,7 @@ public class MainScreenController {
             } else {
                 currentFrame++;
         }
-        
+
     }
 
     /**
