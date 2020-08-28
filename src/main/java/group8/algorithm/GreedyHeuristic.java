@@ -2,14 +2,14 @@ package group8.algorithm;
 
 import group8.models.Node;
 import group8.models.Schedule;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Class for calculating a heuristic based on the greedy rule of selecting earliest starting processor
+ * The purpose of this class is to calculate the greedy heuristic of the provided schedule
+ * The greedy implementation is finding the selecting earliest starting processor
  */
 public class GreedyHeuristic implements IHeuristic {
 

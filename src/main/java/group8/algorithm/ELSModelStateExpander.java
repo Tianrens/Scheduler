@@ -18,12 +18,6 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private Schedule _state;
     private double _graphHeuristicCost;
 
-    public ELSModelStateExpander(Graph graph, Schedule state){
-        _nodeList=graph.getAllNodes();
-        _graph = graph;
-        _state = state;
-        _graphHeuristicCost = graph.getHeuristicCost();
-    }
     public ELSModelStateExpander(Graph graph) throws AppConfigException {
         _nodeList=graph.getAllNodes();
         _graph = graph;
@@ -91,10 +85,11 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 }
 
                 int[] newProcessors = processors.clone();
-                if(!emptyAssign && newProcessors[i]==-1){
+
+                if(!emptyAssign && newProcessors[i]==-1) {
                     emptyAssign=true;
                     newProcessors[i]=0;
-                }else if(emptyAssign && newProcessors[i]==-1){
+                }else if (emptyAssign && newProcessors[i]==-1) {
                     //This might need reconsideration, because I dont think there will be a case where after
                     // reading an empty process will we come across a process that is not empty
                     continue;
