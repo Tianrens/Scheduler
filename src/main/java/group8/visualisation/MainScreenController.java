@@ -341,6 +341,8 @@ public class MainScreenController {
         pieChart.setPadding(new Insets(0,0,0,0));
         pieChart.setLegendVisible(false);
 
+        pieChart.setTitle("Schedules Generated per Core");
+
         _pieChart = pieChart;
 
         Tab tab = new Tab("Pie Chart", _pieChart);
@@ -360,7 +362,7 @@ public class MainScreenController {
         //ArrayList<PieChart.Data> slices = new ArrayList<>();
         PieChart.Data[] slices = new PieChart.Data[cores.length];
         for (int i = 0; i < cores.length; i++) {
-            PieChart.Data slice = new PieChart.Data("Core: " + (i + 1), cores[i]);
+            PieChart.Data slice = new PieChart.Data("Core " + (i + 1) + ": " + cores[i], cores[i]);
             slices[i] = slice;
         }
         //slices.addAll(slices);
