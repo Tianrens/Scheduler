@@ -139,12 +139,12 @@ public class AStarScheduler implements IScheduler {
                 }
             }
             algorithmStatus.setNumSchedulesGenerated(_scheduleCount);
-            algorithmStatus.setnumSchedulesOnCores(_scheduleCountList);
+            algorithmStatus.setNumSchedulesOnCores(_scheduleCountList);
         }
     }
 
     /**
-     * check if the state is complete, meaning that the schedule contains
+     * A check to see if the state is complete, meaning that the schedule contains
      * all of the nodes of the graph.
      * @param state
      * @return
