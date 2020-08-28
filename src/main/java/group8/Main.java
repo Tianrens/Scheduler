@@ -45,6 +45,12 @@ public class Main extends Application {
 
     }
 
+    /**
+     * Parse command line input, with AppConfigBuilder.
+     * Checks user input is valid.
+     * @param args
+     * @return
+     */
     private static AppConfig buildAppConfig(String[] args) {
         AppConfigBuilder cli = new AppConfigBuilder(args);
         try {
