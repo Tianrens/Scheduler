@@ -71,4 +71,8 @@ public class AlgorithmStatus {
     public synchronized void setScheduleOnCores(int core, long numSchedules) {
         _numSchedulesOnCores[core] = numSchedules;
     }
+
+    public synchronized void setnumSchedulesOnCores(long[] cores) {
+        _numSchedulesOnCores = cores;
+    }
 }
