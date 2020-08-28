@@ -31,6 +31,7 @@ import java.util.Map;
  * Light Blue: #dbe2ef
  * Blue: #3f72af
  * DarkBlue: #112d4e
+ * Green: #6eaf3f
  */
 public class MainScreenController {
 
@@ -160,6 +161,8 @@ public class MainScreenController {
 
             case FINISHED:
                 _appStatusText.setText("Done" );
+                _appStatusText.setStyle("-fx-font-weight: bold");
+                _appStatusText.setFill(Color.GREEN);
                 break;
             default:
                 _appStatusText.setText("ERROR" );
