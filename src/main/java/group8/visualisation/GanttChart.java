@@ -69,6 +69,9 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         return ((ExtraData) obj).getLength();
     }
 
+    /**
+     * Given data set, loop through the series and plot data from each series into appropriate blocks.
+     */
     @Override
     protected void layoutPlotChildren() {
 
@@ -174,6 +177,9 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         return container;
     }
 
+    /**
+     * This method changes the axis when the graph grows to keep it positioned appropriately
+     */
     @Override
     protected void updateAxisRange() {
         final Axis<X> xa = getXAxis();

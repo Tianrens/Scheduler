@@ -21,6 +21,10 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         _parser = externalParser;
     }
 
+    /**
+     *
+     * @return graph object holding all the information of the input file
+     */
     @Override
     public Graph generate() {
         Graph graph = new Graph();
