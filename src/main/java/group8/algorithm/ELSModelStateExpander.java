@@ -75,7 +75,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     continue;
                 }
 
-                int[] newProcessors = makeProcessorList(processors);
+                int[] newProcessors = processors.clone();
 
                 if(!emptyAssign && newProcessors[i]==-1){
                     emptyAssign=true;
@@ -157,16 +157,6 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         }
 
         return true;
-    }
-
-    private int[] makeProcessorList(int[] processors){
-        int[] newProcessors = new int[processors.length];
-
-        for (int i =0 ; i< processors.length ;i++){
-            newProcessors[i]=processors[i];
-        }
-        return newProcessors;
-
     }
 
     /**
