@@ -86,7 +86,7 @@ public class AlgorithmIntegrationTests {
     @Test
     public void fourthTest() throws Exception{
 
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("tenNodeOptimal.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("sixteenNodeOptimal.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(2);
         AppConfig.getInstance().setNumCores(1);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));

@@ -151,10 +151,6 @@ public class AStarScheduler implements IScheduler {
      */
     private boolean checkCompleteSchedule(Schedule state) {
 
-        if(state==null){
-            System.out.println(_scheduleCount);
-            System.out.println(test);
-        }
         Set<String> taskIdList = state.getTasks().keySet();
         Set<String> nodeIdListCopy = new TreeSet<>();
         nodeIdListCopy.addAll(_graph.getAllNodes().keySet());
