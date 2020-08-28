@@ -10,15 +10,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.geometry.Insets;
+import javafx.scene.chart.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -45,6 +44,7 @@ public class MainScreenController {
 
     private GanttChart<Number,String> _chart;
     private LineChart _lineChart;
+    private PieChart _pieChart;
 
     @FXML
     private Text _numProcessorsText;
@@ -115,7 +115,12 @@ public class MainScreenController {
 
         setUpGanttChart();
 
-        setupLineGraph();
+        if (_appConfig.getNumCores() == 1) {
+            setupLineGraph();
+        } else {
+            setupPieChart();
+        }
+
 
         _timeLine = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
@@ -166,7 +171,13 @@ public class MainScreenController {
                 break;
         }
         updateGanttChart();
-        updateLineGraph();
+
+        if (_appConfig.getNumCores() == 1) {
+            updateLineGraph();
+        } else {
+            updatePieChart();
+        }
+
     }
 
     /**
@@ -306,6 +317,33 @@ public class MainScreenController {
 
     public void setGraph(Graph graph) {
         _graph = graph;
+    }
+
+    private void setupPieChart() {
+        PieChart pieChart = new PieChart();
+
+
+        pieChart.setPrefWidth(280);
+        pieChart.setPrefWidth(250);
+        pieChart.setPadding(new Insets(0,0,100,0));
+        pieChart.setLegendVisible(false);
+
+        _pieChart = pieChart;
+
+        _scheduleGenGraph.getChildren().add(_pieChart);
+
+    }
+
+    private void updatePieChart() {
+        _pieChart.getData().clear();
+        long[] cores = _algoStatus.getNumSchedulesOnCores();
+        ArrayList<PieChart.Data> slices = new ArrayList<>();
+        for (int i = 0; i < cores.length; i++) {
+            PieChart.Data slice = new PieChart.Data("Core: " + (i + 1), cores[i]);
+        }
+        slices.addAll(slices);
+        _pieChart.getData().addAll(slices);
+
     }
 
 
