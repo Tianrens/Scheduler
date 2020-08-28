@@ -3,7 +3,6 @@ package group8.algorithm;
 import group8.models.Node;
 import group8.models.Schedule;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,7 @@ import java.util.Map;
  * 3. Data Ready Time Heuristic
  * From these three, the largest calculated estimate is used by the A* algorithm
  */
-public class MaxThreeHeuristic implements IHeuristic{
-
+public class MaxThreeHeuristic implements IHeuristic {
 
     /**
      * This method performs all three calculations and picks the maximum of the three estimates
@@ -28,7 +26,6 @@ public class MaxThreeHeuristic implements IHeuristic{
     public double calculateEstimate(Schedule state, HashMap<String, Node> allNodes) {
         return Math.max(calculateBlHeuristic(state, allNodes),Math.max(calculateIdleHeuristics(state, allNodes),calculateDrtHeuristic(state, allNodes)));
     }
-
 
     /**
      * This method calculates the idle heuristic based on (total node costs + total idle time)/no. of processors
@@ -47,7 +44,6 @@ public class MaxThreeHeuristic implements IHeuristic{
 
         // subtract node times from processor times to find sum of all idle times
         for(int i = 0; i < state.getProcessors().length ; i++){
-
 
             if(state.getProcessors()[i]==-1){
                 continue;
@@ -87,7 +83,6 @@ public class MaxThreeHeuristic implements IHeuristic{
                 maxHeuristic=heuristic;
             }
         }
-
         return maxHeuristic;
     }
 
@@ -145,15 +140,12 @@ public class MaxThreeHeuristic implements IHeuristic{
                     //record largest value
                     if(maxHeuristic<earliestProcessorStartTime+node.getBottomLevel()){
                         maxHeuristic = earliestProcessorStartTime+node.getBottomLevel();
-
                     }
                 }
             }
         }
         return maxHeuristic;
     }
-
-
 
     /**
      * helper method to check if all parents have been assigned
@@ -168,9 +160,7 @@ public class MaxThreeHeuristic implements IHeuristic{
                 return false;
             }
         }
-
         //otherwise all parents have been scheduled
         return true;
     }
-
 }
