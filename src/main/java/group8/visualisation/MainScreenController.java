@@ -325,7 +325,7 @@ public class MainScreenController {
 
         pieChart.setPrefWidth(280);
         pieChart.setPrefWidth(250);
-        pieChart.setPadding(new Insets(0,0,100,0));
+        pieChart.setPadding(new Insets(0,0,150,0));
         pieChart.setLegendVisible(false);
 
         _pieChart = pieChart;
