@@ -146,6 +146,7 @@ public class MainScreenController {
     /**
      * This method is run every second in the timeline.
      * Updates Time elapsed, RAM, Graphs and Algorithm Status.
+     * Default behaviour is ERROR.
      */
     private void update() {
         _currentTime = System.currentTimeMillis();
