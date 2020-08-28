@@ -21,12 +21,12 @@
                                  <children>
                                     <Text fill="#112d4e" strokeType="OUTSIDE" strokeWidth="0.0" text="Application Status" textAlignment="CENTER" wrappingWidth="280.0">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font size="16.0" />
                                        </font>
                                     </Text>
                                     <Text fx:id="_appStatusText" fill="#112d4e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Running" textAlignment="CENTER" wrappingWidth="280.0">
                                        <font>
-                                          <Font name="System Bold" size="24.0" />
+                                          <Font size="28.0" />
                                        </font>
                                     </Text>
                                  </children>
@@ -38,7 +38,7 @@
                            <children>
                               <Text fill="#112d4e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Configuration" textAlignment="CENTER" wrappingWidth="280.0">
                                  <font>
-                                    <Font name="System Bold" size="24.0" />
+                                    <Font size="24.0" />
                                  </font>
                               </Text>
                            </children>
@@ -73,7 +73,7 @@
                            <children>
                               <Text fill="#112d4e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Algorithm Stats" textAlignment="CENTER" wrappingWidth="280.0">
                                  <font>
-                                    <Font name="System Bold" size="24.0" />
+                                    <Font size="24.0" />
                                  </font>
                               </Text>
                            </children>
