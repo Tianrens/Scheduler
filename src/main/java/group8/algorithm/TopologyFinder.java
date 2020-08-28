@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Generator Class used to create topologies
  */
-public class TempTopologyFinder {
+public class TopologyFinder {
     //A list of all unassigned nodes in the graph
     private List<Node> _nodeList;
 

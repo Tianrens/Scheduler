@@ -31,7 +31,7 @@ public class GreedyHeuristic implements IHeuristic {
         List<Node> topology;
         int[] stateProcessors = state.getProcessors().clone(); // Get processors from the schedule.
         Schedule currentState = state;
-        TempTopologyFinder topologyFinder = new TempTopologyFinder();
+        TopologyFinder topologyFinder = new TopologyFinder();
 
         // obtain all nodes outside of the state
         for (String nodeId: allKeys) {
