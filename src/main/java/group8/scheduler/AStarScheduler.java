@@ -17,10 +17,8 @@ import java.util.concurrent.*;
  */
 public class AStarScheduler implements IScheduler {
 
-    //These comparators allow us to compare with one heuristic first then another one
-    //the program only compares with the second heuristic if first one returns zero
 
-    //make the priority queue use our own comparator by passing it into the priority queue
+
 
     //private List<Schedule> _closedState = new ArrayList<>();
     Comparator<Schedule> heuristicAndEarliestStartTimeComparator;
@@ -45,11 +43,13 @@ public class AStarScheduler implements IScheduler {
     public Schedule generateValidSchedule(Graph graph) throws AppConfigException {
         _graph = graph;
 
-        //Make comparators
+        //Make comparators which allow us to compare with one heuristic first then another
+        //the program only compares with the second heuristic if first one returns zero
         Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
         Comparator<Schedule> nodesAssignedComparator = Comparator.comparing((Schedule s) ->s.getTasks().size());
         Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) ->s.getEarliestStartTime());
         heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(nodesAssignedComparator).thenComparing(earliestStartTimeComparator).thenComparing(new ScheduleComparator(_graph));
+        //make the priority queue use our own comparator by passing it into the priority queue
         _openState = new ScheduleQueue(heuristicAndEarliestStartTimeComparator);
 
         Schedule schedule = new Schedule();
