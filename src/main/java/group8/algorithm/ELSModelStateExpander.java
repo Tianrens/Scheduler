@@ -24,6 +24,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         _state = state;
         _graphHeuristicCost = graph.getHeuristicCost();
     }
+
     public ELSModelStateExpander(Graph graph) throws AppConfigException {
         _nodeList=graph.getAllNodes();
         _graph = graph;

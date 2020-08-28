@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The purpose of this class is to calculate the greedy heuristic of the provided schedule
+ * The greedy implementation is finding the max start time of of a given topology
+ */
 public class GreedyHeuristic implements IHeuristic {
 
     @Override
