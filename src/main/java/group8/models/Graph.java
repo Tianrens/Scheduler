@@ -2,6 +2,9 @@ package group8.models;
 
 import java.util.*;
 
+/**
+ * Class used to model the graph derived from the input dot file
+ */
 public class Graph {
 
     //Contains all the nodes of the graph

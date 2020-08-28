@@ -50,7 +50,6 @@ public class MaxThreeHeuristic implements IHeuristic {
             }
 
             sumIdle+=state.getProcessors()[i]-sumProcessors[i];
-
         }
 
         // Add total node costs

@@ -19,9 +19,15 @@ public class ScheduleComparator implements Comparator<Schedule> {
     }
 
 
+    /**
+     * Method used to compare two schedules to find their "priority"
+     * any new schedules found to be duplicates will be dropped
+     * @param s1
+     * @param s2
+     * @return
+     */
     @Override
     public int compare(Schedule s1, Schedule s2) {
-
 
         Map<String, int[]> m1 =  s1.getTasks();
         Map<String, int[]> m2 =  s2.getTasks();

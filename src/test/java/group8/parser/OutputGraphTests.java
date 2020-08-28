@@ -69,7 +69,7 @@ public class OutputGraphTests {
     }
 
     @Before
-    public void generateNoEdgesSchedule() throws ProcessorException, AppConfigException {
+    public void generateNoEdgesSchedule() throws AppConfigException {
         Node a = new Node(2, "a");
         _noEdgesGraph = new Graph();
         _noEdgesGraph.addNode(a);
