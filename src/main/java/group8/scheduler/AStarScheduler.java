@@ -1,9 +1,6 @@
 package group8.scheduler;
 
-import group8.algorithm.AlgorithmState;
-import group8.algorithm.ELSModelStateExpander;
-import group8.algorithm.GreedyHeuristic;
-import group8.algorithm.SimpleHeuristic;
+import group8.algorithm.*;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
 import group8.models.*;
@@ -51,9 +48,10 @@ public class AStarScheduler implements IScheduler {
         Schedule schedule = new Schedule();
         _graph.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(schedule, _graph.getAllNodes()),new GreedyHeuristic().calculateEstimate(schedule, _graph.getAllNodes())));
 
+        IHeuristic heuristic = new MaxThreeHeuristic();
         //create a list of ELS expander objects for reuse
         for (int i = 0; i < _numUsableThreads; i++) {
-            _expanderList.add(new ELSModelStateExpander(graph));
+            _expanderList.add(new ELSModelStateExpander(graph, heuristic));
         }
 
         // Set algo status to RUNNING.
