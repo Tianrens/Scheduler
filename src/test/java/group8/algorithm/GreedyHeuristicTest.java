@@ -11,6 +11,9 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests the GreedyHeuristic Class.
+ */
 public class GreedyHeuristicTest {
     /**
      * Tests on an empty schedule
