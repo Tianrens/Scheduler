@@ -12,6 +12,10 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class GreedyHeuristicTest {
+    /**
+     * Tests on an empty schedule
+     * @throws AppConfigException
+     */
     @Test
     public void GreedyTest() throws AppConfigException {
         AppConfig.getInstance().setNumProcessors(1);
@@ -26,9 +30,13 @@ public class GreedyHeuristicTest {
         assertEquals(result, 15, 1);
     }
 
+    /**
+     * Tests empty schedule with 2 processors.
+     * @throws AppConfigException
+     */
     @Test
     public void GreedyTest2() throws AppConfigException {
-        AppConfig.getInstance().setNumProcessors(1);
+        AppConfig.getInstance().setNumProcessors(2);
         GreedyHeuristic greedy = new GreedyHeuristic();
         HashMap<String, Node> nodes = new HashMap<>();
         nodes.put("A", new Node(5, "A"));
@@ -40,6 +48,10 @@ public class GreedyHeuristicTest {
         assertEquals(result, 6, 1);
     }
 
+    /**
+     * Test non empty schedule.
+     * @throws AppConfigException
+     */
     @Test
     public void GreedyTest3() throws AppConfigException {
         AppConfig.getInstance().setNumProcessors(1);
