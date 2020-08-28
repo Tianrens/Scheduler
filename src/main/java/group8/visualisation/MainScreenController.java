@@ -46,6 +46,9 @@ public class MainScreenController {
     private LineChart _lineChart;
     private PieChart _pieChart;
 
+    private int refreshRate = 3;
+    private int currentFrame = 0;
+
     @FXML
     private Text _numProcessorsText;
 
@@ -175,7 +178,12 @@ public class MainScreenController {
         if (_appConfig.getNumCores() == 1) {
             updateLineGraph();
         } else {
-            updatePieChart();
+            if (currentFrame == refreshRate) {
+                updatePieChart();
+                currentFrame = 0;
+            } else {
+                currentFrame++;
+            }
         }
 
     }
