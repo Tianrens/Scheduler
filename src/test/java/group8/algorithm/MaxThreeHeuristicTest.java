@@ -51,4 +51,24 @@ public class MaxThreeHeuristicTest {
 
         assertEquals(result, 7, 1);
     }
+
+    /**
+     * Test non empty schedule.
+     * @throws AppConfigException
+     */
+    @Test
+    public void MaxThreeTest3() throws AppConfigException {
+
+        AppConfig.getInstance().setNumProcessors(1);
+        MaxThreeHeuristic maxThreeHeuristic = new MaxThreeHeuristic();
+        HashMap<String, Node> nodes = new HashMap<>();
+        nodes.put("A", new Node(5, "A"));
+        nodes.put("B", new Node(10, "B"));
+
+        Schedule schedule = new Schedule();
+        schedule.scheduleTask("A", 0, 0);
+        double result = maxThreeHeuristic.calculateEstimate(schedule, nodes);
+
+        assertEquals(result, 15, 1);
+    }
 }
