@@ -2,7 +2,6 @@ package group8.models;
 
 import group8.cli.AppConfig;
 import group8.cli.AppConfigException;
-
 import java.util.*;
 
 /**

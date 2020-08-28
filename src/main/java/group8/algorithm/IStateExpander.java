@@ -5,6 +5,9 @@ import group8.models.Schedule;
 
 import java.util.List;
 
+/**
+ * Interface for state expanders used to find all possible states from a given partial schedule when adding a node
+ */
 public interface IStateExpander {
 
     /**

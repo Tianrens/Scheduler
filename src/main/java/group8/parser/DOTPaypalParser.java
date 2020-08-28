@@ -22,7 +22,7 @@ public class DOTPaypalParser extends DOTExternalParser<GraphNode, GraphEdge> {
 
     public DOTPaypalParser() throws AppConfigException {
         FileInputStream inputStream = getFileInputStream();
-        _parser = new GraphParser(inputStream); // Paypal DOT parser
+        _parser = new GraphParser(inputStream); // Creates the external Paypal DOT parser
 
         try {
             inputStream.close(); // Input stream has to be manually closed, as we are borrowing the input stream from parent class.

@@ -3,10 +3,7 @@ package group8.algorithm;
 import group8.models.Node;
 import group8.models.Schedule;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Class implementing a simple heuristic that calculates an estimate cost directly from a state to
