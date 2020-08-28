@@ -74,7 +74,4 @@ public class NotParallelAStar implements IScheduler {
         }
     }
 
-    private int calculateCostFunction(Schedule state) {
-        return -1;
-    }
 }
