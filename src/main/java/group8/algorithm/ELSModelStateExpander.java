@@ -31,11 +31,24 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         _graphHeuristicCost = graph.getHeuristicCost();
     }
 
+    /**
+     * Calling method used to invoke the state expansion to obtain
+     * the list of new partial states
+     * @return
+     * @throws AppConfigException
+     */
     @Override
     public List<Schedule> call() throws AppConfigException {
         return getNewStates(_state);
     }
 
+    /**
+     * Method for branching out from partial state by producing all possible
+     * "child" schedules when a node is added
+     * @param state
+     * @return
+     * @throws AppConfigException
+     */
     @Override
     public List<Schedule> getNewStates(Schedule state) throws AppConfigException {
 
@@ -63,8 +76,10 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 }
             }
 
-            //checks for duplicate states, where a node sis assigned to an empty process
+            //checks for duplicate states, where a node is assigned to an empty process
             boolean emptyAssign = false;
+
+            // Try add node to every processor
             for(int i = 0 ; i < processors.length ; i++) {
                 if (node.getIdenticalNodeId() != -1) {
                     node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
@@ -76,7 +91,6 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 }
 
                 int[] newProcessors = processors.clone();
-
                 if(!emptyAssign && newProcessors[i]==-1){
                     emptyAssign=true;
                     newProcessors[i]=0;
@@ -86,12 +100,13 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     continue;
                 }
 
+                // If node has no parents, just add into processor
                 if (node.getParentNodeList().size() == 0) {
                     Map<String, int[]> newScheduledNodes = new HashMap<>();
                     int[] nodeInfo = new int[2];
                     nodeInfo[0] = newProcessors[i];
-                    nodeInfo[1]=i;
-                    newProcessors[i]=newProcessors[i]+node.getCost();
+                    nodeInfo[1] = i;
+                    newProcessors[i] = newProcessors[i] + node.getCost();
 
                     newScheduledNodes.putAll(scheduledNodes);
                     newScheduledNodes.put(node.getId(), nodeInfo);
@@ -104,6 +119,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     }
 
                 } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
+                    // Otherwise, if node has parents, take into account possible remote costs
                     Map<String, int[]> newScheduledNodes = new HashMap<>();
                     int[] nodeInfo = new int[2];
                     int startTime;
@@ -143,7 +159,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     }
 
     /**
-     * helper method to check if all parents have been assigned
+     * Helper method to check if all parents have been assigned
      * @param parentList
      * @return
      */

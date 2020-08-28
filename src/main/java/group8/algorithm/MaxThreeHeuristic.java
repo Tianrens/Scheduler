@@ -48,13 +48,11 @@ public class MaxThreeHeuristic implements IHeuristic{
         // subtract node times from processor times to find sum of all idle times
         for(int i = 0; i < state.getProcessors().length ; i++){
 
-
             if(state.getProcessors()[i]==-1){
                 continue;
             }
 
             sumIdle+=state.getProcessors()[i]-sumProcessors[i];
-
         }
 
         // Add total node costs
