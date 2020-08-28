@@ -20,8 +20,8 @@ public class ScheduleQueue extends TreeSet<Schedule> {
     @Override
     public boolean add(Schedule schedule){
 
-        Map<String, int[]> m1 = schedule.getTasks();
-        Map<String, int[]> m2;
+        Map<String, int[]> newScheduleTasks = schedule.getTasks();
+        Map<String, int[]> closedScheduleTasks;
 
         //if number of scheduled nodes is large, then there are no existing schedules that big, so does not need to be checked
         if(_closedStates.size()>schedule.getTasks().size()){
@@ -32,11 +32,11 @@ public class ScheduleQueue extends TreeSet<Schedule> {
 
 
             //loops through all closed states, with the same task node number
-            for(Schedule s2 :_closedStates.get(schedule.getTasks().size()).get(schedule.getHeuristicCost()-schedule.getEarliestStartTime())) {
-                m2 = s2.getTasks();
+            for(Schedule closedSchedule :_closedStates.get(schedule.getTasks().size()).get(schedule.getHeuristicCost()-schedule.getEarliestStartTime())) {
+                closedScheduleTasks = closedSchedule.getTasks();
 
-                if(s2.getHeuristicCost()==schedule.getHeuristicCost()) {
-                    if (s2.getEarliestStartTime() == schedule.getEarliestStartTime()) {
+                if(closedSchedule.getHeuristicCost()==schedule.getHeuristicCost()) {
+                    if (closedSchedule.getEarliestStartTime() == schedule.getEarliestStartTime()) {
 
                             isSame = true;
                             //this for loop checks all processors, and stores all tasks stored on a single processor
@@ -45,18 +45,18 @@ public class ScheduleQueue extends TreeSet<Schedule> {
                                 //stores all nodes that will be compared for equality
                                 Map<String, Integer> same = new HashMap<>();
                                 //loops through all nodes, and stores all nodes on the specified processor into map for checking later
-                                for (Map.Entry<String, int[]> me1 : m1.entrySet()) {
+                                for (Map.Entry<String, int[]> newTaskEntry : newScheduleTasks.entrySet()) {
                                     //puts all nodes on one processor into map
-                                    if (me1.getValue()[1] == i) {
-                                        same.put(me1.getKey(), me1.getValue()[0]);
+                                    if (newTaskEntry.getValue()[1] == i) {
+                                        same.put(newTaskEntry.getKey(), newTaskEntry.getValue()[0]);
                                     }
                                 }
 
                                 //checks if number of processors used is the same size
                                 if (same.size() == 0) {
-                                    for (Map.Entry<String, int[]> me2 : m2.entrySet()) {
+                                    for (Map.Entry<String, int[]> closedTaskEntry : closedScheduleTasks.entrySet()) {
                                         //puts all nodes on one processor into map
-                                        if (me2.getValue()[1] == i) {
+                                        if (closedTaskEntry.getValue()[1] == i) {
                                             isSame = false;
                                             break;
                                         }
@@ -69,18 +69,18 @@ public class ScheduleQueue extends TreeSet<Schedule> {
                                 for (Map.Entry<String, Integer> node : same.entrySet()) {
 
                                     //if second schedule does not contain node then it cant be same
-                                    if (!m2.containsKey(node.getKey())) {
+                                    if (!closedScheduleTasks.containsKey(node.getKey())) {
                                         isSame = false;
                                         break;
                                     }
 
                                     //if startTimes are differnt then they cannot be the same.
-                                    if (m2.get(node.getKey())[0] != node.getValue().intValue()) {
+                                    if (closedScheduleTasks.get(node.getKey())[0] != node.getValue().intValue()) {
                                         isSame = false;
                                         break;
                                     }
 
-                                    int newProcessor = m2.get(node.getKey())[1];//finds the processor number of the same node in the other schedule
+                                    int newProcessor = closedScheduleTasks.get(node.getKey())[1];//finds the processor number of the same node in the other schedule
 
                                     //checks if first value in loop
                                     if (processor == -1) {
@@ -89,7 +89,7 @@ public class ScheduleQueue extends TreeSet<Schedule> {
                                         int size = 0;
 
                                         //counts how many nodes are on the processor in the other schedule
-                                        for (int[] n : m2.values()) {
+                                        for (int[] n : closedScheduleTasks.values()) {
                                             if (n[1] == newProcessor) {
                                                 size++;
                                             }
