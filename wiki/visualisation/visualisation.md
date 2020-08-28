@@ -43,6 +43,8 @@ What to display?
 * Blue
 * White
 
+Light theme was chosen.
+
 ## Font
 * Roboto?
 
