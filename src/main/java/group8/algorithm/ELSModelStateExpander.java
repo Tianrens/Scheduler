@@ -169,8 +169,14 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
     }
 
-
-
+    /**
+     * This method creates a new schedule and populates fields in that schedule
+     * Sets fields in the schedule e.g. tasks, heuristic cost etc.
+     * @param processors
+     * @param scheduledNodes
+     * @return Schedule which has its fields filled out
+     * @throws AppConfigException
+     */
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
         Schedule newSchedule = new Schedule();
