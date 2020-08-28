@@ -23,7 +23,7 @@ public class SimpleProcessorScheduler implements IScheduler {
      * @throws AppConfigException
      */
     @Override
-    public Schedule generateValidSchedule(Graph graph) throws ProcessorException, AppConfigException {
+    public Schedule generateValidSchedule(Graph graph) throws AppConfigException {
 //        List<Node> scheduler = _topologyFinder.generateTopology(graph);
 //        int numProcessors = AppConfig.getInstance().getNumProcessors();
 //        if (numProcessors == 0) {

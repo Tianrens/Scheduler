@@ -7,7 +7,6 @@ import group8.cli.AppConfigException;
 import group8.cli.CLIException;
 import group8.models.Graph;
 import group8.models.Node;
-import group8.models.ProcessorException;
 import group8.models.Schedule;
 import group8.parser.*;
 import group8.scheduler.*;
