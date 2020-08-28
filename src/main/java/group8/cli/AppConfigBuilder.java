@@ -3,7 +3,6 @@ package group8.cli;
 import org.apache.commons.cli.*;
 
 import java.io.File;
-import java.util.Arrays;
 
 import static group8.cli.CLIConstants.*;
 
@@ -18,16 +17,6 @@ public class AppConfigBuilder {
 
     public AppConfigBuilder(String[] args) {
         _args = args;
-    }
-
-    /**
-     * Debugging purposes
-     * Prints out all arguments received from command prompt.
-     */
-    public void printArgs() {
-        for (String arg : _args) {
-            System.out.println(arg);
-        }
     }
 
     /**
@@ -62,6 +51,7 @@ public class AppConfigBuilder {
         boolean useVisualisation = getUseVisualisation(cmd);
         File outputDOTFile = getOutputFile(cmd);
 
+        //Set the numerous properties of AppConfig
         _config.setInputFile(inputDOTFile);
         _config.setNumCores(numCores);
         _config.setNumProcessors(numProcessors);
@@ -71,8 +61,8 @@ public class AppConfigBuilder {
     }
 
     /**
-     *  Gets the input file.
-     *  Checks if input is in correct format.
+     * Gets the input file.
+     * Checks if input is in correct format.
      * @param filePath path to the file.
      * @return File object of the file.
      * @throws CLIException if the input file is invalid.
@@ -108,7 +98,7 @@ public class AppConfigBuilder {
     }
 
     /**
-     * Checks if the file extention is '.dot'
+     * Checks if the file extension is '.dot'
      * @param file
      * @return true if it is else otherwise
      */
@@ -191,5 +181,4 @@ public class AppConfigBuilder {
         }
         return file;
     }
-
 }
