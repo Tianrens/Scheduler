@@ -381,7 +381,7 @@ public class MainScreenController {
 
     private void setupTabPane() {
         _tabPane = new TabPane();
-        _tabPane.setStyle("-fx-background-color: white");
+        _tabPane.getStylesheets().add(this.getClass().getResource("TabPane.css").toExternalForm());
 
         _tabPane.setPrefHeight(250);
         _tabPane.setPrefWidth(285);
