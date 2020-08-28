@@ -5,12 +5,20 @@ All notable changes/commits to this Scheduler project will be recorded in this l
 ## [Unreleased]
 
 &nbsp;
-## [1.4.0] - 2020-08-2X
+## [1.5.0] - 2020-08-25
+### Added
+
+### Changed
+
+&nbsp;
+## [1.4.0] - 2020-08-25
 ### Added
 - New Heuristics (Idle time, Bottom level, DRT)
+- Algorithm Integration tests
 
 ### Changed
 - Replace old heuristics with new
+- Shifted Bottom level calculations to Node Class
 
 &nbsp;
 ## [1.3.0] - 2020-08-22
