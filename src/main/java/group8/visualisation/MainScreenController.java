@@ -340,6 +340,7 @@ public class MainScreenController {
         ArrayList<PieChart.Data> slices = new ArrayList<>();
         for (int i = 0; i < cores.length; i++) {
             PieChart.Data slice = new PieChart.Data("Core: " + (i + 1), cores[i]);
+            slices.add(slice);
         }
         slices.addAll(slices);
         _pieChart.getData().addAll(slices);
