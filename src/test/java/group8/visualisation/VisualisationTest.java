@@ -31,9 +31,6 @@ public class VisualisationTest extends Application {
 
     @Test
     public void visualTest() throws AppConfigException {
-
-       //System.out.println(_graph.getAllNodes());
-
         AppConfig config = AppConfig.getInstance();
         AlgorithmStatus status = AlgorithmStatus.getInstance();
 
