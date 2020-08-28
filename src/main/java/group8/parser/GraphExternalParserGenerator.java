@@ -36,7 +36,7 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
 
         for (Node node : graph.getAllNodes().values()) {
             if (node.getBottomLevel() == -1 ){
-                node.calculateBottomLevel(); // calculate bottom level for all nodes - later used in heurisitc calculations
+                node.calculateBottomLevel(); // calculate bottom level for all nodes - later used in heuristic calculations
             }
         }
 
@@ -45,6 +45,11 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         return graph;
     }
 
+    /**
+     * Adds nodes obtained from the external parser into our graph object
+     * @param graph
+     * @param nodes
+     */
     private void addNodesToGraph(Graph graph, Map<String, GraphNode> nodes) {
         for (String nodeId : nodes.keySet()) {
             GraphNode node = nodes.get(nodeId);
@@ -57,6 +62,11 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         }
     }
 
+    /**
+     * Adds edges obtained from the external parser into our graph object
+     * @param graph
+     * @param edges
+     */
     private void addEdgesToGraph(Graph graph, Map<String, GraphEdge> edges) {
         for (String edgeId : edges.keySet()) {
             GraphEdge edge = edges.get(edgeId);
@@ -72,6 +82,11 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         }
     }
 
+    /**
+     * Set it up so that the external parse can handle any case combination of the word "weight"
+     * @param attrs
+     * @return
+     */
     private String getWeightKey(Map<String, Object> attrs) {
         return  attrs.keySet()
                 .stream()
