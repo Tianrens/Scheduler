@@ -30,6 +30,11 @@ public class IdenticalNodeDuplicationTests {
     private static Schedule _schedule2;
     private static List<String> _correctSchedules2;
 
+    private static Graph _graph3;
+    private static IStateExpander _stateExpander3;
+    private static Schedule _schedule3;
+    private static List<String> _correctSchedules3;
+
     @BeforeClass
     public static void setUp() throws AppConfigException {
         // First schedule test
@@ -61,6 +66,23 @@ public class IdenticalNodeDuplicationTests {
         _schedule2 = new Schedule();
         _schedule2.scheduleTask("a", 0, 0);
         _schedule2.setProcessorStartTime(0, 2);
+
+        //Third schedule test
+        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identicalNodes3.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(3);
+
+        IGraphGenerator externalGraphGenerator3 = new GraphExternalParserGenerator(new DOTPaypalParser());
+        _graph3 = externalGraphGenerator3.generate();
+        Schedule empty3 = new Schedule();
+        _graph3.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(empty3, _graph3.getAllNodes()),new GreedyHeuristic().calculateEstimate(empty3, _graph3.getAllNodes())));
+
+        _stateExpander3 = new ELSModelStateExpander(_graph3);
+
+        _schedule3 = new Schedule();
+        _schedule3.scheduleTask("a", 0, 0);
+        _schedule3.setProcessorStartTime(0, 2);
+        _schedule3.scheduleTask("f", 0, 2);
+        _schedule3.setProcessorStartTime(2, 4);
 
     }
 
@@ -108,6 +130,40 @@ public class IdenticalNodeDuplicationTests {
         // Remember that there is no wrapping around with identical nodes, if num of nodes > num of processors
     }
 
+    @BeforeClass public static void setUpCorrectSchedules3() {
+        _correctSchedules3 = new ArrayList<>();
+        _correctSchedules3.add(
+                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
+                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
+                "\tb [Weight=3, Start=2, Processor=1];" + System.lineSeparator()
+        );
+        _correctSchedules3.add(
+                "\td [Weight=3, Start=4, Processor=2];" + System.lineSeparator() +
+                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
+                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator()
+        );
+        _correctSchedules3.add(
+                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
+                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
+                "\tb [Weight=3, Start=4, Processor=3];" + System.lineSeparator()
+        );
+        _correctSchedules3.add(
+                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
+                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
+                "\tc [Weight=4, Start=2, Processor=1];" + System.lineSeparator()
+        );
+        _correctSchedules3.add(
+                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
+                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
+                "\tc [Weight=4, Start=4, Processor=2];" + System.lineSeparator()
+        );
+        _correctSchedules3.add(
+                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
+                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
+                "\tc [Weight=4, Start=4, Processor=3];" + System.lineSeparator()
+        );
+    }
+
     @Test
     public void correctIdenticalGrouping() {
         assertEquals(_graph.getNode("b").getIdenticalNodeId(), 0);
@@ -131,7 +187,18 @@ public class IdenticalNodeDuplicationTests {
     }
 
     @Test
-    public void generateSchedule() throws AppConfigException {
+    public void correctIdenticalGrouping3() {
+        assertEquals(_graph3.getNode("b").getIdenticalNodeId(), 0);
+        assertEquals(_graph3.getNode("d").getIdenticalNodeId(), 0);
+
+        assertEquals(_graph3.getNode("a").getIdenticalNodeId(), -1);
+        assertEquals(_graph3.getNode("c").getIdenticalNodeId(), -1);
+        assertEquals(_graph3.getNode("e").getIdenticalNodeId(), -1);
+        assertEquals(_graph3.getNode("f").getIdenticalNodeId(), -1);
+    }
+
+    @Test
+    public void identicalTasks() throws AppConfigException {
         List<Schedule> schedules = _stateExpander.getNewStates(_schedule);
         for (Schedule s : schedules) {
             String scheduleResult = _writer.writeOutputToString(s,_graph);
@@ -147,18 +214,34 @@ public class IdenticalNodeDuplicationTests {
     }
 
     @Test
-    public void generateSchedule2() throws AppConfigException {
+    public void identicalTaskMoreThanProcessorNum() throws AppConfigException {
         List<Schedule> schedules = _stateExpander2.getNewStates(_schedule2);
         for (Schedule s : schedules) {
             String scheduleResult = _writer.writeOutputToString(s,_graph2);
             scheduleResult = scheduleResult.substring(24, scheduleResult.indexOf("->")-2);
-            System.out.println(scheduleResult);
             if (_correctSchedules2.contains(scheduleResult)) {
                 _correctSchedules2.remove(scheduleResult);
             }
         }
 
         if (_correctSchedules2.size() != 0) {
+            fail();
+        }
+    }
+
+    @Test
+    public void identicalTaskLessThanProcessorNum() throws AppConfigException {
+        List<Schedule> schedules = _stateExpander3.getNewStates(_schedule3);
+        for (Schedule s : schedules) {
+            String scheduleResult = _writer.writeOutputToString(s,_graph3);
+            scheduleResult = scheduleResult.substring(24, scheduleResult.indexOf("->")-2);
+            System.out.println(scheduleResult);
+            if (_correctSchedules3.contains(scheduleResult)) {
+                _correctSchedules3.remove(scheduleResult);
+            }
+        }
+
+        if (_correctSchedules3.size() != 0) {
             fail();
         }
     }
