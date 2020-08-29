@@ -5,7 +5,7 @@ directed task graph onto a given amount of processors. This project uses the ASt
 schedule to the scheduling problem.
 
 ![Image of Visualisation](wiki/implementation/visualisation/visualisation_image.jpg)
-![Image of Visualisation](wiki/implementation/visualisation/visualisationImage2.jpg)
+![Image of Visualisation](wiki/implementation/visualisation/visualisation_image_2.jpg)
 
 ## Team 8 - GR8 B8 M8
 |Name           |GitHub Username                                            |UPI    |
