@@ -123,7 +123,6 @@ public class Graph {
                     forkNodes.add(child);
                 }
             }
-            System.out.println();
             if(forkNodes.size()<2){
                 continue;
             }else{
@@ -132,7 +131,6 @@ public class Graph {
             }
 
             for(int i = 1 ; i < forkNodes.size(); i++){
-                System.out.print(forkNodes.get(i).getId()+"\t");
                 //forkNodes.get(i-1).addDestination(forkNodes.get(i),0);
                 //forkNodes.get(i).addParentNode(forkNodes.get(i-1));
                 forkNodes.get(i-1).setFixedOrderEdge(forkNodes.get(i));
@@ -170,8 +168,6 @@ public class Graph {
         for(Node node : _nodes.values()) {
             if(node.getFixedOrderEdge()!=null) {
                 Node zeroEdge = node.getFixedOrderEdge();
-//                node.getEdgeList().put(zeroEdge, 0);
-//                zeroEdge.addParentNode(node);
                 zeroEdge.setFixedOrderParent(node);
                 System.out.println(node.getId()+"->"+zeroEdge.getId());
             }
