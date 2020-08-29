@@ -221,6 +221,37 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     }
 
     private void taskSortingFixOrder(List<Node> freeTasks, Schedule state) {
+
+        for(Node node : freeTasks){
+            List<Node> forkNodes = new ArrayList<>();
+            HashMap<Node,Integer> drt = new HashMap<Node,Integer>();
+            for(Node child :node.getEdgeList().keySet()){
+                if(child.getParentNodeList().size()==1){
+                    forkNodes.add(child);
+                }
+            }
+            if(forkNodes.size()<2){
+                continue;
+            }else{
+                Collections.sort(forkNodes,Comparator.comparing((Node n) ->drt.get(n)));
+            }
+
+            for(int i = 0 ; i < forkNodes.size()-1; i++){
+
+                if(_fixedOrder.size()==0){
+                    if(forkNodes.get(i).getEdgeList().values().iterator().next()>=forkNodes.get(i+1).getEdgeList().values().iterator().next()){
+                        _fixedOrder.add(forkNodes.get(i));
+                        _fixedOrder.add(forkNodes.get(i+1));
+                    }
+                }else if(i<forkNodes.size()-1){
+                    if(forkNodes.get(i).getEdgeList().values().iterator().next()>=forkNodes.get(i+1).getEdgeList().values().iterator().next()){
+                        _fixedOrder.add(forkNodes.get(i+i));
+                    }
+                }
+            }
+        }
+
+
         // collections.sort the tasks by increasing drt. BUT if freetask doesnt have parent, set to zero
         // then break any ties with sorting according to decreaseing outedge costs. no outedge? set the cost to zero.
         // vertify that all free tasks are in decreaseing outedge cost order.
