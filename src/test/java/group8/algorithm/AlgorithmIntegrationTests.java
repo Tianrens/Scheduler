@@ -60,32 +60,32 @@ public class AlgorithmIntegrationTests {
 //        outputBuilder.writeOutputToConsole(schedule, graph);
 //
 //    }
-
-    @Test
-    public void thirdTest() throws Exception{
-
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("test2Graph.dot").getPath()));
-        AppConfig.getInstance().setNumProcessors(3);
-        AppConfig.getInstance().setNumCores(8);
-
-        AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
-
-        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
-        IScheduler scheduler = new AStarScheduler();
-        Graph graph = externalGraphGenerator.generate();
-
-        Schedule schedule = scheduler.generateValidSchedule(graph);
-
-        IDOTFileWriter outputBuilder = new DOTFileWriter();
-        outputBuilder.writeOutputToConsole(schedule, graph);
-
-
-    }
+//
+//    @Test
+//    public void thirdTest() throws Exception{
+//
+//        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("test2Graph.dot").getPath()));
+//        AppConfig.getInstance().setNumProcessors(3);
+//        AppConfig.getInstance().setNumCores(8);
+//
+//        AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
+//
+//        IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
+//        IScheduler scheduler = new AStarScheduler();
+//        Graph graph = externalGraphGenerator.generate();
+//
+//        Schedule schedule = scheduler.generateValidSchedule(graph);
+//
+//        IDOTFileWriter outputBuilder = new DOTFileWriter();
+//        outputBuilder.writeOutputToConsole(schedule, graph);
+//
+//
+//    }
 
     @Test
     public void fourthTest() throws Exception{
 
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("sixteenNodeOptimal.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("Nodes_7_OutTree.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(2);
         AppConfig.getInstance().setNumCores(1);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));

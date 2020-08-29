@@ -116,66 +116,66 @@ public class Graph {
 
     public void setUpForkJoinOrdering(){
 
-//        for(Node node : _nodes.values()){
-//            List<Node> forkNodes = new ArrayList<>();
-//            for(Node child :node.getEdgeList().keySet()){
-//                if(child.getParentNodeList().size()==1){
-//                    forkNodes.add(child);
-//                }
-//            }
-//            System.out.println();
-//            if(forkNodes.size()<2){
-//                continue;
-//            }else{
-//
-//                Collections.sort(forkNodes,Comparator.comparing((Node n) ->node.getEdgeList().get(n)));
-//            }
-//
-//            for(int i = 1 ; i < forkNodes.size(); i++){
-//                System.out.print(forkNodes.get(i).getId()+"\t");
-//                //forkNodes.get(i-1).addDestination(forkNodes.get(i),0);
-//                //forkNodes.get(i).addParentNode(forkNodes.get(i-1));
-//                forkNodes.get(i-1).setFixedOrderEdge(forkNodes.get(i));
-//            }
-//        }
-//        for(Node node : _nodes.values()) {
-//            List<Node> joinNodes = new ArrayList<>();
-//            for(Node child :node.getParentNodeList()){
-//                if(child.getEdgeList().size()==1){
-//                    joinNodes.add(child);
-//                }
-//            }
-//
-//            if(joinNodes.size()<2){
-//                continue;
-//            }else{
-//                //orders by smallest outgoing edge first, so need ot check in the reverse
-//                Collections.sort(joinNodes,Comparator.comparing((Node n) ->n.getEdgeList().get(node)+n.getCost()));
-//            }
-//
-//            for(int i = 1; i <joinNodes.size()-1; i++){
-//
-//                if(joinNodes.get(i).getFixedOrderEdge()!=null){
-//                    if(joinNodes.contains(joinNodes.get(i-1).getFixedOrderEdge())) {
-//                        if (joinNodes.get(i).getEdgeList().get(node) < joinNodes.get(i).getFixedOrderEdge().getEdgeList().get(node)) {
-//                            joinNodes.get(i).setFixedOrderEdge(null);
-//                        }
-//                    }
-//                }else if(joinNodes.get(i).getFixedOrderEdge() == null){
-//                    joinNodes.get(i).setFixedOrderEdge( joinNodes.get(i-1));
-//                }
-//
-//            }
-//        }
+        for(Node node : _nodes.values()){
+            List<Node> forkNodes = new ArrayList<>();
+            for(Node child :node.getEdgeList().keySet()){
+                if(child.getParentNodeList().size()==1){
+                    forkNodes.add(child);
+                }
+            }
+            System.out.println();
+            if(forkNodes.size()<2){
+                continue;
+            }else{
 
-//        for(Node node : _nodes.values()) {
-//            if(node.getFixedOrderEdge()!=null) {
-//                Node zeroEdge = node.getFixedOrderEdge();
+                Collections.sort(forkNodes,Comparator.comparing((Node n) ->node.getEdgeList().get(n)));
+            }
+
+            for(int i = 1 ; i < forkNodes.size(); i++){
+                System.out.print(forkNodes.get(i).getId()+"\t");
+                //forkNodes.get(i-1).addDestination(forkNodes.get(i),0);
+                //forkNodes.get(i).addParentNode(forkNodes.get(i-1));
+                forkNodes.get(i-1).setFixedOrderEdge(forkNodes.get(i));
+            }
+        }
+        for(Node node : _nodes.values()) {
+            List<Node> joinNodes = new ArrayList<>();
+            for(Node child :node.getParentNodeList()){
+                if(child.getEdgeList().size()==1){
+                    joinNodes.add(child);
+                }
+            }
+
+            if(joinNodes.size()<2){
+                continue;
+            }else{
+                //orders by smallest outgoing edge first, so need ot check in the reverse
+                Collections.sort(joinNodes,Comparator.comparing((Node n) ->n.getEdgeList().get(node)+n.getCost()));
+            }
+
+            for(int i = 1; i <joinNodes.size()-1; i++){
+
+                if(joinNodes.get(i).getFixedOrderEdge()!=null){
+                    if(joinNodes.contains(joinNodes.get(i-1).getFixedOrderEdge())) {
+                        if (joinNodes.get(i).getEdgeList().get(node) < joinNodes.get(i).getFixedOrderEdge().getEdgeList().get(node)) {
+                            joinNodes.get(i).setFixedOrderEdge(null);
+                        }
+                    }
+                }else if(joinNodes.get(i).getFixedOrderEdge() == null){
+                    joinNodes.get(i).setFixedOrderEdge( joinNodes.get(i-1));
+                }
+
+            }
+        }
+        for(Node node : _nodes.values()) {
+            if(node.getFixedOrderEdge()!=null) {
+                Node zeroEdge = node.getFixedOrderEdge();
 //                node.getEdgeList().put(zeroEdge, 0);
 //                zeroEdge.addParentNode(node);
-//                System.out.println(node.getId()+"->"+zeroEdge.getId());
-//            }
-//        }
+                zeroEdge.setFixedOrderParent(node);
+                System.out.println(node.getId()+"->"+zeroEdge.getId());
+            }
+        }
     }
 
     public List<Node> getGroupOfIdenticalNodes(int identicalGroupId) {

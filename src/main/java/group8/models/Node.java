@@ -16,6 +16,7 @@ public class Node {
     private HashMap<Node, Integer> _edgeList;
     private List<Node> _parentNodeList;
     private Node _fixedOrderEdge;
+    private Node _fixedOrderParent;
 
     /**
      * Constructs a new node with empty _edgeList and
@@ -114,6 +115,14 @@ public class Node {
 
     public void setFixedOrderEdge(Node fixedOrderEdge) {
         _fixedOrderEdge = fixedOrderEdge;
+    }
+
+    public Node getFixedOrderParent() {
+        return _fixedOrderParent;
+    }
+
+    public void setFixedOrderParent(Node fixedOrderParent) {
+        _fixedOrderParent = fixedOrderParent;
     }
 
 }

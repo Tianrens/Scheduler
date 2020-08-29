@@ -49,12 +49,16 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         Map<String, int[]> scheduledNodes = state.getTasks();
         List<Schedule> newSchedules = new ArrayList<>();
         int[] processors = state.getProcessors();
-
         List<Integer> addedIdenticalIds = new ArrayList<>(); // All identified identical node groupings
+        List<Node> ignorefixedOrderNodes = new ArrayList<>();
 
         for(Node node : _nodeList.values()){
             // If schedule contains node then it has already been assigned.
             if(scheduledNodes.containsKey(node.getId())) {
+                continue;
+            }
+
+            if(ignorefixedOrderNodes.contains(node)){
                 continue;
             }
 
@@ -109,9 +113,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     //Only if a schedule has a lower heuristic than the baseline graph heuristic
                     //we add it to the new schedules
                     Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
-                    if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
+                    //if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
                         newSchedules.add(schedule);
-                    }
+                    //}
 
                 } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
                     // Otherwise, if node has parents, take into account possible remote costs
@@ -144,9 +148,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     //Only if a schedule has a lower heuristic than the baseline graph heuristic
                     //we add it to the new schedules
                     Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
-                    if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
+                    //if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
                         newSchedules.add(schedule);
-                    }
+                    //}
                 }
             }
         }
