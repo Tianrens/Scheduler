@@ -1,2 +1,2 @@
 ## Class Diagram for Input Parser
-![Class Diagram](./ClassDiagrams.png)
+![Class Diagram](class_diagrams.png)
