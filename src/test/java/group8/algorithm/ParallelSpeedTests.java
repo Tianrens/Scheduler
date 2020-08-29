@@ -1,13 +1,10 @@
 package group8.algorithm;
 import group8.cli.AppConfig;
-
 import group8.models.*;
 import java.io.File;
-
 import group8.parser.*;
 import group8.scheduler.AStarScheduler;
 import group8.scheduler.IScheduler;
-
 import org.junit.Test;
 
 public class ParallelSpeedTests {
