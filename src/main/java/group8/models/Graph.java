@@ -116,62 +116,110 @@ public class Graph {
 
     public void setUpForkJoinOrdering(){
 
-        for(Node node : _nodes.values()){
-            List<Node> forkNodes = new ArrayList<>();
-            for(Node child :node.getEdgeList().keySet()){
-                if(child.getParentNodeList().size()==1){
-                    forkNodes.add(child);
+//        for(Node node : _nodes.values()){
+//            List<Node> forkNodes = new ArrayList<>();
+//            for(Node child :node.getEdgeList().keySet()){
+//                if(child.getParentNodeList().size()==1){
+//                    forkNodes.add(child);
+//                }
+//            }
+//            if(forkNodes.size()<2){
+//                continue;
+//            }else{
+//                Collections.sort(forkNodes,Comparator.comparing((Node n) ->node.getEdgeList().get(n)));
+//            }
+//
+//            for(int i = 1 ; i < forkNodes.size(); i++){
+//                forkNodes.get(i-1).setFixedOrderEdge(forkNodes.get(i));
+//            }
+//        }
+//
+//
+//        for(Node node : _nodes.values()) {
+//            List<Node> joinNodes = new ArrayList<>();
+//            for(Node parent :node.getParentNodeList()){
+//                if(parent.getEdgeList().size()==1){
+//                    joinNodes.add(parent);
+//                }
+//            }
+//
+//            if(joinNodes.size()<2){
+//                continue;
+//            }else{
+//                Collections.sort(joinNodes,Comparator.comparing((Node n) ->n.getEdgeList().get(node)+n.getCost()));
+//            }
+//
+//            for(int i = 1; i <joinNodes.size()-1; i++){
+//                if(joinNodes.get(i).getFixedOrderEdge()!=null){
+//
+//                    if(joinNodes.contains(joinNodes.get(i-1).getFixedOrderEdge())) {
+//                        if (joinNodes.get(i).getEdgeList().get(node) < joinNodes.get(i).getFixedOrderEdge().getEdgeList().get(node)) {
+//                            joinNodes.get(i).setFixedOrderEdge(null);
+//                        }
+//                    }
+//
+//                }else if(joinNodes.get(i).getFixedOrderEdge() == null){
+//                    //joinNodes.get(i).setFixedOrderEdge( joinNodes.get(i-1));
+//                }
+//
+//            }
+//        }
+//
+//        for(Node node : _nodes.values()) {
+//            if(node.getFixedOrderEdge()!=null) {
+//                Node zeroEdge = node.getFixedOrderEdge();
+//                zeroEdge.setFixedOrderParent(node);
+//                System.out.println(node.getId()+"->"+zeroEdge.getId());
+//            }
+//        }
+    }
+
+    public List<Node> findForkJoin(){
+        List<Node> searchedNodes = new ArrayList<>();
+
+        while(searchedNodes.size()!=_nodes.size()){
+
+            int avalaibleCount = 0;
+            Node maybeForkJoin = null;
+            for(Node node : _nodes.values()){
+
+                if(!searchedNodes.contains(node)){
+                    if(node.getParentNodeList().size()==0){
+                        avalaibleCount++;
+                        searchedNodes.add(node);
+                        maybeForkJoin=node;
+                    }else if(checkParents(node.getParentNodeList(), searchedNodes)){
+                        avalaibleCount++;
+                        searchedNodes.add(node);
+                        maybeForkJoin=node;
+                    }
                 }
             }
-            if(forkNodes.size()<2){
-                continue;
-            }else{
-                Collections.sort(forkNodes,Comparator.comparing((Node n) ->node.getEdgeList().get(n)));
-            }
 
-            for(int i = 1 ; i < forkNodes.size(); i++){
-                forkNodes.get(i-1).setFixedOrderEdge(forkNodes.get(i));
-            }
-        }
-
-
-        for(Node node : _nodes.values()) {
-            List<Node> joinNodes = new ArrayList<>();
-            for(Node parent :node.getParentNodeList()){
-                if(parent.getEdgeList().size()==1){
-                    joinNodes.add(parent);
-                }
-            }
-
-            if(joinNodes.size()<2){
-                continue;
-            }else{
-                Collections.sort(joinNodes,Comparator.comparing((Node n) ->n.getEdgeList().get(node)+n.getCost()));
-            }
-
-            for(int i = 1; i <joinNodes.size()-1; i++){
-                if(joinNodes.get(i).getFixedOrderEdge()!=null){
-                    //
-                    if(joinNodes.contains(joinNodes.get(i-1).getFixedOrderEdge())) {
-                        if (joinNodes.get(i).getEdgeList().get(node) < joinNodes.get(i).getFixedOrderEdge().getEdgeList().get(node)) {
-                            joinNodes.get(i).setFixedOrderEdge(null);
+            List<Node> joinOrderNodes = new ArrayList<>();
+            if(avalaibleCount==1){
+                for(Node node : maybeForkJoin.getEdgeList().keySet()){
+                    if(node.getParentNodeList().size()==1){
+                        if(node.getEdgeList().size()==1){
+                            joinOrderNodes.add(node);
                         }
                     }
-
-                }else if(joinNodes.get(i).getFixedOrderEdge() == null){
-                    joinNodes.get(i).setFixedOrderEdge( joinNodes.get(i-1));
                 }
-
             }
+
         }
 
-        for(Node node : _nodes.values()) {
-            if(node.getFixedOrderEdge()!=null) {
-                Node zeroEdge = node.getFixedOrderEdge();
-                zeroEdge.setFixedOrderParent(node);
-                System.out.println(node.getId()+"->"+zeroEdge.getId());
+        return null;
+    }
+
+    private boolean checkParents(List<Node> parentList, List<Node> scheduledNodes){
+        //Check parents one by one
+        for (Node pNode: parentList) {
+            if(!scheduledNodes.contains(pNode)){
+                return false;
             }
         }
+        return true;
     }
 
     public List<Node> getGroupOfIdenticalNodes(int identicalGroupId) {

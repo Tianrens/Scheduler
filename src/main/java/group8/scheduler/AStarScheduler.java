@@ -44,7 +44,7 @@ public class AStarScheduler implements IScheduler {
         Comparator<Schedule> heuristicComparator = Comparator.comparing((Schedule s) -> s.getHeuristicCost());
         Comparator<Schedule> nodesAssignedComparator = Comparator.comparing((Schedule s) ->s.getTasks().size());
         Comparator<Schedule> earliestStartTimeComparator = Comparator.comparing((Schedule s) ->s.getEarliestStartTime());
-        _heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(nodesAssignedComparator).thenComparing(earliestStartTimeComparator).thenComparing(new ScheduleComparator(_graph));
+        _heuristicAndEarliestStartTimeComparator = heuristicComparator.thenComparing(new ScheduleComparator(_graph));
         //make the priority queue use our own comparator by passing it into the priority queue
         _openState = new ScheduleQueue(_heuristicAndEarliestStartTimeComparator);
 
