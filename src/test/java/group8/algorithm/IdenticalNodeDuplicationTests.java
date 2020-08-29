@@ -35,10 +35,14 @@ public class IdenticalNodeDuplicationTests {
     private static Schedule _schedule3;
     private static List<String> _correctSchedules3;
 
+    private static Graph _graph4;
+    private static Graph _graph5;
+    private static Graph _graph6;
+
     @BeforeClass
     public static void setUp() throws AppConfigException {
         // First schedule test
-        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identicalNodes.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identical-nodes/identicalNodes.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(3);
 
         IGraphGenerator externalGraphGenerator = new GraphExternalParserGenerator(new DOTPaypalParser());
@@ -53,7 +57,7 @@ public class IdenticalNodeDuplicationTests {
         _schedule.setProcessorStartTime(0, 2);
 
         //Second schedule test
-        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identicalNodes2.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identical-nodes/identicalNodes2.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(1);
 
         IGraphGenerator externalGraphGenerator2 = new GraphExternalParserGenerator(new DOTPaypalParser());
@@ -68,7 +72,7 @@ public class IdenticalNodeDuplicationTests {
         _schedule2.setProcessorStartTime(0, 2);
 
         //Third schedule test
-        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identicalNodes3.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identical-nodes/identicalNodes3.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(3);
 
         IGraphGenerator externalGraphGenerator3 = new GraphExternalParserGenerator(new DOTPaypalParser());
@@ -84,6 +88,21 @@ public class IdenticalNodeDuplicationTests {
         _schedule3.scheduleTask("f", 0, 2);
         _schedule3.setProcessorStartTime(2, 4);
 
+        //Set up the rest of the graphs to test whether identical groupings have been correctly identified.
+        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identical-nodes/identicalNodes4.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(3);
+        IGraphGenerator externalGraphGenerator4 = new GraphExternalParserGenerator(new DOTPaypalParser());
+        _graph4 = externalGraphGenerator4.generate();
+
+        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identical-nodes/identicalNodes5.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(3);
+        IGraphGenerator externalGraphGenerator5 = new GraphExternalParserGenerator(new DOTPaypalParser());
+        _graph5 = externalGraphGenerator5.generate();
+
+        AppConfig.getInstance().setInputFile(new File(IdenticalNodeDuplicationTests.class.getResource("identical-nodes/identicalNodes6.dot").getPath()));
+        AppConfig.getInstance().setNumProcessors(3);
+        IGraphGenerator externalGraphGenerator6 = new GraphExternalParserGenerator(new DOTPaypalParser());
+        _graph6 = externalGraphGenerator6.generate();
     }
 
     @BeforeClass
@@ -165,7 +184,7 @@ public class IdenticalNodeDuplicationTests {
     }
 
     @Test
-    public void correctIdenticalGrouping() {
+    public void correctIdenticalGrouping() { // Different cost
         assertEquals(_graph.getNode("b").getIdenticalNodeId(), 0);
         assertEquals(_graph.getNode("d").getIdenticalNodeId(), 0);
 
@@ -175,7 +194,7 @@ public class IdenticalNodeDuplicationTests {
     }
 
     @Test
-    public void correctIdenticalGrouping2() {
+    public void correctIdenticalGrouping2() { // Different child
         assertEquals(_graph2.getNode("b").getIdenticalNodeId(), 0);
         assertEquals(_graph2.getNode("g").getIdenticalNodeId(), 0);
 
@@ -187,7 +206,7 @@ public class IdenticalNodeDuplicationTests {
     }
 
     @Test
-    public void correctIdenticalGrouping3() {
+    public void correctIdenticalGrouping3() { // Different cost
         assertEquals(_graph3.getNode("b").getIdenticalNodeId(), 0);
         assertEquals(_graph3.getNode("d").getIdenticalNodeId(), 0);
 
@@ -195,6 +214,34 @@ public class IdenticalNodeDuplicationTests {
         assertEquals(_graph3.getNode("c").getIdenticalNodeId(), -1);
         assertEquals(_graph3.getNode("e").getIdenticalNodeId(), -1);
         assertEquals(_graph3.getNode("f").getIdenticalNodeId(), -1);
+    }
+
+    @Test
+    public void correctIdenticalGrouping4() { // Different parent
+        assertEquals(_graph4.getNode("b").getIdenticalNodeId(), -1);
+        assertEquals(_graph4.getNode("d").getIdenticalNodeId(), -1);
+        assertEquals(_graph4.getNode("a").getIdenticalNodeId(), -1);
+        assertEquals(_graph4.getNode("c").getIdenticalNodeId(), -1);
+        assertEquals(_graph4.getNode("e").getIdenticalNodeId(), -1);
+    }
+
+    @Test
+    public void correctIdenticalGrouping5() { // Different parent cost
+        assertEquals(_graph5.getNode("b").getIdenticalNodeId(), 0);
+        assertEquals(_graph5.getNode("d").getIdenticalNodeId(), 0);
+
+        assertEquals(_graph5.getNode("a").getIdenticalNodeId(), -1);
+        assertEquals(_graph5.getNode("c").getIdenticalNodeId(), -1);
+        assertEquals(_graph5.getNode("e").getIdenticalNodeId(), -1);
+    }
+
+    @Test
+    public void correctIdenticalGrouping6() { // Different child cost
+        assertEquals(_graph6.getNode("b").getIdenticalNodeId(), -1);
+        assertEquals(_graph6.getNode("d").getIdenticalNodeId(), -1);
+        assertEquals(_graph6.getNode("a").getIdenticalNodeId(), -1);
+        assertEquals(_graph6.getNode("c").getIdenticalNodeId(), -1);
+        assertEquals(_graph6.getNode("e").getIdenticalNodeId(), -1);
     }
 
     @Test
@@ -235,7 +282,6 @@ public class IdenticalNodeDuplicationTests {
         for (Schedule s : schedules) {
             String scheduleResult = _writer.writeOutputToString(s,_graph3);
             scheduleResult = scheduleResult.substring(24, scheduleResult.indexOf("->")-2);
-            System.out.println(scheduleResult);
             if (_correctSchedules3.contains(scheduleResult)) {
                 _correctSchedules3.remove(scheduleResult);
             }
