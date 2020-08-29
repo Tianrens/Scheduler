@@ -28,7 +28,7 @@
     - ONE IDEA
         - While we are constructing the nodes, check if there are identical nodes. Put into a list
         - When we are scheduling in, check if the list is empty or not. If it is, add the other nodes and then put into a list in the scheduler. This is the “excluded”. The list is reset every time.
-![identicalNodeSketch](identicalNodeSketch.JPG)
+![identicalNodeSketch](identical_node_sketch.JPG)
 
 - Heuristic schedules - simple or the greedy - prune schedules
     - This would come after you calculate the heuristic
