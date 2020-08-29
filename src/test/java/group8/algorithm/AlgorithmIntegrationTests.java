@@ -13,7 +13,6 @@ import java.util.List;
 import group8.parser.*;
 import group8.scheduler.AStarScheduler;
 import group8.scheduler.IScheduler;
-import group8.scheduler.NotParallelAStar;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -67,7 +66,7 @@ public class AlgorithmIntegrationTests {
 
         AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("test2Graph.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(3);
-        AppConfig.getInstance().setNumCores(1);
+        AppConfig.getInstance().setNumCores(8);
 
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
 

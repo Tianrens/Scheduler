@@ -18,12 +18,6 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private Schedule _state;
     private double _graphHeuristicCost;
 
-    public ELSModelStateExpander(Graph graph, Schedule state){
-        _nodeList=graph.getAllNodes();
-        _graph = graph;
-        _state = state;
-        _graphHeuristicCost = graph.getHeuristicCost();
-    }
     public ELSModelStateExpander(Graph graph) throws AppConfigException {
         _nodeList=graph.getAllNodes();
         _graph = graph;
@@ -31,11 +25,24 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         _graphHeuristicCost = graph.getHeuristicCost();
     }
 
+    /**
+     * Calling method used to invoke the state expansion to obtain
+     * the list of new partial states
+     * @return
+     * @throws AppConfigException
+     */
     @Override
     public List<Schedule> call() throws AppConfigException {
         return getNewStates(_state);
     }
 
+    /**
+     * Method for branching out from partial state by producing all possible
+     * "child" schedules when a node is added
+     * @param state
+     * @return
+     * @throws AppConfigException
+     */
     @Override
     public List<Schedule> getNewStates(Schedule state) throws AppConfigException {
 
@@ -55,6 +62,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
             if (addedIdenticalIds.contains(node.getIdenticalNodeId())) {
                 continue;
             }
+            //Pass this point, looking at nodes which have not been assigned
 
             // Skip nodes associated with the identical group next time around
             if (node.getIdenticalNodeId() != -1) {
@@ -63,8 +71,10 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 }
             }
 
-            //checks for duplicate states, where a node sis assigned to an empty process
+            //checks for duplicate states, where a node is assigned to an empty process
             boolean emptyAssign = false;
+
+            // Try add node to every processor
             for(int i = 0 ; i < processors.length ; i++) {
                 if (node.getIdenticalNodeId() != -1) {
                     node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
@@ -75,23 +85,24 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     continue;
                 }
 
-                int[] newProcessors = makeProcessorList(processors);
+                int[] newProcessors = processors.clone();
 
-                if(!emptyAssign && newProcessors[i]==-1){
+                if(!emptyAssign && newProcessors[i]==-1) {
                     emptyAssign=true;
                     newProcessors[i]=0;
-                }else if(emptyAssign && newProcessors[i]==-1){
+                }else if (emptyAssign && newProcessors[i]==-1) {
                     //This might need reconsideration, because I dont think there will be a case where after
                     // reading an empty process will we come across a process that is not empty
                     continue;
                 }
 
+                // If node has no parents, just add into processor
                 if (node.getParentNodeList().size() == 0) {
                     Map<String, int[]> newScheduledNodes = new HashMap<>();
                     int[] nodeInfo = new int[2];
                     nodeInfo[0] = newProcessors[i];
-                    nodeInfo[1]=i;
-                    newProcessors[i]=newProcessors[i]+node.getCost();
+                    nodeInfo[1] = i;
+                    newProcessors[i] = newProcessors[i] + node.getCost();
 
                     newScheduledNodes.putAll(scheduledNodes);
                     newScheduledNodes.put(node.getId(), nodeInfo);
@@ -104,21 +115,25 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     }
 
                 } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
+                    // Otherwise, if node has parents, take into account possible remote costs
                     Map<String, int[]> newScheduledNodes = new HashMap<>();
                     int[] nodeInfo = new int[2];
                     int startTime;
                     int earliestStartTime = 0;
 
                     for(Node parent : node.getParentNodeList()) {
-                        if(scheduledNodes.get(parent.getId())[1]!=i){
+                        if(scheduledNodes.get(parent.getId())[1]!=i){ //if parent is scheduled on a different processor
+                            //Have to take into account remote cost
                             startTime = parent.getEdgeList().get(node)+parent.getCost()+scheduledNodes.get(parent.getId())[0];
-                            if(startTime < processors[i]){
+                            if(startTime < processors[i]){ //if the processor start time is more than the remote cost calculation, ignore remote cost
                                 startTime = processors[i];
                             }
-                        }else {
+                        }else { //if parent is scheduled on the same processor then start time is the start time of the processor
                             startTime = processors[i];
                         }
 
+                        // Checks if there any dependencies that might delay the scheduling of the task
+                        // For this one processor, which every parent. account for the latest costing parent.
                         if(startTime>earliestStartTime){
                             earliestStartTime=startTime;
                         }
@@ -139,11 +154,11 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 }
             }
         }
-        return newSchedules;
+        return newSchedules; //return the list of possible next states
     }
 
     /**
-     * helper method to check if all parents have been assigned
+     * Helper method to check if all parents have been assigned
      * @param parentList
      * @return
      */
@@ -159,18 +174,13 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         return true;
     }
 
-    private int[] makeProcessorList(int[] processors){
-        int[] newProcessors = new int[processors.length];
-
-        for (int i =0 ; i< processors.length ;i++){
-            newProcessors[i]=processors[i];
-        }
-        return newProcessors;
-
-    }
-
-
-
+    /**
+     * Helper method for creating a new schedule to assign the given attributes/fields
+     * @param processors
+     * @param scheduledNodes
+     * @return
+     * @throws AppConfigException
+     */
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
         Schedule newSchedule = new Schedule();

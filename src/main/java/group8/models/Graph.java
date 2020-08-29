@@ -2,6 +2,9 @@ package group8.models;
 
 import java.util.*;
 
+/**
+ * Class used to model the graph derived from the input dot file
+ */
 public class Graph {
 
     //Contains all the nodes of the graph
@@ -49,7 +52,21 @@ public class Graph {
 
                 if (node.getCost() == nodeToCompare.getCost()) { // Cost
                     if (node.getEdgeList().equals(nodeToCompare.getEdgeList())) { // Children
-                        if (node.getParentNodeList().equals(nodeToCompare.getParentNodeList())) { // Parents
+                        if (node.getParentNodeList().equals(nodeToCompare.getParentNodeList())) { // Parent nodes are the same
+
+                            boolean isSame = true;
+                            for (Node parent : node.getParentNodeList()) { // Parent node edges costs to node and nodeToCompare are the same
+                                if (parent.getEdgeList().get(node) != parent.getEdgeList().get(nodeToCompare)) {
+                                    isSame = false;
+                                    break;
+                                }
+                            }
+
+                            if (!isSame) {
+                                continue;
+                            }
+
+                            // They are identified as identical now. Assign them their identical group ids.
                             result = true;
 
                             if (node.getIdenticalNodeId() == -1) {
@@ -121,24 +138,5 @@ public class Graph {
 
     public void setHeuristicCost(double heuristicCost) {
         this.heuristicCost = heuristicCost;
-    }
-
-    /**
-     * This method is used to bypass having to create a Node and adding it to graph manually
-     * @param graphData
-     */
-    public void addData(List<String> graphData) {
-        if (graphData.size() == 1) {
-            /** Graph name */
-        } else if (graphData.size() == 2) {
-            this.addNode(new Node(Integer.parseInt(graphData.get(1)), graphData.get(0)));
-        } else if (graphData.size() == 3) {
-            // The .dot file input can be assumed to be sequential. Therefore all nodes
-            // will have been previously initialised before they are referenced as an edge
-            Node src = this.getNode(graphData.get(0));
-            Node dst = this.getNode(graphData.get(1));
-            src.addDestination(dst, Integer.parseInt(graphData.get(2)));
-            dst.addParentNode(src);
-        }
     }
 }
