@@ -41,7 +41,6 @@ public class GraphExternalParserGenerator implements IGraphGenerator {
         }
 
         graph.setUpForIdenticalNodes(); // Sets up the identical nodes mapping in the graph object
-
         return graph;
     }
 

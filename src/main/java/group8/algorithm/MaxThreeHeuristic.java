@@ -35,7 +35,7 @@ public class MaxThreeHeuristic implements IHeuristic {
      */
     private double calculateIdleHeuristics(Schedule state, HashMap<String, Node> allNodes){
         int[] sumProcessors = new int[state.getProcessors().length];
-        int sumIdle = 0;
+        double sumIdle = 0.0;
 
         // Find amount of time used in each processor by nodes
         for(String key : state.getTasks().keySet()){
@@ -58,7 +58,7 @@ public class MaxThreeHeuristic implements IHeuristic {
         }
 
         // divide the total by num of processors and return
-        return sumIdle/state.getProcessors().length;
+        return sumIdle/(double)state.getProcessors().length;
     }
 
     /**
@@ -94,7 +94,7 @@ public class MaxThreeHeuristic implements IHeuristic {
      * @param allNodes
      * @return
      */
-    private int calculateDrtHeuristic(Schedule state, HashMap<String, Node> allNodes){
+    private double calculateDrtHeuristic(Schedule state, HashMap<String, Node> allNodes){
         int maxHeuristic = 0;
 
         for (Node node : allNodes.values()){

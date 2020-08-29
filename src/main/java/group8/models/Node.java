@@ -16,6 +16,7 @@ public class Node {
     private HashMap<Node, Integer> _edgeList;
     private List<Node> _parentNodeList;
 
+
     /**
      * Constructs a new node with empty _edgeList and
      * _parentNodeList for later population. _cost and _id

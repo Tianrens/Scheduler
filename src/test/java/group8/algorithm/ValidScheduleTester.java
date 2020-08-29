@@ -25,7 +25,7 @@ public class ValidScheduleTester {
 
     @Test
     public void randomValidTest() throws Exception{
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("Nodes_10_Random.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("Nodes_7_OutTree.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(2);
         AppConfig.getInstance().setNumCores(8);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));

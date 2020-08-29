@@ -17,7 +17,7 @@ public class Graph {
     //heuristicCost is the graph's initial heuristic cost
     //Acts as a baseline for comparision for schedules that spawn from this graph
     //Larger schedule heuristic costs are discarded
-    private double heuristicCost ;
+    private double heuristicCost = -1;
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph
@@ -127,6 +127,7 @@ public class Graph {
 
         return node;
     }
+
 
     public List<Node> getGroupOfIdenticalNodes(int identicalGroupId) {
         return _identicalNodes.get(identicalGroupId);
