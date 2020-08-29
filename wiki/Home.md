@@ -19,6 +19,7 @@ Welcome to the Wiki. Here you will find the main source of documentation for our
 - [Visualisation](implementation/visualisation/visualisation.md)
 
 #### Testing
+- [Testing](implementation/testing.md)
 
 #### Acknowledgements
 - [References](acknowledgements/references.md)
