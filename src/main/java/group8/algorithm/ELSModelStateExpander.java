@@ -18,14 +18,15 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private Graph _graph;
     private Schedule _state;
     private double _graphHeuristicCost;
+    private IHeuristic _heuristic;
 
-    //private HashMap<Node,Node> _fixedOrder = new HashMap<Node,Node>();
 
-    public ELSModelStateExpander(Graph graph) throws AppConfigException {
+    public ELSModelStateExpander(Graph graph, IHeuristic heuristic) throws AppConfigException {
         _nodeList=graph.getAllNodes();
         _graph = graph;
         _state = new Schedule();
         _graphHeuristicCost = graph.getHeuristicCost();
+        _heuristic = heuristic;
     }
 
     /**
@@ -208,10 +209,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private Schedule assignSchedule(int[] processors, Map<String, int[]> scheduledNodes) throws AppConfigException {
 
         Schedule newSchedule = new Schedule();
-        IHeuristic goodHeuristic = new MaxThreeHeuristic();
         newSchedule.setTasks(scheduledNodes);
         newSchedule.setProcessors(processors);
-        newSchedule.setHeuristicCost(goodHeuristic.calculateEstimate(newSchedule, _nodeList));
+        newSchedule.setHeuristicCost(_heuristic.calculateEstimate(newSchedule, _nodeList));
         newSchedule.setEarliestStartTime(newSchedule.calculateEarliestStartTime());
 
         return newSchedule;

@@ -61,35 +61,53 @@ public class DOTFileWriter implements IDOTFileWriter{
         }
     }
 
+
     /**
      * Prints the output to the console for easy debugging
      * @param schedule
      * @param graph
      * @throws AppConfigException
      */
-    public void writeOutputToConsole(Schedule schedule, Graph graph) throws AppConfigException {
-        try{
-            System.out.println("digraph output_graph {");
-                Map<String, int[]> tasks = schedule.getTasks();
+    public void writeOutputToConsole(Schedule schedule, Graph graph) {
+        System.out.println("digraph output_graph {");
 
-                String edgeList = ""; // This string is written out last because all nodes must be declared before edges
+        Map<String, int[]> tasks = schedule.getTasks();
+        String edgeList = "";
+        for(Map.Entry<String, int[]> task : tasks.entrySet()){
+            Node node = graph.getNode(task.getKey());
+            int[] taskScheduleInfo = task.getValue();
 
-            // The for loop cycles through all takesNodes and prints them out + their edges
-            for(Map.Entry<String, int[]> task : tasks.entrySet()){
-                Node node = graph.getNode(task.getKey());
-                int[] taskScheduleInfo = task.getValue();
-
-                System.out.println(createNodeString(node, taskScheduleInfo)); // This prints out all nodes their weights, processor and start time
+            System.out.println(createNodeString(node, taskScheduleInfo));
 
                 for (Map.Entry<Node, Integer> edge : node.getEdgeList().entrySet()) { //This concatenates all edges a node has and adds then to print later
                     edgeList += createEdgeString(node, edge);
                 }
             }
+        System.out.println(edgeList);
 
-            System.out.println(edgeList); // All edges are written out to the dot file
-        } catch (Exception e) {
-            e.printStackTrace();
+        System.out.println("}");
+    }
+
+    public String writeOutputToString(Schedule schedule, Graph graph) {
+        StringBuffer output = new StringBuffer("digraph output_graph {" + System.lineSeparator());
+
+        Map<String, int[]> tasks = schedule.getTasks();
+        String edgeList = "";
+        for(Map.Entry<String, int[]> task : tasks.entrySet()){
+            Node node = graph.getNode(task.getKey());
+            int[] taskScheduleInfo = task.getValue();
+
+            output.append(createNodeString(node, taskScheduleInfo));
+            output.append(System.lineSeparator());
+
+            for (Map.Entry<Node, Integer> edge : node.getEdgeList().entrySet()) {
+                edgeList += createEdgeString(node, edge);
+            }
         }
+        output.append(edgeList);
+
+        output.append("}");
+        return output.toString();
     }
 
     /**
