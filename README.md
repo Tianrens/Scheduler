@@ -54,7 +54,7 @@ chmod 777 ./gradlew
     
 
 ## Documentation
-* [Wiki](wiki/Home.md) 
+* [Wiki](wiki/home.md) 
  
 ## External Dependencies
 * [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/)
