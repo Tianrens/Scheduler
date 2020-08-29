@@ -26,7 +26,7 @@ What to display?
 * Will need to column in bottom half.
 #### Option 2:
 ##### 2 Column layout
-![Option1](Low-Fi1.png)
+![Option1](low-fid1.png)
 * Chosen design.
 * Swap line graph with a tab pane, allowing the user to switch between line chart and pie chart.
 
