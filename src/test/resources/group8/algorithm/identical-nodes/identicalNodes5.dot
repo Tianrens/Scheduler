@@ -1,0 +1,13 @@
+digraph g {
+	a [Weight=2];
+	b [Weight=3];
+	c [Weight=3];
+	d [Weight=3];
+	e [Weight=1];
+	a->b [Weight=2];
+	a->c [Weight=5];
+	a->d [Weight=2];
+	b->e [Weight=2];
+	c->e [Weight=2];
+	d->e [Weight=2];
+}

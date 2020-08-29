@@ -16,6 +16,18 @@ public interface IDOTFileWriter {
      */
     void writeOutput(Schedule schedule, Graph graph) throws AppConfigException;
 
-    void writeOutputToConsole(Schedule schedule, Graph graph) throws AppConfigException;
+    /**
+     * Write output of {@link Schedule} to CLI output. Great for testing purposes.
+     * @param schedule
+     * @param graph
+     */
+    void writeOutputToConsole(Schedule schedule, Graph graph);
+
+    /**
+     * Write output of {@link Schedule} to a String. Great for testing purposes.
+     * @param schedule
+     * @param graph
+     */
+    String writeOutputToString(Schedule schedule, Graph graph);
 
 }
