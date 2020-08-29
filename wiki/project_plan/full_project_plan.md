@@ -6,4 +6,4 @@
 ![Network Diagram](Network_Diagram.jpg)
 
 ## Gantt Chart
-![Gantt Chart](Gantt_Chart.JPG)
+![Gantt Chart](gantt_chart.JPG)
