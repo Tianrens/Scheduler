@@ -4,7 +4,7 @@ This project utilises artificial intelligence(AI) and parallel processing to opt
 directed task graph onto a given amount of processors. This project uses the AStar algorithm to find an optimal 
 schedule to the scheduling problem.
 
-![Image of Visualisation](wiki/implementation/visualisation/visualisationImage.jpg)
+![Image of Visualisation](wiki/implementation/visualisation/visualisation_image.jpg)
 ![Image of Visualisation](wiki/implementation/visualisation/visualisationImage2.jpg)
 
 ## Team 8 - GR8 B8 M8
