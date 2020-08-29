@@ -14,6 +14,7 @@ Welcome to the Wiki. Here you will find the main source of documentation for our
 - [Command Line Interface](implementation/cli.md)
 - [Algorithm](implementation/algorithm.md)
 - [Heuristics](implementation/heuristics.md)
+- [Pruning](implementation/pruning.md)
 - [Parallelisation](implementation/parallelisation.md)
 - [Visualisation](implementation/visualisation/visualisation.md)
 
