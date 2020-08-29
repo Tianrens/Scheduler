@@ -52,7 +52,21 @@ public class Graph {
 
                 if (node.getCost() == nodeToCompare.getCost()) { // Cost
                     if (node.getEdgeList().equals(nodeToCompare.getEdgeList())) { // Children
-                        if (node.getParentNodeList().equals(nodeToCompare.getParentNodeList())) { // Parents
+                        if (node.getParentNodeList().equals(nodeToCompare.getParentNodeList())) { // Parent nodes are the same
+
+                            boolean isSame = true;
+                            for (Node parent : node.getParentNodeList()) { // Parent node edges costs to node and nodeToCompare are the same
+                                if (parent.getEdgeList().get(node) != parent.getEdgeList().get(nodeToCompare)) {
+                                    isSame = false;
+                                    break;
+                                }
+                            }
+
+                            if (!isSame) {
+                                continue;
+                            }
+
+                            // They are identified as identical now. Assign them their identical group ids.
                             result = true;
 
                             if (node.getIdenticalNodeId() == -1) {
