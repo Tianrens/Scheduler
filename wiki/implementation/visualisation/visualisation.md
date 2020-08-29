@@ -21,7 +21,7 @@ What to display?
 ## Lo-Fi Wireframes
 #### Option 1: 
 #####2 Row layout.
-![Option2](low-fid2.png)
+![Option2](low-fid_2.png)
 * May not be able to fit Gnatt Chart if there are 10 processors.
 * Will need to column in bottom half.
 #### Option 2:
