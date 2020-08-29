@@ -11,7 +11,7 @@ The nature of Java Sets don't allow duplicate objects from being stored.
 ## 2. Processor Normalisation
 All processors are essentially identical and exchangeable if their tasks are the same. This means that any partial schedule is the same as another if
 swapping the processor names allows them to match. e.g. In the below example, both partial schedules are the same, only their processors are switched around.
-![NormalisationExample](../meeting_minutes/normalisedProcessorsImage.JPG)
+![NormalisationExample](../meeting_minutes/normalised_processors_image.JPG)
 
 In order to prune these duplicate/identical partial schedules, we override the TreeSet's add() and create a SchedulerComparator.
 By overriding/implementing, we can perform checks on a schedule before we add them to OPEN and CLOSED.

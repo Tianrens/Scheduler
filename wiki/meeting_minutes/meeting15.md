@@ -17,7 +17,7 @@
             - For the first node, we are just chucking it in. Could we also check if all processor finishing time is the same, then???? But parents.
             - We might have to override sets because of identical nodes
             
-![normalisedProcessorImage](normalisedProcessorsImage.JPG)
+![normalisedProcessorImage](normalised_processors_image.JPG)
 - Identical Tasks
     - Node class
 - List of identical nodes - goes both ways(in both objects)
