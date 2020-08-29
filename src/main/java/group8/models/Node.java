@@ -15,8 +15,7 @@ public class Node {
     private int _identicalGroupId = -1;
     private HashMap<Node, Integer> _edgeList;
     private List<Node> _parentNodeList;
-    private Node _fixedOrderEdge;
-    private Node _fixedOrderParent;
+
 
     /**
      * Constructs a new node with empty _edgeList and
@@ -107,22 +106,6 @@ public class Node {
 
     public void setEdgeList(HashMap<Node, Integer> edgeList) {
         _edgeList = edgeList;
-    }
-
-    public Node getFixedOrderEdge() {
-        return _fixedOrderEdge;
-    }
-
-    public void setFixedOrderEdge(Node fixedOrderEdge) {
-        _fixedOrderEdge = fixedOrderEdge;
-    }
-
-    public Node getFixedOrderParent() {
-        return _fixedOrderParent;
-    }
-
-    public void setFixedOrderParent(Node fixedOrderParent) {
-        _fixedOrderParent = fixedOrderParent;
     }
 
 }

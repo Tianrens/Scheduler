@@ -68,6 +68,8 @@ public class VisualisationTest extends Application {
         thread.start();
 
         launch();
+
+
     }
 
     @Override
@@ -93,8 +95,7 @@ public class VisualisationTest extends Application {
             System.exit(0);
         });
         primaryStage.show();
-        Thread.sleep(3000);
-        //primaryStage.close();
-
+        Thread.sleep(1000);
+        primaryStage.close();
     }
 }

@@ -73,13 +73,6 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
-
-            if(node.getFixedOrderParent() == null){
-
-            }else if(!scheduledNodes.containsKey(node.getFixedOrderParent().getId())){
-                continue;
-            }
-
             // If the identical group has already been assigned
             if (addedIdenticalIds.contains(node.getIdenticalNodeId())) {
                 continue;
@@ -316,12 +309,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
-
-
-                parent = node.getParentNodeList().get(0);
-
-
-
+            parent = node.getParentNodeList().get(0);
 
             // for every processor, check all of this node's parents
             for (int i = 0; i < state.getProcessors().length; i++) {
