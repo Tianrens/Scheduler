@@ -313,9 +313,16 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
             if (node.getParentNodeList().size() == 0) {
                 result.put(node, 0); // FREE TASK DOES NOT HAVE A PARENT.
+                continue;
             }
 
-            parent = node.getParentNodeList().get(0);
+
+
+                parent = node.getParentNodeList().get(0);
+
+
+
+
             // for every processor, check all of this node's parents
             for (int i = 0; i < state.getProcessors().length; i++) {
                 if ( i == state.getTasks().get(parent.getId())[1]) {
