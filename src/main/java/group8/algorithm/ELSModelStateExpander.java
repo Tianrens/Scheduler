@@ -19,7 +19,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private Schedule _state;
     private double _graphHeuristicCost;
 
-    private Queue<Node> _fixedOrder;
+    // private Queue<Node> _fixedOrder;
 
     public ELSModelStateExpander(Graph graph) throws AppConfigException {
         _nodeList=graph.getAllNodes();
@@ -88,6 +88,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
             if (addedIdenticalIds.contains(node.getIdenticalNodeId())) {
                 continue;
             }
+            //Pass this point, looking at nodes which have not been assigned
 
             // Skip nodes associated with the identical group next time around
             if (node.getIdenticalNodeId() != -1) {
@@ -100,7 +101,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
             expandToAllProcessors(processors, node, scheduledNodes, newSchedules);
 
         }
-        return newSchedules;
+        return newSchedules; //return the list of possible next states
     }
 
     private void expandToAllProcessors(int[] processors, Node node, Map<String, int[]> scheduledNodes, List<Schedule> newSchedules) throws AppConfigException {
@@ -155,15 +156,18 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 int earliestStartTime = 0;
 
                 for(Node parent : node.getParentNodeList()) {
-                    if(scheduledNodes.get(parent.getId())[1]!=i){
+                    if(scheduledNodes.get(parent.getId())[1]!=i){ //if parent is scheduled on a different processor
+                        //Have to take into account remote cost
                         startTime = parent.getEdgeList().get(node)+parent.getCost()+scheduledNodes.get(parent.getId())[0];
-                        if(startTime < processors[i]){
+                        if(startTime < processors[i]){  //if the processor start time is more than the remote cost calculation, ignore remote cost
                             startTime = processors[i];
                         }
-                    }else {
+                    }else { //if parent is scheduled on the same processor then start time is the start time of the processor
                         startTime = processors[i];
                     }
 
+                    // Checks if there any dependencies that might delay the scheduling of the task
+                    // For this one processor, which every parent. account for the latest costing parent.
                     if(startTime>earliestStartTime){
                         earliestStartTime=startTime;
                     }
