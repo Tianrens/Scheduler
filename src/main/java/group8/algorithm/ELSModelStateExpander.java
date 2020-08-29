@@ -7,6 +7,7 @@ import group8.models.Schedule;
 
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 public class ELSModelStateExpander implements IStateExpander, Callable<List<Schedule>> {
 
@@ -17,6 +18,8 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private Graph _graph;
     private Schedule _state;
     private double _graphHeuristicCost;
+
+    private Queue<Node> _fixedOrder;
 
     public ELSModelStateExpander(Graph graph) throws AppConfigException {
         _nodeList=graph.getAllNodes();
@@ -52,6 +55,19 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         List<Integer> addedIdenticalIds = new ArrayList<>(); // All identified identical node groupings
         List<Node> ignorefixedOrderNodes = new ArrayList<>();
 
+        /* FORK AND JOIN */
+//        List<Node> freeTasks = _graph.getAllNodes().values().stream()
+//                .filter(n -> !state.getTasks().containsKey(n.getId()))
+//                .filter(n -> checkParents(n.getParentNodeList(), state.getTasks()))
+//                .collect(Collectors.toList());
+//
+//        if (checkFreeTasksForFixedOrder(freeTasks, state)) {
+//            taskSortingFixOrder(freeTasks, state);
+//        }
+
+        /* END OF FORK AND JOIN */
+
+
         for(Node node : _nodeList.values()){
             // If schedule contains node then it has already been assigned.
             if(scheduledNodes.containsKey(node.getId())) {
@@ -71,20 +87,20 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
             }
 
             // Skip nodes associated with the identical group next time around
-//            if (node.getIdenticalNodeId() != -1) {
-//                if (! addedIdenticalIds.contains(node.getIdenticalNodeId())) {
-//                    addedIdenticalIds.add(node.getIdenticalNodeId());
-//                }
-//            }
+            if (node.getIdenticalNodeId() != -1) {
+                if (! addedIdenticalIds.contains(node.getIdenticalNodeId())) {
+                    addedIdenticalIds.add(node.getIdenticalNodeId());
+                }
+            }
 
             //checks for duplicate states, where a node is assigned to an empty process
             boolean emptyAssign = false;
 
             // Try add node to every processor
             for(int i = 0 ; i < processors.length ; i++) {
-//                if (node.getIdenticalNodeId() != -1) {
-//                    node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
-//                }
+                if (node.getIdenticalNodeId() != -1) {
+                    node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
+                }
 
                 // Skip if the node from the identical group has already been assigned.
                 if (scheduledNodes.containsKey(node.getId())) {
@@ -198,5 +214,89 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
     public void setState(Schedule state) {
         _state = state;
+    }
+
+    private void taskSortingFixOrder(List<Node> freeTasks, Schedule state) {
+        // collections.sort the tasks by increasing drt. BUT if freetask doesnt have parent, set to zero
+        // then break any ties with sorting according to decreaseing outedge costs. no outedge? set the cost to zero.
+        // vertify that all free tasks are in decreaseing outedge cost order.
+        // then set _fixedOrder to this ordering (NOTE IT IS A QUEUE).
+
+        // THEN.... in another method or something
+        // for all these free tasks, pop off the first one and assign across all processors like normal (back in main method)
+        // keep doing that until another free task NOT of the list appears...then recheck using checkFreeTasksForFixedOrder
+        // once this list clears, keep going.
+    }
+
+    private double drt(Schedule state, Node node) { // FOR ONE NODE, drt.
+        int earliestProcessorStartTime = Integer.MAX_VALUE;
+
+        Node parent = node.getParentNodeList().get(0);
+        // for every processor, check all of this node's parents
+        for (int i = 0; i < state.getProcessors().length; i++) {
+            if ( i == state.getTasks().get(parent.getId())[1]) {
+                continue; // IGNORE LOCAL, WE ASSUME ALL REMOTE COMMUNICATION FROM THE PARENT PROCESSOR Pp. !!!!! this line is different from before.
+            }
+
+            int earliestStartTime = 0;
+                int startTime = 0;
+
+                // If the parent is on another processor, factor in communication cost to
+                // find the required start time for this processor
+                if (state.getTasks().get(parent.getId())[1] != i) {
+                    startTime = parent.getEdgeList().get(node) + parent.getCost() + state.getTasks().get(parent.getId())[0];
+
+                    // Check if this remote time is lower than the current processor time, set it back
+                    if (startTime < state.getProcessors()[i]) {
+                        startTime = state.getProcessors()[i];
+                    }
+                } else {
+                    // If parent is in same processor, start time is whenever the processor can start
+                    startTime = state.getProcessors()[i];
+                }
+
+                // Max time between the parent nodes (tf(parent) + cost) for the node.
+                if (startTime > earliestStartTime) {
+                    earliestStartTime = startTime;
+                }
+
+            // Find the time of the earliest starting processor
+            if (earliestProcessorStartTime > earliestStartTime) {
+                earliestProcessorStartTime = earliestStartTime;
+            }
+        }
+        return earliestProcessorStartTime;
+    }
+
+    private boolean checkFreeTasksForFixedOrder(List<Node> freeTasks, Schedule state) {
+        Node child = null;
+        int parentProcessor = -1;
+        for (Node freeTask : freeTasks) {
+            if (freeTask.getParentNodeList().size() > 1) {
+                return false; // If even one free task has >1 parent, then these free tasks cannot be fixed ordered.
+            }
+
+            if (freeTask.getParentNodeList().size() == 1) { // ONE parent
+                if (parentProcessor == -1) {
+                    parentProcessor = state.getTasks().get(freeTask.getParentNodeList().get(0).getId())[1]; // Get parent processor
+                } else if (parentProcessor != state.getTasks().get(freeTask.getParentNodeList().get(0).getId())[1]) {
+                    return false; // Not all parent processors of all free tasks are allocated to the same processor.
+                }
+            }
+
+            if (freeTask.getEdgeList().keySet().size() > 1) {
+                return false; // If even one free task has >1 child, then these free tasks cannot be fixed ordered.
+            }
+
+            if (freeTask.getEdgeList().keySet().size() == 1) {
+                if (child == null) {
+                    child = freeTask.getEdgeList().keySet().iterator().next();
+                } else if (child != freeTask.getEdgeList().keySet().iterator().next()) {
+                    return false; // Not all child node is the same.
+                }
+            }
+        }
+
+        return true;
     }
 }
