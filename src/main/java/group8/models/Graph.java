@@ -17,7 +17,7 @@ public class Graph {
     //heuristicCost is the graph's initial heuristic cost
     //Acts as a baseline for comparision for schedules that spawn from this graph
     //Larger schedule heuristic costs are discarded
-    private double heuristicCost ;
+    private double heuristicCost = -1;
 
     /**
      * Method used by GraphGenerator to add a new node into the Graph
@@ -126,45 +126,45 @@ public class Graph {
             if(forkNodes.size()<2){
                 continue;
             }else{
-
                 Collections.sort(forkNodes,Comparator.comparing((Node n) ->node.getEdgeList().get(n)));
             }
 
             for(int i = 1 ; i < forkNodes.size(); i++){
-                //forkNodes.get(i-1).addDestination(forkNodes.get(i),0);
-                //forkNodes.get(i).addParentNode(forkNodes.get(i-1));
                 forkNodes.get(i-1).setFixedOrderEdge(forkNodes.get(i));
             }
         }
+
+
         for(Node node : _nodes.values()) {
             List<Node> joinNodes = new ArrayList<>();
-            for(Node child :node.getParentNodeList()){
-                if(child.getEdgeList().size()==1){
-                    joinNodes.add(child);
+            for(Node parent :node.getParentNodeList()){
+                if(parent.getEdgeList().size()==1){
+                    joinNodes.add(parent);
                 }
             }
 
             if(joinNodes.size()<2){
                 continue;
             }else{
-                //orders by smallest outgoing edge first, so need ot check in the reverse
                 Collections.sort(joinNodes,Comparator.comparing((Node n) ->n.getEdgeList().get(node)+n.getCost()));
             }
 
             for(int i = 1; i <joinNodes.size()-1; i++){
-
                 if(joinNodes.get(i).getFixedOrderEdge()!=null){
+                    //
                     if(joinNodes.contains(joinNodes.get(i-1).getFixedOrderEdge())) {
                         if (joinNodes.get(i).getEdgeList().get(node) < joinNodes.get(i).getFixedOrderEdge().getEdgeList().get(node)) {
                             joinNodes.get(i).setFixedOrderEdge(null);
                         }
                     }
+
                 }else if(joinNodes.get(i).getFixedOrderEdge() == null){
                     joinNodes.get(i).setFixedOrderEdge( joinNodes.get(i-1));
                 }
 
             }
         }
+
         for(Node node : _nodes.values()) {
             if(node.getFixedOrderEdge()!=null) {
                 Node zeroEdge = node.getFixedOrderEdge();

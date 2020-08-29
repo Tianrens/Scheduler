@@ -58,9 +58,8 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
-            if(ignorefixedOrderNodes.contains(node)){
-                continue;
-            }else if(node.getFixedOrderParent() == null){
+
+            if(node.getFixedOrderParent() == null){
 
             }else if(!scheduledNodes.containsKey(node.getFixedOrderParent().getId())){
                 continue;
@@ -117,9 +116,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     //Only if a schedule has a lower heuristic than the baseline graph heuristic
                     //we add it to the new schedules
                     Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
-                    //if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
-                        newSchedules.add(schedule);
-                    //}
+                    if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
+                    newSchedules.add(schedule);
+                    }
 
                 } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
                     // Otherwise, if node has parents, take into account possible remote costs
@@ -152,9 +151,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     //Only if a schedule has a lower heuristic than the baseline graph heuristic
                     //we add it to the new schedules
                     Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
-                    //if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
-                        newSchedules.add(schedule);
-                    //}
+                    if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
+                    newSchedules.add(schedule);
+                    }
                 }
             }
         }
