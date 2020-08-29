@@ -4,8 +4,8 @@ This project utilises artificial intelligence(AI) and parallel processing to opt
 directed task graph onto a given amount of processors. This project uses the AStar algorithm to find an optimal 
 schedule to the scheduling problem.
 
-![Image of Visualisation](visualisationImage.jpg)
-![Image of Visualisation](visualisationImage2.jpg)
+![Image of Visualisation](wiki/implementation/visualisation/visualisation_image.jpg)
+![Image of Visualisation](wiki/implementation/visualisation/visualisation_image_2.jpg)
 
 ## Team 8 - GR8 B8 M8
 |Name           |GitHub Username                                            |UPI    |
@@ -54,7 +54,7 @@ chmod 777 ./gradlew
     
 
 ## Documentation
-* [Wiki](wiki/Home.md) 
+* [Wiki](wiki/home.md) 
  
 ## External Dependencies
 * [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/)
