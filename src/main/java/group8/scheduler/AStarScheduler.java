@@ -61,6 +61,7 @@ public class AStarScheduler implements IScheduler {
         List<Schedule> newFoundStates;
         _openState.add(schedule); //add the empty schedule to get the algorithm started
         _scheduleCount++;
+        _scheduleCountList[0] += 1;
 
         //continue with the algorithm while there are still states in the priority queue
         while (true) {

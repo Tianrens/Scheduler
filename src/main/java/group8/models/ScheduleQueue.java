@@ -29,8 +29,6 @@ public class ScheduleQueue extends TreeSet<Schedule> {
 
             if(_closedStates.get(schedule.getTasks().size()).get(schedule.getHeuristicCost()-schedule.getEarliestStartTime())!=null){
 
-
-
             //loops through all closed states, with the same task node number
             for(Schedule closedSchedule :_closedStates.get(schedule.getTasks().size()).get(schedule.getHeuristicCost()-schedule.getEarliestStartTime())) {
                 closedScheduleTasks = closedSchedule.getTasks();
