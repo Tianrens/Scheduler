@@ -60,6 +60,10 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
             if(ignorefixedOrderNodes.contains(node)){
                 continue;
+            }else if(node.getFixedOrderParent() == null){
+
+            }else if(!scheduledNodes.containsKey(node.getFixedOrderParent().getId())){
+                continue;
             }
 
             // If the identical group has already been assigned
