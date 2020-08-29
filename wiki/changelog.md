@@ -5,12 +5,42 @@ All notable changes/commits to this Scheduler project will be recorded in this l
 ## [Unreleased]
 
 &nbsp;
-## [1.4.0] - 2020-08-2X
+## [1.7.0] - 2020-08-28
+### Removed
+- Out-dated classes e.g. SimpleProcessorScheduler
+
+&nbsp;
+## [1.6.0] - 2020-08-27
+### Changed
+- Changed jar name to scheduler.jar
+- No longer use Processor Sets for pruning
+- Added pruning checks to Schedule Comparators
+
+### Removed
+- Processor Class
+
+&nbsp;
+## [1.5.0] - 2020-08-26
+### Added
+- Gantt Chart to visualisation
+- Visualisation test
+- Algorithm visualisation
+- New ScheduleQueue to handle pruning
+
+### Changed
+- Refactored ELSComparatorChanges
+- ScheduleComparator changed to also handle earliest start time
+
+&nbsp;
+## [1.4.0] - 2020-08-25
 ### Added
 - New Heuristics (Idle time, Bottom level, DRT)
+- Algorithm Integration tests
+- Add new Processor Set into Schedules for duplication detection
 
 ### Changed
 - Replace old heuristics with new
+- Shifted Bottom level calculations to Node Class
 
 &nbsp;
 ## [1.3.0] - 2020-08-22

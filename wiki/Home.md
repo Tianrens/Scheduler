@@ -15,7 +15,7 @@ Welcome to the Wiki. Here you will find the main source of documentation for our
 - [Algorithm](implementation/algorithm.md)
 - [Heuristics](implementation/heuristics.md)
 - [Parallelisation](implementation/parallelisation.md)
-- [Visualisation](implementation/visualisation.md)
+- [Visualisation](implementation/visualisation/visualisation.md)
 
 #### Testing
 
