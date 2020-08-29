@@ -196,24 +196,37 @@ public class Graph {
                 }
             }
 
-            List<Node> joinOrderNodes = new ArrayList<>();
+            List<Node> forkOrderNodes = new ArrayList<>();
+            List<Node> joinNodes = new ArrayList<>();
             if(avalaibleCount==1){
                 for(Node node : maybeForkJoin.getEdgeList().keySet()){
                     if(node.getParentNodeList().size()==1){
                         if(node.getEdgeList().size()==1){
-                            joinOrderNodes.add(node);
-                            if(!joinOrderNodes.contains(node.getEdgeList().keySet()))
-                            joinOrderNodes.addAll(node.getEdgeList().keySet());
+                            forkOrderNodes.add(node);
+                            if(!joinNodes.contains(node.getEdgeList().keySet())){
+                                forkOrderNodes.addAll(node.getEdgeList().keySet());
+                            }
                         }
                     }
                 }
-            }
 
-            if(joinOrderNodes.size()>=4){
-                setUpForkJoinOrdering(joinOrderNodes);
+
+                for(Node node : joinNodes){
+                    List<Node> forkJoinNodes = new ArrayList<>();
+                    forkJoinNodes.add(maybeForkJoin);
+                    forkJoinNodes.add(node);
+                    for(Node parent : node.getParentNodeList()){
+                        if(forkOrderNodes.contains(parent)){
+                            forkJoinNodes.add(parent);
+                        }
+                    }
+
+                    if(forkJoinNodes.size()>3){
+                        setUpForkJoinOrdering(forkJoinNodes);
+                    }
+                }
             }
         }
-
     }
 
     private boolean checkParents(List<Node> parentList, List<Node> scheduledNodes){
