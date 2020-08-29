@@ -19,7 +19,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private Schedule _state;
     private double _graphHeuristicCost;
 
-    private Queue<Node> _fixedOrder;
+    //private HashMap<Node,Node> _fixedOrder = new HashMap<Node,Node>();
 
     public ELSModelStateExpander(Graph graph) throws AppConfigException {
         _nodeList=graph.getAllNodes();
@@ -56,17 +56,16 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         List<Node> ignorefixedOrderNodes = new ArrayList<>();
 
         /* FORK AND JOIN */
-//        List<Node> freeTasks = _graph.getAllNodes().values().stream()
-//                .filter(n -> !state.getTasks().containsKey(n.getId()))
-//                .filter(n -> checkParents(n.getParentNodeList(), state.getTasks()))
-//                .collect(Collectors.toList());
-//
-//        if (checkFreeTasksForFixedOrder(freeTasks, state)) {
-//            taskSortingFixOrder(freeTasks, state);
-//        }
+        List<Node> freeTasks = _graph.getAllNodes().values().stream()
+                .filter(n -> !state.getTasks().containsKey(n.getId()))
+                .filter(n -> checkParents(n.getParentNodeList(), state.getTasks()))
+                .collect(Collectors.toList());
+
+        if (checkFreeTasksForFixedOrder(freeTasks, state)) {
+            return assignFixOrderTasks(state,freeTasks,taskSortingFixOrder(freeTasks, state));
+        }
 
         /* END OF FORK AND JOIN */
-
 
         for(Node node : _nodeList.values()){
             // If schedule contains node then it has already been assigned.
@@ -94,90 +93,99 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 }
             }
 
-            //checks for duplicate states, where a node is assigned to an empty process
-            boolean emptyAssign = false;
+            // Now do the actual expanding of the current state s (create s+1 schedules)
+            expandToAllProcessors(_state, node, newSchedules);
 
-            // Try add node to every processor
-            for(int i = 0 ; i < processors.length ; i++) {
-                if (node.getIdenticalNodeId() != -1) {
-                    node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
-                }
+        }
+        return newSchedules; //return the list of possible next states
+    }
 
-                // Skip if the node from the identical group has already been assigned.
-                if (scheduledNodes.containsKey(node.getId())) {
-                    continue;
-                }
+    private void expandToAllProcessors(Schedule state, Node node, List<Schedule> newSchedules) throws AppConfigException {
+        //checks for duplicate states, where a node is assigned to an empty process
+        boolean emptyAssign = false;
+        int[] processors = state.getProcessors();
+        Map<String,int[]> scheduledNodes = state.getTasks();
 
-                int[] newProcessors = processors.clone();
 
-                if(!emptyAssign && newProcessors[i]==-1) {
-                    emptyAssign=true;
-                    newProcessors[i]=0;
-                }else if (emptyAssign && newProcessors[i]==-1) {
-                    //This might need reconsideration, because I dont think there will be a case where after
-                    // reading an empty process will we come across a process that is not empty
-                    continue;
-                }
+        // Try add node to every processor
+        for(int i = 0 ; i < processors.length ; i++) {
+            if (node.getIdenticalNodeId() != -1) {
+                node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
+            }
 
-                // If node has no parents, just add into processor
-                if (node.getParentNodeList().size() == 0) {
-                    Map<String, int[]> newScheduledNodes = new HashMap<>();
-                    int[] nodeInfo = new int[2];
-                    nodeInfo[0] = newProcessors[i];
-                    nodeInfo[1] = i;
-                    newProcessors[i] = newProcessors[i] + node.getCost();
+            // Skip if the node from the identical group has already been assigned.
+            if (scheduledNodes.containsKey(node.getId())) {
+                continue;
+            }
 
-                    newScheduledNodes.putAll(scheduledNodes);
-                    newScheduledNodes.put(node.getId(), nodeInfo);
+            int[] newProcessors = processors.clone();
 
-                    //Only if a schedule has a lower heuristic than the baseline graph heuristic
-                    //we add it to the new schedules
-                    Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
-                    if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
+            if(!emptyAssign && newProcessors[i]==-1) {
+                emptyAssign=true;
+                newProcessors[i]=0;
+            }else if (emptyAssign && newProcessors[i]==-1) {
+                //This might need reconsideration, because I dont think there will be a case where after
+                // reading an empty process will we come across a process that is not empty
+                continue;
+            }
+
+            // If node has no parents, just add into processor
+            if (node.getParentNodeList().size() == 0) {
+                Map<String, int[]> newScheduledNodes = new HashMap<>();
+                int[] nodeInfo = new int[2];
+                nodeInfo[0] = newProcessors[i];
+                nodeInfo[1] = i;
+                newProcessors[i] = newProcessors[i] + node.getCost();
+
+                newScheduledNodes.putAll(scheduledNodes);
+                newScheduledNodes.put(node.getId(), nodeInfo);
+
+                //Only if a schedule has a lower heuristic than the baseline graph heuristic
+                //we add it to the new schedules
+                Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
+                if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
                     newSchedules.add(schedule);
-                    }
+                }
 
-                } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
-                    // Otherwise, if node has parents, take into account possible remote costs
-                    Map<String, int[]> newScheduledNodes = new HashMap<>();
-                    int[] nodeInfo = new int[2];
-                    int startTime;
-                    int earliestStartTime = 0;
+            } else if (checkParents(node.getParentNodeList(),scheduledNodes)) {
+                // Otherwise, if node has parents, take into account possible remote costs
+                Map<String, int[]> newScheduledNodes = new HashMap<>();
+                int[] nodeInfo = new int[2];
+                int startTime;
+                int earliestStartTime = 0;
 
-                    for(Node parent : node.getParentNodeList()) {
-                        if(scheduledNodes.get(parent.getId())[1]!=i){ //if parent is scheduled on a different processor
-                            //Have to take into account remote cost
-                            startTime = parent.getEdgeList().get(node)+parent.getCost()+scheduledNodes.get(parent.getId())[0];
-                            if(startTime < processors[i]){ //if the processor start time is more than the remote cost calculation, ignore remote cost
-                                startTime = processors[i];
-                            }
-                        }else { //if parent is scheduled on the same processor then start time is the start time of the processor
+                for(Node parent : node.getParentNodeList()) {
+                    if(scheduledNodes.get(parent.getId())[1]!=i){ //if parent is scheduled on a different processor
+                        //Have to take into account remote cost
+                        startTime = parent.getEdgeList().get(node)+parent.getCost()+scheduledNodes.get(parent.getId())[0];
+                        if(startTime < processors[i]){  //if the processor start time is more than the remote cost calculation, ignore remote cost
                             startTime = processors[i];
                         }
-
-                        // Checks if there any dependencies that might delay the scheduling of the task
-                        // For this one processor, which every parent. account for the latest costing parent.
-                        if(startTime>earliestStartTime){
-                            earliestStartTime=startTime;
-                        }
+                    }else { //if parent is scheduled on the same processor then start time is the start time of the processor
+                        startTime = processors[i];
                     }
 
-                    nodeInfo[0] = earliestStartTime;
-                    nodeInfo[1]=i;
-                    newProcessors[i] = earliestStartTime + node.getCost();
-                    newScheduledNodes.putAll(scheduledNodes);
-                    newScheduledNodes.put(node.getId(), nodeInfo);
+                    // Checks if there any dependencies that might delay the scheduling of the task
+                    // For this one processor, which every parent. account for the latest costing parent.
+                    if(startTime>earliestStartTime){
+                        earliestStartTime=startTime;
+                    }
+                }
 
-                    //Only if a schedule has a lower heuristic than the baseline graph heuristic
-                    //we add it to the new schedules
-                    Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
-                    if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
+                nodeInfo[0] = earliestStartTime;
+                nodeInfo[1]=i;
+                newProcessors[i] = earliestStartTime + node.getCost();
+                newScheduledNodes.putAll(scheduledNodes);
+                newScheduledNodes.put(node.getId(), nodeInfo);
+
+                //Only if a schedule has a lower heuristic than the baseline graph heuristic
+                //we add it to the new schedules
+                Schedule schedule = assignSchedule(newProcessors,newScheduledNodes);
+                if (schedule.getHeuristicCost() <= _graphHeuristicCost) {
                     newSchedules.add(schedule);
-                    }
                 }
             }
         }
-        return newSchedules; //return the list of possible next states
     }
 
     /**
@@ -220,60 +228,101 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         _state = state;
     }
 
-    private void taskSortingFixOrder(List<Node> freeTasks, Schedule state) {
+    private HashMap<Node,Node> taskSortingFixOrder(List<Node> freeTasks, Schedule state) {
 
-        for(Node node : freeTasks){
-            List<Node> forkNodes = new ArrayList<>();
-            HashMap<Node,Integer> drt = new HashMap<Node,Integer>();
-            for(Node child :node.getEdgeList().keySet()){
-                if(child.getParentNodeList().size()==1){
-                    forkNodes.add(child);
-                }
-            }
-            if(forkNodes.size()<2){
-                continue;
-            }else{
-                Collections.sort(forkNodes,Comparator.comparing((Node n) ->drt.get(n)));
-            }
+        HashMap<Node,Node> fixedOrder = new HashMap<Node,Node>();
+        Map<Node, Integer> freeTasksDRTCosts = drt(state, freeTasks);
+        Collections.sort(freeTasks,Comparator.comparing((Node n) ->freeTasksDRTCosts.get(n)));
 
-            for(int i = 0 ; i < forkNodes.size()-1; i++){
-
-                if(_fixedOrder.size()==0){
-                    if(forkNodes.get(i).getEdgeList().values().iterator().next()>=forkNodes.get(i+1).getEdgeList().values().iterator().next()){
-                        _fixedOrder.add(forkNodes.get(i));
-                        _fixedOrder.add(forkNodes.get(i+1));
-                    }
-                }else if(i<forkNodes.size()-1){
-                    if(forkNodes.get(i).getEdgeList().values().iterator().next()>=forkNodes.get(i+1).getEdgeList().values().iterator().next()){
-                        _fixedOrder.add(forkNodes.get(i+i));
-                    }
-                }
+        for(int i = 0 ; i < freeTasks.size()-1; i++){
+            if(freeTasks.get(i).getEdgeList().isEmpty() && freeTasks.get(i+1).getEdgeList().isEmpty()){
+                fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
+            }else if(freeTasks.get(i+1).getEdgeList().isEmpty()){
+                fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
+            }else if(freeTasks.get(i).getEdgeList().values().iterator().next()>=freeTasks.get(i+1).getEdgeList().values().iterator().next()) {
+                // destination, src
+                fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
             }
         }
 
+        return fixedOrder;
 
-        // collections.sort the tasks by increasing drt. BUT if freetask doesnt have parent, set to zero
-        // then break any ties with sorting according to decreaseing outedge costs. no outedge? set the cost to zero.
-        // vertify that all free tasks are in decreaseing outedge cost order.
-        // then set _fixedOrder to this ordering (NOTE IT IS A QUEUE).
-
-        // THEN.... in another method or something
-        // for all these free tasks, pop off the first one and assign across all processors like normal (back in main method)
-        // keep doing that until another free task NOT of the list appears...then recheck using checkFreeTasksForFixedOrder
-        // once this list clears, keep going.
     }
 
-    private double drt(Schedule state, Node node) { // FOR ONE NODE, drt.
-        int earliestProcessorStartTime = Integer.MAX_VALUE;
+    private List<Schedule> assignFixOrderTasks(Schedule state, List<Node> freeNodes,HashMap<Node,Node> fixedOrder) throws AppConfigException{
 
-        Node parent = node.getParentNodeList().get(0);
-        // for every processor, check all of this node's parents
-        for (int i = 0; i < state.getProcessors().length; i++) {
-            if ( i == state.getTasks().get(parent.getId())[1]) {
-                continue; // IGNORE LOCAL, WE ASSUME ALL REMOTE COMMUNICATION FROM THE PARENT PROCESSOR Pp. !!!!! this line is different from before.
+        List<Schedule> newSchedules = new ArrayList<>();
+        for(Node node: freeNodes){
+
+            List<Schedule> fixOrderSchedules = new ArrayList<>();
+            if(!fixedOrder.containsKey(node)){
+                expandToAllProcessors(state,node,fixOrderSchedules);
+            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){
+                expandToAllProcessors(state,node,fixOrderSchedules);
+            }else{
+                continue;
             }
 
-            int earliestStartTime = 0;
+            if(fixOrderSchedules.isEmpty()){
+                return newSchedules;
+            }
+
+            boolean newNodeAvaliable = true;
+            //check all parents of the child of the node scheduled
+            if(!node.getEdgeList().isEmpty()){
+                for(Node parent : node.getEdgeList().keySet().iterator().next().getParentNodeList()){
+                    //if a single parent is not scheduled then the node cannot be free
+                    if(!fixOrderSchedules.get(0).getTasks().containsKey(parent.getId())){
+                        newNodeAvaliable = false;
+                    }
+                }
+            }else{
+                newNodeAvaliable=false;
+            }
+
+            //if there is a new node we need to check if it is able to be fix ordered
+            if(newNodeAvaliable){
+                List<Node> newFreeNodes = new ArrayList<>();
+                newFreeNodes.addAll(freeNodes);
+                newFreeNodes.remove(node);
+                newFreeNodes.add(node.getEdgeList().keySet().iterator().next());
+
+                for(Schedule s : fixOrderSchedules){
+                    if(checkFreeTasksForFixedOrder(freeNodes,s)){
+                        newSchedules.addAll(assignFixOrderTasks(s,newFreeNodes,taskSortingFixOrder(newFreeNodes,s)));
+                    }else{
+                        newSchedules.addAll(fixOrderSchedules);
+                    }
+                }
+            }else{
+                newSchedules.addAll(fixOrderSchedules);
+            }
+        }
+        return newSchedules;
+    }
+
+
+
+    private Map<Node, Integer> drt(Schedule state, List<Node> nodes) { // FOR ONE NODE, drt.
+        Map<Node, Integer> result = new HashMap<>();
+
+        int earliestProcessorStartTime;
+        Node parent;
+        for (Node node : nodes) {
+            earliestProcessorStartTime = Integer.MAX_VALUE;
+
+            if (node.getParentNodeList().size() == 0) {
+                result.put(node, 0); // FREE TASK DOES NOT HAVE A PARENT.
+            }
+
+            parent = node.getParentNodeList().get(0);
+            // for every processor, check all of this node's parents
+            for (int i = 0; i < state.getProcessors().length; i++) {
+                if ( i == state.getTasks().get(parent.getId())[1]) {
+                    continue; // IGNORE LOCAL, WE ASSUME ALL REMOTE COMMUNICATION FROM THE PARENT PROCESSOR Pp. !!!!! this line is different from before.
+                }
+
+                int earliestStartTime = 0;
                 int startTime = 0;
 
                 // If the parent is on another processor, factor in communication cost to
@@ -295,12 +344,15 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     earliestStartTime = startTime;
                 }
 
-            // Find the time of the earliest starting processor
-            if (earliestProcessorStartTime > earliestStartTime) {
-                earliestProcessorStartTime = earliestStartTime;
+                // Find the time of the earliest starting processor
+                if (earliestProcessorStartTime > earliestStartTime) {
+                    earliestProcessorStartTime = earliestStartTime;
+                }
             }
+
+            result.put(node, earliestProcessorStartTime);
         }
-        return earliestProcessorStartTime;
+        return result;
     }
 
     private boolean checkFreeTasksForFixedOrder(List<Node> freeTasks, Schedule state) {
