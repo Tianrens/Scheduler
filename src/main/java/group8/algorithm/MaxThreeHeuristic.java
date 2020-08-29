@@ -89,7 +89,7 @@ public class MaxThreeHeuristic implements IHeuristic {
     /**
      *  This method calculates the Data Read Time Heuristic by going through all
      *  the unassigned nodes and finding max(earliest start time + bottom level)
-     *  where the parent node dependancies are factored in when findin gthe earliest start times.
+     *  where the parent node dependencies are factored in when finding the earliest start times.
      * @param state
      * @param allNodes
      * @return

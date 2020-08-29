@@ -66,7 +66,7 @@ public class ScheduleComparator implements Comparator<Schedule> {
                     break;
                 }
 
-                //if startTimes are differnt then they cannot be the same.
+                //if startTimes are different then they cannot be the same.
                 if (m2.get(node.getKey())[0] != node.getValue().intValue()) {
                     isSame=false;
                     break;
