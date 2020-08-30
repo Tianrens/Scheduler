@@ -136,7 +136,9 @@ public class ScheduleQueue extends TreeSet<Schedule> {
                 _closedStates.get(state.getTasks().size()).get(state.getHeuristicCost()-state.getEarliestStartTime()).add(state);
             }
         }else{
-            _closedStates.add(new HashMap<Double, List<Schedule>>());
+            while(_closedStates.size()<=state.getTasks().size()){
+                _closedStates.add(new HashMap<Double, List<Schedule>>());
+            }
             _closedStates.get(state.getTasks().size()).put(state.getHeuristicCost()-state.getEarliestStartTime(),new ArrayList<>());
             _closedStates.get(state.getTasks().size()).get(state.getHeuristicCost()-state.getEarliestStartTime()).add(state);
         }
