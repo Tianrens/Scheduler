@@ -52,9 +52,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
         Map<String, int[]> scheduledNodes = state.getTasks();
         List<Schedule> newSchedules = new ArrayList<>();
-        int[] processors = state.getProcessors();
         List<Integer> addedIdenticalIds = new ArrayList<>(); // All identified identical node groupings
-        List<Node> ignorefixedOrderNodes = new ArrayList<>();
 
         /* FORK AND JOIN */
         List<Node> freeTasks = _graph.getAllNodes().values().stream()
@@ -105,11 +103,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         for(int i = 0 ; i < processors.length ; i++) {
             if (node.getIdenticalNodeId() != -1) {
                 node = _graph.getFixedOrderNode(node.getIdenticalNodeId()); // will always schedule all nodes no matter what
-            }
-
-            // Skip if the node from the identical group has already been assigned.
-            if (scheduledNodes.containsKey(node.getId())) {
-                continue;
+                while (scheduledNodes.containsKey(node.getId())) { // Check if the node from the identical group has already been assigned
+                    node = _graph.getFixedOrderNode(node.getIdenticalNodeId());
+                }
             }
 
             int[] newProcessors = processors.clone();
