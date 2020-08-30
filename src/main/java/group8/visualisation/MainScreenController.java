@@ -125,7 +125,8 @@ public class MainScreenController {
                     update();
                     if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
                         _timeLine.stop();
-
+                        currentFrame = 3;
+                        update();
                     }
                 })
         );
