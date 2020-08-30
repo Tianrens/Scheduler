@@ -55,7 +55,7 @@ public class DOTFileWriter implements IDOTFileWriter{
             out.write(edgeList); // All edges are written out to the dot file
             out.write("}");
             out.flush();
-            System.out.println(AppConfig.getInstance().getOutputFile().toString() + " has been generated");
+            System.out.println("File " + AppConfig.getInstance().getOutputFile().toString() + " has been generated");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,9 +83,9 @@ public class DOTFileWriter implements IDOTFileWriter{
                     edgeList += createEdgeString(node, edge);
                 }
             }
-        System.out.println(edgeList);
-
+        System.out.print(edgeList);
         System.out.println("}");
+        System.out.println();
     }
 
     public String writeOutputToString(Schedule schedule, Graph graph) {
@@ -105,7 +105,6 @@ public class DOTFileWriter implements IDOTFileWriter{
             }
         }
         output.append(edgeList);
-
         output.append("}");
         return output.toString();
     }
