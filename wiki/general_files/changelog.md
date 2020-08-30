@@ -5,7 +5,24 @@ All notable changes/commits to this Scheduler project will be recorded in this l
 ## [Unreleased]
 
 &nbsp;
+## [1.8.0] - 2020-08-29
+### Added
+- Simple heuristic tests
+- MaxThreeHeuristic tests
+- Identical node tests
+- Fixed order pruning for Fork, Join and Fork/Join graphs
+
+### Changed
+- Dependency inject heuristics into Expander
+
+
+&nbsp;
 ## [1.7.0] - 2020-08-28
+### Added
+- Pie-chart containing schedules per thread to visualisation
+- Speed tests
+- Greedy heuristic tests
+
 ### Removed
 - Out-dated classes e.g. SimpleProcessorScheduler
 
