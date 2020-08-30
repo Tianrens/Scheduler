@@ -9,6 +9,9 @@ Welcome to the Wiki. Here you will find the main source of documentation for our
 - [Code Conventions](general_files/code_conventions.md)
 - [Research](research)
 
+#### Design
+- [Implementation Plan](design/implementation_plan.md)
+
 #### Implementation
 - [Input/Output Parsing](implementation/input_output.md)
 - [Command Line Interface](implementation/cli.md)

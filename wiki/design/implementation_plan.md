@@ -1,13 +1,13 @@
-Class Diagrams: https://drive.google.com/file/d/1ui7QDf1sKgfoP4KauLpL6X6mVR1jywLS/view?usp=sharing
+# Implementation Plan
 
-DOT files that have the graph inputs and the outputs: https://en.wikipedia.org/wiki/DOT_(graph_description_language)
+## Class Diagram for Input Parser
+_DOT files that have the graph inputs and the outputs: https://en.wikipedia.org/wiki/DOT_(graph_description_language)_
+![Class Diagram](class_diagrams.png)
 
-Implementation Plan
+## Class Diagram for milestone 2
+![Class Diagram](class_diagram_milestone_2.jpg)
 
-
-
-
-Classes
+## Initial Classes
 
 [MAIN] Class -- Tianren
 Handle options and command line inputs → use enum
@@ -64,7 +64,6 @@ Cost
 ID???
 
 
-
 [INTERFACE] Scheduler
 Methods
 Schedule : GenerateValidSchedule(Graph graph)
@@ -92,4 +91,6 @@ List<Node> Topology
 Get graph and then find random topology
 
 [SERVICE implements interface] OptimalScheduleGenerator - milestone 2 stuff
+
+
 

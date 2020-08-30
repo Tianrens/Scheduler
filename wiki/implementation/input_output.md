@@ -4,7 +4,7 @@
 To be able to handle any valid format of the dot file type we decided that using an
 external dependency to handle this would be the best use of our time.
 After exploring the different options of parsing graphs,
-we decided to use the [Paypal](../design/external_dependencies.md) parser external dependency
+we decided to use the [Paypal](../acknowledgements/external_libraries.md) parser external dependency
 to parse input graphs and turn it into our own graph data structure. Apart from a few minor adjustments
 to handling e.g. case sensitivity, the integration to our existing code base at that time was a relatively seamless experience. 
 
