@@ -146,7 +146,7 @@ public class MainScreenController {
         long seconds = time % 60;
         String timeStr = String.format("%d:%02d", minutes, seconds);
         _timeElapsedText.setText("Time Elapsed: " + timeStr);
-        _numSchedulesGeneratedText.setText("Schedules Generated: " + _algoStatus.getNumSchedulesGenerated());
+        _numSchedulesGeneratedText.setText("Partial Schedules Generated: " + _algoStatus.getNumSchedulesGenerated());
         // RAM Usage in bytes. Converted to MegaBytes.
         long ramUsage = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000;
         _RAMUsageText.setText("RAM Usage: " + ramUsage + "MB");
@@ -282,7 +282,7 @@ public class MainScreenController {
         final NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Time (s)");
         final NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Schedules Generated");
+        yAxis.setLabel("Partial Schedules");
 
         LineChart linechart = new LineChart(xAxis,yAxis);
 
@@ -292,7 +292,7 @@ public class MainScreenController {
         linechart.setCreateSymbols(false);
 
         XYChart.Series series = new XYChart.Series();
-        series.setName("Number of Schedules Generated");
+        series.setName("Number of Partial Schedules Generated");
         linechart.setLegendVisible(false);
 
         linechart.getData().add(series);
@@ -329,7 +329,7 @@ public class MainScreenController {
         pieChart.setPadding(new Insets(0,0,0,0));
         pieChart.setLegendVisible(false);
 
-        pieChart.setTitle("Schedules Generated per Core");
+        pieChart.setTitle("Partial Schedules per Core");
 
         _pieChart = pieChart;
 
