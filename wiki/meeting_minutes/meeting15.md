@@ -17,7 +17,7 @@
             - For the first node, we are just chucking it in. Could we also check if all processor finishing time is the same, then???? But parents.
             - We might have to override sets because of identical nodes
             
-![normalisedProcessorImage](normalisedProcessorsImage.JPG)
+![normalisedProcessorImage](normalised_processors_image.JPG)
 - Identical Tasks
     - Node class
 - List of identical nodes - goes both ways(in both objects)
@@ -28,7 +28,7 @@
     - ONE IDEA
         - While we are constructing the nodes, check if there are identical nodes. Put into a list
         - When we are scheduling in, check if the list is empty or not. If it is, add the other nodes and then put into a list in the scheduler. This is the “excluded”. The list is reset every time.
-![identicalNodeSketch](identicalNodeSketch.JPG)
+![identicalNodeSketch](identical_node_sketch.JPG)
 
 - Heuristic schedules - simple or the greedy - prune schedules
     - This would come after you calculate the heuristic

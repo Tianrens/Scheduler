@@ -3,7 +3,7 @@
 ![WBS](WBS.jpg)
 
 ## Network Diagram
-![Network Diagram](Network_Diagram.jpg)
+![Network Diagram](network_diagram.jpg)
 
 ## Gantt Chart
-![Gantt Chart](Gantt_Chart.JPG)
+![Gantt Chart](gantt_chart.JPG)

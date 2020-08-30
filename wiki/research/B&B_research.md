@@ -71,7 +71,7 @@ A* is a popular brand-and bound algorithm (using bestfirst search approach) that
 *cost function f*. The cost function MUST be an underestimate:  f(s) ≤ f ∗ (s), where f ∗ (s) is the true lowest cost of
 a complete schedule (solution) at root node.
 
-##### Heuristics: see [heuristics research](Heuristics.md)
+##### Heuristics: see [heuristics research](../implementation/heuristics.md)
 
 
 # Pruning and Duplication Reduction Methods

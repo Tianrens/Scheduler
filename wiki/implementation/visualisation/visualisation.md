@@ -21,12 +21,12 @@ What to display?
 ## Lo-Fi Wireframes
 #### Option 1: 
 #####2 Row layout.
-![Option2](Low-Fi2.png)
+![Option2](low-fid_2.png)
 * May not be able to fit Gnatt Chart if there are 10 processors.
 * Will need to column in bottom half.
 #### Option 2:
 ##### 2 Column layout
-![Option1](Low-Fi1.png)
+![Option1](low-fid_1.png)
 * Chosen design.
 * Swap line graph with a tab pane, allowing the user to switch between line chart and pie chart.
 
