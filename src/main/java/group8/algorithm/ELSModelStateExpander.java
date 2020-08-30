@@ -21,6 +21,12 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
     private IHeuristic _heuristic;
 
 
+    /**
+     * Create a state Expander
+     * @param graph
+     * @param heuristic Dependency inject a certain heuristic calculator
+     * @throws AppConfigException
+     */
     public ELSModelStateExpander(Graph graph, IHeuristic heuristic) throws AppConfigException {
         _nodeList=graph.getAllNodes();
         _graph = graph;
@@ -92,6 +98,14 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         return newSchedules; //return the list of possible next states
     }
 
+    /**
+     * Given a state and a node to add, add to the newSchedules list all new possible states.
+     * The list of states is also trimed by the upper bound heuristic cost calculated for the graph itself
+     * @param state
+     * @param node
+     * @param newSchedules
+     * @throws AppConfigException
+     */
     private void expandToAllProcessors(Schedule state, Node node, List<Schedule> newSchedules) throws AppConfigException {
         //checks for duplicate states, where a node is assigned to an empty process
         boolean emptyAssign = false;
@@ -213,40 +227,71 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         return newSchedule;
     }
 
+    /**
+     * sets the schedule state for the generator to expand on
+     * @param state
+     */
     public void setState(Schedule state) {
         _state = state;
     }
 
+    /**
+     *  Given a list of free nodes, sort the list according to increaseing DRT time given a schedule state, then connect each neighbouring node.
+     *  Then disconnect any neighbours that have increaseing outgoing edge costs according to the same order.
+     * @param freeTasks
+     * @param state
+     * @return
+     */
     private HashMap<Node,Node> taskSortingFixOrder(List<Node> freeTasks, Schedule state) {
 
+        // First entry is destination, second entry is the src
         HashMap<Node,Node> fixedOrder = new HashMap<Node,Node>();
         Map<Node, Integer> freeTasksDRTCosts = drt(state, freeTasks);
+
+        //Sort according to DRT
         Collections.sort(freeTasks,Comparator.comparing((Node n) ->freeTasksDRTCosts.get(n)));
 
+        //Loops through lists and adds all connections to the hashmap
         for(int i = 0 ; i < freeTasks.size()-1; i++){
-            if(freeTasks.get(i).getEdgeList().isEmpty() && freeTasks.get(i+1).getEdgeList().isEmpty()){
-                fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
-            }else if(freeTasks.get(i+1).getEdgeList().isEmpty()){
+
+
+            if(freeTasks.get(i).getEdgeList().isEmpty()){
+                //if there are no outgoing edges there must also be no outgoing edges for the next node
+                if(freeTasks.get(i+1).getEdgeList().isEmpty()){
+                    fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
+                }
+
+            }else if(freeTasks.get(i+1).getEdgeList().isEmpty()){//if the next node has no out going edge then the value of the first node does not matter
                 fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
             }else if(freeTasks.get(i).getEdgeList().values().iterator().next()>=freeTasks.get(i+1).getEdgeList().values().iterator().next()) {
-                // destination, src
+                // add according to: destination, src
                 fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
             }
         }
-
         return fixedOrder;
-
     }
 
+    /**
+     * Given a state, the list of freeNodes that can be added, and their fixed ordering, generate all schedules according to the specified fixed order
+     * This function is in itself recursive.
+     * @param state
+     * @param freeNodes
+     * @param fixedOrder
+     * @return
+     * @throws AppConfigException
+     */
     private List<Schedule> assignFixOrderTasks(Schedule state, List<Node> freeNodes,HashMap<Node,Node> fixedOrder) throws AppConfigException{
-
         List<Schedule> newSchedules = new ArrayList<>();
+
+        //Scheudle all free nodes that are in the beginning of their fixed orderings
         for(Node node: freeNodes){
 
             List<Schedule> fixOrderSchedules = new ArrayList<>();
+
+            //if the freeNode does not have any fixed order edges approaching it
             if(!fixedOrder.containsKey(node)){
                 expandToAllProcessors(state,node,fixOrderSchedules);
-            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){
+            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){// if 
                 expandToAllProcessors(state,node,fixOrderSchedules);
             }else{
                 continue;

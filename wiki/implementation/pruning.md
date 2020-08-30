@@ -32,3 +32,18 @@ nodes. By chaining these tasks together, we reduce these permutation options, he
 Partial schedules that form large heuristic costs are very unlikely to branch in the optimal direction. To prune these unnecessary partial schedules
 a heuristic ([Pruning Heuristics](heuristics.md)) is used on the initial, empty schedule. This provides us with an upper bound estimate. Any partial schedules found to 
 have a higher heuristic cost will be abandoned, thus reducing the amount of memory needed to store them otherwise.
+
+## 5. Fixed Task Ordering
+Fork, Join and Fork/Join graphs are extreme cases which expose the maximum amount of concurrency. To handle these special graphs we implement a fixed ordering to reduce the number of permutations
+created during the algorithm's runtime.
+![fork join graphs](fork_join_graphs.jpg)
+
+For all free tasks, verify that they each: 
+- have at most one parent and at most one child
+- if the task has  a child, then all  other free tasks have the same child
+- if the task has a parent, then all the other parents of the free tasks are also allocated to the same processor as it.
+
+THEN: you can fix order by:
+- sort the free tasks by increasing DRT. basically it's just the finish time of the parent + weight of the edge that connects to the parent. Without a parent node, this time is set to zero.
+- then you break ties by sorting according to decreasing out-edge costs. no out-edge: set cost to zero
+- verify that all these free tasks are in decreasing out-edge cost order

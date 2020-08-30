@@ -127,8 +127,9 @@ public class ScheduleQueue extends TreeSet<Schedule> {
      */
     public void addClosedState(Schedule state){
 
+        //check if hashmap exists for number of nodes in state
         if(_closedStates.size()>state.getTasks().size()){
-
+            //check hashmap for existing list entry according to heuristic cost of schedule
             if(_closedStates.get(state.getTasks().size()).get(state.getHeuristicCost()-state.getEarliestStartTime())!=null){
                 _closedStates.get(state.getTasks().size()).get(state.getHeuristicCost()-state.getEarliestStartTime()).add(state);
             }else{
@@ -136,7 +137,10 @@ public class ScheduleQueue extends TreeSet<Schedule> {
                 _closedStates.get(state.getTasks().size()).get(state.getHeuristicCost()-state.getEarliestStartTime()).add(state);
             }
         }else{
-            _closedStates.add(new HashMap<Double, List<Schedule>>());
+            //fill list with hashmaps if the number of schdeuled task nodes increases
+            while(_closedStates.size()<=state.getTasks().size()){
+                _closedStates.add(new HashMap<Double, List<Schedule>>());
+            }
             _closedStates.get(state.getTasks().size()).put(state.getHeuristicCost()-state.getEarliestStartTime(),new ArrayList<>());
             _closedStates.get(state.getTasks().size()).get(state.getHeuristicCost()-state.getEarliestStartTime()).add(state);
         }
