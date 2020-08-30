@@ -64,7 +64,7 @@ public class ValidScheduleTester {
     }
 
 
-    private void isValid(Schedule schedule){
+    public void isValid(Schedule schedule){
         Map<String, int[]> tasks = schedule.getTasks();
         int[] processors = schedule.getProcessors();
 
