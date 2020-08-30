@@ -295,14 +295,16 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
             //if the freeNode does not have any fixed order edges approaching it
             if(!fixedOrder.containsKey(node)){
                 expandToAllProcessors(state,node,fixOrderSchedules);
-            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){// if 
+            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){
+                // if the previous node in the fixed order has been added then, the next node must also be able to be added
                 expandToAllProcessors(state,node,fixOrderSchedules);
             }else{
                 continue;
             }
 
+            //if a node does not produce any new schdules i.e. heurisitc cost is too high, we move on.
             if(fixOrderSchedules.isEmpty()){
-                return newSchedules;
+                continue;
             }
 
             boolean newNodeAvaliable = true;
