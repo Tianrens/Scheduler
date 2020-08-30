@@ -36,7 +36,7 @@ public class Schedule {
      */
     private boolean _isFixedOrderSchedule = false;
 
-    private HashMap<Node,Node> _fixedOrder;
+    private Map<Node,Node> _fixedOrder;
 
 
     /**
@@ -112,6 +112,13 @@ public class Schedule {
         return _isFixedOrderSchedule;
     }
 
+    public void setFixedOrder(Map<Node,Node> fixedOrder) {
+        _fixedOrder = fixedOrder;
+    }
+
+    public Map<Node,Node> getFixedOrder() {
+        return _fixedOrder;
+    }
 
 
     /**
