@@ -31,7 +31,7 @@ public class OneProcessScheduler implements IScheduler {
 
         AlgorithmStatus.getInstance().setCurrentBestSchedule(schedule);
         AlgorithmStatus.getInstance().setNumSchedulesGenerated(1);
-        AlgorithmStatus.getInstance().setNumSchedulesOnCores(new long[1]);
+        AlgorithmStatus.getInstance().setNumSchedulesOnCores(new long[]{1});
         AlgorithmStatus.getInstance().setAlgoState(AlgorithmState.FINISHED);
         return schedule;
     }
