@@ -76,6 +76,7 @@ public class AStarScheduler implements IScheduler {
                 //meaning that the schedule is valid
                 if (checkCompleteSchedule(schedule)) {
                     AlgorithmStatus.getInstance().setAlgoState(AlgorithmState.FINISHED);
+                    _executorService.shutdown();
                     return schedule;
                 }
 
@@ -101,6 +102,7 @@ public class AStarScheduler implements IScheduler {
                     algorithmStatus.setCurrentBestSchedule(schedule);
                     if (checkCompleteSchedule(schedule)) {
                         AlgorithmStatus.getInstance().setAlgoState(AlgorithmState.FINISHED);
+                        _executorService.shutdown();
                         return schedule;
                     }
                     // assign each thread in the thread pool a state to expand
