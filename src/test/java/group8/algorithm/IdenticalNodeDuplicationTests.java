@@ -50,7 +50,7 @@ public class IdenticalNodeDuplicationTests {
                 Schedule empty = new Schedule();
         _graph.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(empty, _graph.getAllNodes()),new GreedyHeuristic().calculateEstimate(empty, _graph.getAllNodes())));
 
-        _stateExpander = new ELSModelStateExpander(_graph);
+        _stateExpander = new ELSModelStateExpander(_graph, new MaxThreeHeuristic());
 
 
         _schedule = new Schedule();
@@ -67,7 +67,7 @@ public class IdenticalNodeDuplicationTests {
         Schedule empty2 = new Schedule();
         _graph2.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(empty2, _graph2.getAllNodes()),new GreedyHeuristic().calculateEstimate(empty2, _graph2.getAllNodes())));
 
-        _stateExpander2 = new ELSModelStateExpander(_graph2);
+        _stateExpander2 = new ELSModelStateExpander(_graph2, new MaxThreeHeuristic());
 
         _schedule2 = new Schedule();
         _schedule2.scheduleTask("a", 0, 0);
@@ -82,7 +82,7 @@ public class IdenticalNodeDuplicationTests {
         Schedule empty3 = new Schedule();
         _graph3.setHeuristicCost(Math.min(new SimpleHeuristic().calculateEstimate(empty3, _graph3.getAllNodes()),new GreedyHeuristic().calculateEstimate(empty3, _graph3.getAllNodes())));
 
-        _stateExpander3 = new ELSModelStateExpander(_graph3);
+        _stateExpander3 = new ELSModelStateExpander(_graph3, new MaxThreeHeuristic());
 
         _schedule3 = new Schedule();
         _schedule3.scheduleTask("a", 0, 0);
@@ -118,16 +118,6 @@ public class IdenticalNodeDuplicationTests {
         _correctSchedules.add(
                         "\td [Weight=3, Start=4, Processor=2];" + System.lineSeparator() +
                         "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator()
-        );
-
-        _correctSchedules.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=2, Processor=1];" + System.lineSeparator()
-        );
-
-        _correctSchedules.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=4, Processor=2];" + System.lineSeparator()
         );
     }
 
@@ -167,21 +157,6 @@ public class IdenticalNodeDuplicationTests {
                 "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
                 "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
                 "\tb [Weight=3, Start=4, Processor=3];" + System.lineSeparator()
-        );
-        _correctSchedules3.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=2, Processor=1];" + System.lineSeparator()
-        );
-        _correctSchedules3.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=4, Processor=2];" + System.lineSeparator()
-        );
-        _correctSchedules3.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=4, Processor=3];" + System.lineSeparator()
         );
     }
 

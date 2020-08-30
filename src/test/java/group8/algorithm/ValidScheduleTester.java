@@ -25,7 +25,7 @@ public class ValidScheduleTester {
 
     @Test
     public void randomValidTest() throws Exception{
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("Nodes_7_OutTree.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("graphs/Nodes_7_OutTree.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(2);
         AppConfig.getInstance().setNumCores(8);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));
@@ -45,7 +45,7 @@ public class ValidScheduleTester {
 
     @Test
     public void seriesParallelValidTest() throws Exception{
-        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("Nodes_9_SeriesParallel.dot").getPath()));
+        AppConfig.getInstance().setInputFile(new File(this.getClass().getResource("graphs/Nodes_9_SeriesParallel.dot").getPath()));
         AppConfig.getInstance().setNumProcessors(2);
         AppConfig.getInstance().setNumCores(8);
         AppConfig.getInstance().setOutputFile(new File("defaultGraph-o.dot"));

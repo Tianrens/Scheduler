@@ -10,7 +10,6 @@ public class Graph {
     //Contains all the nodes of the graph
     //Key is the nodeId and value is the node itself
     private HashMap<String, Node> _nodes = new HashMap<>();
-
     private List<List<Node>> _identicalNodes = new ArrayList<>(); // Index represents the identical group id
     private List<Integer> _identicalNodeOrders = new ArrayList<>(); // Index represents the identical group id, value is the next order
 
