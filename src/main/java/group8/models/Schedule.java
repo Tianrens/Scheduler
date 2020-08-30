@@ -30,10 +30,13 @@ public class Schedule {
      * Processors start at 0.
      */
     private int[] _processors = new int[AppConfig.getInstance().getNumProcessors()];
+
     /**
-     * Set of processors in the form of sets
-     * Each processor is a set of node details in the form of a list [node Id, start time]
+     * if the schedule is a fixed order, schdueling it will have special requirements
      */
+    private boolean _isFixedOrderSchedule = false;
+
+    private Map<Node,Node> _fixedOrder;
 
 
     /**
@@ -99,6 +102,22 @@ public class Schedule {
 
     public void setProcessors(int[] _processors) {
         this._processors = _processors;
+    }
+
+    public void setIsFixedOrderSchedule(boolean is){
+        _isFixedOrderSchedule=is;
+    }
+
+    public boolean getIsFixedOrderSchedule(){
+        return _isFixedOrderSchedule;
+    }
+
+    public void setFixedOrder(Map<Node,Node> fixedOrder) {
+        _fixedOrder = fixedOrder;
+    }
+
+    public Map<Node,Node> getFixedOrder() {
+        return _fixedOrder;
     }
 
 

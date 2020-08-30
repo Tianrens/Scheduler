@@ -1,6 +1,7 @@
 package group8;
 
 
+import group8.algorithm.TopologyFinder;
 import group8.cli.AppConfig;
 import group8.cli.AppConfigBuilder;
 import group8.cli.AppConfigException;
@@ -36,7 +37,10 @@ public class Main extends Application {
             launch();
         } else {
             runAlgorithm();
+            System.exit(0);
         }
+
+
 
     }
 
@@ -100,7 +104,13 @@ public class Main extends Application {
     private static void runAlgorithm() {
 
         try {
-            IScheduler scheduler = new AStarScheduler();
+            IScheduler scheduler;
+            if(_appConfig.getNumProcessors()==1){
+                scheduler = new OneProcessScheduler(new TopologyFinder());
+            }else{
+                scheduler = new AStarScheduler();
+            }
+
             Schedule schedule = scheduler.generateValidSchedule(_graph);
 
             IDOTFileWriter outputBuilder = new DOTFileWriter();

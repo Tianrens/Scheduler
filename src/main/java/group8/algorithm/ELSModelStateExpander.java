@@ -66,8 +66,8 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 .filter(n -> checkParents(n.getParentNodeList(), state.getTasks()))
                 .collect(Collectors.toList());
 
-        if (checkFreeTasksForFixedOrder(freeTasks, state)) {
-            return assignFixOrderTasks(state,freeTasks,taskSortingFixOrder(freeTasks, state));
+        if (freeTasks.size()>2 && ( state.getIsFixedOrderSchedule() || checkFreeTasksForFixedOrder(freeTasks, state))) {
+            return assignFixOrderTasks(state,freeTasks);
         }
 
         /* END OF FORK AND JOIN */
@@ -205,7 +205,6 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 return false;
             }
         }
-
         return true;
     }
 
@@ -276,30 +275,40 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
      * This function is in itself recursive.
      * @param state
      * @param freeNodes
-     * @param fixedOrder
      * @return
      * @throws AppConfigException
      */
-    private List<Schedule> assignFixOrderTasks(Schedule state, List<Node> freeNodes,HashMap<Node,Node> fixedOrder) throws AppConfigException{
+    private List<Schedule> assignFixOrderTasks(Schedule state, List<Node> freeNodes) throws AppConfigException{
         List<Schedule> newSchedules = new ArrayList<>();
+        Map<Node,Node> fixedOrder = state.getFixedOrder();
+
+        boolean allFreeNodesSchduled = true;
 
         //Scheudle all free nodes that are in the beginning of their fixed orderings
         for(Node node: freeNodes){
+
+            if(state.getTasks().containsKey(node.getId())){
+                continue;
+            }else{
+                allFreeNodesSchduled = false;
+            }
 
             List<Schedule> fixOrderSchedules = new ArrayList<>();
 
             if(!fixedOrder.containsKey(node)){ //if the freeNode does not have any fixed order edges approaching it, including source nodes
                 expandToAllProcessors(state,node,fixOrderSchedules);
-            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){ // if state contains the source node, expand to all processors
+            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){ // if the previous node in the fixed order has been added then, the next node must also be able to be added
                 expandToAllProcessors(state,node,fixOrderSchedules);
             }else{
                 continue;
             }
 
+            //if a node does not produce any new schdules i.e. heurisitc cost is too high, we move on.
             if(fixOrderSchedules.isEmpty()){
-                return newSchedules;
+                continue;
             }
 
+            //check if any new node has its parents freed up and can become a freeNode
             boolean newNodeAvaliable = true;
             //check all parents of the child of the node scheduled
             if(!node.getEdgeList().isEmpty()){
@@ -314,23 +323,33 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 newNodeAvaliable=false;
             }
 
-            //if there is a new node we need to check if it is able to be fix ordered
+            //if there is a new free node we need to check if it is able to be fix ordered
             if(newNodeAvaliable){
                 List<Node> newFreeNodes = new ArrayList<>();
                 newFreeNodes.addAll(freeNodes);
                 newFreeNodes.remove(node);
                 newFreeNodes.add(node.getEdgeList().keySet().iterator().next());
 
+                //for all schedules check if there is any new fixed task orders taht need ot be considerered
+                //for example a new child node becomes free
                 for(Schedule s : fixOrderSchedules){
-                    if(checkFreeTasksForFixedOrder(freeNodes,s)){
-                        newSchedules.addAll(assignFixOrderTasks(s,newFreeNodes,taskSortingFixOrder(newFreeNodes,s)));
+                    if(checkFreeTasksForFixedOrder(newFreeNodes,s)){
+                        newSchedules.addAll(assignFixOrderTasks(s,newFreeNodes));
                     }else{
-                        newSchedules.addAll(fixOrderSchedules);
+                        newSchedules.add(s);
                     }
                 }
+
             }else{
                 newSchedules.addAll(fixOrderSchedules);
             }
+        }
+
+        //if it goes throught he for loop and all nodes are schdueled or not able to be schdeuled then the fixed order is revoked
+        if(allFreeNodesSchduled){
+            state.setIsFixedOrderSchedule(false);
+            state.setFixedOrder(null);
+            newSchedules.add(state);
         }
         return newSchedules;
     }
@@ -385,7 +404,6 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     earliestProcessorStartTime = earliestStartTime;
                 }
             }
-
             result.put(node, earliestProcessorStartTime);
         }
         return result;
@@ -419,7 +437,8 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 }
             }
         }
-
+        state.setIsFixedOrderSchedule(true);
+        state.setFixedOrder(taskSortingFixOrder(freeTasks,state));
         return true;
     }
 }
