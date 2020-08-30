@@ -30,6 +30,7 @@ public class DOTPaypalParser extends DOTExternalParser<GraphNode, GraphEdge> {
             e.printStackTrace();
         }
         System.out.println("File " + AppConfig.getInstance().getInputFile().toString() + " has been successfully read and parsed");
+        System.out.println();
     }
 
     @Override

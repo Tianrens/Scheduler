@@ -111,10 +111,11 @@ public class Main extends Application {
                 scheduler = new AStarScheduler();
             }
 
+            System.out.println("Generating optimal schedule...");
             Schedule schedule = scheduler.generateValidSchedule(_graph);
-
             IDOTFileWriter outputBuilder = new DOTFileWriter();
             outputBuilder.writeOutputToConsole(schedule, _graph);
+            outputBuilder.writeOutput(schedule, _graph);
 
         }catch(Exception e){
         e.printStackTrace();
