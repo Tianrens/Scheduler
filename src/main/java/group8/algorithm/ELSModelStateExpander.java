@@ -68,7 +68,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 .filter(n -> checkParents(n.getParentNodeList(), state.getTasks()))
                 .collect(Collectors.toList());
 
-        if (checkFreeTasksForFixedOrder(freeTasks, state)) {
+        if (freeTasks.size()>2 && checkFreeTasksForFixedOrder(freeTasks, state)) {
             return assignFixOrderTasks(state,freeTasks,taskSortingFixOrder(freeTasks, state));
         }
 
@@ -286,9 +286,16 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
      */
     private List<Schedule> assignFixOrderTasks(Schedule state, List<Node> freeNodes,HashMap<Node,Node> fixedOrder) throws AppConfigException{
         List<Schedule> newSchedules = new ArrayList<>();
+        boolean allFreeNodesSchduled = true;
 
         //Scheudle all free nodes that are in the beginning of their fixed orderings
         for(Node node: freeNodes){
+
+            if(state.getTasks().containsKey(node.getId())){
+                continue;
+            }else{
+                allFreeNodesSchduled = false;
+            }
 
             List<Schedule> fixOrderSchedules = new ArrayList<>();
 
@@ -307,6 +314,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 continue;
             }
 
+            //check if any new node has its parents freed up and can become a freeNode
             boolean newNodeAvaliable = true;
             //check all parents of the child of the node scheduled
             if(!node.getEdgeList().isEmpty()){
@@ -320,7 +328,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                 newNodeAvaliable=false;
             }
 
-            //if there is a new node we need to check if it is able to be fix ordered
+            //if there is a new free node we need to check if it is able to be fix ordered
             if(newNodeAvaliable){
                 List<Node> newFreeNodes = new ArrayList<>();
                 newFreeNodes.addAll(freeNodes);
@@ -331,12 +339,18 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     if(checkFreeTasksForFixedOrder(freeNodes,s)){
                         newSchedules.addAll(assignFixOrderTasks(s,newFreeNodes,taskSortingFixOrder(newFreeNodes,s)));
                     }else{
-                        newSchedules.addAll(fixOrderSchedules);
+                        newSchedules.addAll(assignFixOrderTasks(s,freeNodes,fixedOrder));
                     }
                 }
             }else{
-                newSchedules.addAll(fixOrderSchedules);
+                for(Schedule s : fixOrderSchedules){
+                    newSchedules.addAll(assignFixOrderTasks(s,freeNodes,fixedOrder));
+                }
             }
+        }
+
+        if(allFreeNodesSchduled){
+            newSchedules.add(state);
         }
         return newSchedules;
     }
