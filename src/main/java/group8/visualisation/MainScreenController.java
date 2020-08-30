@@ -124,7 +124,6 @@ public class MainScreenController {
                 new KeyFrame(Duration.seconds(1), e -> {
                     update();
                     if (_algoStatus.getAlgoState() == AlgorithmState.FINISHED) {
-                        System.out.println("stop");
                         _timeLine.stop();
 
                     }
