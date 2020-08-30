@@ -36,7 +36,10 @@ public class Main extends Application {
             launch();
         } else {
             runAlgorithm();
+            System.exit(0);
         }
+
+
 
     }
 
