@@ -228,8 +228,10 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
         Collections.sort(freeTasks,Comparator.comparing((Node n) ->freeTasksDRTCosts.get(n)));
 
         for(int i = 0 ; i < freeTasks.size()-1; i++){
-            if(freeTasks.get(i).getEdgeList().isEmpty() && freeTasks.get(i+1).getEdgeList().isEmpty()){
-                fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
+            if(freeTasks.get(i).getEdgeList().isEmpty()){
+                if(freeTasks.get(i+1).getEdgeList().isEmpty()){
+                    fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
+                }
             }else if(freeTasks.get(i+1).getEdgeList().isEmpty()){
                 fixedOrder.put(freeTasks.get(i + 1),freeTasks.get(i));
             }else if(freeTasks.get(i).getEdgeList().values().iterator().next()>=freeTasks.get(i+1).getEdgeList().values().iterator().next()) {
