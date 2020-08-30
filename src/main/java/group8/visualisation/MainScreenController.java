@@ -145,7 +145,7 @@ public class MainScreenController {
         long seconds = time % 60;
         String timeStr = String.format("%d:%02d", minutes, seconds);
         _timeElapsedText.setText("Time Elapsed: " + timeStr);
-        _numSchedulesGeneratedText.setText("Partial Schedules Generated: " + _algoStatus.getNumSchedulesGenerated());
+        _numSchedulesGeneratedText.setText("Partial Schedules Found: " + _algoStatus.getNumSchedulesGenerated());
         // RAM Usage in bytes. Converted to MegaBytes.
         long ramUsage = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000;
         _RAMUsageText.setText("RAM Usage: " + ramUsage + "MB");
@@ -291,7 +291,7 @@ public class MainScreenController {
         linechart.setCreateSymbols(false);
 
         XYChart.Series series = new XYChart.Series();
-        series.setName("Number of Partial Schedules Generated");
+        series.setName("Number of Partial Schedules Found");
         linechart.setLegendVisible(false);
 
         linechart.getData().add(series);
