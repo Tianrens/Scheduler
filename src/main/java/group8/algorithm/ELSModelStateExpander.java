@@ -92,7 +92,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
             }
 
             // Now do the actual expanding of the current state s (create s+1 schedules)
-            expandToAllProcessors(_state, node, newSchedules);
+            expandToAllProcessors(state, node, newSchedules);
 
         }
         return newSchedules; //return the list of possible next states
@@ -295,11 +295,9 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
 
             List<Schedule> fixOrderSchedules = new ArrayList<>();
 
-            //if the freeNode does not have any fixed order edges approaching it
-            if(!fixedOrder.containsKey(node)){
+            if(!fixedOrder.containsKey(node)){ //if the freeNode does not have any fixed order edges approaching it, including source nodes
                 expandToAllProcessors(state,node,fixOrderSchedules);
-            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){
-                // if the previous node in the fixed order has been added then, the next node must also be able to be added
+            }else if(state.getTasks().containsKey(fixedOrder.get(node).getId())){ // if the previous node in the fixed order has been added then, the next node must also be able to be added
                 expandToAllProcessors(state,node,fixOrderSchedules);
             }else{
                 continue;
@@ -318,6 +316,7 @@ public class ELSModelStateExpander implements IStateExpander, Callable<List<Sche
                     //if a single parent is not scheduled then the node cannot be free
                     if(!fixOrderSchedules.get(0).getTasks().containsKey(parent.getId())){
                         newNodeAvaliable = false;
+                        break;
                     }
                 }
             }else{

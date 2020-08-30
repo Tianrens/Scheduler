@@ -119,16 +119,6 @@ public class IdenticalNodeDuplicationTests {
                         "\td [Weight=3, Start=4, Processor=2];" + System.lineSeparator() +
                         "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator()
         );
-
-        _correctSchedules.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=2, Processor=1];" + System.lineSeparator()
-        );
-
-        _correctSchedules.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=4, Processor=2];" + System.lineSeparator()
-        );
     }
 
     @BeforeClass public static void setUpCorrectSchedules2() {
@@ -167,21 +157,6 @@ public class IdenticalNodeDuplicationTests {
                 "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
                 "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
                 "\tb [Weight=3, Start=4, Processor=3];" + System.lineSeparator()
-        );
-        _correctSchedules3.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=2, Processor=1];" + System.lineSeparator()
-        );
-        _correctSchedules3.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=4, Processor=2];" + System.lineSeparator()
-        );
-        _correctSchedules3.add(
-                "\ta [Weight=2, Start=0, Processor=1];" + System.lineSeparator() +
-                "\tf [Weight=4, Start=0, Processor=3];" + System.lineSeparator() +
-                "\tc [Weight=4, Start=4, Processor=3];" + System.lineSeparator()
         );
     }
 
@@ -252,7 +227,6 @@ public class IdenticalNodeDuplicationTests {
         for (Schedule s : schedules) {
             String scheduleResult = _writer.writeOutputToString(s,_graph);
             scheduleResult = scheduleResult.substring(24, scheduleResult.indexOf("->")-2);
-            System.out.println(scheduleResult);
             if (_correctSchedules.contains(scheduleResult)) {
                 _correctSchedules.remove(scheduleResult);
             }
